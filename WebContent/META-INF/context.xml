@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<!-- Specify a JDBC datasource -->
+	<!--  (old url)url="jdbc:mysql://192.168.1.204:3036/firecolive" -->
+	<Resource name="jdbc/carrental" 
+			auth="Container" 
+			type="javax.sql.DataSource"
+			username="root"
+			password="gateway" 
+			driverClassName="com.mysql.jdbc.Driver"
+			url="jdbc:mysql://localhost:3036/mmj"                                
+			removeAbandonedTimeout="60" 
+			autoReconnect="true"
+			maxTotal="800" 
+			maxIdle="400"
+			maxWaitMillis="10000" />              
+</Context>
