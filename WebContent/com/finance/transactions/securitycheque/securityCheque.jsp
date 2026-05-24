@@ -9,13 +9,188 @@
 <title>GatewayERP(i)</title>
 <jsp:include page="../../../../includes.jsp"></jsp:include>
 
+<style>
+/* =========================================================
+SCOPED UI: Modern Layout (Matches Client Master)
+========================================================= */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.modern-ui {
+    font-family: Arial, sans-serif; 
+    color: #333;
+    font-size: 12px; 
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Master Input Heights - Forced to 24px */
+.modern-ui input[type="text"],
+.modern-ui select { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus { 
+    border-color: #007bff; 
+    outline: none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
+}
+
+/* Checkbox specific styling inside modern inputs */
+.modern-ui input[type="checkbox"] {
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Layout Utilities */
+.modern-ui .field-row { 
+    display: flex;
+    align-items: center; 
+    gap: 8px;
+    margin-bottom: 10px; 
+    flex-wrap: wrap;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* Middle Section Panels */
+.modern-ui .middle-panel {
+    border: 1px solid #c5d3e0; 
+    padding: 20px 10px 10px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title { 
+    position: absolute; 
+    top: -12px;
+    left: 10px; 
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    border-left: 3px solid #0056b3;
+    z-index: 2; 
+    line-height: normal; 
+}
+
+/* Custom UI Buttons matching 24px height */
+.modern-ui .myButton {
+    height: 24px !important;
+    line-height: 22px !important;
+    padding: 0 12px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: none;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    border: none;
+    background: linear-gradient(135deg, #0b45a2 0%, #2563eb 100%);
+    color: #ffffff;
+    white-space: nowrap;
+}
+.modern-ui .myButton:hover { background: linear-gradient(135deg, #083a8a 0%, #1d4ed8 100%); }
+
+/* Search Icon Wrapper */
+.modern-ui .input-search-container {
+    position: relative;
+    display: flex;
+}
+.modern-ui .input-search-container input {
+    padding-right: 25px !important;
+}
+.modern-ui .magnifier-icon {
+    position: absolute;
+    right: 6px; 
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #64748b; 
+    z-index: 10;
+}
+.modern-ui .magnifier-icon:hover { color: #2563eb; }
+
+/* Scrollbar Logic */
+.hidden-scrollbar {
+    overflow-y: auto;
+    height: calc(100vh - 150px);
+    padding-right: 5px;
+}
+.hidden-scrollbar::-webkit-scrollbar { width: 6px; }
+.hidden-scrollbar::-webkit-scrollbar-thumb { background: #c5d3e0; border-radius: 3px; }
+</style>
+
 <script type="text/javascript">
 	$(document).ready(function() {
-		 $("#jqxSecurityChequeDate").jqxDateTimeInput({ width: '125px', height: '15px', formatString:"dd.MM.yyyy"});
-		 $("#maindate").jqxDateTimeInput({ width: '125px', height: '15px', formatString:"dd.MM.yyyy"});
-		 $("#jqxChequeDate").jqxDateTimeInput({ width: '125px', height: '15px', formatString:"dd.MM.yyyy"});
-		 $("#jqxValidUpTo").jqxDateTimeInput({ width: '125px', height: '15px', formatString:"dd.MM.yyyy"});
 		 
+		 /* Formatted jqxDateTimeInput heights to match modern UI 24px */
+		 $("#jqxSecurityChequeDate").jqxDateTimeInput({ width: '120px', height: 24, formatString:"dd.MM.yyyy", theme: 'energyblue'});
+		 $("#maindate").jqxDateTimeInput({ width: '120px', height: 24, formatString:"dd.MM.yyyy"});
+		 $("#jqxChequeDate").jqxDateTimeInput({ width: '120px', height: 24, formatString:"dd.MM.yyyy", theme: 'energyblue'});
+		 $("#jqxValidUpTo").jqxDateTimeInput({ width: '120px', height: 24, formatString:"dd.MM.yyyy", theme: 'energyblue'});
+
+		 /* force internal alignment AFTER render */
+		 setTimeout(function () {
+		     $("#jqxSecurityChequeDate, #maindate, #jqxChequeDate, #jqxValidUpTo").find("input").css({
+		         "margin-top": "0px",
+		         "line-height": "24px",
+                 "font-size": "12px", 
+                 "font-family": "Arial, sans-serif", 
+                 "padding": "0 6px", 
+                 "box-sizing":"border-box"
+		     });
+		     $("#jqxSecurityChequeDate, #maindate, #jqxChequeDate, #jqxValidUpTo").find(".jqx-action-button").css({
+		         "top": "0px",
+		         "height": "24px"
+		     });
+		 }, 0);
+		
 		 $('#accountDetailsToWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Accounts Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
 		 $('#accountDetailsToWindow').jqxWindow('close');  
 		 
@@ -26,18 +201,31 @@
 		 $('#printWindow').jqxWindow('close');
 		 
 		 $('#txtfromaccid').dblclick(function(){
-			  var date = $('#jqxSecurityChequeDate').jqxDateTimeInput('getDate');
-			  $("#maindate").jqxDateTimeInput('val', date);
-			  accountFromSearchContent(<%=contextPath+"/"%>+"com/finance/accountsDetailsSearch.jsp?date="+date);
-			  });
+              openFromAccSearch();
+		 });
 		 
-		  $('#txttoaccid').dblclick(function(){
-			  var date = $('#jqxSecurityChequeDate').jqxDateTimeInput('getDate');
-			  $("#maindate").jqxDateTimeInput('val', date);
-			  accountToSearchContent(<%=contextPath+"/"%>+"com/finance/clientAccountDetailsSearch.jsp?atype="+$('#cmbtotype').val()+"&date="+date);
-			  });  
+		 $('#txttoaccid').dblclick(function(){
+              openToAccSearch();
+		 });  
 	});
 	
+    /* ===============================================
+       Safe Search Functions (Fixes JSP Compile Error)
+       =============================================== */
+    function openFromAccSearch() {
+        var date = $('#jqxSecurityChequeDate').jqxDateTimeInput('getDate');
+        $('#maindate').jqxDateTimeInput('val', date);
+        accountFromSearchContent("<%=contextPath%>/com/finance/accountsDetailsSearch.jsp?date=" + date);
+    }
+
+    function openToAccSearch() {
+        var date = $('#jqxSecurityChequeDate').jqxDateTimeInput('getDate');
+        $('#maindate').jqxDateTimeInput('val', date);
+        var atype = $('#cmbtotype').val();
+        accountToSearchContent("<%=contextPath%>/com/finance/clientAccountDetailsSearch.jsp?atype=" + atype + "&date=" + date);
+    }
+    /* =============================================== */
+
 	function accountFromSearchContent(url) {
 	    $('#accountDetailsFromWindow').jqxWindow('open');
 		$.get(url).done(function (data) {
@@ -117,11 +305,11 @@
 	        });});
 	   
 	  function funNotify(){	
-		  		$('#jqxSecurityChequeDate').jqxDateTimeInput({disabled: false});
-		  		$('#jqxChequeDate').jqxDateTimeInput({disabled: false});
-		  		$('#jqxValidUpTo').jqxDateTimeInput({disabled: false});
+		 		$('#jqxSecurityChequeDate').jqxDateTimeInput({disabled: false});
+		 		$('#jqxChequeDate').jqxDateTimeInput({disabled: false});
+		 		$('#jqxValidUpTo').jqxDateTimeInput({disabled: false});
 			    $('#frmSecurityCheque select').attr('disabled', false); 
-		  		
+		 		
 				var date = $('#jqxSecurityChequeDate').jqxDateTimeInput('getDate');
 				var validdate=funDateInPeriod(date);
 				if(parseInt(validdate)==0){
@@ -191,24 +379,18 @@
 	  function getAcc(event){
           var x= event.keyCode;
           if(x==114){
-        	  var date = $('#jqxSecurityChequeDate').jqxDateTimeInput('getDate');
-			  $("#maindate").jqxDateTimeInput('val', date);
-        	  accountFromSearchContent(<%=contextPath+"/"%>+"com/finance/accountsDetailsSearch.jsp?date="+date);
+             openFromAccSearch();
           }
-          else{
-           }
-          }
+          else{}
+      }
 	  
 	  function getAccType(event){
           var x= event.keyCode;
           if(x==114){
-        	  var date = $('#jqxSecurityChequeDate').jqxDateTimeInput('getDate');
-			  $("#maindate").jqxDateTimeInput('val', date);
-			  accountToSearchContent(<%=contextPath+"/"%>+"com/finance/clientAccountDetailsSearch.jsp?atype="+$('#cmbtotype').val()+"&date="+date);
+             openToAccSearch();
           }
-          else{
-           }
-          }
+          else{}
+      }
 	  
 	  function funchequedate(){
 	      var chequedate = $('#jqxSecurityChequeDate').jqxDateTimeInput('getDate');
@@ -219,7 +401,7 @@
 		  var validuptos =new Date(validupto).setDate(chequedate.getDate()+1); 
 		  $('#jqxValidUpTo').jqxDateTimeInput('setDate', new Date(validuptos));
      }
-	  	  
+	 	  
 	  function clearClientInfo(){
 		  $("#txttodocno").val('');$("#txttoaccid").val('');$("#txttoaccname").val('');
 	  }
@@ -258,86 +440,127 @@
 	  
 </script>
 
-<style>
-.hidden-scrollbar {
-  overflow: auto;
-  height: 530px;
-}
-</style>
-
 </head>
 <body onload="setValues();">
 <div id="mainBG" class="homeContent" data-type="background" >
 <form id="frmSecurityCheque" action="saveSecurityCheque" method="post" autocomplete="off">
-<jsp:include page="../../../../header.jsp"></jsp:include><br/>
+<jsp:include page="../../../../header.jsp"></jsp:include>
 
-<div  class='hidden-scrollbar'>
-<fieldset style="background: #ECF8E0;">
-<table width="100%">
-  <tr>
-    <td width="6%" align="right">Date</td>
-    <td colspan="2"><div id="jqxSecurityChequeDate" name="jqxSecurityChequeDate" onchange="datechange();" onblur="datechange();" value='<s:property value="jqxSecurityChequeDate"/>'></div>
-    <input type="hidden" id="hidjqxSecurityChequeDate" name="hidjqxSecurityChequeDate" value='<s:property value="hidjqxSecurityChequeDate"/>'/></td>
-    <td width="47%" align="right">Doc No.</td>
-    <td width="15%"><input type="text" id="docno" name="txtsecuritychequedocno" value='<s:property value="txtsecuritychequedocno"/>' tabindex="-1"/></td>
-  </tr>
-  <tr>
-    <td align="right">Paid To</td>
-    <td colspan="4"><select id="cmbtotype" name="cmbtotype" style="width:5%;" onchange="clearClientInfo();" value='<s:property value="cmbtotype"/>'>
-      <option value="AP">AP</option><option value="AR">AR</option><option value="GL">GL</option></select>&nbsp;&nbsp;
-      <input type="hidden" id="hidcmbtotype" name="hidcmbtotype" value='<s:property value="hidcmbtotype"/>'/>      
-      <input type="text" id="txttoaccid" name="txttoaccid" style="width:15%;" placeholder="Press F3 to Search" value='<s:property value="txttoaccid"/>'  onkeydown="getAccType(event);"/>&nbsp;&nbsp;
-      <input type="text" id="txttoaccname" name="txttoaccname" style="width:40%;" value='<s:property value="txttoaccname"/>' tabindex="-1"/>
-      <input type="hidden" id="txttodocno" name="txttodocno" value='<s:property value="txttodocno"/>'/></td>
-  </tr>
-  <tr>
-    <td align="right">Bank</td>
-    <td colspan="4"><input type="text" id="txtfromaccid" name="txtfromaccid" style="width:15%;" placeholder="Press F3 to Search" value='<s:property value="txtfromaccid"/>' onkeydown="getAcc(event);"/>&nbsp;&nbsp;
-      <input type="text" id="txtfromaccname" name="txtfromaccname" style="width:46%;" value='<s:property value="txtfromaccname"/>' tabindex="-1"/>
-    <input type="hidden" id="txtfromdocno" name="txtfromdocno" value='<s:property value="txtfromdocno"/>'/></td>
-  </tr>
-   <tr>
-    <td align="right">Cheque Name</td>
-    <td colspan="4"><input type="text" id="txtchequename" name="txtchequename" style="width:62%;" value='<s:property value="txtchequename"/>'/></td>
-  </tr>
-  <tr>
-    <td align="right">Cheque No.</td>
-    <td width="18%"><input type="text" id="txtchequeno" name="txtchequeno" style="width:100%;" onchange="funchequedate();" value='<s:property value="txtchequeno"/>' /></td>
-    <td width="14%" align="right">Valid Up To</td>
-    <td colspan="2"><div id="jqxValidUpTo" name="jqxValidUpTo" value='<s:property value="jqxValidUpTo"/>'></div>
-    <input type="hidden" id="hidjqxValidUpTo" name="hidjqxValidUpTo" value='<s:property value="hidjqxValidUpTo"/>'/></td>
-  </tr>
-  <tr>
-    <td align="right"><input type="checkbox" id="chckchqdate" name="chckchqdate" value="" onchange="checkChequeDate();">Cheque Date
-                                 <input type="hidden" id="hidchckchqdate" name="hidchckchqdate" value='<s:property value="hidchckchqdate"/>'/></td>
-    <td><div id="jqxChequeDate" name="jqxChequeDate" value='<s:property value="jqxChequeDate"/>'></div>
-    				<input type="hidden" id="hidjqxChequeDate" name="hidjqxChequeDate" value='<s:property value="hidjqxChequeDate"/>'/></td>
-    <td align="right"><input type="checkbox" id="chckamount" name="chckamount" value="" onchange="checkAmount();">Amount
-                                 <input type="hidden" id="hidchckamount" name="hidchckamount" value='<s:property value="hidchckamount"/>'/></td>
-    <td colspan="2"><input type="text" id="txtamount" name="txtamount" style="width:15%;text-align: right;" value='<s:property value="txtamount"/>' onblur="funRoundAmt(this.value,this.id);" /></td>
-  </tr>
-  <tr>
-    <td align="right">Remarks</td>
-    <td colspan="4"><input type="text" id="txtremarks" name="txtremarks" style="width:62%;" value='<s:property value="txtremarks"/>' /></td>
-  </tr>
-</table>
-</fieldset>
+<div class='modern-ui hidden-scrollbar'>
+    
+    <!-- Panel 1: General Info -->
+    <div class="middle-panel">
+        <span class="middle-panel-title">General Info</span>
+        
+        <div class="field-row" style="margin-bottom:0;">
+            <label class="lbl-right" style="width:100px;">Date</label>
+            <div style="width: 125px;">
+                <div id="jqxSecurityChequeDate" name="jqxSecurityChequeDate" onchange="datechange();" onblur="datechange();" value='<s:property value="jqxSecurityChequeDate"/>'></div>
+                <input type="hidden" id="hidjqxSecurityChequeDate" name="hidjqxSecurityChequeDate" value='<s:property value="hidjqxSecurityChequeDate"/>'/>
+            </div>
+            
+            <label class="lbl-right" style="width:80px; margin-left:auto;">Doc No.</label>
+            <input type="text" id="docno" name="txtsecuritychequedocno" value='<s:property value="txtsecuritychequedocno"/>' tabindex="-1" style="width:120px;" readonly />
+        </div>
+    </div>
 
+    <!-- Panel 2: Transaction Details -->
+    <div class="middle-panel">
+        <span class="middle-panel-title">Transaction Details</span>
+        
+        <div class="field-row">
+            <label class="lbl-right" style="width:100px;">Paid To</label>
+            <select id="cmbtotype" name="cmbtotype" style="width:80px;" onchange="clearClientInfo();" value='<s:property value="cmbtotype"/>'>
+                <option value="AP">AP</option>
+                <option value="AR">AR</option>
+                <option value="GL">GL</option>
+            </select>
+            <input type="hidden" id="hidcmbtotype" name="hidcmbtotype" value='<s:property value="hidcmbtotype"/>'/>
+            
+            <div class="input-search-container" style="width: 120px; margin-left: 10px;">
+                <input type="text" id="txttoaccid" name="txttoaccid" placeholder="Press F3" value='<s:property value="txttoaccid"/>' onkeydown="getAccType(event);"/>
+                <svg class="magnifier-icon" onclick="openToAccSearch();" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+            
+            <input type="text" id="txttoaccname" name="txttoaccname" style="flex:1;" value='<s:property value="txttoaccname"/>' tabindex="-1" readonly />
+            <input type="hidden" id="txttodocno" name="txttodocno" value='<s:property value="txttodocno"/>'/>
+        </div>
 
-<input type="hidden" id="cmbfromcurrency" name="cmbfromcurrency" value='<s:property value="cmbfromcurrency"/>'/>
-<input type="hidden" id="hidfromcurrencytype" name="hidfromcurrencytype" value='<s:property value="hidfromcurrencytype"/>'/>
-<input type="hidden" id="txtfromrate" name="txtfromrate" value='<s:property value="txtfromrate"/>'/>
+        <div class="field-row" style="margin-bottom:0;">
+            <label class="lbl-right" style="width:100px;">Bank</label>
+            <div class="input-search-container" style="width: 120px;">
+                <input type="text" id="txtfromaccid" name="txtfromaccid" placeholder="Press F3" value='<s:property value="txtfromaccid"/>' onkeydown="getAcc(event);"/>
+                <svg class="magnifier-icon" onclick="openFromAccSearch();" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+            
+            <input type="text" id="txtfromaccname" name="txtfromaccname" style="flex:1;" value='<s:property value="txtfromaccname"/>' tabindex="-1" readonly />
+            <input type="hidden" id="txtfromdocno" name="txtfromdocno" value='<s:property value="txtfromdocno"/>'/>
+        </div>
+    </div>
 
-<input type="hidden" id="cmbtocurrency" name="cmbtocurrency" value='<s:property value="cmbtocurrency"/>'/>
-<input type="hidden" id="hidtocurrencytype" name="hidtocurrencytype" value='<s:property value="hidtocurrencytype"/>'/>
-<input type="hidden" id="txttorate" name="txttorate" value='<s:property value="txttorate"/>'/>
-      
-<input type="hidden" id="mode" name="mode"/>
-<input type="hidden" id="deleted" name="deleted" value='<s:property value="deleted"/>'/>
-<input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
-<div hidden="true" id="maindate" name="maindate" value='<s:property value="maindate"/>'></div>
-<input type="hidden" id="hidmaindate" name="hidmaindate" value='<s:property value="hidmaindate"/>'/>
-<input type="hidden" name="txtforsearch" id="txtforsearch" value="0"/>
+    <!-- Panel 3: Cheque Information -->
+    <div class="middle-panel">
+        <span class="middle-panel-title">Cheque Information</span>
+        
+        <div class="field-row">
+            <label class="lbl-right" style="width:100px;">Cheque Name</label>
+            <input type="text" id="txtchequename" name="txtchequename" style="flex:1;" value='<s:property value="txtchequename"/>'/>
+        </div>
+
+        <div class="field-row">
+            <label class="lbl-right" style="width:100px;">Cheque No.</label>
+            <input type="text" id="txtchequeno" name="txtchequeno" style="width:120px;" onchange="funchequedate();" value='<s:property value="txtchequeno"/>' />
+            
+            <label class="lbl-right" style="width:100px; margin-left:auto;">Valid Up To</label>
+            <div style="width: 125px;">
+                <div id="jqxValidUpTo" name="jqxValidUpTo" value='<s:property value="jqxValidUpTo"/>'></div>
+                <input type="hidden" id="hidjqxValidUpTo" name="hidjqxValidUpTo" value='<s:property value="hidjqxValidUpTo"/>'/>
+            </div>
+        </div>
+
+        <div class="field-row">
+            <label class="lbl-right" style="width:100px; display:flex; justify-content:flex-end; align-items:center; gap:5px; cursor:pointer;" for="chckchqdate">
+                <input type="checkbox" id="chckchqdate" name="chckchqdate" value="" onchange="checkChequeDate();">
+                <span>Cheque Date</span>
+            </label>
+            <input type="hidden" id="hidchckchqdate" name="hidchckchqdate" value='<s:property value="hidchckchqdate"/>'/>
+            <div style="width: 125px;">
+                <div id="jqxChequeDate" name="jqxChequeDate" value='<s:property value="jqxChequeDate"/>'></div>
+                <input type="hidden" id="hidjqxChequeDate" name="hidjqxChequeDate" value='<s:property value="hidjqxChequeDate"/>'/>
+            </div>
+
+            <label class="lbl-right" style="width:100px; margin-left:auto; display:flex; justify-content:flex-end; align-items:center; gap:5px; cursor:pointer;" for="chckamount">
+                <input type="checkbox" id="chckamount" name="chckamount" value="" onchange="checkAmount();">
+                <span>Amount</span>
+            </label>
+            <input type="hidden" id="hidchckamount" name="hidchckamount" value='<s:property value="hidchckamount"/>'/>
+            <input type="text" id="txtamount" name="txtamount" style="width:120px; text-align:right;" value='<s:property value="txtamount"/>' onblur="funRoundAmt(this.value,this.id);" />
+        </div>
+
+        <div class="field-row" style="margin-bottom:0;">
+            <label class="lbl-right" style="width:100px;">Remarks</label>
+            <input type="text" id="txtremarks" name="txtremarks" style="flex:1;" value='<s:property value="txtremarks"/>' />
+        </div>
+    </div>
+
+    <!-- Hidden Fields -->
+    <div style="display:none;">
+        <input type="hidden" id="cmbfromcurrency" name="cmbfromcurrency" value='<s:property value="cmbfromcurrency"/>'/>
+        <input type="hidden" id="hidfromcurrencytype" name="hidfromcurrencytype" value='<s:property value="hidfromcurrencytype"/>'/>
+        <input type="hidden" id="txtfromrate" name="txtfromrate" value='<s:property value="txtfromrate"/>'/>
+
+        <input type="hidden" id="cmbtocurrency" name="cmbtocurrency" value='<s:property value="cmbtocurrency"/>'/>
+        <input type="hidden" id="hidtocurrencytype" name="hidtocurrencytype" value='<s:property value="hidtocurrencytype"/>'/>
+        <input type="hidden" id="txttorate" name="txttorate" value='<s:property value="txttorate"/>'/>
+            
+        <input type="hidden" id="mode" name="mode"/>
+        <input type="hidden" id="deleted" name="deleted" value='<s:property value="deleted"/>'/>
+        <input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
+        <div id="maindate" name="maindate" value='<s:property value="maindate"/>'></div>
+        <input type="hidden" id="hidmaindate" name="hidmaindate" value='<s:property value="hidmaindate"/>'/>
+        <input type="hidden" name="txtforsearch" id="txtforsearch" value="0"/>
+    </div>
+
 </div>
 </form>  
 				
