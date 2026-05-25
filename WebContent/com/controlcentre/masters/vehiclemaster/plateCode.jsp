@@ -12,16 +12,156 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GatewayERP(i)</title>
 <jsp:include page="../../../../includes.jsp"></jsp:include>
+
 <style>
-form label.error {
-color:red;
-  font-weight:bold;
+/* =========================================================
+   SCOPED UI: Modern Layout
+========================================================= */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
 }
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.modern-ui {
+    font-family: Arial, sans-serif; 
+    color: #333;
+    font-size: 12px; 
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Master Input Heights - Forced to 24px */
+.modern-ui input[type="text"],
+.modern-ui select { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus { 
+    border-color: #007bff; 
+    outline: none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
+}
+
+/* Layout Utilities */
+.modern-ui .field-row { 
+    display: flex;
+    align-items: center; 
+    gap: 8px;
+    margin-bottom: 10px; 
+    flex-wrap: wrap;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* Middle Section Panels */
+.modern-ui .middle-panel {
+    border: 1px solid #c5d3e0; 
+    padding: 20px 10px 10px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title { 
+    position: absolute; 
+    top: -12px;
+    left: 10px; 
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    border-left: 3px solid #0056b3;
+    z-index: 2; 
+    line-height: normal; 
+}
+
+/* Grid Wrappers */
+.modern-ui .grid-container {
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Validation Errors */
+form label.error {
+    color: red;
+    font-weight: bold;
+    font-size: 11px;
+    margin-left: 5px;
+}
+
+/* Scrollbar Logic */
+.hidden-scrollbar {
+    overflow-y: auto;
+    height: calc(100vh - 150px);
+    padding-right: 5px;
+}
+.hidden-scrollbar::-webkit-scrollbar { width: 6px; }
+.hidden-scrollbar::-webkit-scrollbar-thumb { background: #c5d3e0; border-radius: 3px; }
 </style>
+
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#date_plateCode").jqxDateTimeInput({ width : '125px', height : '15px', formatString : "dd.MM.yyyy" });
-	//	 $("#btnEdit").attr('disabled', true );		
+		$("#date_plateCode").jqxDateTimeInput({ width : '125px', height : 24, formatString : "dd.MM.yyyy", theme: 'energyblue' });
+        
+        /* Force internal alignment AFTER render */
+        setTimeout(function () {
+             $("#date_plateCode").find("input").css({
+                 "margin-top": "0px",
+                 "line-height": "24px",
+                 "font-size": "12px", 
+                 "font-family": "Arial, sans-serif", 
+                 "padding": "0 6px", 
+                 "box-sizing":"border-box"
+             });
+             $("#date_plateCode").find(".jqx-action-button").css({
+                 "top": "0px",
+                 "height": "24px"
+             });
+        }, 0);
+
 		document.getElementById("formdet").innerText="Plate Code(PLT)";
 		document.getElementById("formdetail").value="Plate Code";
 		document.getElementById("formdetailcode").value="PLT";
@@ -30,8 +170,6 @@ color:red;
 		getAuth();
 		var data= '<%=cpa.searchDetails() %>'; 
 	
-	            
-	            
 	             var num = 0; 
 	            var source =
 	            {
@@ -39,7 +177,7 @@ color:red;
 	                datafields: [
 								{name : 'doc_no' , type: 'number' },
 	                          	{name : 'code_no' , type: 'String' },
-	     						{name : 'code_name', type: 'String'  },
+	 						{name : 'code_name', type: 'String'  },
 	                          	{name : 'authname', type: 'String'  },
 	                          	{name : 'authId', type: 'String'  },
 	                          	{name : 'plateDate', type: 'date'  }
@@ -60,12 +198,13 @@ color:red;
 	         
 	            $("#jqxPlateCodeSearch1").jqxGrid(
 	                    {
-	                    	width: '70%',
+	                    	width: '100%',
 	                        height: 350,
 	                        source: dataAdapter,
 	                        showfilterrow: true,
 	                        filterable: true,
 	                        selectionmode: 'singlerow',
+                            theme: 'energyblue',
 	                        //pagermode: 'default',
 	                        sortable: true,
 	                        //pageable: true,
@@ -124,12 +263,6 @@ color:red;
 		$("#jqxnalias").jqxGrid({ disabled: false});
 		 $('#jqxnalias').jqxGrid('addrow', null, {});
 		}
-		/* if(document.getElementById("mode").value=='A'){
-			$("#jqxnalias").jqxGrid('clear');
-			 $('#jqxnalias').jqxGrid('addrow', null, {});
-			 $("#jqxnalias").jqxGrid({ disabled: false});	
-			
-			} */
 	}
 	
 	function getAuth() {
@@ -140,7 +273,6 @@ color:red;
 				items = items.split('####');
 				var authItems = items[0].split(",");
 				var authIdItems = items[1].split(",");
-				//alert(authIdItems);
 				var optionsauth = '<option value="">--Select--</option>';
 				for (var i = 0; i < authItems.length; i++) {
 					optionsauth += '<option value="' + authIdItems[i] + '">'
@@ -149,7 +281,6 @@ color:red;
 				$("select#authName").html(optionsauth);
 				if ($('#authId').val() != null) {
 					$('#authName').val($('#authId').val());
-
 				}
 
 			} else {
@@ -169,28 +300,26 @@ color:red;
 		 $("#nAliasgrid").load("nAliasgrid.jsp?itemno="+document.getElementById("docno").value);
 	}
 	function funFocus(){
-		
 		document.getElementById("authName").focus();
-		
 	}
 	 $(function(){
 	        $('#frmPlateCode').validate({
 	                 rules: {
 	                 authName:{
-	                	 required:true
+	                 	 required:true
 	                 },
 	                 plateCode:{
-	                	 required:true,
-	                	 maxlength:10
+	                 	 required:true,
+	                 	 maxlength:10
 	                 }
 	                 },
 	                 messages: {
 	                  authName:{
-	                	  required:" *"
+	                 	  required:" *"
 	                  },
 	                  plateCode:{
-	                	  required:" *",
-	                	  maxlength:"max 10 chars"
+	                 	  required:" *",
+	                 	  maxlength:"max 10 chars"
 	                  }
 	                 }
 	        });});
@@ -201,7 +330,7 @@ color:red;
 	    	   for(var i=0 ; i < rows.length ; i++){
 	    		   var code=rows[i].code;
 	    			if(code!="undefined" && code!=null && typeof(code)!="undefined" ){
-	        	    	
+	        	   	
 	    		   listss.push(rows[i].code+"::"+rows[i].doc_no+"::"+a+"::");  
 	    			}
 	    	   }
@@ -216,7 +345,7 @@ color:red;
 	     {
 	     	
 	     	    var codeno=document.getElementById("plateCode").value;
-	       	     var authname=$("#authName option:selected").text();
+	        	     var authname=$("#authName option:selected").text();
 	         	   var docno=document.getElementById("docno").value;
 	         	   
 	         		   	var x=new XMLHttpRequest();
@@ -228,7 +357,7 @@ color:red;
 	         					 	
 	         	  if(parseInt(itemvalappr)==1)
 	         	  	{
-	    				}
+	     				}
 	         			else
 	         				{
 	         			
@@ -239,115 +368,82 @@ color:red;
 	         	x.open("GET","saveNAlias.jsp?list="+listss+"&docno="+docno+"&authname="+authname+"&codeno="+codeno);
 	         		x.send();
 	     	
-	     	
 	     	}  
 	     
 </script>
 </head>
 
 <body onLoad="setValues();">
-	<form id="frmPlateCode" action="saveActionPlate"  autocomplete="off">
-	<jsp:include page="../../../../header.jsp" /><br/> 
-		<div id="mainBG" class="homeContent" data-type="background">
-			<%-- <fieldset>
-				<table>
-					<tr>
-						<td width="11%"><div align="right">Date</div></td>
-					  <td width="59%"><div id='date_plateCode'
-								name='date_plateCode'
-								value='<s:property value="date_plateCode"/>'></div></td>
-						<td width="12%"><div align="right">Doc No</div></td>
-						<td width="18%"><input type="text" name="docno" id="docno"
-							value='<s:property value="docno"/>'></td>
-					</tr>
-					<tr>
-						<td><div align="right">Authority</div></td>
-						<td colspan="3"><select name="authName" id="authName"  style="width:26%;">
-						  <option value="">--Select--</option>
-                        </select>						</td>
-				  </tr>
-					<tr>
-						<td><div align="right">
-						  <div align="right">Plate Code</div>
-						</div></td>
-						<td colspan="3"><input type="text" id="plateCode" name="plateCode"
-							style="width: 25%;" value='<s:property value="plateCode"/>'>
-					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name&nbsp;&nbsp; <input
-							type="text" name="platename" id="platename" style="width: 300px;"
-							value='<s:property value="platename"/>'></td>
-				  </tr>
-					<tr>										        <input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
-					
-						<td><input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>'/></td>
-						<td><input type="hidden" name="deleted" id="deleted"
-							value='<s:property value="deleted"/>' /></td>
-						<td><input type="hidden" id="authId" name="authId"
-							value='<s:property value="authId"/>' /></td>
-						<td><input type="hidden" id="datehidden" name="datehidden"
-							value='<s:property value="datehidden"/>' /></td>
-					</tr>
-				</table>
-		  </fieldset>
- --%>		
- <fieldset>
- <table width="100%" >
-  <tr>
-    <td width="5%">Date</td>
-    <td width="22%"><div id='date_plateCode'
-								name='date_plateCode'
-								value='<s:property value="date_plateCode"/>'></div></td>
-    <td width="4%">Doc No</td>
-    <td width="32%"><input type="text" name="docno" id="docno"
-							value='<s:property value="docno"/>'></td>
-    <td width="39%" rowspan="3"> <div id="nAliasgrid"><jsp:include page="nAliasgrid.jsp"></jsp:include></div></td>
-  </tr>
-  <tr>
-    <td>Authority</td>
-    <td><select name="authName" id="authName"  style="width:80%;">
-						  <option value="">--Select--</option>
-                        </select></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>Plate Code</td>
-    <td><input type="text" id="plateCode" name="plateCode"
-							style="width: 80%;" value='<s:property value="plateCode"/>'></td>
-    <td>Name</td>
-    <td><input
-							type="text" name="platename" id="platename" style="width: 300px;"
-							value='<s:property value="platename"/>'></td>
-  </tr>
-</table>
- </fieldset>
- 
-		</div>
-		<table>
-		<tr>
-		<td>
-			 <input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
-					
-						<input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>'/>
-						<input type="hidden" name="deleted" id="deleted"
-							value='<s:property value="deleted"/>' />
-						<input type="hidden" id="authId" name="authId"
-							value='<s:property value="authId"/>' />
-					<input type="hidden" id="datehidden" name="datehidden"
-							value='<s:property value="datehidden"/>' />
-					<input type="hidden" id="authorityname" name="authorityname"
-							value='<s:property value="authorityname"/>' />
-		</td>
-		</tr>
-		</table>
+<div id="mainBG" class="homeContent" data-type="background">
+	<form id="frmPlateCode" action="saveActionPlate" autocomplete="off">
+	    <jsp:include page="../../../../header.jsp" />
+
+        <div class='modern-ui hidden-scrollbar'>
+            
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 400px;">
+                    <div class="middle-panel">
+                        <span class="middle-panel-title">General Info</span>
+                        
+                        <div class="field-row">
+                            <label class="lbl-right" style="width:80px;">Date</label>
+                            <div style="width: 125px;">
+                                <div id="date_plateCode" name="date_plateCode" value='<s:property value="date_plateCode"/>'></div>
+                            </div>
+                            
+                            <label class="lbl-right" style="width:80px; margin-left:auto;">Doc No.</label>
+                            <input type="text" name="docno" id="docno" value='<s:property value="docno"/>' readonly tabindex="-1" style="width:120px;" />
+                        </div>
+                    </div>
+
+                    <div class="middle-panel">
+                        <span class="middle-panel-title">Plate Details</span>
+                        
+                        <div class="field-row">
+                            <label class="lbl-right" style="width:80px;">Authority</label>
+                            <select name="authName" id="authName" style="width:200px;">
+                                <option value="">--Select--</option>
+                            </select>
+                        </div>
+                        
+                        <div class="field-row">
+                            <label class="lbl-right" style="width:80px;">Plate Code</label>
+                            <input type="text" id="plateCode" name="plateCode" style="width: 120px;" value='<s:property value="plateCode"/>'>
+                            
+                            <label class="lbl-right" style="width:80px;">Name</label>
+                            <input type="text" name="platename" id="platename" style="flex:1;" value='<s:property value="platename"/>'>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="flex: 1; min-width: 400px;">
+                    <div class="middle-panel" style="height: calc(100% - 27px);">
+                        <span class="middle-panel-title">Alias Details</span>
+                        <div id="nAliasgrid" class="grid-container" style="height: 100%;">
+                            <jsp:include page="nAliasgrid.jsp"></jsp:include>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="middle-panel">
+                <span class="middle-panel-title">Plate Code Search</span>
+                <div class="field-row">
+                    <div id="jqxPlateCodeSearch1" class="grid-container"></div>  
+                </div>
+            </div>
+
+            <div style="display:none;">
+                 <input type="hidden" id="msg" name="msg" value='<s:property value="msg"/>'/>
+                 <input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>'/>
+                 <input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>' />
+                 <input type="hidden" id="authId" name="authId" value='<s:property value="authId"/>' />
+                 <input type="hidden" id="datehidden" name="datehidden" value='<s:property value="datehidden"/>' />
+                 <input type="hidden" id="authorityname" name="authorityname" value='<s:property value="authorityname"/>' />
+            </div>
+
+        </div>
 	</form>
-<br/>
-<div id="jqxPlateCodeSearch1"></div>
-<%-- <div id="window">
-	<div id="windowHeader" class="windowHead">
-		<span> <img src="../../../../icons/search_new.png" alt="" style="margin-right: 15px" />Search</span>
-	</div>
-	<div id="windowContent" class="windowCont" style="overflow: hidden;">
-		<jsp:include page="plateCodeSearch.jsp"></jsp:include>
-	</div></div> --%>
+</div>
 </body>
 </html>

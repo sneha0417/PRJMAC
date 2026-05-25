@@ -6,52 +6,206 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="<%=contextPath%>/css/body.css" media="screen" rel="stylesheet" type="text/css" />
 <title>GatewayERP(i)</title>
+<link href="<%=contextPath%>/css/body.css" media="screen" rel="stylesheet" type="text/css" />
 
-	<script type="text/javascript">
-	$(document).ready(function () {
-	 $("#reconciledate").jqxDateTimeInput({ width: '110px', height: '15px',formatString:"dd.MM.yyyy",value:null});
-	}); 
+<style>
+/* =========================================================
+   SCOPED UI: Pure White Panel (Strict Weight Control)
+========================================================= */
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
 
- 	function loadSearch() {
- 		var account=document.getElementById("txtpartyname").value;
- 		var docNo=document.getElementById("txtdocumentno").value;
- 		var currency=document.getElementById("txtcurrency").value;
- 		var description=document.getElementById("txtdesc").value;
- 		var reconcileDt=document.getElementById("reconciledate").value;
-	    var check = 1;
-	    
-		getdata(account,docNo,currency,description,reconcileDt,check);
-	}
-	function getdata(account,docNo,currency,description,reconcileDt,check){
-		 $("#refreshdiv").load('brcnMainSearchGrid.jsp?account='+account+'&docNo='+docNo+'&currency='+currency+'&description='+description.replace(/ /g, "%20")+'&reconcileDt='+reconcileDt+'&check='+check);
-		}
+.modern-ui {
+    font-size: 12px;
+    color: #333;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #ffffff !important;
+}
 
-	</script>
+/* Strict weight enforcement for injected content */
+.modern-ui, .modern-ui table, .modern-ui td, .modern-ui input, .modern-ui select, .modern-ui button {
+    font-weight: 400 !important; 
+}
+
+/* Master Input Styles */
+.modern-ui input[type="text"],
+.modern-ui select {
+    height: 24px !important;
+    border: 1px solid #cccccc; 
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 12px; 
+    font-family: inherit;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+/* Panel Styling */
+.modern-ui .search-panel {
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 15px 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Table Alignment */
+.modern-ui table {
+    border-collapse: separate;
+    border-spacing: 5px 8px; 
+    width: 100%;
+    table-layout: fixed; 
+}
+
+.modern-ui td {
+    vertical-align: middle;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #333;
+    font-size: 12px; 
+    font-weight: 600 !important; 
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* Search Button */
+.modern-ui .myButton {
+    height: 28px;
+    padding: 0 24px;
+    background-color: #205fd3; 
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600 !important;
+    transition: background-color 0.2s;
+    width: 100%;
+}
+
+.modern-ui .myButton:hover {
+    background-color: #1a4eb8;
+}
+
+/* Grid Container */
+.modern-ui .grid-container {
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    min-height: 200px;
+}
+</style>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    $("#reconciledate").jqxDateTimeInput({ 
+        width: '100%', 
+        height: '24px', 
+        formatString: "dd.MM.yyyy", 
+        value: null,
+        theme: 'light'
+    });
+
+    setTimeout(function () {
+        $(".jqx-datetimeinput").css({"margin-top": "0px", "border-color": "#cccccc", "border-radius": "3px", "background-color": "#ffffff"});
+        $(".jqx-datetimeinput").find("input").css({
+            "margin-top": "0px", "line-height": "24px", "font-size": "12px", 
+            "font-family": "inherit", "padding": "0 6px", "box-sizing":"border-box", "background-color": "#ffffff"
+        });
+        $(".jqx-datetimeinput").find(".jqx-action-button").css({"top": "0px", "height": "24px"});
+    }, 50);
+}); 
+
+function loadSearch() {
+    var account = document.getElementById("txtpartyname").value;
+    var docNo = document.getElementById("txtdocumentno").value;
+    var currency = document.getElementById("txtcurrency").value;
+    var description = document.getElementById("txtdesc").value;
+    var reconcileDt = $('#reconciledate').jqxDateTimeInput('val');
+    var check = 1;
+    
+    getdata(account, docNo, currency, description, reconcileDt, check);
+}
+
+function getdata(account, docNo, currency, description, reconcileDt, check){
+    $("#refreshdiv").load('brcnMainSearchGrid.jsp?account=' + encodeURIComponent(account) + 
+                          '&docNo=' + encodeURIComponent(docNo) + 
+                          '&currency=' + encodeURIComponent(currency) + 
+                          '&description=' + encodeURIComponent(description) + 
+                          '&reconcileDt=' + encodeURIComponent(reconcileDt) + 
+                          '&check=' + check);
+}
+</script>
+</head>
+
 <body>
-<div id=search>
-<table width="100%">
-  <tr>
-    <td width="10%" align="right">Account Name</td>
-    <td colspan="3"><input type="text" name="txtpartyname" id="txtpartyname" style="width:95%" value='<s:property value="txtpartyname"/>'></td>
-    <td width="15%" align="right">Doc No</td>
-    <td><input type="text" name="txtdocumentno" id="txtdocumentno" value='<s:property value="txtdocumentno"/>'></td>
-    <td width="17%" align="center"><input type="button" name="btnsearch" id="btnsearch" class="myButton" value="Search"  onclick="loadSearch();"></td>
-  </tr>
-  <tr>
-    <td width="10%" align="right">Currency</td>
-    <td width="14%"><input type="text" name="txtcurrency" id="txtcurrency" style="width:50%" value='<s:property value="txtcurrency"/>'></td>
-    <td width="7%" align="right">Description</td>
-    <td colspan="2"><input type="text" id="txtdesc" name="txtdesc" style="width:100%" value='<s:property value="txtdesc"/>'></td>
-    <td width="14%" align="right">Reconcile Date</td>
-    <td><div id="reconciledate" name="reconciledate"  style="width:80%" value='<s:property value="reconciledate"/>'></div>
-        <input type="hidden" name="hidreconciledate" id="hidreconciledate" value='<s:property value="hidreconciledate"/>'></td>
-  </tr>
-  <tr>
-    <td colspan="7"><div id="refreshdiv"><jsp:include  page="brcnMainSearchGrid.jsp"></jsp:include></div></td>
-  </tr>
-</table>
-  </div>
+<div id="search" class="modern-ui">
+    <div class="search-panel">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <colgroup>
+                <col width="12%" /> <col width="28%" /> 
+                <col width="12%" /> <col width="28%" />
+                <col width="20%" />
+            </colgroup>
+            
+            <tr>
+                <td class="lbl-right">Account Name</td>
+                <td colspan="3"><input type="text" name="txtpartyname" id="txtpartyname" value='<s:property value="txtpartyname"/>'></td>
+                
+                <td align="center" rowspan="3" valign="middle" style="padding-left: 10px;">
+                    <button type="button" name="btnsearch" id="btnsearch" class="myButton" onclick="loadSearch(); return false;">
+                        Search
+                    </button>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="lbl-right">Doc No</td>
+                <td><input type="text" name="txtdocumentno" id="txtdocumentno" value='<s:property value="txtdocumentno"/>'></td>
+                
+                <td class="lbl-right">Currency</td>
+                <td><input type="text" name="txtcurrency" id="txtcurrency" value='<s:property value="txtcurrency"/>'></td>
+            </tr>
+
+            <tr>
+                <td class="lbl-right">Description</td>
+                <td><input type="text" id="txtdesc" name="txtdesc" value='<s:property value="txtdesc"/>'></td>
+                
+                <td class="lbl-right">Reconcile Date</td>
+                <td>
+                    <div id="reconciledate" name="reconciledate"></div>
+                    <input type="hidden" name="hidreconciledate" id="hidreconciledate" value='<s:property value="hidreconciledate"/>'>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="grid-container">
+        <div id="refreshdiv">
+            <jsp:include page="brcnMainSearchGrid.jsp"></jsp:include>
+        </div>
+    </div>
+</div>
 </body>
 </html>
