@@ -11,10 +11,106 @@
 <title>GatewayERP(i)</title>
 <jsp:include page="../../../../includes.jsp"></jsp:include>
 <style>
-form label.error {
-color:red;
-  font-weight:bold;
 
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+#frmColor input[type="text"],
+#frmColor select { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    
+}
+
+#frmColor input[type="text"]:focus,
+#frmColor select:focus { 
+    border-color: #007bff; 
+    outline: none;
+}
+
+
+
+fieldset {
+    border: 1px solid #c5d3e0; 
+    padding: 20px 10px 10px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+legend {
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    font-family: Arial, sans-serif;
+    border-left: 3px solid #0056b3;
+    line-height: normal; 
+    margin-left: -2px; 
+}
+
+#frmColor table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px; 
+}
+
+#frmColor td {
+    padding: 0 5px;
+    vertical-align: middle;
+    font-family: Arial, sans-serif; 
+    font-size: 12px; 
+    color: #333;
+}
+
+#frmColor td[align="right"] {
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 10px;
+}
+
+
+form label.error {
+    color: red;
+    font-weight: bold;
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+}
+
+
+#jqxColorSearch1 {
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+    overflow: hidden;
 }
 </style>
 <script type="text/javascript">
