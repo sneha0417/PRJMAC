@@ -17,78 +17,7 @@
 <style>
  <link href="<%=contextPath%>/css/body.css" media="screen" rel="stylesheet" type="text/css" />
 </style>
-<style>
-/* .myButtons {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #7d5d3b), color-stop(1, #634b30));
-	background:-moz-linear-gradient(top, #7d5d3b 5%, #634b30 100%);
-	background:-webkit-linear-gradient(top, #7d5d3b 5%, #634b30 100%);
-	background:-o-linear-gradient(top, #7d5d3b 5%, #634b30 100%);
-	background:-ms-linear-gradient(top, #7d5d3b 5%, #634b30 100%);
-	background:linear-gradient(to bottom, #7d5d3b 5%, #634b30 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d5d3b', endColorstr='#634b30',GradientType=0);
-	background-color:#7d5d3b;
-	-moz-border-radius:1px;
-	-webkit-border-radius:1px;
-	border-radius:1px;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:12px;
-	padding:3px 17px;
-	text-decoration:none;
-}
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #634b30), color-stop(1, #7d5d3b));
-	background:-moz-linear-gradient(top, #634b30 5%, #7d5d3b 100%);
-	background:-webkit-linear-gradient(top, #634b30 5%, #7d5d3b 100%);
-	background:-o-linear-gradient(top, #634b30 5%, #7d5d3b 100%);
-	background:-ms-linear-gradient(top, #634b30 5%, #7d5d3b 100%);
-	background:linear-gradient(to bottom, #634b30 5%, #7d5d3b 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#634b30', endColorstr='#7d5d3b',GradientType=0);
-	background-color:#634b30;
-}
-.myButtons:active {
-	position:relative;
-	top:1px;
-}
- */
- .myButtons {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #7892c2), color-stop(1, #476e9e));
-	background:-moz-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-webkit-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-o-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-ms-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7892c2', endColorstr='#476e9e',GradientType=0);
-	background-color:#7892c2;
-	border:1px solid #4e6096;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:12px;
-	padding:2px 7px;
-	text-decoration:none;
-}
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #476e9e), color-stop(1, #7892c2));
-	background:-moz-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-webkit-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-o-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-ms-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2',GradientType=0);
-	background-color:#476e9e;
-}
-.myButtons:active {
-	position:relative;
-	top:1px;
-}      
 
-        
-
-</style>
 	<script type="text/javascript">
 
 	$(document).ready(function () { 
@@ -224,52 +153,165 @@
 	
 
 	</script>
-<body bgcolor="#E0ECF8">
-<div id=search>
-<table width="100%" >
-  <tr >
-   <td>
- 
-    </td>
-  </tr>
-  <tr>
-  <td>
-    
-  <table width="100%" >
-  
-        <tr> 
-       
-            <td align="right" width="6%">Doc No</td>
-    <td align="left" width="20%"><input type="text" name="docnoss" id="docnoss"  style="width:90%;" value='<s:property value="docnoss"/>'></td>
-          <td align="right" width="6%">Date </td>
-    <td align="left" width="20%"><div id="datess" name="datess"  value='<s:property value="datess"/>'></div></td>  
-         <td align="right" width="6%">RefNo</td>
-    <td align="left" width="20%"><input type="text" name="refnosss" id="refnosss"  style="width:90%;" value='<s:property value="refnosss"/>'></td>
-    <td align="center" width="22%" ><input type="button" name="searchss" id="searchss" class="myButton" value="Search"  onclick="loadSearchss()">
-     <td align="right" width="22%" ><input type="button" name="searchs" id="searchs" class="myButtons" value="Submit"  onclick="searchdata()">
-</td>
+<style>
+/* =========================================================
+   SCOPED UI: Pure White Panel (Matches Reference)
+========================================================= */
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff !important; /* Forced pure white for the entire page */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
 
-    </tr> 
-    
-    </table>
- 
+.modern-ui {
+    font-size: 12px;
+    color: #333;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #ffffff !important; /* Forced pure white */
+}
 
-    
+/* Master Input Styles */
+.modern-ui input[type="text"],
+.modern-ui select {
+    height: 24px !important;
+    border: 1px solid #cccccc; 
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 12px; 
+    font-family: inherit;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #333;
+    width: 100%;
+}
 
-    
-  </td>
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
 
-  <tr>
-    <td colspan="8" align="right">
-    
-    <div id="refsearch">
-      
-   <jsp:include  page="subrefnosearch.jsp"></jsp:include> 
-   
-   </div>
-    </td>
-  </tr>
-</table>
-  </div>
-</body>
-</html>
+/* Panel Styling - Clean White Panel */
+.modern-ui .search-panel {
+    background-color: #ffffff !important; /* Pure white inside the border */
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 15px 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Table Alignment - STRICT PERCENTAGE GRID */
+.modern-ui table {
+    border-collapse: separate;
+    border-spacing: 5px 8px; 
+    width: 100%;
+    table-layout: fixed; 
+}
+
+.modern-ui td {
+    vertical-align: middle;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #333;
+    font-size: 12px; 
+    font-weight: 500;
+    font-family: inherit;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* Search Button - Standard Blue */
+.modern-ui .myButton {
+    height: 28px;
+    padding: 0 24px;
+    background-color: #205fd3; 
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    transition: background-color 0.2s;
+    width: 100px; /* Standardized width for stacked buttons */
+}
+
+.modern-ui .myButton:hover {
+    background-color: #1a4eb8;
+}
+
+/* Grid Container */
+.modern-ui .grid-container {
+    background-color: #ffffff !important; /* Pure white */
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    min-height: 200px;
+}
+</style>
+
+<body style="background-color: #ffffff;">
+
+<div id="search" class="modern-ui">
+
+    <div class="search-panel">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <colgroup>
+                <col width="12%" /> 
+                <col width="28%" /> 
+                <col width="12%" /> 
+                <col width="28%" /> 
+                <col width="20%" />
+            </colgroup>
+            
+            <tr>
+                <td class="lbl-right">Doc No</td>
+                <td>
+                    <input type="text" name="docnoss" id="docnoss" value='<s:property value="docnoss"/>'>
+                </td>
+                
+                <td class="lbl-right">Ref No</td>
+                <td>
+                    <input type="text" name="refnosss" id="refnosss" value='<s:property value="refnosss"/>'>
+                </td>
+                
+                <td align="center" rowspan="2" valign="middle">
+                    <button type="button" name="searchss" id="searchss" class="myButton" onclick="loadSearchss(); return false;" style="margin-bottom: 5px;">
+                        Search
+                    </button>
+                    <br/>
+                    <button type="button" name="searchs" id="searchs" class="myButton" onclick="searchdata(); return false;">
+                        Submit
+                    </button>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="lbl-right">Date</td>
+                <td>
+                    <div id="datess" name="datess" value='<s:property value="datess"/>'></div>
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div class="grid-container">
+        <div id="refsearch">
+            <jsp:include page="subrefnosearch.jsp"></jsp:include> 
+        </div>
+    </div>
+
+</div>
+
+</body></html>
