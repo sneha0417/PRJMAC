@@ -60,34 +60,184 @@ String cmbbilltype=request.getParameter("cmbbilltype")==null?"0":request.getPara
 		}
 
 	</script>
-<body>
-<div id=search>
-<table width="100%">
-  <tr>
-    <td width="5%" align="right">Product</td> <!-- partno -->
-    <td width="13%"><input type="text" name="txtproductsname" id="txtproductsname" style="width:90%" value='<s:property value="txtproductsname"/>'></td>
-    <td width="11%" align="right">Product Name</td>
-    <td width="30%"><input type="text" name="txtgridprdname" id="txtgridprdname" style="width:80%" value='<s:property value="txtgridprdname"/>'></td>
-    <td width="12%" align="right">Brand</td>
-    <td width="18%"><div id="brandDiv"><jsp:include page="brandInputSearch.jsp"></jsp:include></div>
-    <input type="hidden" name="txtcldocnos" id="txtcldocnos" style="width:80%" value='<s:property value="txtcldocnos"/>'>
-    <input type="hidden" name="txtestdates" id="txtestdates" style="width:80%" value='<s:property value="txtestdates"/>'>
-    <input type="hidden" name="txtgridscopeids" id="txtgridscopeids" style="width:80%" value='<s:property value="txtgridscopeids"/>'>
-    <input type="hidden" name="txtgridscopeproducts" id="txtgridscopeproducts" style="width:80%" value='<s:property value="txtgridscopeproducts"/>'></td>
-    <td width="18%" rowspan="2" align="left"><input type="button" name="btnsearch" id="btnsearch" class="myButton" value="Search"  onclick="loadSearch();"></td>
-  </tr>
-  <tr>
-    <td align="right">Unit</td>
-    <td><input type="text" name="txtgridunit" id="txtgridunit" style="width:80%" value='<s:property value="txtgridunit"/>'>
-    <td align="right">Category</td>
-    <td><input type="text" name="txtgridscategory" id="txtgridscategory" style="width:70%" value='<s:property value="txtgridscategory"/>'></td>
-    <td align="right">Sub Category</td>
-    <td><div id="subCategoryDiv"><jsp:include page="subCategoryInputSearch.jsp"></jsp:include></div></td>
-  </tr>
-  <tr>
-    <td colspan="7"><div id="refreshProductDiv"><jsp:include  page="productSearch.jsp"></jsp:include></div></td>
-  </tr>
-</table>
-  </div>
+<style>
+/* =========================================================
+   SCOPED UI: Pure White Panel (Matches Reference)
+========================================================= */
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff !important; /* Forced pure white for the entire page */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+.modern-ui {
+    font-size: 12px;
+    color: #333;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #ffffff !important; /* Forced pure white */
+}
+
+/* Master Input Styles */
+.modern-ui input[type="text"],
+.modern-ui select {
+    height: 24px !important;
+    border: 1px solid #cccccc; 
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 12px; 
+    font-family: inherit;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+/* Panel Styling - Clean White Panel */
+.modern-ui .search-panel {
+    background-color: #ffffff !important; /* Pure white inside the border */
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 15px 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Table Alignment - STRICT PERCENTAGE GRID */
+.modern-ui table {
+    border-collapse: separate;
+    border-spacing: 5px 8px; 
+    width: 100%;
+    table-layout: fixed; 
+}
+
+.modern-ui td {
+    vertical-align: middle;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #333;
+    font-size: 12px; 
+    font-weight: 500;
+    font-family: inherit;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* Search Button - Standard Blue */
+.modern-ui .myButton {
+    height: 28px;
+    padding: 0 24px;
+    background-color: #205fd3; 
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    transition: background-color 0.2s;
+}
+
+.modern-ui .myButton:hover {
+    background-color: #1a4eb8;
+}
+
+/* Grid Container */
+.modern-ui .grid-container {
+    background-color: #ffffff !important; /* Pure white */
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    min-height: 200px;
+}
+</style>
+
+<body style="background-color: #ffffff;">
+
+<div id="search" class="modern-ui">
+
+    <div class="search-panel">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <colgroup>
+                <col width="12%" /> 
+                <col width="28%" /> 
+                <col width="12%" /> 
+                <col width="28%" /> 
+                <col width="20%" />
+            </colgroup>
+            
+            <tr>
+                <td class="lbl-right">Product</td>
+                <td>
+                    <input type="text" name="txtproductsname" id="txtproductsname" value='<s:property value="txtproductsname"/>'>
+                </td>
+                
+                <td class="lbl-right">Product Name</td>
+                <td>
+                    <input type="text" name="txtgridprdname" id="txtgridprdname" value='<s:property value="txtgridprdname"/>'>
+                </td>
+                
+                <td align="center" rowspan="3" valign="middle">
+                    <button type="button" name="btnsearch" id="btnsearch" class="myButton" onclick="loadSearch(); return false;">
+                        Search
+                    </button>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="lbl-right">Brand</td>
+                <td>
+                    <div id="brandDiv">
+                        <jsp:include page="brandInputSearch.jsp"></jsp:include>
+                    </div>
+                    <input type="hidden" name="txtcldocnos" id="txtcldocnos" value='<s:property value="txtcldocnos"/>'>
+                    <input type="hidden" name="txtestdates" id="txtestdates" value='<s:property value="txtestdates"/>'>
+                    <input type="hidden" name="txtgridscopeids" id="txtgridscopeids" value='<s:property value="txtgridscopeids"/>'>
+                    <input type="hidden" name="txtgridscopeproducts" id="txtgridscopeproducts" value='<s:property value="txtgridscopeproducts"/>'>
+                </td>
+                
+                <td class="lbl-right">Unit</td>
+                <td>
+                    <input type="text" name="txtgridunit" id="txtgridunit" value='<s:property value="txtgridunit"/>'>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="lbl-right">Category</td>
+                <td>
+                    <input type="text" name="txtgridscategory" id="txtgridscategory" value='<s:property value="txtgridscategory"/>'>
+                </td>
+                
+                <td class="lbl-right">Sub Category</td>
+                <td>
+                    <div id="subCategoryDiv">
+                        <jsp:include page="subCategoryInputSearch.jsp"></jsp:include>
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div class="grid-container">
+        <div id="refreshProductDiv">
+            <jsp:include page="productSearch.jsp"></jsp:include>
+        </div>
+    </div>
+
+</div>
+
 </body>
 </html>
