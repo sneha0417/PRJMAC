@@ -16,12 +16,175 @@
 <jsp:include page="../../../../includes.jsp"></jsp:include>
 <script type="text/javascript" src="<%=contextPath%>/js/ajaxfileupload.js"></script>
 
+<style>
+/* =========================================================
+   SCOPED UI: Modern Layout (Matches Client Master & Cash Receipts)
+========================================================= */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.modern-ui {
+    font-family: Arial, sans-serif; 
+    color: #333;
+    font-size: 12px; 
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Master Input Heights - Forced to 24px */
+.modern-ui input[type="text"],
+.modern-ui select { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus { 
+    border-color: #007bff; 
+    outline: none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
+}
+
+/* Layout Utilities */
+.modern-ui .field-row { 
+    display: flex;
+    align-items: center; 
+    gap: 8px;
+    margin-bottom: 10px; 
+    flex-wrap: wrap;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* Middle Section Panels */
+.modern-ui .middle-panel {
+    border: 1px solid #c5d3e0; 
+    padding: 20px 10px 10px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title { 
+    position: absolute; 
+    top: -12px;
+    left: 10px; 
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    border-left: 3px solid #0056b3;
+    z-index: 2; 
+    line-height: normal; 
+}
+
+/* Custom UI Buttons matching 24px height */
+.modern-ui .myButton {
+    height: 24px !important;
+    line-height: 22px !important;
+    padding: 0 12px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: none;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    border: none;
+    background: linear-gradient(135deg, #0b45a2 0%, #2563eb 100%);
+    color: #ffffff;
+    white-space: nowrap;
+}
+.modern-ui .myButton:hover { background: linear-gradient(135deg, #083a8a 0%, #1d4ed8 100%); }
+
+/* Grid Wrappers */
+.modern-ui .grid-container {
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+}
+
+/* Scrollbar Logic */
+.hidden-scrollbar {
+    overflow-y: auto;
+    height: calc(100vh - 150px);
+    padding-right: 5px;
+}
+.hidden-scrollbar::-webkit-scrollbar { width: 6px; }
+.hidden-scrollbar::-webkit-scrollbar-thumb { background: #c5d3e0; border-radius: 3px; }
+
+/* File Input Specific */
+.modern-ui input[type="file"] {
+    font-size: 11px;
+    padding: 2px;
+    background: #fff;
+}
+</style>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		 $("#btnvaluechange").hide();
 		 
-		 $("#jqxJournalVouchersDate").jqxDateTimeInput({ width: '125px', height: '15px', formatString:"dd.MM.yyyy"});
-		 $("#maindate").jqxDateTimeInput({ width: '125px', height: '15px', formatString:"dd.MM.yyyy"});
+		 $("#jqxJournalVouchersDate").jqxDateTimeInput({ width: '125px', height: 24, formatString:"dd.MM.yyyy", theme: 'energyblue'});
+		 $("#maindate").jqxDateTimeInput({ width: '125px', height: 24, formatString:"dd.MM.yyyy"});
+		 
+         /* Force internal alignment AFTER render for modern 24px UI */
+         setTimeout(function () {
+             $("#jqxJournalVouchersDate, #maindate").find("input").css({
+                 "margin-top": "0px",
+                 "line-height": "24px",
+                 "font-size": "12px", 
+                 "font-family": "Arial, sans-serif", 
+                 "padding": "0 6px", 
+                 "box-sizing":"border-box"
+             });
+             $("#jqxJournalVouchersDate, #maindate").find(".jqx-action-button").css({
+                 "top": "0px",
+                 "height": "24px"
+             });
+         }, 0);
 		 
 		 $('#journalVoucherGridWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Account Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
 		 $('#journalVoucherGridWindow').jqxWindow('close');
@@ -108,13 +271,13 @@
 			$('#btnsearch').attr('hidden', false );
 			
 			if ($("#mode").val() == "E") {
-         	    $("#btnvaluechange").show();
-         	    $('#frmJournalVoucher input').attr('readonly', true );
+ 		    	 $("#btnvaluechange").show();
+ 		    	 $('#frmJournalVoucher input').attr('readonly', true );
 			    $("#jqxJournalVoucher").jqxGrid({ disabled: true});
-   			    $('#txtrefno').attr('readonly', false );
-   			    $('#txtdescription').attr('readonly', false );
-   			    $("#jqxJournalVoucher").jqxGrid('addrow', null, {});
-   			 	$('#fileexcelimport').attr('disabled', true );
+ 			    $('#txtrefno').attr('readonly', false );
+ 			    $('#txtdescription').attr('readonly', false );
+ 			    $("#jqxJournalVoucher").jqxGrid('addrow', null, {});
+ 			 	$('#fileexcelimport').attr('disabled', true );
  				$('#btnsearch').attr('disabled', true );
 			  }
 			 else{
@@ -305,17 +468,11 @@
 	 
 var win= window.open(reurl[0]+"printJournalVoucher?docno="+document.getElementById("docno").value+"&branch="+document.getElementById("brchName").value+"&header=1","_blank","top=150,left=250,Width=1020,Height=500,location=no,scrollbars=no,toolbar=yes");
 					     win.focus();
-
-/*  var win= window.open(reurl[0]+"JournalVoucherPrint?docno="+document.getElementById("docno").value+"&branch="+document.getElementById("brchName").value+"&header=1","_blank","top=150,left=250,Width=1020,Height=500,location=no,scrollbars=no,toolbar=yes");
-						    win.focus();  */
 					 }
 					else{
 
 						var win= window.open(reurl[0]+"printJournalVoucher?docno="+document.getElementById("docno").value+"&branch="+document.getElementById("brchName").value+"&header=0","_blank","top=150,left=250,Width=1020,Height=500,location=no,scrollbars=no,toolbar=yes");
 					    win.focus();
-/* 
-var win= window.open(reurl[0]+"JournalVoucherPrint?docno="+document.getElementById("docno").value+"&branch="+document.getElementById("brchName").value+"&header=0","_blank","top=150,left=250,Width=1020,Height=500,location=no,scrollbars=no,toolbar=yes");
-						    win.focus(); */ 
 					}
 				   });
 		     }
@@ -386,10 +543,10 @@ var win= window.open(reurl[0]+"JournalVoucherPrint?docno="+document.getElementBy
 		}
 		
 		function upload(){
-			 
+			
 			$('#txtexcelvalidation').val(1);
 			getAttachDocumentNo();
-			 
+			
 		 }
 		
 		function ajaxFileUpload(docNo) {  
@@ -420,7 +577,7 @@ var win= window.open(reurl[0]+"JournalVoucherPrint?docno="+document.getElementBy
 	              {  
 	                  url:'fileAttachAction.action?formCode=JVTE&doc_no='+docNo+'&descpt=Excel Import' ,
 	                  secureuri:false,  
-	                  fileElementId:'fileexcelimport',    
+	                  fileElementId:'fileexcelimport',   
 	                  dataType: 'json', 
 	                  success: function (data, status)   
 	                  {  
@@ -443,76 +600,96 @@ var win= window.open(reurl[0]+"JournalVoucherPrint?docno="+document.getElementBy
 	                          {  
 	                              $.messager.show({title:'Message',msg: data.message,showType:'show',
 		  	                            style:{left:'',right:27,top:document.body.scrollTop+document.documentElement.scrollTop,bottom:''}
-		  	              	          }); 
+		  	                        }); 
 	                          }  
 	                      }  
 	                  },  
 	                  error: function (data, status, e){  
 	                      $.messager.alert('Message',e);
 	                  }  
-	              });  
+	              }  
+	          );  
 	          return false;  
 	      }
 	 
 </script>
 
-<style>
-.hidden-scrollbar {
-  overflow: auto;
-  height: 530px;
-}
-</style>
-
 </head>
 <body onload="setValues();">
 <div id="mainBG" class="homeContent" data-type="background">
 <form id="frmJournalVoucher" action="saveJournalVoucher" method="post" autocomplete="off">
-<jsp:include page="../../../../header.jsp"></jsp:include><br/>
+<jsp:include page="../../../../header.jsp"></jsp:include>
 
-<div  class='hidden-scrollbar'>
-<table width="99%">
-  <tr>
-    <td width="6%" align="right">Date</td>
-    <td width="15%"><div id="jqxJournalVouchersDate" name="jqxJournalVouchersDate" onchange="datechange();" onblur="datechange();" value='<s:property value="jqxJournalVouchersDate"/>'></div>
-    <input type="hidden" id="hidjqxJournalVouchersDate" name="hidjqxJournalVouchersDate" value='<s:property value="hidjqxJournalVouchersDate"/>'/></td>
-    <td width="28%" align="right"><input type="file" id="fileexcelimport" name="file"/></td>
-    <td width="11%" align="center"> <button class="icon" id="btnsearch" name="btnsearch" title="Import Excel" type="button" onclick="return upload();">
-							<img alt="Import Excel" src="<%=contextPath%>/icons/import_excel.png">
-						</button></td>
-    <td width="13%" align="center"><button class="myButton" type="button" id="btnvaluechange" name="btnvaluechange" onclick="funwarningopen();">Value Change</button></td>
-    <td width="6%" align="right">Doc No</td>
-    <td width="21%"><input type="text" id="docno" name="txtjournalvouchersdocno" style="width:50%;" value='<s:property value="txtjournalvouchersdocno"/>' tabindex="-1"/></td>
-  </tr>
-  <tr>
-    <td align="right">Ref. No.</td>
-    <td><input type="text" id="txtrefno" name="txtrefno" style="width:62%;" value='<s:property value="txtrefno"/>'/></td>
-    <td align="right">Description</td>
-    <td colspan="3"><input type="text" id="txtdescription" name="txtdescription" style="width:80%;"  value='<s:property value="txtdescription"/>'/></td>
-	<td align="left"><i><b><label id="lblformposted"  name="lblformposted"   style="font-size: 13px;font-family: Tahoma; color:#6000FC"><s:property value="lblformposted"/></label></b></i></td>
-  </tr>
-  <tr>
-    <td colspan="7"><div id="jqxJournalVoucherGrid"><jsp:include page="journalVoucherGrid.jsp"></jsp:include></div></td>
-  </tr>
-  <tr>
-    <td align="right">Dr. Total</td>
-    <td><input type="text" id="txtdrtotal" name="txtdrtotal" style="width:65%;text-align: right;" value='<s:property value="txtdrtotal"/>' tabindex="-1"/></td>
-    <td colspan="4" align="right">Cr. Total</td>
-    <td><input type="text" id="txtcrtotal" name="txtcrtotal" style="width:50%;text-align: right;" value='<s:property value="txtcrtotal"/>' tabindex="-1"/></td>
-  </tr>
-</table>
+<div class='modern-ui hidden-scrollbar'>
 
-<input type="hidden" id="mode" name="mode"/>
-<input type="hidden" id="deleted" name="deleted" value='<s:property value="deleted"/>'/>
-<input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
-<input type="hidden" id="txtexceltypevalidation" name="txtexceltypevalidation" value='<s:property value="txtexceltypevalidation"/>'/>
-<input type="hidden" id="txtexcelaccvalidation" name="txtexcelaccvalidation" value='<s:property value="txtexcelaccvalidation"/>'/>
-<input type="hidden" id="txtexcelgrtypevalidation" name="txtexcelgrtypevalidation" value='<s:property value="txtexcelgrtypevalidation"/>'/>
-<input type="hidden" id="txtexcelcostvalidation" name="txtexcelcostvalidation" value='<s:property value="txtexcelcostvalidation"/>'/>
-<input type="hidden" id="gridlength" name="gridlength"/>
-<div hidden="true" id="maindate" name="maindate" value='<s:property value="maindate"/>'></div>
-<input type="hidden" id="hidmaindate" name="hidmaindate" value='<s:property value="hidmaindate"/>'/>
-<input type="hidden" id="txttrno" name="txttrno" value='<s:property value="txttrno"/>'/>
-<input type="hidden" id="txtvalidation" name="txtvalidation" value='<s:property value="txtvalidation"/>'/>
+    <div class="middle-panel">
+        <span class="middle-panel-title">General Info</span>
+        
+        <div class="field-row">
+            <label class="lbl-right" style="width:80px;">Date</label>
+            <div style="width: 125px;">
+                <div id="jqxJournalVouchersDate" name="jqxJournalVouchersDate" onchange="datechange();" onblur="datechange();" value='<s:property value="jqxJournalVouchersDate"/>'></div>
+                <input type="hidden" id="hidjqxJournalVouchersDate" name="hidjqxJournalVouchersDate" value='<s:property value="hidjqxJournalVouchersDate"/>'/>
+            </div>
+            
+            <label class="lbl-right" style="width:80px;">Ref. No.</label>
+            <input type="text" id="txtrefno" name="txtrefno" style="width:150px;" value='<s:property value="txtrefno"/>'/>
+            
+            <label class="lbl-right" style="width:80px; margin-left:auto;">Doc No.</label>
+            <input type="text" id="docno" name="txtjournalvouchersdocno" style="width:120px;" value='<s:property value="txtjournalvouchersdocno"/>' tabindex="-1" readonly/>
+            
+            <button class="myButton" type="button" id="btnvaluechange" name="btnvaluechange" onclick="funwarningopen();">Value Change</button>
+        </div>
+
+        <div class="field-row" style="margin-bottom:0;">
+            <label class="lbl-right" style="width:80px;">Description</label>
+            <input type="text" id="txtdescription" name="txtdescription" style="flex:1;" value='<s:property value="txtdescription"/>'/>
+            
+            <label class="lbl-right" style="width:80px;">Import Excel</label>
+            <div style="display: flex; align-items: center; gap: 5px;">
+                <input type="file" id="fileexcelimport" name="file" style="width: 200px;" />
+                <button class="icon" id="btnsearch" name="btnsearch" title="Import Excel" type="button" onclick="return upload();" style="border:none; background:transparent; cursor:pointer; padding:0; display:flex;">
+                    <img alt="Import Excel" src="<%=contextPath%>/icons/import_excel.png" style="height:20px;">
+                </button>
+            </div>
+            
+            <label id="lblformposted" name="lblformposted" style="font-size: 13px; font-family: Tahoma; color:#6000FC; font-weight:bold; font-style:italic; margin-left:15px; margin-right:auto;">
+                <s:property value="lblformposted"/>
+            </label>
+        </div>
+    </div>
+
+    <div class="middle-panel">
+        <span class="middle-panel-title">Voucher Entries</span>
+        
+        <div id="jqxJournalVoucherGrid" class="grid-container">
+            <jsp:include page="journalVoucherGrid.jsp"></jsp:include>
+        </div>
+        
+        <div class="field-row" style="margin-top: 15px; justify-content: flex-end; margin-bottom:0;">
+            <label class="lbl-right" style="width:60px;">Dr. Total</label>
+            <input type="text" id="txtdrtotal" name="txtdrtotal" style="width:120px; text-align:right;" value='<s:property value="txtdrtotal"/>' tabindex="-1" readonly/>
+            
+            <label class="lbl-right" style="width:60px; margin-left:15px;">Cr. Total</label>
+            <input type="text" id="txtcrtotal" name="txtcrtotal" style="width:120px; text-align:right;" value='<s:property value="txtcrtotal"/>' tabindex="-1" readonly/>
+        </div>
+    </div>
+
+    <div style="display:none;">
+        <input type="hidden" id="mode" name="mode"/>
+        <input type="hidden" id="deleted" name="deleted" value='<s:property value="deleted"/>'/>
+        <input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
+        <input type="hidden" id="txtexceltypevalidation" name="txtexceltypevalidation" value='<s:property value="txtexceltypevalidation"/>'/>
+        <input type="hidden" id="txtexcelaccvalidation" name="txtexcelaccvalidation" value='<s:property value="txtexcelaccvalidation"/>'/>
+        <input type="hidden" id="txtexcelgrtypevalidation" name="txtexcelgrtypevalidation" value='<s:property value="txtexcelgrtypevalidation"/>'/>
+        <input type="hidden" id="txtexcelcostvalidation" name="txtexcelcostvalidation" value='<s:property value="txtexcelcostvalidation"/>'/>
+        <input type="hidden" id="gridlength" name="gridlength"/>
+        <div hidden="true" id="maindate" name="maindate" value='<s:property value="maindate"/>'></div>
+        <input type="hidden" id="hidmaindate" name="hidmaindate" value='<s:property value="hidmaindate"/>'/>
+        <input type="hidden" id="txttrno" name="txttrno" value='<s:property value="txttrno"/>'/>
+        <input type="hidden" id="txtvalidation" name="txtvalidation" value='<s:property value="txtvalidation"/>'/>
+    </div>
+
 </div>
 </form>
 
