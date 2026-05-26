@@ -258,49 +258,22 @@ body {
     white-space: nowrap;
 }
 
-.modern-ui .myButton:hover:not(:disabled):not(.disabled) { 
+.modern-ui .myButton:hover:not(:disabled) { 
     background: linear-gradient(135deg, #083a8a 0%, #1d4ed8 100%); 
 }
 
-/* =========================================================================
-   CATCH-ALL DISABLED BUTTON FIX (Targets non-standard framework buttons)
-   ========================================================================= */
+/* Disabled Button State */
 .modern-ui .myButton:disabled,
 button:disabled,
-button[disabled],
 input[type="button"]:disabled,
-input[type="submit"]:disabled,
-a.disabled,
-a[disabled],
-.disabled,
-.l-btn-disabled,       
-.ui-state-disabled,    
-.btn-disabled,         
-[disabled="disabled"],
-[disabled="true"] {
-    background: #e2e8f0 !important;
-    background-color: #e2e8f0 !important;
-    background-image: none !important; 
-    color: #94a3b8 !important;       
+input[type="submit"]:disabled {
+    background: #e2e8f0 !important; 
+    color: #94a3b8 !important;      
     border: 1px solid #cbd5e1 !important;
     cursor: not-allowed !important; 
     box-shadow: none !important;
     text-shadow: none !important;
-    opacity: 0.7 !important; 
-    pointer-events: none !important; 
 }
-
-a.disabled:hover,
-.disabled:hover,
-.l-btn-disabled:hover,
-button:disabled:hover,
-[disabled="disabled"]:hover {
-    background: #e2e8f0 !important;
-    background-color: #e2e8f0 !important;
-    background-image: none !important; 
-}
-/* ========================================================================= */
-
 
 /* Search Icon Wrapper */
 .modern-ui .input-search-container {
@@ -339,7 +312,7 @@ button:disabled:hover,
 .hidden-scrollbar::-webkit-scrollbar { width: 6px; }
 .hidden-scrollbar::-webkit-scrollbar-thumb { background: #c5d3e0; border-radius: 3px; }
 
-/* Validation Error overrides */
+/* Validation Error override */
 .modern-ui label.error,
 form label.error { 
     color: red !important; 
@@ -352,7 +325,7 @@ form label.error {
 .classpass { -webkit-text-security: disc; }
 </style>
 </head>
-<body onLoad="funReadOnly();setValues();" >
+<body onLoad="funReadOnly();setValues();">
 <div id="mainBG" class="homeContent" data-type="background">
     <form id="frmRegion" action="saveRegion" method="get" autocomplete="off">
         
@@ -399,4 +372,5 @@ form label.error {
         </div>
     </form>
 </div>
-</body></html>
+</body>
+</html>
