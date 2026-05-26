@@ -10,6 +10,110 @@
 <%ClsProductMasterDAO DAO= new ClsProductMasterDAO(); %>
 <jsp:include page="../../../../includes.jsp"></jsp:include>
 <style>
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+#frmsubCategory input[type="text"],
+#frmsubCategory select { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    width: 100%;
+}
+
+#frmsubCategory input[type="text"]:focus,
+#frmsubCategory select:focus { 
+    border-color: #007bff; 
+    outline: none;
+}
+
+#frmsubCategory input[readonly],
+#frmsubCategory input:disabled,
+#frmsubCategory select:disabled { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
+}
+
+fieldset {
+    border: 1px solid #c5d3e0; 
+    padding: 10px 10px 5px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+legend {
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    font-family: Arial, sans-serif;
+    border-left: 3px solid #0056b3;
+    line-height: normal; 
+    margin-left: -2px; 
+}
+
+#frmsubCategory table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px; 
+}
+
+#frmsubCategory td {
+    padding: 0 5px;
+    vertical-align: middle;
+    font-family: Arial, sans-serif; 
+    font-size: 12px; 
+    color: #333;
+}
+
+#frmsubCategory div[align="right"] {
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 10px;
+}
+
+form label.error {
+    color: red;
+    font-weight: bold;
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+}
+
+#jqxCategory {
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
 form label.error {
 color:red;
   font-weight:bold;
@@ -194,15 +298,15 @@ if($('#msg').val()!=""){
 <input type="text" id="catid" name="catid" value='<s:property value="catid"/>' hidden="true">
 <table width="100%">
 <tr>
-  <td width="14%"><div align="right">Date</div></td>
-  <td width="12%"><div id="date" name="date" value='<s:property value="date"/>'></div></td>
-  <td width="23%"><div align="right">Doc No</div></td>
-  <td width="51%"><input type="text" name="docno" value='<s:property value="docno"/>' id="docno" readonly="readonly"  tabindex="-1"></td>
+  <td width="6%"><div align="right">Date</div></td>
+  <td width="21%"><div id="date" name="date" value='<s:property value="date"/>'></div></td>
+  <td width="6%"><div align="right">Doc No</div></td>
+  <td width="51%"><input type="text" name="docno" style="width:40%;" value='<s:property value="docno"/>' id="docno" readonly="readonly"  tabindex="-1"></td>
 </tr>
 <tr><td><div align="right">Category</div></td>
 <td> 
 <!-- <option value="">--Select--</option> -->
- <select name="category" id="category" style="width:100%;">
+ <select name="category" id="category" style="width:60%;">
 </select></td>
 <td><div align="right">Sub Category</div></td><td><input type="text" name="subcat" id="subcat" value='<s:property value="subcat"/>'></td></tr>
 <td><input type="hidden" name="mode" id="mode" value='<s:property value="mode"/>' /> 
