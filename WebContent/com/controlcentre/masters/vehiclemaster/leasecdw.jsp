@@ -10,22 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <jsp:include page="../../../../includes.jsp"></jsp:include>
-<style>
-form label.error {
-color:red;
-  font-weight:bold;
 
-}
-.custom-checkbox{
-	width: 15px; 
-	height: 15px;
-	border: 1px solid #aaa;
-  background: #f8f8f8;
-  border-radius: 5px;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,.3);
-  transition: all .2s;
-}
-</style>
 <script type="text/javascript">
 	$(document).ready(function () {    
 	    $("#date").jqxDateTimeInput({ width: '125px', height: '15px' ,formatString : "dd.MM.yyyy" });
@@ -135,58 +120,207 @@ color:red;
 		  }
 		  }
 </script>  
- 
+ <style>
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.modern-ui {
+    font-family: Arial, sans-serif; 
+    color: #333;
+    font-size: 12px; 
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Master Input Heights - Forced to 24px */
+.modern-ui input[type="text"],
+.modern-ui select { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus { 
+    border-color: #007bff; 
+    outline: none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
+}
+
+/* Layout Utilities */
+.modern-ui .field-row { 
+    display: flex;
+    align-items: center; 
+    gap: 8px;
+    margin-bottom: 10px; 
+    flex-wrap: wrap;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* FIXED: Middle Section Panels */
+.modern-ui .middle-panel {
+    border: 1px solid #c5d3e0; 
+    padding: 20px 10px 10px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title { 
+    position: absolute; 
+    top: -12px;
+    left: 10px; 
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    border-left: 3px solid #0056b3;
+    z-index: 2; 
+    line-height: normal; 
+}
+
+/* Custom UI Buttons matching 24px height */
+.modern-ui .myButton {
+    height: 24px !important;
+    line-height: 22px !important;
+    padding: 0 12px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: none;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    border: none;
+    background: linear-gradient(135deg, #0b45a2 0%, #2563eb 100%);
+    color: #ffffff;
+    white-space: nowrap;
+}
+.modern-ui .myButton:hover { background: linear-gradient(135deg, #083a8a 0%, #1d4ed8 100%); }
+
+/* Grid Wrappers */
+.modern-ui .grid-container {
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+}
+
+/* Scrollbar Logic */
+.hidden-scrollbar {
+    overflow-y: auto;
+    height: calc(100vh - 150px);
+    padding-right: 5px;
+}
+.hidden-scrollbar::-webkit-scrollbar { width: 6px; }
+.hidden-scrollbar::-webkit-scrollbar-thumb { background: #c5d3e0; border-radius: 3px; }
+</style>
 </head>
-<body onLoad="setValues();" >
+<body onload="setValues();">
+<div id="mainBG" class="homeContent" data-type="background">
 <form id="frmLeaseCDW" action="saveLeaseCDW" method="get" autocomplete="off">
-	<jsp:include page="../../../../header.jsp" />
-	<br/> 
-	<fieldset><legend>Lease CDW Details</legend>
-	<table width="100%">
-		<tr><td width="7%" align="right">Date</td>
-			<td width="29%"  align="left"><div id="date" name="date" value='<s:property value="date"/>'></div>
-		  	</td>
-			<td width="50%" align="right">Doc No</td>
-			<td width="14%">
-					<input type="text" name="docno" id="docno" value='<s:property value="docno"/>' readonly  tabindex="-1">
-			</td>
-		</tr><!-- pattern=".{1,3}" required="required" -->
-		<tr>
-			<td align="right">Name</td>
-			<td><input type="text" name="name" id="name"  value='<s:property value="name"/>' style="width:100%;"></td>
-			<td >&nbsp; &nbsp; &nbsp; &nbsp;
-			<input type="checkbox" name="chkexscdw" id="chkexscdw" class="custom-checkbox" onchange="SetExcseecdwValue();">&nbsp;
-            <label for="chkexscdw">Excess CDW</label>&nbsp; &nbsp; &nbsp; &nbsp;
+    <jsp:include page="../../../../header.jsp"></jsp:include>
+
+    <div class='modern-ui hidden-scrollbar'>
+
+        <div class="middle-panel">
+            <span class="middle-panel-title">Lease CDW Details</span>
             
-            <input type="checkbox" name="chkreplace" id="chkreplace" class="custom-checkbox" onchange="SetReplaceValue();">&nbsp;
-            <label for="chkreplace">Replacement</label>
-            </td>
-			<td>&nbsp;</td>
-            </tr>
+            <div class="field-row">
+                <label class="lbl-right" style="width:80px;">Date</label>
+                <div style="width: 125px;">
+                    <div id="date" name="date" value='<s:property value="date"/>'></div>
+                </div>
+                
+                <label class="lbl-right" style="width:80px; margin-left:auto;">Doc No</label>
+                <input type="text" name="docno" id="docno" value='<s:property value="docno"/>' style="width:120px;" tabindex="-1" readonly />
+            </div>
 
-			<tr>
-				<td align="right">Description</td>
-                <td colspan="3" align="left"><input type="text" name="description" id="description" value='<s:property value="description"/>' style="width:97%;"></td>
-            </tr>
-			<tr>
-			  <td align="right">Remarks</td>
-			  <td colspan="3" align="left"><input type="text" name="remarks" id="remarks" value='<s:property value="remarks"/>' style="width:97%;"></td>
-	  </tr>
-	</table>
-	</fieldset>
-    <br>
-    <table width="100%">
-  <tr>
-    <td><div id="leasecdwdiv"><jsp:include page="leaseCDWGrid.jsp"></jsp:include></div></td>
-  </tr>
-</table>
+            <div class="field-row">
+                <label class="lbl-right" style="width:80px;">Name</label>
+                <input type="text" name="name" id="name" value='<s:property value="name"/>' style="width: 300px;" />
+                
+                <div style="display: flex; align-items: center; gap: 15px; margin-left: 20px;">
+                    <label style="display:flex; align-items:center; gap:5px; font-weight:bold; color:#444;">
+                        <input type="checkbox" name="chkexscdw" id="chkexscdw" class="custom-checkbox" onchange="SetExcseecdwValue();" style="margin:0;">
+                        Excess CDW
+                    </label>
+                    <label style="display:flex; align-items:center; gap:5px; font-weight:bold; color:#444;">
+                        <input type="checkbox" name="chkreplace" id="chkreplace" class="custom-checkbox" onchange="SetReplaceValue();" style="margin:0;">
+                        Replacement
+                    </label>
+                </div>
+            </div>
 
-<input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>'/>
-<input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
-<input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>'/> 
-<input type="hidden" name="hidchkreplace" id="hidchkreplace" value='<s:property value="hidchkreplace"/>'/>
-<input type="hidden" name="hidchkexscdw" id="hidchkexscdw" value='<s:property value="hidchkexscdw"/>'/>
+            <div class="field-row">
+                <label class="lbl-right" style="width:80px;">Description</label>
+                <input type="text" name="description" id="description" value='<s:property value="description"/>' style="flex:1;" />
+            </div>
 
-	</form>
+            <div class="field-row" style="margin-bottom:0;">
+                <label class="lbl-right" style="width:80px;">Remarks</label>
+                <input type="text" name="remarks" id="remarks" value='<s:property value="remarks"/>' style="flex:1;" />
+            </div>
+        </div>
+
+        <div class="middle-panel">
+            <span class="middle-panel-title">CDW Grid</span>
+            <div id="leasecdwdiv" class="grid-container">
+                <jsp:include page="leaseCDWGrid.jsp"></jsp:include>
+            </div>
+        </div>
+
+        <div style="display:none;">
+            <input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>'/>
+            <input type="hidden" id="msg" name="msg" value='<s:property value="msg"/>'/>
+            <input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>'/> 
+            <input type="hidden" name="hidchkreplace" id="hidchkreplace" value='<s:property value="hidchkreplace"/>'/>
+            <input type="hidden" name="hidchkexscdw" id="hidchkexscdw" value='<s:property value="hidchkexscdw"/>'/>
+        </div>
+
+    </div>
+</form>
+</div>
 </body>
 </html>
