@@ -39,18 +39,154 @@ String reportdocno =request.getParameter("reportdocno")==null?"0":request.getPar
 <jsp:include page="../../../../includes.jsp"></jsp:include>
 
 <style>
-.textbox {
-    border: 0;
-    height: 25px;
-    width: 20%;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    box-shadow: 1px 1px 0 0 #E0ECF8, 5px 5px 40px 2px #E0ECF8 inset;
-    -moz-box-shadow: 1px 1px 0 0 #E0ECF8, 5px 5px 40px 2px #E0ECF8 inset;
-    -webkit-box-shadow: 1px 1px 0 0 #E0ECF8, 5px 5px 40px 2px #E0ECF8 inset;
-    -webkit-background-clip: padding-box;
-    outline: 0;
+/* =========================================================
+   SCOPED UI: Modern Layout
+========================================================= */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.modern-ui {
+    font-family: Arial, sans-serif; 
+    color: #333;
+    font-size: 12px; 
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Master Input Heights - Forced to 24px */
+.modern-ui input[type="text"],
+.modern-ui select { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus { 
+    border-color: #007bff; 
+    outline: none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
+}
+
+/* Layout Utilities */
+.modern-ui .field-row { 
+    display: flex;
+    align-items: center; 
+    gap: 8px;
+    margin-bottom: 10px; 
+    flex-wrap: wrap;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* Middle Section Panels */
+.modern-ui .middle-panel {
+    border: 1px solid #c5d3e0; 
+    padding: 20px 10px 10px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title { 
+    position: absolute; 
+    top: -12px;
+    left: 10px; 
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    border-left: 3px solid #0056b3;
+    z-index: 2; 
+    line-height: normal; 
+}
+
+/* Custom UI Buttons */
+.modern-ui .myButton {
+    height: 24px !important;
+    line-height: 22px !important;
+    padding: 0 12px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: none;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    border: none;
+    background: linear-gradient(135deg, #0b45a2 0%, #2563eb 100%);
+    color: #ffffff;
+    white-space: nowrap;
+}
+.modern-ui .myButton:hover { background: linear-gradient(135deg, #083a8a 0%, #1d4ed8 100%); }
+.modern-ui .myButton:disabled { background: #cccccc; cursor: not-allowed; box-shadow: none; }
+
+/* Grid Wrappers */
+.modern-ui .grid-container {
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+}
+
+/* Scrollbar Logic */
+.hidden-scrollbar {
+    overflow-y: auto;
+    height: calc(100vh - 120px);
+    padding-right: 5px;
+}
+.hidden-scrollbar::-webkit-scrollbar { width: 6px; }
+.hidden-scrollbar::-webkit-scrollbar-thumb { background: #c5d3e0; border-radius: 3px; }
+
+/* Checkbox Wrappers */
+.chk-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #444;
+    height: 24px;
 }
 </style>
 
@@ -60,9 +196,23 @@ var modes='<%=modes%>';
 var reportdocno='<%=reportdocno%>';
 	$(document).ready(function() {
 		
-		
-		   
-		   $("#serviceReportDate").jqxDateTimeInput({ width: '125px', height: '15px', formatString:"dd.MM.yyyy"});
+		 $("#serviceReportDate").jqxDateTimeInput({ width: '125px', height: 24, formatString:"dd.MM.yyyy", theme: 'energyblue'});
+         
+         /* Force internal alignment AFTER render */
+         setTimeout(function () {
+             $("#serviceReportDate").find("input").css({
+                 "margin-top": "0px",
+                 "line-height": "24px",
+                 "font-size": "12px", 
+                 "font-family": "Arial, sans-serif", 
+                 "padding": "0 6px", 
+                 "box-sizing":"border-box"
+             });
+             $("#serviceReportDate").find(".jqx-action-button").css({
+                 "top": "0px",
+                 "height": "24px"
+             });
+         }, 0);
 		
 		   $('#customerDetailsWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Customer Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
   		   $('#customerDetailsWindow').jqxWindow('close');
@@ -79,12 +229,11 @@ var reportdocno='<%=reportdocno%>';
 		   $('#workstatuswindow').jqxWindow({ width: '30%', height: '50%',  maxHeight: '68%' ,maxWidth: '30%' ,title: 'Work status ' , position: { x: 260, y: 87 } ,theme: 'energyblue', keyboardCloseKey: 27});
 		   $('#workstatuswindow').jqxWindow('close');
 		   
-		   
 		   $('#ServiceTypeWindow').jqxWindow({width: '30%', height: '53%',  maxHeight: '70%' ,maxWidth: '30%' , title: 'Service Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
 			 $('#ServiceTypeWindow').jqxWindow('close');
 		   
 		   $('#txtcustomer').dblclick(function(){
-	  			customerSearchContent("customerDetailsSearch.jsp");
+	 			customerSearchContent("customerDetailsSearch.jsp");
 		   });
 		   
 		   $('#txtcontractno').dblclick(function(){
@@ -232,10 +381,8 @@ var reportdocno='<%=reportdocno%>';
 			document.getElementById("docno").value=reportdocno;
 			document.getElementById("mode").value=modes;
 			
-			//alert("==document.getElementById().value==="+document.getElementById("mode").value);
 			 var names = [];
 			$("form").each(function() {
-			  //alert(this.id);
 			   names.push(this.id);
 			}); 
 			var form=names[0];
@@ -267,9 +414,6 @@ var reportdocno='<%=reportdocno%>';
 				$('#frmServiceReport input').attr('readonly', false );
    			    $('#frmServiceReport select').attr('disabled', false);
    			    $("#materialDetailsGridID").jqxGrid('addrow', null, {});
-   			 
-   			    //$("#activityDiv").load("activityDetailsGrid.jsp?trno="+$('#txtservicereporttrno').val()+"&contractno="+$('#txtcontracttrno').val()+"&mode="+$('#mode').val());
-   			      //$("#activityDiv").load("activityDetailsGrid.jsp?trno="+$('#txtservicereporttrno').val());
 			  }
 			
 			if ($("#mode").val() == "A") {
@@ -282,9 +426,7 @@ var reportdocno='<%=reportdocno%>';
 				$('#btnwork').attr('disabled', false);
 			}
 			
-			<%-- var mod1='<%=mod%>'; --%>
 			var contrno='<%=conttrno%>';
-			
 			
 			if(mod1=="A")
 				{
@@ -328,8 +470,6 @@ var reportdocno='<%=reportdocno%>';
 						 $("#activityDiv").load("activityDetailsGrid.jsp?contractno="+contrno+"&serdocno="+serdocno+"&dtype="+ctype);
 						}
 					}
-				
-				
 				}
 			
 			$('#docno').attr('readonly', true);
@@ -404,9 +544,9 @@ var reportdocno='<%=reportdocno%>';
 				 }
 				 document.getElementById("errormsg").innerText="";
 				 
-		        	/* Activity Grid  Saving*/
+	        	/* Activity Grid  Saving*/
 					 var rows = $("#activityDetailsGridID").jqxGrid('getrows');
-		        	
+	        	
 					 var length=0;
 						 for(var i=0 ; i < rows.length ; i++){
 
@@ -414,7 +554,6 @@ var reportdocno='<%=reportdocno%>';
 							var chk=rows[i].description;
 							var sert=rows[i].sertypeid;
 							if(typeof(sert) != "undefined" && typeof(sert) != "NaN" && sert != ""){
-							/* if(typeof(chk) != "undefined" && typeof(chk) != "NaN" && chk != ""){ */
 								
 								var chks=rows[i].numbers;
 								if(typeof(chks) == "undefined" || typeof(chks) == "NaN" || chks == "" || chks =="0"){
@@ -434,11 +573,9 @@ var reportdocno='<%=reportdocno%>';
 					    newTextBox.val(rows[i].sertypeid+":: "+rows[i].item+":: "+rows[i].numbers+":: "+rows[i].activityid+":: "+rows[i].description);
 						newTextBox.appendTo('form');
 							}
-						/*  } */
 						}
 						
 			 		 $('#activitygridlength').val(length);
-		 		   /* Activity Grid  Saving Ends*/	 
 		 		   
 			 		/* To Be Invoiced Grid  Saving*/
 					 var rows = $("#materialDetailsGridID").jqxGrid('getrows');
@@ -459,7 +596,6 @@ var reportdocno='<%=reportdocno%>';
 						 }
 						}
 			 		 $('#tobeinvoicedgridlength').val(length);
-		 		   /* To Be Invoiced Grid  Saving Ends*/	 
 		 		   
 	    		return 1;
 		} 
@@ -505,7 +641,6 @@ var reportdocno='<%=reportdocno%>';
 			     var reurl=url.split("saveServiceReport");
 			     var branch=<%=session.getAttribute("BRANCHID").toString()%>;
 			     var trno=document.getElementById("txtservicereporttrno").value;
-			    // alert(trno);
 			     $("#docno").prop("disabled", false);
 					
 			     var win= window.open(reurl[0]+"printServiceReportAMC?docno="+document.getElementById("docno").value+"&branch="+branch+"&trno="+trno+"&dtype="+dtype+"&header=1","_blank","top=150,left=250,Width=1020,Height=500,location=no,scrollbars=no,toolbar=yes");
@@ -518,7 +653,6 @@ var reportdocno='<%=reportdocno%>';
 			     var reurl=url.split("saveServiceReport");
 			     var branch=<%=session.getAttribute("BRANCHID").toString()%>;
 			     var trno=document.getElementById("txtservicereporttrno").value;
-			    // alert(trno);
 			     $("#docno").prop("disabled", false);
 					
 			     var win= window.open(reurl[0]+"printServiceReportSJOB?docno="+document.getElementById("docno").value+"&branch="+branch+"&trno="+trno+"&dtype="+dtype+"&header=1","_blank","top=150,left=250,Width=1020,Height=500,location=no,scrollbars=no,toolbar=yes");
@@ -530,7 +664,6 @@ var reportdocno='<%=reportdocno%>';
 			     var reurl=url.split("saveServiceReport");
 			     var branch=<%=session.getAttribute("BRANCHID").toString()%>;
 			     var trno=document.getElementById("txtservicereporttrno").value;
-			    // alert(trno);
 			     $("#docno").prop("disabled", false);
 					
 			     var win= window.open(reurl[0]+"printServiceReportCREG?docno="+document.getElementById("docno").value+"&branch="+branch+"&trno="+trno+"&dtype="+dtype+"&header=1","_blank","top=150,left=250,Width=1020,Height=500,location=no,scrollbars=no,toolbar=yes");
@@ -581,123 +714,132 @@ var reportdocno='<%=reportdocno%>';
 	      wrkStatusContent('workstatus.jsp?trno='+$('#txtservicereporttrno').val());  
 	  }
 	  function wrkStatusContent(url) {
-			//alert(url);
 				 $.get(url).done(function (data) {
-					 //alert(data);
 			$('#workstatuswindow').jqxWindow('setContent', data);
-
 			          	}); 
 				}
 </script>
-
-<style>
-.hidden-scrollbar {
-  overflow: auto;
-  height: 530px;
-}
-</style>
-
 </head>
 <body onload="setValues();gettobeinvconfig();">
 <div id="mainBG" class="homeContent" data-type="background">
 <form id="frmServiceReport" action="saveServiceReport" method="post" autocomplete="off">
 <jsp:include page="../../../../header.jsp"></jsp:include>
 
-<div  class='hidden-scrollbar'>
-<table width="100%">
-  <tr>
-    <td width="3%" height="42" align="right">Date</td>
-    <td width="11%"><div id="serviceReportDate" name="serviceReportDate" value='<s:property value="serviceReportDate"/>'></div>
-    <input type="hidden" id="hidserviceReportDate" name="hidserviceReportDate" value='<s:property value="hidserviceReportDate"/>'/></td>
-    <td width="21%" align="left">&nbsp;</td>
-    <td width="9%" align="right">Ref. No.</td>
-    <td width="29%"><input type="text" id="txtrefno" name="txtrefno" style="width:40%;" value='<s:property value="txtrefno"/>'/></td>
-    <td width="6%" align="right">Doc No.</td>
-    <td width="21%"><input type="text" id="docno" name="txtservicereportdocno" style="width:50%;" value='<s:property value="txtservicereportdocno"/>' tabindex="-1"/>
-    <input type="hidden" id="txtservicereporttrno" name="txtservicereporttrno" style="width:50%;" value='<s:property value="txtservicereporttrno"/>'/></td>
-  </tr>
-</table>
+<div class="modern-ui hidden-scrollbar">
 
-<fieldset>
-<table width="100%">
-  <tr>
-    <td width="6%" align="right">Customer</td>
-    <td colspan="2"><input type="text" id="txtcustomer" name="txtcustomer" style="width:97%;" placeholder="Press F3 to Search" value='<s:property value="txtcustomer"/>'  onkeydown="getCustomerInfo(event);"/>
-    <input type="hidden" id="txtcustomerdocno" name="txtcustomerdocno" value='<s:property value="txtcustomerdocno"/>'/>
-   <input type="hidden" id="txtcustomeracno" name="txtcustomeracno" value='<s:property value="txtcustomeracno"/>'/></td>
-    <td colspan="5"><input type="text" id="txtcustomerdetails" name="txtcustomerdetails" style="width:98%;" value='<s:property value="txtcustomerdetails"/>' tabindex="-1"/>
-    <input type="text" name="gridtext" id="gridtext"  style="width:0%;height:0%;"  class="textbox"  value='<s:property value="gridtext"/>' />   
-    <input type="text" name="gridtext1" id="gridtext1"  style="width:0%;height:0%;"  class="textbox" value='<s:property value="gridtext1"/>' /></td>
-  </tr>
-  <tr>
-    <td align="right">Contract Type</td>
-    <td width="14%"><select id="cmbcontracttype" name="cmbcontracttype" style="width:97%;" onchange="clearContractInfo();" value='<s:property value="cmbcontracttype"/>'>
-      <option value=''>--Select--</option><option value='AMC'>AMC</option><option value='SJOB'>SJOB</option><option value='CREG'>Ticket No</option></select>
-     <input type="hidden" id="hidcmbcontracttype" name="hidcmbcontracttype" value='<s:property value="hidcmbcontracttype"/>'/></td>
-    <td width="12%" align="right">Contract No.</td>
-    <td width="17%"><input type="text" id="txtcontractno" name="txtcontractno" style="width:98%;" placeholder="Press F3 to Search" value='<s:property value="txtcontractno"/>'  onkeydown="getContractDetails(event);"/>
-    <input type="hidden" id="txtcontracttrno" name="txtcontracttrno" value='<s:property value="txtcontracttrno"/>'/></td>
-    <td width="10%" align="right">Contract Details</td>
-    <td colspan="3"><input type="text" id="txtcontractdetails" name="txtcontractdetails" style="width:97%;" value='<s:property value="txtcontractdetails"/>'  tabindex="-1"/></td>
-  </tr>
-  <tr>
-    <td align="right">Site</td>
-    <td><input type="text" id="txtsitename" name="txtsitename" style="width:97%;" value='<s:property value="txtsitename"/>' tabindex="-1"/>
-    <input type="hidden" id="txtsiteid" name="txtsiteid" value='<s:property value="txtsiteid"/>'/></td>
-    <td align="right">Area</td>
-    <td><input type="text" id="txtareaname" name="txtareaname" style="width:97%;" value='<s:property value="txtareaname"/>' tabindex="-1"/>
-    <input type="hidden" id="txtareaid" name="txtareaid" value='<s:property value="txtareaid"/>'/></td>
-    <td align="right">Schedule No.</td>
-    <td width="21%"><input type="text" id="txtscheduleno" name="txtscheduleno" style="width:85%;" value='<s:property value="txtscheduleno"/>' tabindex="-1"/></td>
-    <td width="6%" align="right">Completion %</td>
-    <td width="14%"><input type="text" id="txtcompletionperc" name="txtcompletionperc" style="width:90%;" value='<s:property value="txtcompletionperc"/>'/>
-    </td>
-  </tr>
-  <tr>
-    <td align="right"><input type="checkbox" name="chkrectification" id="chkrectification"  onchange="rectification();">
-      <label for="chklegaldoc">Rectification</label>
-      <input type="hidden" id="chkrect" name="chkrect"  value='<s:property value="chkrect"/>'/></td>
-    <td colspan="3"><input type="text" id="textrect" name="textrect" style="width:85%;"value='<s:property value="textrect"/>'/> </td>
-  <td align="center"><button class="myButton" type="button" id="btnwork" name="btnwork" onclick="funWorkstatus();">Work status</button></td> </tr>
-  </table>
-</fieldset>
+    <div class="middle-panel">
+        <span class="middle-panel-title">General Info</span>
+        <div class="field-row">
+            <label class="lbl-right" style="width:100px;">Date</label>
+            <div style="width: 125px;">
+                <div id="serviceReportDate" name="serviceReportDate" value='<s:property value="serviceReportDate"/>'></div>
+                <input type="hidden" id="hidserviceReportDate" name="hidserviceReportDate" value='<s:property value="hidserviceReportDate"/>'/>
+            </div>
+            
+            <label class="lbl-right" style="width:120px;">Ref. No.</label>
+            <input type="text" id="txtrefno" name="txtrefno" style="width:150px;" value='<s:property value="txtrefno"/>'/>
+            
+            <label class="lbl-right" style="width:120px; margin-left:auto;">Doc No.</label>
+            <input type="text" id="docno" name="txtservicereportdocno" style="width:150px;" value='<s:property value="txtservicereportdocno"/>' tabindex="-1" readonly/>
+            <input type="hidden" id="txtservicereporttrno" name="txtservicereporttrno" value='<s:property value="txtservicereporttrno"/>'/>
+        </div>
+    </div>
 
-<fieldset><legend>Activity Details</legend>
-<div id="activityDiv"><jsp:include page="activityDetailsGrid.jsp"></jsp:include></div>
-</fieldset>
+    <div class="middle-panel">
+        <span class="middle-panel-title">Details</span>
+        
+        <div class="field-row">
+            <label class="lbl-right" style="width:100px;">Customer</label>
+            <input type="text" id="txtcustomer" name="txtcustomer" style="width:150px;" placeholder="Press F3" value='<s:property value="txtcustomer"/>' onkeydown="getCustomerInfo(event);"/>
+            <input type="hidden" id="txtcustomerdocno" name="txtcustomerdocno" value='<s:property value="txtcustomerdocno"/>'/>
+            <input type="hidden" id="txtcustomeracno" name="txtcustomeracno" value='<s:property value="txtcustomeracno"/>'/>
+            
+            <label class="lbl-right" style="width:120px;">Customer Details</label>
+            <input type="text" id="txtcustomerdetails" name="txtcustomerdetails" style="flex:1;" value='<s:property value="txtcustomerdetails"/>' tabindex="-1" readonly/>
+            <input type="hidden" name="gridtext" id="gridtext" value='<s:property value="gridtext"/>'/>   
+            <input type="hidden" name="gridtext1" id="gridtext1" value='<s:property value="gridtext1"/>'/>
+        </div>
+        
+        <div class="field-row">
+            <label class="lbl-right" style="width:100px;">Contract Type</label>
+            <select id="cmbcontracttype" name="cmbcontracttype" style="width:150px;" onchange="clearContractInfo();" value='<s:property value="cmbcontracttype"/>'>
+                <option value=''>--Select--</option>
+                <option value='AMC'>AMC</option>
+                <option value='SJOB'>SJOB</option>
+                <option value='CREG'>Ticket No</option>
+            </select>
+            <input type="hidden" id="hidcmbcontracttype" name="hidcmbcontracttype" value='<s:property value="hidcmbcontracttype"/>'/>
+            
+            <label class="lbl-right" style="width:120px;">Contract No.</label>
+            <input type="text" id="txtcontractno" name="txtcontractno" style="width:150px;" placeholder="Press F3" value='<s:property value="txtcontractno"/>' onkeydown="getContractDetails(event);"/>
+            <input type="hidden" id="txtcontracttrno" name="txtcontracttrno" value='<s:property value="txtcontracttrno"/>'/>
+            
+            <label class="lbl-right" style="width:120px;">Contract Details</label>
+            <input type="text" id="txtcontractdetails" name="txtcontractdetails" style="flex:1;" value='<s:property value="txtcontractdetails"/>' tabindex="-1" readonly/>
+        </div>
+        
+        <div class="field-row">
+            <label class="lbl-right" style="width:100px;">Site</label>
+            <input type="text" id="txtsitename" name="txtsitename" style="width:150px;" value='<s:property value="txtsitename"/>' tabindex="-1" readonly/>
+            <input type="hidden" id="txtsiteid" name="txtsiteid" value='<s:property value="txtsiteid"/>'/>
+            
+            <label class="lbl-right" style="width:120px;">Area</label>
+            <input type="text" id="txtareaname" name="txtareaname" style="width:150px;" value='<s:property value="txtareaname"/>' tabindex="-1" readonly/>
+            <input type="hidden" id="txtareaid" name="txtareaid" value='<s:property value="txtareaid"/>'/>
+            
+            <label class="lbl-right" style="width:120px;">Schedule No.</label>
+            <input type="text" id="txtscheduleno" name="txtscheduleno" style="width:120px;" value='<s:property value="txtscheduleno"/>' tabindex="-1" readonly/>
+            
+            <label class="lbl-right" style="width:90px;">Completion %</label>
+            <input type="text" id="txtcompletionperc" name="txtcompletionperc" style="flex:1;" value='<s:property value="txtcompletionperc"/>'/>
+        </div>
+        
+        <div class="field-row" style="margin-top: 15px;">
+            <div class="chk-wrapper" style="width:100px; justify-content:flex-end; padding-right:5px;">
+                <input type="checkbox" name="chkrectification" id="chkrectification" onchange="rectification();" style="margin:0;"/>
+                <label for="chkrectification" style="margin:0; cursor:pointer;">Rectification</label>
+                <input type="hidden" id="chkrect" name="chkrect" value='<s:property value="chkrect"/>'/>
+            </div>
+            
+            <input type="text" id="textrect" name="textrect" style="flex:1;" value='<s:property value="textrect"/>' readonly/>
+            
+            <button class="myButton" type="button" id="btnwork" name="btnwork" onclick="funWorkstatus();" style="margin-left: 15px;">Work Status</button>
+        </div>
+    </div>
 
-<fieldset id="tobeinv"><legend>To be Invoiced</legend>
-<div id="materialDiv"><jsp:include page="materialDetailsGrid.jsp"></jsp:include></div>
-<input type="hidden" id="txttobeinvoicednettotal" name="txttobeinvoicednettotal"  value='<s:property value="txttobeinvoicednettotal"/>'/>
-</fieldset>
+    <div class="middle-panel">
+        <span class="middle-panel-title">Activity Details</span>
+        <div id="activityDiv" class="grid-container">
+            <jsp:include page="activityDetailsGrid.jsp"></jsp:include>
+        </div>
+    </div>
 
-<input type="hidden" id="mode" name="mode"/>
-<input type="hidden" id="deleted" name="deleted" value='<s:property value="deleted"/>'/>
-<input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
-<input type="hidden" id="activitygridlength" name="activitygridlength"  value='<s:property value="activitygridlength"/>'/>
-<input type="hidden" id="tobeinvoicedgridlength" name="tobeinvoicedgridlength"  value='<s:property value="tobeinvoicedgridlength"/>'/>
+    <div id="tobeinv" class="middle-panel" style="display:none;">
+        <span class="middle-panel-title">To be Invoiced</span>
+        <div id="materialDiv" class="grid-container">
+            <jsp:include page="materialDetailsGrid.jsp"></jsp:include>
+        </div>
+        <input type="hidden" id="txttobeinvoicednettotal" name="txttobeinvoicednettotal" value='<s:property value="txttobeinvoicednettotal"/>'/>
+    </div>
+
+    <div style="display:none;">
+        <input type="hidden" id="mode" name="mode"/>
+        <input type="hidden" id="deleted" name="deleted" value='<s:property value="deleted"/>'/>
+        <input type="hidden" id="msg" name="msg" value='<s:property value="msg"/>'/>
+        <input type="hidden" id="activitygridlength" name="activitygridlength" value='<s:property value="activitygridlength"/>'/>
+        <input type="hidden" id="tobeinvoicedgridlength" name="tobeinvoicedgridlength" value='<s:property value="tobeinvoicedgridlength"/>'/>
+    </div>
 
 </div>
 </form>
 	
-<div id="customerDetailsWindow">
-   <div></div>
-</div>
-<div id="contractDetailsWindow">
-   <div ></div>
-</div>
-<div id="activityGridWindow">
-   <div ></div>
-</div>
-<div id="sidesearchwndow">
-    <div ></div>
- </div>
- <div id="workstatuswindow">
-   <div ></div>
-</div>
-<div id="ServiceTypeWindow">
-   <div></div>
-</div>
+<div id="customerDetailsWindow"><div></div></div>
+<div id="contractDetailsWindow"><div></div></div>
+<div id="activityGridWindow"><div></div></div>
+<div id="sidesearchwndow"><div></div></div>
+<div id="workstatuswindow"><div></div></div>
+<div id="ServiceTypeWindow"><div></div></div>
+
 </div>
 </body>
 </html>

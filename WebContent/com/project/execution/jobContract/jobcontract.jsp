@@ -7,16 +7,168 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GatewayERP(i)</title>
 <style>
-form label.error {
-color:red;
-  font-weight:bold;
-
+/* =========================================================
+   SCOPED UI: Modern Layout
+========================================================= */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
 }
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.modern-ui {
+    font-family: Arial, sans-serif; 
+    color: #333;
+    font-size: 12px; 
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+form label.error {
+    color: red;
+    font-weight: bold;
+}
+
+/* Master Input Heights - Forced to 24px */
+.modern-ui input[type="text"],
+.modern-ui select { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus { 
+    border-color: #007bff; 
+    outline: none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
+}
+
+/* Layout Utilities */
+.modern-ui .field-row { 
+    display: flex;
+    align-items: center; 
+    gap: 8px;
+    margin-bottom: 10px; 
+    flex-wrap: wrap;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* Middle Section Panels */
+.modern-ui .middle-panel {
+    border: 1px solid #c5d3e0; 
+    padding: 20px 10px 10px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title { 
+    position: absolute; 
+    top: -12px;
+    left: 10px; 
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    border-left: 3px solid #0056b3;
+    z-index: 2; 
+    line-height: normal; 
+}
+
+/* Custom UI Buttons */
+.modern-ui .myButton {
+    height: 24px !important;
+    line-height: 22px !important;
+    padding: 0 12px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: none;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    border: none;
+    background: linear-gradient(135deg, #0b45a2 0%, #2563eb 100%);
+    color: #ffffff;
+    white-space: nowrap;
+}
+.modern-ui .myButton:hover { background: linear-gradient(135deg, #083a8a 0%, #1d4ed8 100%); }
+.modern-ui .myButton:disabled { background: #cccccc; cursor: not-allowed; box-shadow: none; }
+
+/* Grid Wrappers */
+.modern-ui .grid-container {
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+}
+
+/* Scrollbar Logic */
 .hidden-scrollbar {
     overflow: auto;
-    
-    height: 550px;
+    height: calc(100vh - 120px);
+    padding-right: 5px;
 }
+.hidden-scrollbar::-webkit-scrollbar { width: 6px; }
+.hidden-scrollbar::-webkit-scrollbar-thumb { background: #c5d3e0; border-radius: 3px; }
+
+/* Checkbox Wrappers */
+.chk-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #444;
+    height: 24px;
+}
+
+.flex-row-container {
+    display: flex;
+    align-items: stretch;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+.col-50 { flex: 1; width: 50%; display: flex; flex-direction: column; }
 </style>
 
 <%
@@ -32,67 +184,87 @@ var modes='<%=modes%>';
 var mastertrno='<%=mastertrno%>';
 var brhidview='<%=brch1%>';
 $(document).ready(function() {
-	$("#date").jqxDateTimeInput({ width : '125px', height : '15px', formatString : "dd.MM.yyyy" });
-	  $("#stdate").jqxDateTimeInput({ width : '125px', height : '15px', formatString : "dd.MM.yyyy" });
-	  $("#enddate").jqxDateTimeInput({ width : '125px', height : '15px', formatString : "dd.MM.yyyy" });
-	  $("#wstdate").jqxDateTimeInput({ width : '125px', height : '15px', formatString : "dd.MM.yyyy" });
-	  $("#wenddate").jqxDateTimeInput({ width : '125px', height : '15px', formatString : "dd.MM.yyyy" });
-	  $("#finsdate").jqxDateTimeInput({ width : '125px', height : '15px', formatString : "dd.MM.yyyy" });
-	  $("#serdate").jqxDateTimeInput({ width : '125px', height : '15px', formatString : "dd.MM.yyyy" });
+    
+    // Modernized Date Inputs
+    var dateConfig = { width : '125px', height : 24, formatString : "dd.MM.yyyy", theme: 'energyblue' };
+    $("#date").jqxDateTimeInput(dateConfig);
+    $("#stdate").jqxDateTimeInput(dateConfig);
+    $("#enddate").jqxDateTimeInput(dateConfig);
+    $("#wstdate").jqxDateTimeInput(dateConfig);
+    $("#wenddate").jqxDateTimeInput(dateConfig);
+    $("#finsdate").jqxDateTimeInput(dateConfig);
+    $("#serdate").jqxDateTimeInput(dateConfig);
+    
+    // Force alignment
+    setTimeout(function () {
+        $("#date, #stdate, #enddate, #wstdate, #wenddate, #finsdate, #serdate").find("input").css({
+            "margin-top": "0px",
+            "line-height": "24px",
+            "font-size": "12px", 
+            "font-family": "Arial, sans-serif", 
+            "padding": "0 6px", 
+            "box-sizing":"border-box"
+        });
+        $("#date, #stdate, #enddate, #wstdate, #wenddate, #finsdate, #serdate").find(".jqx-action-button").css({
+            "top": "0px",
+            "height": "24px"
+        });
+    }, 0);
+
 	  $('#clientsearch1').jqxWindow({ width: '50%', height: '55%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Client Search' , position: { x: 250, y: 120 }, keyboardCloseKey: 27});
 	  $('#clientsearch1').jqxWindow('close');
 	  $('#cpinfowindow').jqxWindow({ width: '35%', height: '62%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Contact Person Search' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
 	  $('#cpinfowindow').jqxWindow('close');
 	  $('#areainfowindow').jqxWindow({ width: '25%', height: '70%',  maxHeight: '85%' ,maxWidth: '80%' ,title: ' Area Search' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
-		$('#areainfowindow').jqxWindow('close');
-		$('#siteinfowindow').jqxWindow({ width: '25%', height: '70%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Site Search' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
-		$('#siteinfowindow').jqxWindow('close');
-		$('#grpinfowindow').jqxWindow({ width: '25%', height: '70%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Assign Group' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
-		$('#grpinfowindow').jqxWindow('close');
-		$('#teaminfowindow').jqxWindow({ width: '30%', height: '70%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Assign Team' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
-		$('#teaminfowindow').jqxWindow('close');
-		$('#sertypefowindow').jqxWindow({ width: '30%', height: '65%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Service Type' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
-		$('#sertypefowindow').jqxWindow('close');
-		$('#schserchinfowindow').jqxWindow({ width: '80%', height: '60%',  maxHeight: '90%' ,maxWidth: '90%' ,title: 'Schedule Search' , position: { x: 150, y: 50 }, keyboardCloseKey: 27});
-		$('#schserchinfowindow').jqxWindow('close');
-		 $('#serviceteamwindow').jqxWindow({ width: '25%', height: '70%',  maxHeight: '85%' ,maxWidth: '80%' ,title: ' Service Team Search' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
-			$('#serviceteamwindow').jqxWindow('close');
-		refChange();
+	  $('#areainfowindow').jqxWindow('close');
+	  $('#siteinfowindow').jqxWindow({ width: '25%', height: '70%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Site Search' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
+	  $('#siteinfowindow').jqxWindow('close');
+	  $('#grpinfowindow').jqxWindow({ width: '25%', height: '70%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Assign Group' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
+	  $('#grpinfowindow').jqxWindow('close');
+	  $('#teaminfowindow').jqxWindow({ width: '30%', height: '70%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Assign Team' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
+	  $('#teaminfowindow').jqxWindow('close');
+	  $('#sertypefowindow').jqxWindow({ width: '30%', height: '65%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Service Type' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
+	  $('#sertypefowindow').jqxWindow('close');
+	  $('#schserchinfowindow').jqxWindow({ width: '80%', height: '60%',  maxHeight: '90%' ,maxWidth: '90%' ,title: 'Schedule Search' , position: { x: 150, y: 50 }, keyboardCloseKey: 27});
+	  $('#schserchinfowindow').jqxWindow('close');
+	  $('#serviceteamwindow').jqxWindow({ width: '25%', height: '70%',  maxHeight: '85%' ,maxWidth: '80%' ,title: ' Service Team Search' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
+	  $('#serviceteamwindow').jqxWindow('close');
+	  refChange();
 	  
 	  $('#txtclient').dblclick(function(){
 		   
-		   	if($('#mode').val()!= "view")
-		   		{
-		   	 $('#clientsearch1').jqxWindow('open');
+		  	if($('#mode').val()!= "view")
+		  		{
+		  	 $('#clientsearch1').jqxWindow('open');
 			 clientSearchContent('clientINgridsearch.jsp?', $('#clientsearch1'));
-		   		}
+		  		}
 		 });
 	  
 	  $('#rrefno').dblclick(function(){
 		   
-		   	if($('#mode').val()!= "view")
-		   		{
-		   	 changeContent('enqMastersearch.jsp');  
-		   		}
+		  	if($('#mode').val()!= "view")
+		  		{
+		  	 changeContent('enqMastersearch.jsp');  
+		  		}
 		 });
 	  
 	  
 	  $('#txtcontact').dblclick(function(){
 		   
-		   	if($('#mode').val()!= "view")
-		   		{
-		   		var clientid=document.getElementById("clientid").value;
-		  		
-		  		if(clientid==""){
-		  			document.getElementById("errormsg").innerText=" Select Client";
-		  			return 0;
+		  	if($('#mode').val()!= "view")
+		  		{
+		  		var clientid=document.getElementById("clientid").value;
+		 		
+		 		if(clientid==""){
+		 			document.getElementById("errormsg").innerText=" Select Client";
+		 			return 0;
+		 		}
+		 		
+		 		 var type=1;
+		 		 var rowBoundIndex=0;
+	 	 	  $('#cpinfowindow').jqxWindow('open');
+	 	  	   cpSearchContent('contactpersonsearch.jsp?clientdocno='+clientid+'&rowindex='+rowBoundIndex+'&type='+type); 
 		  		}
-		  		
-		  		 var type=1;
-		  		 var rowBoundIndex=0;
-	  	 	  $('#cpinfowindow').jqxWindow('open');
-	  	       cpSearchContent('contactpersonsearch.jsp?clientdocno='+clientid+'&rowindex='+rowBoundIndex+'&type='+type); 
-		   		}
 		 });
 	  
 	  
@@ -155,7 +327,7 @@ function getEnquiry(event){
 	   
  		 changeContent('enqMastersearch.jsp');  
 	
-    	 }
+ 	 }
  	 else{
  		 }
  	 }
@@ -167,8 +339,8 @@ function getareas(rowBoundIndex){
 
  // $('#accountWindow').jqxWindow('focus');
         areaSearchContent('area.jsp?rowBoundIndex='+rowBoundIndex);
-     	 }
-     	 
+      	 }
+      	 
 function areaSearchContent(url) {
 //alert(url);
 	 $.get(url).done(function (data) {
@@ -254,7 +426,7 @@ function siteSearchContent(url) {
 $('#siteinfowindow').jqxWindow('setContent', data);
 $('#siteinfowindow').jqxWindow('bringToFront');
 
-          	}); 
+            	}); 
 	}
   	
   	
@@ -273,7 +445,7 @@ function grpSearchContent(url) {
 		 //alert(data);
 $('#grpinfowindow').jqxWindow('setContent', data);
 
-          	}); 
+            	}); 
 	}
 	
 function getteam(rowBoundIndex,assgnid){
@@ -299,7 +471,7 @@ function getserType(rowBoundIndex,sert){
 	  $('#sertypefowindow').jqxWindow('open');
 
 //$('#accountWindow').jqxWindow('focus');
-  serTypeSearchContent('servicetypesearch.jsp?rowBoundIndex='+rowBoundIndex+'&sert='+sert);
+ serTypeSearchContent('servicetypesearch.jsp?rowBoundIndex='+rowBoundIndex+'&sert='+sert);
 	 }
 	 
 function serTypeSearchContent(url) {
@@ -347,7 +519,7 @@ function getclinfo(event){
       
       
       function getcontact(event,rowindex){
-    	  	
+     	 	
     		var clientid=document.getElementById("clientid").value;
     		
     		if(clientid==""){
@@ -358,12 +530,12 @@ function getclinfo(event){
     		 if(x==114){
     			 var type=1;
     	 	  $('#cpinfowindow').jqxWindow('open');
-    	       cpSearchContent('contactpersonsearch.jsp?clientdocno='+clientid+'&rowindex='+rowindex+'&type='+type); 
-    	        	 }
+    	  	   cpSearchContent('contactpersonsearch.jsp?clientdocno='+clientid+'&rowindex='+rowindex+'&type='+type); 
+    	  	         	 }
     		 else{
     			 }
     		 }
-    	        	 
+    	          	 
     	function cpSearchContent(url) {
     		 //alert(url);
     	 	 $.get(url).done(function (data) {
@@ -523,16 +695,16 @@ function funwarningopen(){
 	
 	   $.messager.confirm('Confirm', 'Transaction Will Affect Already Inserted Values.', function(r){
 	       if (r){
-	    	  
-	    	   $("#serviceGrid").jqxGrid({ disabled: false});
+	        
+	           $("#serviceGrid").jqxGrid({ disabled: false});
 				 $("#servscGrid").jqxGrid({ disabled: false});
 				 $("#paymentGrid").jqxGrid({ disabled: false});
 				 $("#siteGrid").jqxGrid({ disabled: false});
 				 $("#editval").val(1);
 	       }
 	       else{
-	    	   
-	    	   $("#serviceGrid").jqxGrid({ disabled: true});
+	           
+	           $("#serviceGrid").jqxGrid({ disabled: true});
 				 $("#servscGrid").jqxGrid({ disabled: true});
 				 $("#paymentGrid").jqxGrid({ disabled: true});
 				 $("#siteGrid").jqxGrid({ disabled: true});
@@ -560,15 +732,15 @@ function funpay(){
 	
 	if($('#finsdate').jqxDateTimeInput('getDate')!=null){
 		
-  		var date=new Date($('#finsdate').jqxDateTimeInput('getDate'));
-  		var status=checkInstdate(date);//Checking Future date.Written on 11-07-2016	
-  		
-  		if(status){
-  			document.getElementById("errormsg").innerText="";
-  			 $("#paydiv").load("paymentGrid.jsp?startdate="+startdate+"&enddate="+enddate+"&amount="+amount+"&instno="+instno+"&cmbpaytype="+cmbpaytype+"&paydueafter="+paydueafter+"&gridload=1");
-  		}
-  		
-  	}
+ 		var date=new Date($('#finsdate').jqxDateTimeInput('getDate'));
+ 		var status=checkInstdate(date);//Checking Future date.Written on 11-07-2016	
+ 		
+ 		if(status){
+ 			document.getElementById("errormsg").innerText="";
+ 			 $("#paydiv").load("paymentGrid.jsp?startdate="+startdate+"&enddate="+enddate+"&amount="+amount+"&instno="+instno+"&cmbpaytype="+cmbpaytype+"&paydueafter="+paydueafter+"&gridload=1");
+ 		}
+ 		
+ 	}
 	
 	 //$("#paydiv").load("paymentGrid.jsp?startdate="+startdate+"&enddate="+enddate+"&amount="+amount+"&instno="+instno+"&cmbpaytype="+cmbpaytype+"&paydueafter="+paydueafter+"&gridload=1"); 
 }
@@ -583,14 +755,14 @@ function funscheduler(){
 	var serdueafter=$("#serdueafter").val();
 	
 	if($('#serdate').jqxDateTimeInput('getDate')!=null){
-  		var date=new Date($('#serdate').jqxDateTimeInput('getDate'));
-  		var status=checkScheddate(date);//Checking Future date.Written on 11-07-2016	
-  		
-  		if(status){
-  			$("#schediv").load("serviceScheduleGrid.jsp?startdate="+startdate+"&enddate="+enddate+"&amount="+amount+"&instno="+instno+"&cmbpaytype="+cmbpaytype+"&serdueafter="+serdueafter+"&gridload=1");
-  		}
-  		
-  	}
+ 		var date=new Date($('#serdate').jqxDateTimeInput('getDate'));
+ 		var status=checkScheddate(date);//Checking Future date.Written on 11-07-2016	
+ 		
+ 		if(status){
+ 			$("#schediv").load("serviceScheduleGrid.jsp?startdate="+startdate+"&enddate="+enddate+"&amount="+amount+"&instno="+instno+"&cmbpaytype="+cmbpaytype+"&serdueafter="+serdueafter+"&gridload=1");
+ 		}
+ 		
+ 	}
 	
 	 //$("#schediv").load("serviceScheduleGrid.jsp?startdate="+startdate+"&enddate="+enddate+"&amount="+amount+"&instno="+instno+"&cmbpaytype="+cmbpaytype+"&serdueafter="+serdueafter+"&gridload=1");
 }
@@ -638,8 +810,8 @@ function funNotify(){
 		   }
 	   }
 	   contractval=document.getElementById("txtcntrval").value;
-	   console.log(parseFloat(contractval).toFixed(2)+"==="+parseFloat(gridamount).toFixed(2)+"==="+lastamount);     
-	   if($('#cmbprog').val()==""){     
+	   console.log(parseFloat(contractval).toFixed(2)+"==="+parseFloat(gridamount).toFixed(2)+"==="+lastamount);      
+	   if($('#cmbprog').val()==""){      
 		 if(parseFloat(contractval).toFixed(2) != parseFloat(lastamount).toFixed(2)){   
 		    document.getElementById("errormsg").innerText="Payment Details Total and Contract value should be same";
 		    return 0;
@@ -851,11 +1023,6 @@ function legChange(){
 		  $('#cmbprog').val($('#hidcmbprog').val());
 		 // funcmbprog();
 		  }
-		/* if(document.getElementById("hidcontredit").value=="1"){
-		    $('#btnEdit').attr('disabled', true );$('#btnDelete').attr('disabled', true );
-	  } else {
-		    $('#btnEdit').attr('disabled', false );$('#btnDelete').attr('disabled', false );
-	  } */
 		if(docno>0){
 			refChange();
 			 $("#schediv").load("serviceScheduleGrid.jsp?docno="+docno);
@@ -872,18 +1039,14 @@ function legChange(){
 		x.onreadystatechange = function() {
 			if (x.readyState == 4 && x.status == 200) {
 				var items = x.responseText.trim();	
-				//alert("items=="+items);
 				if(parseInt(items)>0)
 				{
-					//alert("items==inside"+items);
 					$("#btnEdit").attr('disabled', true );
 					$("#btnDelete").attr('disabled', true ); 
 					
 				}
 				else
 				{
-					//$("#btnEdit").attr('disabled', false );
-					//$("#btnDelete").attr('disabled', false ); 
 				}
 			} else {
 			}
@@ -915,14 +1078,14 @@ function legChange(){
 			 $("#formdetailcode").prop("disabled", false);
 			 
 			var docno=$('#docno').val();
-	  		var trno=$('#masterdoc_no').val();
-	  		var dtype=$('#formdetailcode').val();
-	  		var brhid=<%= session.getAttribute("BRANCHID").toString()%>
-	  		var url=document.URL;
-	  		var reurl=url.split("com/"); 
+	 		var trno=$('#masterdoc_no').val();
+	 		var dtype=$('#formdetailcode').val();
+	 		var brhid=<%= session.getAttribute("BRANCHID").toString()%>
+	 		var url=document.URL;
+	 		var reurl=url.split("com/"); 
 	     
-	  		var win= window.open(reurl[0]+"printJobContract?docno="+docno+"&brhid="+brhid+"&trno="+trno+"&dtype="+dtype+"&header=1","_blank","top=250,left=310,Width=800,Height=800,location=no,scrollbars=no,toolbar=yes");
-	  		
+	 		var win= window.open(reurl[0]+"printJobContract?docno="+docno+"&brhid="+brhid+"&trno="+trno+"&dtype="+dtype+"&header=1","_blank","top=250,left=310,Width=800,Height=800,location=no,scrollbars=no,toolbar=yes");
+	 		
 	   
 	     }
 	    else {
@@ -955,13 +1118,10 @@ function legChange(){
 			x.send();
 		}
 	 function schSearchContent(url) {
-			//alert(url);
 				 $.get(url).done(function (data) {
-					 //alert(data);
 			$('#schserchinfowindow').jqxWindow('setContent', data);
-
 			            	}); 
-			  	}
+			 	}
 	 function schSearch(){
 		  
 		  
@@ -980,7 +1140,6 @@ function legChange(){
 		  $('#srvcinterval').attr('disabled', true);
 		  $('#serdueafter').attr('disabled', true);
 		  $('#cmbsrvctype').attr('disabled', true);
-		 // $('#serdate').jqxDateTimeInput({ disabled: true});
 		  $('#btnSchAdd').hide();
 		  $('#servscGrid').jqxGrid('showcolumn','site');
 		  $('#servscGrid').jqxGrid('showcolumn','service');
@@ -997,12 +1156,9 @@ function legChange(){
 			  $('#srvcinterval').attr('disabled', false);
 			  $('#serdueafter').attr('disabled', false);
 			  $('#cmbsrvctype').attr('disabled', false);
-			 // $('#serdate').jqxDateTimeInput({ disabled: false});
 			  $('#btnsearch').hide();
-			  //$('#servscGrid').jqxGrid('hidecolumn','site');
 			  $('#servscGrid').jqxGrid('hidecolumn','service');
 			  $('#servscGrid').jqxGrid('hidecolumn','value');
-			  //$('#servscGrid').jqxGrid('hidecolumn','site');
 			  $('#servscGrid').jqxGrid('hidecolumn','days');
 		  }
 		  
@@ -1034,17 +1190,17 @@ function chkprogressive()
 			     
 			      if(parseInt(items)>0)
 			       {
-			    	 
-			    	  
-			    	  $('#prog').show();
-			    	 
-			    	  
+			        
+			        
+			        $('#prog').show();
+			       
+			        
 			        }
 			          else
 			      {
-			        	  $('#prog').hide();
-			        	 
-				    	  
+			          $('#prog').hide();
+			         
+			        
 			      
 			      }
 			      
@@ -1053,7 +1209,7 @@ function chkprogressive()
 				x.send();
 			 
 			      
-			        
+			       
 		    	
 		    }   
 		  
@@ -1061,273 +1217,295 @@ function chkprogressive()
 </head>
 
 <body onLoad="setValues();funcmbprog();getsjobtype();chkprogressive();">
-<br/> 
-	<div id="mainBG" class="homeContent" data-type="background"> 
-	
-	  <form id="frmjobcontract" action="saveJobcontract" method="post" autocomplete="off">
-		<jsp:include page="../../../../header.jsp" />
-        <br>
-		<div class='hidden-scrollbar'>
-
-<body>
-	<table width="100%">   
-    <tr>
-      <td width="10%" align="right">Date</td>
-      <td width="17%"><div id="date" name="date" value='<s:property value="date" />'></div></td>
-      <td width="12%" align="right">Ref  No</td>
-      <td width="30%"><input type="text"  name="txtrefno"  value='<s:property value="txtrefno" />' id="txtrefno"></td>
-      <td width="18%" align="right">Doc No</td>
-      <td width="13%"><input type="text" name="docno" value='<s:property value="docno" />' id="docno" tabindex="-1" readonly></td>
-    </tr>
-	  <tr>
-	    <td colspan="6"><fieldset><legend>Client Details</legend>
-        <table width="100%" >
-  <tr>
-    <td width="10%" align="right">Client</td>
-    <td width="19%"><input type="text" name="txtclient" id="txtclient" style="width:95%;" placeholder="Press F3 for Search" onKeyDown="getclinfo(event);" value='<s:property value="txtclient" />'></td>
-    <td width="10%" align="right">Client Details</td>
-    <td width="36%"><input type="text" name="txtclientdet" id="txtclientdet" style="width:90%;" value='<s:property value="txtclientdet" />'></td>
-    <td width="12%" align="right">&nbsp;</td>
-    <td width="13%">&nbsp;</td>
-  </tr>
-  <tr>
-    <td align="right">Tele.</td>
-    <td><input type="text" name="txtmob1" id="txtmob1" style="width:70%;" value='<s:property value="txtmob1" />'></td>
-    <td align="right">Mobile</td>
-    <td colspan="3"><input type="text" name="txtmob2" id="txtmob2" style="width:16%;" value='<s:property value="txtmob2" />'>
-    <label>Sales Man</label>
-    <input type="text" name="txtsalman" id="txtsalman" style="width:30%;" value='<s:property value="txtsalman" />'></td>
-  </tr>
-  <tr>
-    <td align="right">Mail</td>
-    <td><input type="text" name="txtemail" id="txtemail" style="width:95%;"  value='<s:property value="txtemail" />'></td>
-    <td align="right">Contact Person</td>
-    <td><input type="text" name="txtcontact" id="txtcontact" placeholder="Press F3 for Search" style="width:90%;" onKeyDown="getcontact(event,0);" value='<s:property value="txtcontact" />'></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-</table>
-
-        </fieldset> 
-        </td>
-      </tr>
-      
+    <div id="mainBG" class="homeContent" data-type="background"> 
+    
+      <form id="frmjobcontract" action="saveJobcontract" method="post" autocomplete="off">
+        <jsp:include page="../../../../header.jsp" />
         
-	  <tr>
-	    <td colspan="6">
-	      <fieldset>
-	    <table width="100%" >
-  <tr>
-    <td width="9%" align="right">Ref Type</td>
-    <td colspan="3"><select id="cmbreftype" name="cmbreftype" style="width:24%;" onchange="refChange();" value='<s:property value="cmbreftype"/>'>
-      <option value="DIR">DIR</option>
-      <option value="SQOT">SQOT</option>
-      <option value="ENQ">ENQ</option>
-      </select><input type="text" id="rrefno" name="rrefno" placeholder="Press F3 to Search"  onKeyDown="getEnquiry(event);"  value='<s:property value="rrefno"/>'/>
-   &nbsp; Type&nbsp;<select name="cmbprocess" id="cmbprocess" style="width:15%;" name="cmbprocess" onchange="funtxtenable(value);"  value='<s:property value="cmbprocess"/>'></select>
-	  <input type="hidden" name="hidcmbprocess" id="hidcmbprocess" value='<s:property value="hidcmbprocess"/>' /> 
-       &nbsp; Budget&nbsp;<input type="text" id="txtbudget" name="txtbudget" style="text-align: right;" value='<s:property value="txtbudget"/>'/>
-      </td>
- 
-     <td width="9%" align="right">Contract Value</td>
-     <td width="14%"><input type="text" id="txtcntrval" name="txtcntrval" style="text-align: right;" onKeyUp="cvalChnge();" onchange="funwarningopen();" onblur="funRoundAmt(this.value,this.id);" value='<s:property value="txtcntrval"/>'/></td>
-     
-   
-     <td width="11%" align="right">Tax Per</td>
-     <td width="14%"><input type="text" id="txttaxper" name="txttaxper"  value='<s:property value="txttaxper"/>'/></td>
- 
-    
- 
-  </tr>
-  <tr>
-    <td align="right"><input type="checkbox" name="chklegaldoc" id="chklegaldoc"  onchange="legChange();">
-      <label for="chklegaldoc">Legal Fee</label></td>
-    <td colspan="2"><input type="text" id="temp1" name="temp1" value='<s:property value="temp1"/>'/>     
-     <input type="text" id="temp2" name="temp2" value='<s:property value="temp2"/>' />
-     </td>
-    
-     <td width="10%" align="center"><button class="myButton" type="button" id="btnvaluechange" name="btnvaluechange" onclick="funwarningopen();">Value Change</button></td>
-  
-    
-    <td align="right">St.Date</td>
-    <td><div id="stdate" name="stdate" value='<s:property value="stdate" />'></div></td>
-    <td align="right">End Date</td>
-    <td><div id="enddate" name="enddate" value='<s:property value="enddate" />'></div></td>
-  </tr>
- 
-  <tr>
-    <td align="right">Incentive</td>
-    <td colspan="3" align="left"><input type="text" name="incentive" id="incentive" value='<s:property value="incentive"/>'>      Sales Incentive      
-      <input type="text" name="salesincentive" id="salesincentive" value='<s:property value="salesincentive"/>'></td>
-     <td width="7%" align="center">Incl tax
-    <input type="checkbox" name="chkincltax" id="chkincltax" value='<s:property value="chkincltax" />' onclick="$(this).attr('value', this.checked ? 1 : 0);"></td>
-    
-    
-       <td align="right">Warrenty Period From</td>
-    <td><div id="wstdate" name="wstdate" value='<s:property value="wstdate" />'></div></td>
-    <td align="right">To</td>
-    <td><div id="wenddate" name="wenddate" value='<s:property value="wenddate" />'></div></td>
-    <!-- <td colspan="3">&nbsp;</td> -->
-  </tr>
-  
-</table>
-  </fieldset>
-</td>
-      </tr>
-      
-      <table width="100%">
+        <div class="modern-ui hidden-scrollbar">
 
-    <tr>
-    <td>
-    <fieldset><legend>Site Details</legend>
-    <div id="sitediv"><jsp:include page="siteGrid.jsp"></jsp:include></div>
-    </fieldset>
-    </td>
-  </tr> 
-  
-  <tr>
-    <td>
-    
-     <fieldset><legend>Payment Details</legend>
-  <table width="100%">
-  <tr>
-    <td width="10%" align="right">Installments</td>
-    <td width="11%"><input type="text" name="installments" id="installments" value='<s:property value="installments"/>'></td>
-    <td width="12%" align="right">Due After</td>
-    <td width="9%"><input type="text" name="paydueafter" id="paydueafter" value='<s:property value="paydueafter"/>'></td>
-    <td width="12%" align="right">Frequency</td>
-    <td width="14%"><select name="cmbpaytype" id="cmbpaytype" style="width:98%;">
-      <option value="1">DAYS</option>
-      <option value="2">MONTHS</option>
-      <option value="3">YEAR</option>
-    </select></td>
-    <td width="15%" align="right">First Inst.On</td>
-    <td width="17%" align="left"><div id="finsdate" name="finsdate" value='<s:property value="finsdate" />'></div></td>
-    <td width="17%" align="center"><button class="myButton" type="button" id="btnAdd" name="btnAdd" onclick="funpay();">Fill</button></td>
-  </tr>
-  <tr id="prog">
-    <td  align="right">Terms</td>
-    <td ><select id="cmbprog" name="cmbprog" style="width:150px;" onchange="funcmbprog();" value='<s:property value="cmbprog"/>'>
-      <option value="">--Select--</option>
-      <option value="1">PROGRESSIVE</option>
-      <option value="2">PROGRESSIVE WITH RETENTION</option>
-      </select></td>
-    <td  align="right">Period(in months)</td>
-    <td ><input type="text" id="txtprogperiod" name="txtprogperiod" value='<s:property value="txtprogperiod"/>'/></td>
-   <td  align="right">Percentage</td>
-    <td ><input type="text" id="txtprogper" name="txtprogper" value='<s:property value="txtprogper"/>'/></td>
-    <td align="right">&nbsp;</td>
-    <td >&nbsp;</td> 
-  </tr>
-  
-</table>
-    
-     <div id="paydiv"><jsp:include page="paymentGrid.jsp"></jsp:include></div>
-     </fieldset></td>
-     
-  </tr>
- 
-   <tr>
-    <td>
-    <fieldset><legend>Service Details</legend>
-    <table width="100%" >
-  <tr>
-    <td width="10%" align="right">Special Instruction</td>
-    <td>
-     <input type="text" id="txtsplinstruct" name="txtsplinstruct" style="width:800px;" value='<s:property value="txtsplinstruct"/>'/>
-   </td>
-   </tr>
-   </table>
-    <div id="serdiv"><jsp:include page="serviceGrid.jsp"></jsp:include></div>
-     </fieldset></td>
-    
-  </tr> 
-  
-  <tr>
-    <td>
-    <fieldset><legend>Service Scheduler</legend>
-     <table width="100%">
-  	<tr>
-  	<td width="7%" align="center"><label for="chkserv">Service </label><input type="checkbox" name="chkserv" id="chkserv" value='<s:property value="chkserv" />' onclick="$(this).attr('value', this.checked ? 1 : 0);funsercheck();"></td>
-  	<td width="7%" align="center"><label id="chklblinv">To Be Invoiced </label><input type="checkbox" name="chkinv" id="chkinv" value='<s:property value="chkinv" />' onclick="$(this).attr('value', this.checked ? 1 : 0);"></td></div>
-  	<td width="7%" align="center"><button class="myButton" type="button" id="btnsearch" name="btnsearch" onclick="schSearch();">Search</button></td>
-  	<td width="4%" align="right">Interval</td>
-    <td width="12%"><input type="text" name="srvcinterval" id="srvcinterval" value='<s:property value="srvcinterval"/>'></td>
-    <td width="4%" align="right">Due After</td>
-    <td width="12%"><input type="text" name="serdueafter" id="serdueafter" value='<s:property value="serdueafter"/>'></td>
-    <td width="4%" align="right">Frequency</td>
-    <td width="8%"><select name="cmbsrvctype" id="cmbsrvctype" style="width:98%;">
-      <option value="1">DAYS</option>
-      <option value="2">MONTHS</option>
-      <option value="3">YEAR</option>
-    </select></td>
-    <td width="8%" align="right">Service Start On</td>
-    <td width="9%" align="left"><div id="serdate" name="serdate" value='<s:property value="serdate" />'></div></td>
-    <td width="9%" align="center"><button class="myButton" type="button" id="btnAdd" name="btnAdd" onclick="funscheduler();">Fill</button></td>
-   </tr>
-</table>
-    <div id="schediv"><jsp:include page="serviceScheduleGrid.jsp"></jsp:include></div>
-     </fieldset></td>
-    
-  </tr> 
- 
- <tr>
- <td>
-    <input type="hidden" id="mode" name="mode"  value='<s:property value="mode"/>'/>
-    <input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
-    <input type="hidden" id="deleted" name="deleted"  value='<s:property value="deleted"/>'/>
-    <input type="hidden" id="islegaldoc" name="islegaldoc"  value='<s:property value="islegaldoc"/>'/>
-    <input type="hidden" id="masterdoc_no" name="masterdoc_no"  value='<s:property value="masterdoc_no"/>'/>
-    <input type="hidden" id="refmasterdoc_no" name="refmasterdoc_no"  value='<s:property value="refmasterdoc_no"/>'/>
-    <input type="hidden" id="cpersonid" name="cpersonid"  value='<s:property value="cpersonid"/>'/>
-    <input type="hidden" id="clientid" name="clientid"  value='<s:property value="clientid"/>'/>
-    <input type="hidden" id="salid" name="salid"  value='<s:property value="salid"/>'/>
-    <input type="hidden" id="hidcmbpaytype" name="hidcmbpaytype"  value='<s:property value="hidcmbpaytype"/>'/>
-    <input type="hidden" id="hidcmbsrvctype" name="hidcmbsrvctype"  value='<s:property value="hidcmbsrvctype"/>'/>
-    <input type="hidden" id="hidcmbreftype" name="hidcmbreftype"  value='<s:property value="hidcmbreftype"/>'/>
-    <input type="hidden" id="hidcmbprog" name="hidcmbprog"  value='<s:property value="hidcmbprog"/>'/>
-    <input type="hidden" id="isproformainv" name="isproformainv"  value='<s:property value="isproformainv"/>'/>
-    <input type="hidden" id="serviceSchedulelen" name="serviceSchedulelen"  value='<s:property value="serviceSchedulelen"/>'/>
-    <input type="hidden" id="servicelen" name="servicelen"  value='<s:property value="servicelen"/>'/>
-    <input type="hidden" id="paymentlen" name="paymentlen"  value='<s:property value="paymentlen"/>'/>
-    <input type="hidden" id="sitelen" name="sitelen"  value='<s:property value="sitelen"/>'/>
-    <input type="hidden" id="editval" name="editval"  value='<s:property value="editval"/>'/>
-    <input type="hidden" id="cvalchnge" name="cvalchnge"  value='<s:property value="cvalchnge"/>'/>
-     <input type="hidden" id="hidcontredit" name="hidcontredit"  value='<s:property value="hidcontredit"/>'/>
-     <input type="hidden" id="hidbrhid" name="hidbrhid"  value='<s:property value="hidbrhid"/>'/>
- </td>
- </tr>
-</table>
-</table>
-</div>
-<div id="clientsearch1">
-   <div ></div>
-</div>
-<div id="areainfowindow">
-   <div ></div>
-</div>
-<div id="grpinfowindow">
-   <div ></div>
-</div>
-<div id="teaminfowindow">
-   <div ></div>
-</div>
-<div id="sertypefowindow">
-   <div ></div>
-</div>
-<div id="cpinfowindow">
-   <div ></div>
-   </div>
-   <div id="siteinfowindow">
-   <div ></div>
-   </div>
-    <div id="schserchinfowindow">
-   <div ></div>
-   </div>
-    <div id="serviceteamwindow">
-   <div ></div>
-   </div>
-</form>
-</div>     
+            <div class="middle-panel">
+                <span class="middle-panel-title">General Info</span>
+                <div class="field-row">
+                    <label class="lbl-right" style="width:80px;">Date</label>
+                    <div style="width: 125px;">
+                        <div id="date" name="date" value='<s:property value="date" />'></div>
+                    </div>
+                    
+                    <label class="lbl-right" style="width:80px;">Ref No</label>
+                    <input type="text" name="txtrefno" id="txtrefno" style="width:150px;" value='<s:property value="txtrefno" />'>
+                    
+                    <label class="lbl-right" style="width:100px; margin-left:auto;">Doc No</label>
+                    <input type="text" name="docno" id="docno" style="width:120px;" tabindex="-1" readonly value='<s:property value="docno" />'>
+                </div>
+            </div>
+
+            <div class="flex-row-container">
+                <div class="col-50">
+                    <div class="middle-panel" style="flex:1;">
+                        <span class="middle-panel-title">Client Details</span>
+                        
+                        <div class="field-row">
+                            <label class="lbl-right" style="width:100px;">Client</label>
+                            <input type="text" name="txtclient" id="txtclient" style="width:150px;" placeholder="Press F3" onKeyDown="getclinfo(event);" value='<s:property value="txtclient" />'>
+                            
+                            <label class="lbl-right" style="width:100px;">Client Details</label>
+                            <input type="text" name="txtclientdet" id="txtclientdet" style="flex:1;" tabindex="-1" readonly value='<s:property value="txtclientdet" />'>
+                        </div>
+                        
+                        <div class="field-row">
+                            <label class="lbl-right" style="width:100px;">Tele.</label>
+                            <input type="text" name="txtmob1" id="txtmob1" style="width:150px;" value='<s:property value="txtmob1" />'>
+                            
+                            <label class="lbl-right" style="width:100px;">Mobile</label>
+                            <input type="text" name="txtmob2" id="txtmob2" style="width:150px;" value='<s:property value="txtmob2" />'>
+                        </div>
+                        
+                        <div class="field-row">
+                            <label class="lbl-right" style="width:100px;">Sales Man</label>
+                            <input type="text" name="txtsalman" id="txtsalman" style="width:150px;" value='<s:property value="txtsalman" />'>
+                            
+                            <label class="lbl-right" style="width:100px;">Mail</label>
+                            <input type="text" name="txtemail" id="txtemail" style="flex:1;" value='<s:property value="txtemail" />'>
+                        </div>
+                        
+                        <div class="field-row">
+                            <label class="lbl-right" style="width:100px;">Contact Person</label>
+                            <input type="text" name="txtcontact" id="txtcontact" style="width:150px;" placeholder="Press F3" onKeyDown="getcontact(event,0);" value='<s:property value="txtcontact" />'>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-50">
+                    <div class="middle-panel" style="flex:1;">
+                        <span class="middle-panel-title">Contract Info</span>
+                        
+                        <div class="field-row">
+                            <label class="lbl-right" style="width:100px;">Ref Type</label>
+                            <select id="cmbreftype" name="cmbreftype" style="width:120px;" onchange="refChange();" value='<s:property value="cmbreftype"/>'>
+                                <option value="DIR">DIR</option>
+                                <option value="SQOT">SQOT</option>
+                                <option value="ENQ">ENQ</option>
+                            </select>
+                            
+                            <input type="text" id="rrefno" name="rrefno" style="width:120px;" placeholder="Press F3" onKeyDown="getEnquiry(event);" value='<s:property value="rrefno"/>'/>
+                            
+                            <label class="lbl-right" style="width:50px;">Type</label>
+                            <select name="cmbprocess" id="cmbprocess" style="flex:1;" onchange="funtxtenable(value);" value='<s:property value="cmbprocess"/>'></select>
+                            <input type="hidden" name="hidcmbprocess" id="hidcmbprocess" value='<s:property value="hidcmbprocess"/>' /> 
+                        </div>
+                        
+                        <div class="field-row">
+                            <label class="lbl-right" style="width:100px;">Budget</label>
+                            <input type="text" id="txtbudget" name="txtbudget" style="width:120px; text-align: right;" value='<s:property value="txtbudget"/>'/>
+                            
+                            <label class="lbl-right" style="width:100px;">Contract Value</label>
+                            <input type="text" id="txtcntrval" name="txtcntrval" style="width:120px; text-align: right;" onKeyUp="cvalChnge();" onchange="funwarningopen();" onblur="funRoundAmt(this.value,this.id);" value='<s:property value="txtcntrval"/>'/>
+                        </div>
+                        
+                        <div class="field-row">
+                            <label class="lbl-right" style="width:100px;">Tax Per</label>
+                            <input type="text" id="txttaxper" name="txttaxper" style="width:120px; text-align:right;" value='<s:property value="txttaxper"/>'/>
+                            
+                            <label class="lbl-right" style="width:100px;">Incentive</label>
+                            <input type="text" name="incentive" id="incentive" style="width:120px; text-align:right;" value='<s:property value="incentive"/>'>
+                        </div>
+                        
+                        <div class="field-row">
+                            <label class="lbl-right" style="width:100px;">Sales Incentive</label>
+                            <input type="text" name="salesincentive" id="salesincentive" style="width:120px; text-align:right;" value='<s:property value="salesincentive"/>'>
+                            
+                            <div class="chk-wrapper" style="margin-left:auto;">
+                                <label for="chkincltax" style="margin:0; cursor:pointer;">Incl Tax</label>
+                                <input type="checkbox" name="chkincltax" id="chkincltax" style="margin:0;" value='<s:property value="chkincltax" />' onclick="$(this).attr('value', this.checked ? 1 : 0);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="middle-panel">
+                <span class="middle-panel-title">Dates & Legal Information</span>
+                
+                <div class="field-row">
+                    <label class="lbl-right" style="width:100px;">St.Date</label>
+                    <div style="width: 125px;">
+                        <div id="stdate" name="stdate" value='<s:property value="stdate" />'></div>
+                    </div>
+                    
+                    <label class="lbl-right" style="width:100px;">End Date</label>
+                    <div style="width: 125px;">
+                        <div id="enddate" name="enddate" value='<s:property value="enddate" />'></div>
+                    </div>
+                    
+                    <label class="lbl-right" style="width:150px;">Warranty Period From</label>
+                    <div style="width: 125px;">
+                        <div id="wstdate" name="wstdate" value='<s:property value="wstdate" />'></div>
+                    </div>
+                    
+                    <label class="lbl-right" style="width:30px;">To</label>
+                    <div style="width: 125px;">
+                        <div id="wenddate" name="wenddate" value='<s:property value="wenddate" />'></div>
+                    </div>
+                </div>
+                
+                <div class="field-row">
+                    <div class="chk-wrapper" style="width:100px; justify-content: flex-end; padding-right:5px;">
+                        <input type="checkbox" name="chklegaldoc" id="chklegaldoc" onchange="legChange();" style="margin:0;">
+                        <label for="chklegaldoc" style="margin:0; cursor:pointer;">Legal Fee</label>
+                    </div>
+                    
+                    <input type="text" id="temp1" name="temp1" style="width:125px;" value='<s:property value="temp1"/>'/>     
+                    <input type="text" id="temp2" name="temp2" style="width:125px;" value='<s:property value="temp2"/>' />
+                    
+                    <button class="myButton" style="margin-left:15px;" type="button" id="btnvaluechange" name="btnvaluechange" onclick="funwarningopen();">Value Change</button>
+                </div>
+            </div>
+
+            <div class="middle-panel">
+                <span class="middle-panel-title">Site Details</span>
+                <div id="sitediv" class="grid-container">
+                    <jsp:include page="siteGrid.jsp"></jsp:include>
+                </div>
+            </div>
+
+            <div class="middle-panel">
+                <span class="middle-panel-title">Payment Details</span>
+                
+                <div class="field-row">
+                    <label class="lbl-right" style="width:100px;">Installments</label>
+                    <input type="text" name="installments" id="installments" style="width:100px;" value='<s:property value="installments"/>'>
+                    
+                    <label class="lbl-right" style="width:100px;">Due After</label>
+                    <input type="text" name="paydueafter" id="paydueafter" style="width:100px;" value='<s:property value="paydueafter"/>'>
+                    
+                    <label class="lbl-right" style="width:100px;">Frequency</label>
+                    <select name="cmbpaytype" id="cmbpaytype" style="width:120px;">
+                        <option value="1">DAYS</option>
+                        <option value="2">MONTHS</option>
+                        <option value="3">YEAR</option>
+                    </select>
+                    
+                    <label class="lbl-right" style="width:100px;">First Inst.On</label>
+                    <div style="width: 125px;">
+                        <div id="finsdate" name="finsdate" value='<s:property value="finsdate" />'></div>
+                    </div>
+                    
+                    <button class="myButton" type="button" id="btnAdd" name="btnAdd" onclick="funpay();" style="margin-left:15px;">Fill</button>
+                </div>
+                
+                <div class="field-row" id="prog" style="display:none;">
+                    <label class="lbl-right" style="width:100px;">Terms</label>
+                    <select id="cmbprog" name="cmbprog" style="width:200px;" onchange="funcmbprog();" value='<s:property value="cmbprog"/>'>
+                        <option value="">--Select--</option>
+                        <option value="1">PROGRESSIVE</option>
+                        <option value="2">PROGRESSIVE WITH RETENTION</option>
+                    </select>
+                    
+                    <label class="lbl-right" style="width:120px;">Period(in months)</label>
+                    <input type="text" id="txtprogperiod" name="txtprogperiod" style="width:100px;" value='<s:property value="txtprogperiod"/>'/>
+                    
+                    <label class="lbl-right" style="width:100px;">Percentage</label>
+                    <input type="text" id="txtprogper" name="txtprogper" style="width:100px;" value='<s:property value="txtprogper"/>'/>
+                </div>
+                
+                <div id="paydiv" class="grid-container">
+                    <jsp:include page="paymentGrid.jsp"></jsp:include>
+                </div>
+            </div>
+            
+            <div class="middle-panel">
+                <span class="middle-panel-title">Service Details</span>
+                <div class="field-row">
+                    <label class="lbl-right" style="width:120px;">Special Instruction</label>
+                    <input type="text" id="txtsplinstruct" name="txtsplinstruct" style="flex:1;" value='<s:property value="txtsplinstruct"/>'/>
+                </div>
+                
+                <div id="serdiv" class="grid-container">
+                    <jsp:include page="serviceGrid.jsp"></jsp:include>
+                </div>
+            </div>
+            
+            <div class="middle-panel">
+                <span class="middle-panel-title">Service Scheduler</span>
+                
+                <div class="field-row">
+                    <div class="chk-wrapper">
+                        <label for="chkserv" style="margin:0; cursor:pointer;">Service</label>
+                        <input type="checkbox" name="chkserv" id="chkserv" style="margin:0;" value='<s:property value="chkserv" />' onclick="$(this).attr('value', this.checked ? 1 : 0);funsercheck();">
+                    </div>
+                    
+                    <div class="chk-wrapper" style="margin-left: 10px;">
+                        <label id="chklblinv" for="chkinv" style="margin:0; cursor:pointer;">To Be Invoiced</label>
+                        <input type="checkbox" name="chkinv" id="chkinv" style="margin:0;" value='<s:property value="chkinv" />' onclick="$(this).attr('value', this.checked ? 1 : 0);">
+                    </div>
+                    
+                    <button class="myButton" type="button" id="btnsearch" name="btnsearch" onclick="schSearch();" style="margin-left:10px;">Search</button>
+                    
+                    <label class="lbl-right" style="width:60px;">Interval</label>
+                    <input type="text" name="srvcinterval" id="srvcinterval" style="width:80px;" value='<s:property value="srvcinterval"/>'>
+                    
+                    <label class="lbl-right" style="width:80px;">Due After</label>
+                    <input type="text" name="serdueafter" id="serdueafter" style="width:80px;" value='<s:property value="serdueafter"/>'>
+                    
+                    <label class="lbl-right" style="width:80px;">Frequency</label>
+                    <select name="cmbsrvctype" id="cmbsrvctype" style="width:100px;">
+                        <option value="1">DAYS</option>
+                        <option value="2">MONTHS</option>
+                        <option value="3">YEAR</option>
+                    </select>
+                    
+                    <label class="lbl-right" style="width:120px;">Service Start On</label>
+                    <div style="width: 125px;">
+                        <div id="serdate" name="serdate" value='<s:property value="serdate" />'></div>
+                    </div>
+                    
+                    <button class="myButton" type="button" id="btnSchAdd" name="btnSchAdd" onclick="funscheduler();" style="margin-left:auto;">Fill</button>
+                </div>
+                
+                <div id="schediv" class="grid-container">
+                    <jsp:include page="serviceScheduleGrid.jsp"></jsp:include>
+                </div>
+            </div>
+            
+            <div style="display:none;">
+                <input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>'/>
+                <input type="hidden" id="msg" name="msg" value='<s:property value="msg"/>'/>
+                <input type="hidden" id="deleted" name="deleted" value='<s:property value="deleted"/>'/>
+                <input type="hidden" id="islegaldoc" name="islegaldoc" value='<s:property value="islegaldoc"/>'/>
+                <input type="hidden" id="masterdoc_no" name="masterdoc_no" value='<s:property value="masterdoc_no"/>'/>
+                <input type="hidden" id="refmasterdoc_no" name="refmasterdoc_no" value='<s:property value="refmasterdoc_no"/>'/>
+                <input type="hidden" id="cpersonid" name="cpersonid" value='<s:property value="cpersonid"/>'/>
+                <input type="hidden" id="clientid" name="clientid" value='<s:property value="clientid"/>'/>
+                <input type="hidden" id="salid" name="salid" value='<s:property value="salid"/>'/>
+                <input type="hidden" id="hidcmbpaytype" name="hidcmbpaytype" value='<s:property value="hidcmbpaytype"/>'/>
+                <input type="hidden" id="hidcmbsrvctype" name="hidcmbsrvctype" value='<s:property value="hidcmbsrvctype"/>'/>
+                <input type="hidden" id="hidcmbreftype" name="hidcmbreftype" value='<s:property value="hidcmbreftype"/>'/>
+                <input type="hidden" id="hidcmbprog" name="hidcmbprog" value='<s:property value="hidcmbprog"/>'/>
+                <input type="hidden" id="isproformainv" name="isproformainv" value='<s:property value="isproformainv"/>'/>
+                <input type="hidden" id="serviceSchedulelen" name="serviceSchedulelen" value='<s:property value="serviceSchedulelen"/>'/>
+                <input type="hidden" id="servicelen" name="servicelen" value='<s:property value="servicelen"/>'/>
+                <input type="hidden" id="paymentlen" name="paymentlen" value='<s:property value="paymentlen"/>'/>
+                <input type="hidden" id="sitelen" name="sitelen" value='<s:property value="sitelen"/>'/>
+                <input type="hidden" id="editval" name="editval" value='<s:property value="editval"/>'/>
+                <input type="hidden" id="cvalchnge" name="cvalchnge" value='<s:property value="cvalchnge"/>'/>
+                <input type="hidden" id="hidcontredit" name="hidcontredit" value='<s:property value="hidcontredit"/>'/>
+                <input type="hidden" id="hidbrhid" name="hidbrhid" value='<s:property value="hidbrhid"/>'/>
+            </div>
+
+        </div>
+
+        <div id="clientsearch1"><div></div></div>
+        <div id="areainfowindow"><div></div></div>
+        <div id="grpinfowindow"><div></div></div>
+        <div id="teaminfowindow"><div></div></div>
+        <div id="sertypefowindow"><div></div></div>
+        <div id="cpinfowindow"><div></div></div>
+        <div id="siteinfowindow"><div></div></div>
+        <div id="schserchinfowindow"><div></div></div>
+        <div id="serviceteamwindow"><div></div></div>
+        
+    </form>
+    </div>     
 </body>
 </html>
