@@ -29,6 +29,138 @@ color:red;
     -webkit-background-clip: padding-box;
     outline: 0;
 }
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+#frmmr input[type="text"],
+#frmmr select,
+.textbox { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    box-shadow: none !important;
+    outline: none;
+}
+
+#frmmr input[type="text"]:focus,
+#frmmr select:focus,
+.textbox:focus { 
+    border-color: #007bff; 
+}
+
+#frmmr input[readonly],
+#frmmr input:disabled,
+#frmmr select:disabled,
+.textbox[readonly] { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
+}
+
+fieldset {
+    border: 1px solid #c5d3e0; 
+    padding: 8px 8px 4px 8px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 12px;
+    margin-top: 10px;
+}
+
+legend {
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    font-family: Arial, sans-serif;
+    border-left: 3px solid #0056b3;
+    line-height: normal; 
+    margin-left: -2px; 
+}
+
+#frmmr table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px; 
+}
+
+#frmmr td {
+    padding: 0 5px;
+    vertical-align: middle;
+    font-family: Arial, sans-serif; 
+    font-size: 12px; 
+    color: #333;
+}
+
+#frmmr td[align="right"] {
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 10px;
+}
+
+form label.error {
+    color: red;
+    font-weight: bold;
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+}
+
+.myButton {
+    height: 24px !important;
+    line-height: 22px !important;
+    padding: 0 12px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: none;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    border: none;
+    background: linear-gradient(135deg, #0b45a2 0%, #2563eb 100%);
+    color: #ffffff;
+    white-space: nowrap;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.myButton:hover { 
+    background: linear-gradient(135deg, #083a8a 0%, #1d4ed8 100%); 
+}
+
+#sevdesc {
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 5px;
+}
 </style>
 
 <script type="text/javascript">
@@ -721,77 +853,76 @@ function getCurrencyIds(){
 <jsp:include page="../../../../header.jsp" />    
 	<br/> 
 	<fieldset>
- 
-    
-<table width="100%"    > 
-  <tr>
-    <td width="6%" align="right">Date</td>
-    <td width="11%"><div id="masterdate" name="masterdate" value='<s:property value="masterdate"/>'></div>
-      <input type="hidden" name="hidmasterdate" id="hidmasterdate" value='<s:property value="hidmasterdate"/>'>
-      
-                     
-      </td>
-       <td width="7%" align="right">Type</td>
-    <td width="13%"><select  id="type" name="type" style="width:90%;" > 
-    <option>
-     </option>
-    
-    </select></td>
-            <td align="right" width="6%">Location</td> 
-    <td colspan="3"  ><input type="text" id="txtlocation" name="txtlocation" style="width:90%;" placeholder="Press F3 to Search" value='<s:property value="txtlocation"/>'  onkeydown="getloc(event);"/>
-      <input type="hidden" id="txtlocationid" name="txtlocationid" value='<s:property value="txtlocationid"/>'/></td>
-    <td width="4%" align="right">Ref No</td>
-    <td width="15%"><input type="text" name="refno" id="refno" style="width:90%;" value='<s:property value="refno"/>'></td>
- 
-   
-    <td width="9%" align="right">Doc No</td>
-    <td width="12%"><input type="text" name="docno" id="docno" tabindex="-1" value='<s:property value="docno"/>' readonly></td>
-  </tr>
-
-     <tr>
-   
-        <td width="6%" align="right">&nbsp;</td>
-        <td colspan="9"><select  id="itemtype" name="itemtype" style="width:15%;" onchange="cleardata()"> 
-    <option>
-     </option>   
-                             
-    </select>  
-    <input type="text" id="itemdocno" placeholder="Press F3 to Search"  name="itemdocno"  value='<s:property value="itemdocno"/>' >
-    
-    <input type="text" id="itemname" name="itemname" style="width:43%;"   value='<s:property value="itemname"/>' onkeydown="getitem(event);">
-    </td>
-    <td>&nbsp;</td><td>&nbsp;</td> 
-    </tr>
+  <legend>General Info</legend>
+  <table width="100%"> 
     <tr>
-         <td width="6%" align="right">Client</td>    
-    <td colspan="10"  ><input type="text" id="clientname" name="clientname"  style="width:42%;" value='<s:property value="clientname"/>'  />
-      <input type="hidden" id="cldocno" name="cldocno" value='<s:property value="cldocno"/>'/>&nbsp;&nbsp;
-   Site
-      <input type="text" name="site" id="site" style="width:18.5%;" value='<s:property value="site"/>' onkeydown="getsite(event);"   >
-      
-       <input type="hidden" name="siteid" id="siteid" style="width:18.5%;" value='<s:property value="siteid"/>'   >
+      <td width="6%" align="right">Date</td>
+      <td width="12%">
+        <div id="masterdate" name="masterdate" value='<s:property value="masterdate"/>'></div>
+        <input type="hidden" name="hidmasterdate" id="hidmasterdate" value='<s:property value="hidmasterdate"/>'>
       </td>
- 
-   <td>&nbsp;</td>
-  </tr>
-   
-  <tr>
-    <td   align="right">Description</td>
-    <td colspan="11"><input type="text" name="purdesc" id="purdesc" value='<s:property value="purdesc"/>' style="width:55.7%;"> &nbsp;&nbsp;&nbsp;
-   <button class="myButton" type="button" id="btnvaluechange" name="btnvaluechange" onclick="funwarningopen();">Value Change</button></td>
-  </tr>
-</table>
-  <input type="text" name="gridtext" id="gridtext"  style="width:0%;height:0%;"  class="textbox"  value='<s:property value="gridtext"/>'  />   
-  
-    <input type="text" name="gridtext1" id="gridtext1"  style="width:0%;height:0%;"  class="textbox" value='<s:property value="gridtext1"/>' />  
- 
- </fieldset>
- <br>
- <fieldset>
- 
-    <div id="sevdesc" ><jsp:include page="serviecgrid.jsp"></jsp:include></div>
-     
+      <td width="6%" align="right">Type</td>
+      <td width="12%">
+        <select id="type" name="type" style="width:100%;"></select>
+      </td>
+      <td width="7%" align="right">Location</td> 
+      <td width="20%">
+        <input type="text" id="txtlocation" name="txtlocation" style="width:100%;" placeholder="Press F3 to Search" value='<s:property value="txtlocation"/>' onkeydown="getloc(event);"/>
+        <input type="hidden" id="txtlocationid" name="txtlocationid" value='<s:property value="txtlocationid"/>'/>
+      </td>
+      <td width="6%" align="right">Ref No</td>
+      <td width="14%">
+        <input type="text" name="refno" id="refno" style="width:100%;" value='<s:property value="refno"/>'>
+      </td>
+      <td width="7%" align="right">Doc No</td>
+      <td width="10%">
+        <input type="text" name="docno" id="docno" style="width:100%;" tabindex="-1" value='<s:property value="docno"/>' readonly>
+      </td>
+    </tr>
 
+    <tr>
+      <td align="right">&nbsp;</td>
+      <td>
+        <select id="itemtype" name="itemtype" style="width:100%;" onchange="cleardata()"></select>  
+      </td>
+      <td colspan="2">
+        <input type="text" id="itemdocno" name="itemdocno" style="width:100%;" placeholder="Press F3 to Search" value='<s:property value="itemdocno"/>'>
+      </td>
+      <td colspan="6">
+        <input type="text" id="itemname" name="itemname" style="width:100%;" value='<s:property value="itemname"/>' onkeydown="getitem(event);">
+      </td>
+    </tr>
+    
+    <tr>
+      <td align="right">Client</td>    
+      <td colspan="5">
+        <input type="text" id="clientname" name="clientname" style="width:100%;" value='<s:property value="clientname"/>'/>
+        <input type="hidden" id="cldocno" name="cldocno" value='<s:property value="cldocno"/>'/>
+      </td>
+      <td align="right">Site</td>
+      <td colspan="3">
+        <input type="text" name="site" id="site" style="width:100%;" value='<s:property value="site"/>' onkeydown="getsite(event);">
+        <input type="hidden" name="siteid" id="siteid" value='<s:property value="siteid"/>'>
+      </td>
+    </tr>
+     
+    <tr>
+      <td align="right">Description</td>
+      <td colspan="7">
+        <input type="text" name="purdesc" id="purdesc" style="width:100%;" value='<s:property value="purdesc"/>'> 
+      </td>
+      <td colspan="2" align="right">
+        <button class="myButton" type="button" id="btnvaluechange" name="btnvaluechange" onclick="funwarningopen();">Value Change</button>
+      </td>
+    </tr>
+  </table>
+  
+  <input type="text" name="gridtext" id="gridtext" style="width:0%;height:0%;" class="textbox" value='<s:property value="gridtext"/>'/>   
+  <input type="text" name="gridtext1" id="gridtext1" style="width:0%;height:0%;" class="textbox" value='<s:property value="gridtext1"/>'/>  
+</fieldset>
+<br>
+<fieldset>
+  <div id="sevdesc"><jsp:include page="serviecgrid.jsp"></jsp:include></div>
 </fieldset>
 
  

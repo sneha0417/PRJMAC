@@ -495,6 +495,125 @@ function getrefno(event)
     -webkit-background-clip: padding-box;
     outline: 0;
 }
+
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+#frminventoryrecept input[type="text"],
+#frminventoryrecept select,
+.textbox { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    box-shadow: none !important;
+    outline: none;
+}
+
+#frminventoryrecept input[type="text"]:focus,
+#frminventoryrecept select:focus,
+.textbox:focus { 
+    border-color: #007bff; 
+}
+
+#frminventoryrecept input[readonly],
+#frminventoryrecept input:disabled,
+#frminventoryrecept select:disabled,
+.textbox[readonly] { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
+}
+
+fieldset {
+    border: 1px solid #c5d3e0; 
+    padding: 8px 10px 8px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 10px;
+    height: 100%; 
+    box-sizing: border-box;
+}
+
+legend {
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    font-family: Arial, sans-serif;
+    border-left: 3px solid #0056b3;
+    line-height: normal; 
+    margin-left: -2px; 
+}
+
+#frminventoryrecept table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px; 
+}
+
+#frminventoryrecept td {
+    padding: 0 5px;
+    vertical-align: middle;
+    font-family: Arial, sans-serif; 
+    font-size: 12px; 
+    color: #333;
+}
+
+#frminventoryrecept td[align="right"],
+#frminventoryrecept div[align="right"] {
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 10px;
+}
+
+form label.error {
+    color: red;
+    font-weight: bold;
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+}
+
+.hidden-scrollbar {
+    overflow-y: auto;
+    height: calc(100vh - 100px);
+    padding-right: 5px;
+}
+.hidden-scrollbar::-webkit-scrollbar { width: 6px; }
+.hidden-scrollbar::-webkit-scrollbar-thumb { background: #c5d3e0; border-radius: 3px; }
+
+#InvTransReceptGrid {
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+    overflow: hidden;
+}
 </style>
 
 </head>
@@ -519,58 +638,61 @@ function getrefno(event)
   </tr>
 </table>
 <table width="100%">
-<tr>
-<td width="50%">
-<fieldset>
-<legend>Inventory Issue From</legend>
-<table width="100%" >
-<tr>
-    <td width="10%" align="right"> Type</td>
-    <td width="27%"><select id="cmbreftype" name="cmbreftype" style="width:20%;" value='<s:property value="cmbreftype"/>'>
-    <option value="">-Select-</option>
-    <option value="IBT">Branch Trasfer</option>
-    <option value="ILT">Location Transfer</option></select></td>
-  </tr>
   <tr>
-    <td width="21%"><div align="right">Branch</div></td>
-    <td width="79%"><input type="text" id="txtfrmbranch" name="txtfrmbranch" placeholder="Press F3 to Search" style="width:50%;" onkeydown="getBranch(event,1);"  value='<s:property value="txtfrmbranch"/>'/></td>
+    <td width="50%" valign="top">
+      <fieldset>
+        <legend>Inventory Issue From</legend>
+        <table width="100%">
+          <tr>
+            <td width="14%" align="right">Type</td>
+            <td width="19%">
+              <select id="cmbreftype" name="cmbreftype" style="width:100%;" value='<s:property value="cmbreftype"/>'>
+                <option value="">-Select-</option>
+                <option value="IBT">Branch Transfer</option>
+                <option value="ILT">Location Transfer</option>
+              </select>
+            </td>
+            
+            <td width="14%" align="right">Branch</td>
+            <td width="19%">
+              <input type="text" id="txtfrmbranch" name="txtfrmbranch" placeholder="Press F3 to Search" style="width:100%;" onkeydown="getBranch(event,1);" value='<s:property value="txtfrmbranch"/>'/>
+            </td>
+            
+            <td width="14%" align="right">Location</td>
+            <td width="20%">
+              <input type="text" id="txtfrmlocation" name="txtfrmlocation" placeholder="Press F3 to Search" style="width:100%;" onkeydown="getLocation(event,1);" value='<s:property value="txtfrmlocation"/>'/>
+            </td>
+          </tr>
+        </table>
+      </fieldset>
+    </td>
+
+    <td width="50%" valign="top">
+      <fieldset>
+        <legend>Inventory Receipt Details</legend>
+        <table width="100%">
+          <tr>
+            <td width="14%" align="right">Location</td>
+            <td width="19%">
+              <input type="text" id="txttolocation" name="txttolocation" placeholder="Press F3 to Search" style="width:100%;" onkeydown="getLocation(event,2);" value='<s:property value="txttolocation"/>'/>
+            </td>
+            
+            <td width="14%" align="right">Issue No</td>
+            <td width="19%">
+              <input type="text" id="rrefno" name="rrefno" placeholder="Press F3 to Search" onkeydown="getrefno(event);" style="width:100%;" value='<s:property value="rrefno"/>'/>
+            </td>
+            
+            <td width="14%" align="right">Remarks</td>
+            <td width="20%">
+              <input type="text" id="txtremark" name="txtremark" style="width:100%;" value='<s:property value="txtremark"/>' />
+            </td>
+          </tr>
+        </table>
+      </fieldset>
+    </td>
   </tr>
-  <tr>
-    <td><div align="right">Location</div></td>
-    <td><input type="text" id="txtfrmlocation" name="txtfrmlocation" placeholder="Press F3 to Search" style="width:50%;" onkeydown="getLocation(event,1);" value='<s:property value="txtfrmlocation"/>'/></td>
-  </tr>
-  
 </table>
 
-</fieldset>
-</td>
-
-<td width="50%">
-<fieldset>
-<legend>Inventory Receipt Details</legend>
-<table width="100%" >
-
-	<tr>
-   <td><div align="right">Location</div></td>
-    <td><input type="text" id="txttolocation" name="txttolocation" placeholder="Press F3 to Search" style="width:50%;" onkeydown="getLocation(event,2);" value='<s:property value="txttolocation"/>'/></td>
-  </tr>
-
-  <tr>
-    <td width="21%"><div align="right">Issue No</div></td>
-    <td width="79%"><input type="text" id="rrefno" placeholder="Press F3 to Search" name="rrefno" onkeydown="getrefno(event);" style="width:50%;" value='<s:property value="rrefno"/>'/></td>
-  
-  </tr>
-  
- <tr>
-    <td width="10%" align="right">Remarks</td>
-    <td width="27%"><input type="text" id="txtremark" name="txtremark" style="width:70%;" value='<s:property value="txtremark"/>' /></td>
-  </tr>
-  
-</table>
-</fieldset>
-</td>
-</tr></table>
-<fieldset>
 
 <%-- <table width="100%">
   <tr>
