@@ -2,42 +2,185 @@
 
 <!DOCTYPE html>
 <html>
-<%--   <% 
-  
-String dtype=  session.getAttribute("Code").toString();
-  System.out.println("sss    "+dtype);
-  %>  --%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>GatewayERP(i)</title>
  <jsp:include page="../../../../includes.jsp"></jsp:include> 
-<style>
-form label.error {
-color:red;
-  font-weight:bold;
 
+<style>
+/* =========================================================
+   SCOPED UI: Modern Layout
+========================================================= */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.modern-ui {
+    font-family: Arial, sans-serif; 
+    color: #333;
+    font-size: 12px; 
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+form label.error {
+    color: red;
+    font-weight: bold;
+}
+
+/* Master Input Heights - Forced to 24px */
+.modern-ui input[type="text"],
+.modern-ui input[type="email"],
+.modern-ui select { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui input[type="email"]:focus,
+.modern-ui select:focus { 
+    border-color: #007bff; 
+    outline: none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
+}
+
+/* Layout Utilities */
+.modern-ui .field-row { 
+    display: flex;
+    align-items: center; 
+    gap: 8px;
+    margin-bottom: 10px; 
+    flex-wrap: wrap;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* Middle Section Panels */
+.modern-ui .middle-panel {
+    border: 1px solid #c5d3e0; 
+    padding: 20px 10px 10px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title { 
+    position: absolute; 
+    top: -12px;
+    left: 10px; 
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    border-left: 3px solid #0056b3;
+    z-index: 2; 
+    line-height: normal; 
+}
+
+/* Custom UI Buttons matching 24px height */
+.modern-ui .myButton {
+    height: 24px !important;
+    line-height: 22px !important;
+    padding: 0 12px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: none;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    border: none;
+    background: linear-gradient(135deg, #0b45a2 0%, #2563eb 100%);
+    color: #ffffff;
+    white-space: nowrap;
+}
+.modern-ui .myButton:hover { background: linear-gradient(135deg, #083a8a 0%, #1d4ed8 100%); }
+
+/* Grid Wrappers */
+.modern-ui .grid-container {
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+    background: #fff;
+    overflow: hidden;
+}
+
+/* Scrollbar Logic */
+.hidden-scrollbar {
+    overflow-y: auto;
+    height: calc(100vh - 150px);
+    padding-right: 5px;
+}
+.hidden-scrollbar::-webkit-scrollbar { width: 6px; }
+.hidden-scrollbar::-webkit-scrollbar-thumb { background: #c5d3e0; border-radius: 3px; }
+
+/* Readonly visual styles for labels */
+.read-only-text {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    background: #f0f4f8;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid #d9e2ec;
 }
 </style>
+
 <%
 String mod =request.getParameter("mod")==null?"0":request.getParameter("mod").toString();
-System.out.println("mod====="+mod);
 String modes =request.getParameter("modes")==null?"0":request.getParameter("modes").toString();
 String enqdocno =request.getParameter("enqdocno")==null?"0":request.getParameter("enqdocno").toString();
 
 String vocno =request.getParameter("vocno")==null?"0":request.getParameter("vocno").toString();
 String isassign =request.getParameter("isassign")==null?"0":request.getParameter("isassign").toString();
 
-
 String docno= request.getParameter("docno")==null?"0":request.getParameter("docno").toString();
 String trno= request.getParameter("trno")==null?"0":request.getParameter("trno").toString();
 String date=request.getParameter("date")==null?"0":request.getParameter("date").toString();
 String client=request.getParameter("client")==null?"0":request.getParameter("client").toString();
-System.out.println("client====="+client);
 String cldocno=request.getParameter("cldocno")==null?"0":request.getParameter("cldocno").toString();
 
-System.out.println("cldocno====="+cldocno);
 String contrmode=request.getParameter("contrmode")==null?"0":request.getParameter("contrmode").toString();
 String mail=request.getParameter("mail")==null?"0":request.getParameter("mail").toString();
 String mob=request.getParameter("mob")==null?"0":request.getParameter("mob").toString();
@@ -47,25 +190,41 @@ String telno=request.getParameter("telno")==null?"0":request.getParameter("telno
 String source=request.getParameter("source")==null?"0":request.getParameter("source").toString();
 String sourceid=request.getParameter("sourceid")==null?"0":request.getParameter("sourceid").toString();
 String cperson=request.getParameter("cperson")==null?"0":request.getParameter("cperson").toString();
-System.out.println("cperson====="+cperson);
 String cpersonid=request.getParameter("cpersonid")==null?"0":request.getParameter("cpersonid").toString();
 String sjobtype=request.getParameter("sjobtype")==null?"0":request.getParameter("sjobtype").toString();
 String dtype=request.getParameter("dtype")==null?"0":request.getParameter("dtype").toString();
 String proname=request.getParameter("proname")==null?"0":request.getParameter("proname").toString();
-System.out.println("proname====="+proname);
 String desc=request.getParameter("desc")==null?"0":request.getParameter("desc").toString();
-System.out.println("desc====="+desc);
 String brhid=request.getParameter("brhid")==null?"0":request.getParameter("brhid").toString();
 %>
+
 <script type="text/javascript">
 var mod1='<%=mod%>';
 var modes='<%=modes%>';
 var masterdoc='<%=docno%>';
 var enqdocno='<%=enqdocno%>';
 var brhid='<%=brhid%>';
- $(document).ready(function () {
+
+$(document).ready(function () {
 	
-   	 $("#EnquiryDate").jqxDateTimeInput({ width: '125px', height: '15px', formatString:"dd.MM.yyyy"});    
+   	 $("#EnquiryDate").jqxDateTimeInput({ width: '125px', height: 24, formatString:"dd.MM.yyyy", theme: 'energyblue'});   
+     
+     /* Force internal alignment AFTER render */
+     setTimeout(function () {
+         $("#EnquiryDate").find("input").css({
+             "margin-top": "0px",
+             "line-height": "24px",
+             "font-size": "12px", 
+             "font-family": "Arial, sans-serif", 
+             "padding": "0 6px", 
+             "box-sizing":"border-box"
+         });
+         $("#EnquiryDate").find(".jqx-action-button").css({
+             "top": "0px",
+             "height": "24px"
+         });
+     }, 0);
+     
    	 $('#brandsearchwndow').jqxWindow({ width: '40%', height: '55%',  maxHeight: '62%' ,maxWidth: '60%' , title: 'Brand Search' ,position: { x: 200, y: 120 }, keyboardCloseKey: 27});
      $('#brandsearchwndow').jqxWindow('close'); 
      $('#clientsearch1').jqxWindow({ width: '50%', height: '55%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Client Search' , position: { x: 250, y: 120 }, keyboardCloseKey: 27});
@@ -79,14 +238,14 @@ var brhid='<%=brhid%>';
      $('#cpinfowindow').jqxWindow({ width: '35%', height: '55%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Contact Person Search' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
      $('#cpinfowindow').jqxWindow('close');
      $('#areainfowindow').jqxWindow({ width: '25%', height: '70%',  maxHeight: '85%' ,maxWidth: '80%' ,title: ' Area Search' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
- 	$('#areainfowindow').jqxWindow('close');
- 	
-  	$('#surveytypewindow').jqxWindow({ width: '35%', height: '45%',  maxHeight: '75%' ,maxWidth: '50%' , title: ' Search' ,position: { x: 300, y: 87 }, keyboardCloseKey: 27});
-	$('#surveytypewindow').jqxWindow('close'); 
+	 $('#areainfowindow').jqxWindow('close');
+	
+ 	 $('#surveytypewindow').jqxWindow({ width: '35%', height: '45%',  maxHeight: '75%' ,maxWidth: '50%' , title: ' Search' ,position: { x: 300, y: 87 }, keyboardCloseKey: 27});
+	 $('#surveytypewindow').jqxWindow('close'); 
+	 
     $('#cmbclient').dblclick(function(){
-	  	    $('#clientsearch1').jqxWindow('open');
-	   
-	       clientSearchContent('clientINgridsearch.jsp?', $('#clientsearch1')); 
+	 	    $('#clientsearch1').jqxWindow('open');
+	        clientSearchContent('clientINgridsearch.jsp?', $('#clientsearch1')); 
        });
     
     $('#txtsalesman').dblclick(function(){
@@ -99,58 +258,27 @@ var brhid='<%=brhid%>';
    });
     
     $('#txtcontact').dblclick(function(){
-    	
     	var clientid=document.getElementById("cmbclient").value;
-		
 		if(clientid==""){
 			document.getElementById("errormsg").innerText=" Select Client";
 			return 0;
 		}
-    	
     	$('#cpinfowindow').jqxWindow('open');
     	cpSearchContent('contactpersonsearch.jsp?clientdocno='+clientid, $('#cpinfowindow'));  
    });
     
     if(document.getElementById("txtradio").value==1)
     	{
-    	//document.getElementById("r2").checked = true;
-    
 		$("#cmbclient").hide();
 		$("#btnnewclient").hide();
     	}
   
    if(document.getElementById("txtradio").value=="")
 	   {
-	
 	   $("#cmbclient").hide();
 		$("#btnnewclient").hide();
 	   }
    
-	
-	  
-   
- 		/* $("#r1").click(function() {
- 			
-			document.getElementById("r2").checked = false;
-			
-			$('#cmbclient').attr('readonly', false );
-			$('#txtclientname').attr('readonly', false );
-			$('#txtaddress').attr('readonly', false );
-			$('#txtmobile').attr('readonly', false );
-			$('#txtemail').attr('readonly', false );
-			$('#txtRemarks').attr('readonly', false );
-		
-			 document.getElementById("errormsg").innerText=""; 
-			 document.getElementById("txtradio").value="1";
-			 
-			$("#btnnewclient").hide();
-			$("#cmbclient").hide();
- 			
- 			
-		});
-		$("#r2").click(function() { */
-			
-		//	document.getElementById("r1").checked = false;
 			$('#cmbclient').attr('readonly', true );
 			$('#txtsalesman').attr('readonly', true );
 			$('#txtclientname').attr('readonly', true );
@@ -163,17 +291,13 @@ var brhid='<%=brhid%>';
 			$('#txtcontact').attr('readonly', true );
 			$("#jqxEnquiry").jqxGrid({ disabled: false});
 			 document.getElementById("txtradio").value="2";
-			// $('#hidradio').val('AMC');
 			   document.getElementById("errormsg").innerText="";
 			$("#btnnewclient").show();
 			
-	//	}); 
-    
 	});
  
- 
  function getcontact(event){
-	  	
+	 	
 		var clientid=document.getElementById("cmbclient").value;
 		
 		if(clientid==""){
@@ -190,27 +314,20 @@ var brhid='<%=brhid%>';
 		 }
 	        	 
 	function cpSearchContent(url) {
-		 //alert(url);
 	 	 $.get(url).done(function (data) {
-				 //alert(data);
 		$('#cpinfowindow').jqxWindow('setContent', data);
-
-	               	}); 
-	     	}
-	     	
-
- 
+	                	}); 
+	 	}
+	 	
           function brandinfoSearchContent(url) {
-      	 //alert(url);
-      		 $.get(url).done(function (data) {
-      			 
-      			 $('#brandsearchwndow').jqxWindow('open');
-      		$('#brandsearchwndow').jqxWindow('setContent', data);
-      
-      	}); 
-      	} 
+       		 $.get(url).done(function (data) {
+       			 
+       			 $('#brandsearchwndow').jqxWindow('open');
+       		$('#brandsearchwndow').jqxWindow('setContent', data);
+       
+       	}); 
+       	} 
           function modelinfoSearchContent(url) {
-           	 //alert(url);
            		 $.get(url).done(function (data) {
            			 
            			 $('#modelsearchwndow').jqxWindow('open');
@@ -219,14 +336,13 @@ var brhid='<%=brhid%>';
            	}); 
            	} 
           function sourceinfoSearchContent(url) {
-            	 //alert(url);
-            		 $.get(url).done(function (data) {
-            			 
-            			 $('#sourcesearchwndow').jqxWindow('open');
-            		$('#sourcesearchwndow').jqxWindow('setContent', data);
-            
-            	}); 
-            	} 
+           		 $.get(url).done(function (data) {
+           			 
+           			 $('#sourcesearchwndow').jqxWindow('open');
+           		$('#sourcesearchwndow').jqxWindow('setContent', data);
+           
+           	}); 
+           	} 
     
 	       function text()
 	       {
@@ -237,90 +353,30 @@ var brhid='<%=brhid%>';
 	     
 	       }
     function funReset(){
-		//$('#frmEnquiry')[0].reset(); 
 	}
 	function funReadOnly(){
 	;
 		$('#frmEnquiry input').prop('readonly', true );
-		
 		$('#frmEnquiry textarea').attr('readonly', true );
 		$('#frmEnquiry select').attr('disabled', true);
 		$('#btnnewclient').attr('disabled', true);
-		 $("#siteGrid").jqxGrid({ disabled: true});
-	//	$('#r1').attr('disabled', true);
-	//	$('#r2').attr('disabled', true);
+		$("#siteGrid").jqxGrid({ disabled: true});
 		$('#EnquiryDate').jqxDateTimeInput({ disabled: true});
 	    $("#jqxEnquiry").jqxGrid({ disabled: true});
 		
 	    if(modes=="view")
 		{
-		
 		document.getElementById("formdet").innerText=window.parent.formName.value+" ("+window.parent.formCode.value.trim()+")";
 		document.getElementById("formdetail").value=window.parent.formName.value;
 		document.getElementById("formdetailcode").value=window.parent.formCode.value.trim();
 		Setviewmode(enqdocno,brhid);
-		 <%--  $('#docno').attr('disabled', false);
-	 		 $('#masterdoc_no').attr('disabled', false);
-	 		 $('#mode').attr('disabled', false);
-	 		 $('#EnquiryDate').jqxDateTimeInput({ disabled: false}); 
-		
-		document.getElementById("masterdoc_no").value=masterdoc;
-		document.getElementById("mode").value=modes;
-		
-		  document.getElementById("docno").value= '<%=vocno%>';
-		  $('#EnquiryDate').jqxDateTimeInput('val','<%=date%>');
-		  document.getElementById("txtaddress").value='<%=address%>'; 
-          
-          document.getElementById("cmbclient").value='<%=cldocno%>';
-                   
-          document.getElementById("txtclientname").value='<%=client%>';
-          document.getElementById("hidradio").value='<%=contrmode%>';
-          document.getElementById("txtemail").value='<%=mail%>';
-          document.getElementById("txtmobile").value='<%=mob%>';
-          document.getElementById("txtRemarks").value='<%=remarks%>';
-          document.getElementById("txttelno").value='<%=telno%>';
-          document.getElementById("txtsource").value='<%=source%>';
-          document.getElementById("sourceid").value='<%=sourceid%>';
-          document.getElementById("txtcontact").value='<%=cperson%>';
-          document.getElementById("cpersonid").value='<%=cpersonid%>';
-          document.getElementById("cmbprocess").value='<%=sjobtype%>';
-          
-          var rdo=document.getElementById("hidradio").value;
-          var sjobtype='<%=sjobtype%>';
-         
-  		if(rdo=='AMC'){
-  			document.getElementById("c1").checked=true;
-  			
-  		}
-  		
-  		if(rdo=='SJOB'){
-  			document.getElementById("c2").checked=true;
-  			if(sjobtype>0){
-     			 document.getElementById("hidcmbprocess").value=sjobtype;
-     			}
-  		}
-          
-          document.getElementById("gridval").value=1;		
-     
-      	$('#EnquiryDate').jqxDateTimeInput({ disabled: false});
-      	
-          document.getElementById("frmEnquiry").submit();
-		// $("#activityDetailsDiv").load("activityDetailsGrid.jsp?trno="+docno);
-		
-		  $('#masterdoc_no').attr('disabled', false);
-		   $('#docno').attr('disabled', false);
-			 $('#mode').attr('disabled', false); --%>
-		   
 		}
 		if(mod1=="A")
 		{
-	    
 	    document.getElementById("formdet").innerText=window.parent.formName.value+" ("+window.parent.formCode.value.trim()+")";
 		document.getElementById("formdetail").value=window.parent.formName.value;
 		document.getElementById("formdetailcode").value=window.parent.formCode.value.trim(); 
 		funCreateBtn();
-		
-		
 		}
 	
 	}
@@ -331,18 +387,15 @@ var brhid='<%=brhid%>';
 		$('#frmEnquiry select').attr('disabled', false);
 		$('#btnnewclient').attr('disabled', false);
 		$('#txtsource').attr('readonly', true);
-	//	$('#r1').attr('disabled', false);
-	//	$('#r2').attr('disabled', false);
-	 $("#siteGrid").jqxGrid({ disabled: false});
+	    $("#siteGrid").jqxGrid({ disabled: false});
 		$('#EnquiryDate').jqxDateTimeInput({ disabled: false});
 		$('#cmbprocess').attr('disabled', false);
 		$("#jqxEnquiry").jqxGrid({ disabled: false});
 		$('#docno').attr('readonly', true);
 		
-		if ($("#mode").val() == "A") {    
+		if ($("#mode").val() == "A") {   
 			$('#hidradio').val('<%=dtype%>');
 			document.getElementById("c1").checked=true;
-			//getsjobtype();
 			 $('#EnquiryDate').val(new Date());
 		     $("#jqxEnquiry").jqxGrid('clear');
 		    $("#jqxEnquiry").jqxGrid('addrow', null, {});
@@ -356,24 +409,12 @@ var brhid='<%=brhid%>';
 	         document.getElementById("txtclientname").value='<%=client%>';
 	         document.getElementById("txtcontact").value='<%=cperson%>';
 	         document.getElementById("proname").value='<%=proname%>';
-	         <%-- document.getElementById("txtRemarks").value='<%=desc%>'; --%>
 	         document.getElementById("cpersonid").value='<%=cpersonid%>';
 	         document.getElementById("hidtrno").value='<%=trno%>';
-	        
 		   }
 		
 		if ($("#mode").val() == "E") {
 			 $("#jqxEnquiry").jqxGrid('addrow', null, {});
-			/* if(document.getElementById("txtradio").value==1)
-				{
-					
-					$('#r2').attr('disabled', true);	
-				}
-				else
-					{
-					$('#r1').attr('disabled', true);
-					} */
-			
 		}
 	
 		$('#txtsource').attr('readonly', true );
@@ -382,19 +423,14 @@ var brhid='<%=brhid%>';
 		
 	}
 	function getareas(rowBoundIndex){
-    	 
+    	
   	  $('#areainfowindow').jqxWindow('open');
-  
-     // $('#accountWindow').jqxWindow('focus');
             areaSearchContent('area.jsp?rowBoundIndex='+rowBoundIndex);
          	 }
          	 
  function areaSearchContent(url) {
-  //alert(url);
   	 $.get(url).done(function (data) {
- 		 //alert(data);
  $('#areainfowindow').jqxWindow('setContent', data);
-
                 	}); 
       	}
  function getsertype(rowBoundIndex)
@@ -428,7 +464,7 @@ var brhid='<%=brhid%>';
 			 	 document.getElementById("masterdoc_no").value=items[1];
 	              document.getElementById("docno").value=items[2];
 	             
-	      	       $('#EnquiryDate').val(items[3]) ;
+	       	       $('#EnquiryDate').val(items[3]) ;
 			       document.getElementById("txtRemarks").value=items[4];
 			       document.getElementById("cmbclient").value=items[5];
 		              document.getElementById("txtclientname").value=items[6];
@@ -457,11 +493,11 @@ var brhid='<%=brhid%>';
 			         			}
 			      		}
 			      
-			        	$('#EnquiryDate').jqxDateTimeInput({ disabled: false});
-			     	
+			       	$('#EnquiryDate').jqxDateTimeInput({ disabled: false});
+			      	
 			         document.getElementById("frmEnquiry").submit();
 			 
-			 	 
+			 	
 				}
 		       else
 			  {}
@@ -478,7 +514,7 @@ var brhid='<%=brhid%>';
     		 sourceinfoSearchContent('searchSource.jsp?', $('#sourcesearchwndow'));   
     	}
     	 else{
-    		 
+    		
     	 }
 	}
 	       
@@ -508,18 +544,17 @@ var brhid='<%=brhid%>';
     	 } 
 	       function clientSearchContent(url) {
                  
-	                 $.get(url).done(function (data) {
+                 $.get(url).done(function (data) {
         
 		           $('#clientsearch1').jqxWindow('setContent', data);
 
-          	}); 
+         	}); 
 	           	} 
 	       
 	       
 	function funNotify(){	
 		
 		$('#EnquiryDate').jqxDateTimeInput({ disabled: false});
-		
 		
 		var valid2=document.getElementById("txtclientname").value;
 		
@@ -553,38 +588,37 @@ var brhid='<%=brhid%>';
 		 var rows = $("#jqxEnquiry").jqxGrid('getrows');
 		   for(var i=0 ; i < rows.length ; i++){
 		    if(parseInt(rows[i].brdid)>0)
-  		  {
+ 		  {
 		        if(rows[i].hidfromdate==""||rows[i].hidfromdate=="0.00"||typeof(rows[i].hidfromdate)=="undefined"||typeof(rows[i].hidfromdate)=="NaN")
-  		
+ 		
 				{
 				document.getElementById("errormsg").innerText="Enter From Date";  
 		    	return 0;
 				}
-	 	        
+	 	       
 	 	       if(rows[i].hidtodate==""||rows[i].hidfromdate=="0.00"||typeof(rows[i].hidtodate)=="undefined"||typeof(rows[i].hidtodate)=="NaN")
 	 	    		
 				{
 				document.getElementById("errormsg").innerText="Enter To Date";  
 		    	return 0;
 				}
-	 
+	
 		
-	  	       
-  	       	} 
-   	            
+	 	       
+ 	       	} 
+   	           
 		   }
 	//site grid
 	
 		   var rowsite = $("#siteGrid").jqxGrid('getrows');
 		
 		        if(rowsite[0].site==""||rowsite[0].site=="0"||typeof(rowsite[0].site)=="undefined"||typeof(rowsite[0].site)=="NaN")
-  		
+ 		
 				{
 				document.getElementById("errormsg").innerText="Enter Site Details";  
 		    	return 0;
 				}
 	 	
-	 
 	
 	
 		 var rows = $("#jqxEnquiry").jqxGrid('getrows');
@@ -627,7 +661,6 @@ var brhid='<%=brhid%>';
 	} 
 
 	function funChkButton() {
-		
 		//frmEnquiry.submit();
 	}
 
@@ -640,7 +673,6 @@ var brhid='<%=brhid%>';
                 txtclientname:{"required":true},
                 txtmobile:{number:true,maxlength:12,minlength:12},
                 txttelno:{number:true,maxlength:15},
-             //   txtemail:"",
                 txtaddress: {maxlength:200},
                 txtRemarks:{maxlength:200}
                  },
@@ -650,81 +682,24 @@ var brhid='<%=brhid%>';
                  txtaddress: {maxlength:" Max 200 chars"},
                  txtmobile:{number:" Invalid MOB NO",maxlength:" Max 12 chars",minlength:" Minimum 12 chars" },
                  txttelno:{number:" Invalid Tel No",maxlength:" Max 15 chars" },
-              //   txtemail:" *Enter Valid Email",
-              
                  }
-        });});    
+        });});   
     
 		
 	function funFocus(){
-		 
-	   /* 	$('#EnquiryDate').jqxDateTimeInput('focus');  */
-	   
-	   
-/* 	   
-		document.getElementById("r1").checked=1; */
-	//	document.getElementById("r1").focus();
-	   
-	   
 	}
 	function reqdata()
 	{
- 		 /* if((document.getElementById("r1").checked=="")&&(document.getElementById("r2").checked==""))
- 				 
-         	
-    		{ 
-     	  
-     	       document.getElementById("errormsg").innerText=" Select One Option";
-     	      $('#frmEnquiry input').attr('readonly', true );
-     			$('#frmEnquiry textarea').attr('readonly', true );
-     			
-     		
-     	        return false;			            	              		          	  
-   		}  
-		 else 
-	         	
- 		{ 
-			 document.getElementById("errormsg").innerText="";	
-			 
-			 $('#frmEnquiry input').attr('readonly', false );
-				$('#frmEnquiry textarea').attr('readonly', false );
-		}     */
-}
+    }
 	
 	
 	function chkChange()
     {
-		/* if($('#txtradio').val()!="")
-			{
-  	  if(document.getElementById("txtradio").value==2)
-  		  {
-  		document.getElementById("r2").checked = true;
-  		document.getElementById("r1").checked = false;  */
-  	 	$("#cmbclient").show();
-  		$("#btnnewclient").show(); 
-  	    $('#frmEnquiry input').attr('readonly', true );
+ 	 	$("#cmbclient").show();
+ 		$("#btnnewclient").show(); 
+ 	    $('#frmEnquiry input').attr('readonly', true );
 		$('#frmEnquiry textarea').attr('readonly', true );
         $('#docno').attr('readonly', true);
-		
-		/* 
-		
-  		  }
-  	  else 
-  		  {
-  	
-  		  document.getElementById("r1").checked = true;
-  		 document.getElementById("r2").checked = false;
-  		  $('#frmEnquiry input').attr('readonly', true );
-			$('#frmEnquiry textarea').attr('readonly', true );
-			$('#docno').attr('readonly', true);
-			
-			
-  		  }
-			}
-		else{}
- 
-    
-	     */
     } 
 	
 	
@@ -732,8 +707,6 @@ var brhid='<%=brhid%>';
 	 {
 		 $('#docno').attr('readonly', true);
 		 $('#cmbclient').attr('readonly', true );
-		/*  if( document.getElementById("r2").checked == true)
-			 { */
 				$('#txtclientname').attr('readonly', true );
 		    	$('#txtaddress').attr('readonly', true );
 		    	$('#txtmobile').attr('readonly', true );
@@ -742,7 +715,6 @@ var brhid='<%=brhid%>';
 		    	$('#txtcontact').attr('readonly', true );
 		    	$('#txtsalesman').attr('readonly', true );
 		    	
-		//	 }
 			if ($("#mode").val() == "view") {
 	    	$('#txtclientname').attr('readonly', true );
 	    	$('#txtaddress').attr('readonly', true );
@@ -858,16 +830,13 @@ win.focus();
     		{
     		
     		 document.getElementById("hidradio").value="AMC";
-    		//$('#cmbprocess').val('');
     		
     		 document.getElementById("hidcmbprocess").value=0;
-    		//$('#cmbprocess').attr('disabled', true);
     		
     		}
     	else
     		{
     		 document.getElementById("hidradio").value="SJOB";
-    		//$('#cmbprocess').attr('disabled', false);
     		}
     }
 	
@@ -877,157 +846,143 @@ win.focus();
 <div id="mainBG" class="homeContent" data-type="background">
 <form id="frmEnquiry" action="saveEnquirynew" autocomplete="OFF" method="POST">   
 
-<jsp:include page="../../../../header.jsp"></jsp:include><br/>
+<jsp:include page="../../../../header.jsp"></jsp:include>
 
-<fieldset>
-<legend>Customer Enquiry</legend>          <!-- EnquiryDate, docno,cmbclientb,txtclientname,txtaddress -->
-<table width="100%" >                        
-  <tr>
-    <td width="11%" align="right">Date</td>
-    <td colspan="2"><div id='EnquiryDate' name='EnquiryDate' value='<s:property value="EnquiryDate"/>'></div>
-                     <input type="hidden" id="hidEnquiryDate" name="hidEnquiryDate" value='<s:property value="hidEnquiryDate"/>'/></td>
-    <!--  <td width="32%" align="right">User Name</td> -->
-    <%-- <td width="33%"><input type="text" id="enquserName" name="enquserName" tabindex="-1" value="<%=session.getAttribute("USERNAME")%>"/></td> --%>
-    <td width="36%" align="right">User Name : <label ><font size="2PX"><%=session.getAttribute("USERNAME")%></font></label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    </td>
-    <td width="33%">Doc No&nbsp;<input type="text" id="docno" name="docno" tabindex="-1" value='<s:property value="docno"/>' onfoucs="disfields();"/></td>
-  </tr>
-  <%--  <tr>
-    <td align="right">&nbsp;</td>
-    <td colspan="2"><input type="radio" id="r1" name="genaral" value='<s:property value="0"/>'  >General</td>
-    <td colspan="2"><input type="radio" id="r2" name="client" value='<s:property value="1"/>' >Client</td>
-  </tr>  --%>
-       
-  <tr>
-    <td align="right">Client</td>     
-    <td colspan="3"><input type="text" id="cmbclient" name="cmbclient" placeholder="Press F3 To Search" value='<s:property value="cmbclient"/>' onKeyDown="getclinfo(event);" onfocus="disfields();">
-		<input type="text" id="txtclientname" name="txtclientname" style="width: 40%;" value='<s:property value="txtclientname"/>' onfocus="reqdata();disfields();"></td>
-     <td><button type="button" id="btnnewclient"  class="myButton" onclick="text();">Create new Client</button></td>
-  </tr>
- 
-</table>
-  <table width="100%" >
-  <tr>
-  <td width="10.8%" align="right">Contact person</td>
-    <td><input type="text" id="txtcontact" name="txtcontact" style="width:25%;" value='<s:property value="txtcontact"/>' onKeyDown="getcontact(event);"></td>
-   <td width="1%" align="right">Salesman</td>
-   <td colspan="3"><input type="text" id="txtsalesman" name="sal_name" style="width:45%;" placeholder="Press F3 To Search" value='<s:property value="sal_name"/>' onKeyDown="getsalinfo(event);" onfocus="disfields();">
-   <input type="hidden" id="txtsalesmandocno" name="sal_id" value='<s:property value="sal_id"/>'></td>
-		
+<div class="modern-ui hidden-scrollbar">
+
+    <div class="middle-panel">
+        <span class="middle-panel-title">General Info</span>
+        
+        <div class="field-row">
+            <label class="lbl-right" style="width:80px;">Date</label>
+            <div style="width: 125px;">
+                <div id='EnquiryDate' name='EnquiryDate' value='<s:property value="EnquiryDate"/>'></div>
+                <input type="hidden" id="hidEnquiryDate" name="hidEnquiryDate" value='<s:property value="hidEnquiryDate"/>'/>
+            </div>
+            
+            <label class="lbl-right" style="width:120px;">User Name :</label>
+            <span class="read-only-text"><%=session.getAttribute("USERNAME")%></span>
+            
+            <label class="lbl-right" style="width:80px; margin-left:auto;">Doc No.</label>
+            <input type="text" id="docno" name="docno" style="width:120px;" tabindex="-1" value='<s:property value="docno"/>' onfocus="disfields();"/>
+        </div>
+    </div>
     
-  </tr>
-   <tr>
-    <td width="10.8%" align="right">Address</td>
-    <td><input type="text" id="txtaddress" name="txtaddress" style="width:76.7%;" value='<s:property value="txtaddress"/>' onfocus="reqdata();disfields();"></td>
-  </tr>
-  </table>
-<table  width="100%">
-  <tr>
-    <td align="right" width="10.8%">MOB</td>
-    <td width="20%" ><input type="text" id="txtmobile" name="txtmobile" style="width:60%;" value='<s:property value="txtmobile"/>' onfocus="reqdata();disfields();"></td>
-        <td align="right" width="3%" >Tel</td>
-    <td width="20%"> <input type="text" id="txttelno" name="txttelno" style="width: 60%;" value='<s:property value="txttelno"/>' onfocus="reqdata();disfields();"></td>
-    <td align="right" width="3%" >Email</td>
-    <td > <input type="email" id="txtemail" name="txtemail" style="width: 51.5%;" value='<s:property value="txtemail"/>' onfocus="reqdata();disfields();"></td>
-  </tr>
-  
-  <tr>
-    <td align="right" width="150">Contract Type</td>
-    <td width="148"><input type="radio" id="c1" name="cnt" value="AMC" onchange="getsjobtype();" onClick="getsjobtype();jobChange();">AMC
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <input type="radio" id="c2" name="cnt" value="SJOB" onchange="getsjobtype();" onClick="getsjobtype();jobChange();" >
-    SJOB</td>
-    <td align="right">Type</td>
-	  <td align="left"><select name="cmbprocess" id="cmbprocess" style="width:62%;" name="cmbprocess" onchange="funtxtenable(value);"  value='<s:property value="cmbprocess"/>'></select>
-	  <input type="hidden" name="hidcmbprocess" id="hidcmbprocess" value='<s:property value="hidcmbprocess"/>' /> 
-	  </td>
-	  
-    <td align="right" >Source</td>
-  <td align="left" width="20%"><input type="text" id="txtsource" name="txtsource" style="width:50%;" readonly placeholder="Press F3 To Search" onKeyDown="getSource(event);" value='<s:property value="txtsource"/>'></td>
-	<td>  <input type="checkbox" name="chksurvey" id="chksurvey" value="chksurvey"  value='<s:property value="chksurvey"/>' onclick="$(this).attr('value', this.checked ? 1 : 0);">Surveyed</td>
+    <div class="middle-panel">
+        <span class="middle-panel-title">Customer & Contact Details</span>
+        
+        <div class="field-row">
+            <label class="lbl-right" style="width:80px;">Client</label>
+            <input type="text" id="cmbclient" name="cmbclient" style="width:120px;" placeholder="Press F3" value='<s:property value="cmbclient"/>' onKeyDown="getclinfo(event);" onfocus="disfields();">
+            <input type="text" id="txtclientname" name="txtclientname" style="flex:1;" value='<s:property value="txtclientname"/>' onfocus="reqdata();disfields();">
+            <button type="button" id="btnnewclient" class="myButton" onclick="text();">Create New Client</button>
+        </div>
+        
+        <div class="field-row">
+            <label class="lbl-right" style="width:80px;">Contact Person</label>
+            <input type="text" id="txtcontact" name="txtcontact" style="width:200px;" value='<s:property value="txtcontact"/>' onKeyDown="getcontact(event);">
+            
+            <label class="lbl-right" style="width:80px;">Salesman</label>
+            <input type="text" id="txtsalesman" name="sal_name" style="flex:1;" placeholder="Press F3" value='<s:property value="sal_name"/>' onKeyDown="getsalinfo(event);" onfocus="disfields();">
+            <input type="hidden" id="txtsalesmandocno" name="sal_id" value='<s:property value="sal_id"/>'>
+        </div>
+        
+        <div class="field-row">
+            <label class="lbl-right" style="width:80px;">Address</label>
+            <input type="text" id="txtaddress" name="txtaddress" style="flex:1;" value='<s:property value="txtaddress"/>' onfocus="reqdata();disfields();">
+        </div>
+        
+        <div class="field-row">
+            <label class="lbl-right" style="width:80px;">MOB</label>
+            <input type="text" id="txtmobile" name="txtmobile" style="width:120px;" value='<s:property value="txtmobile"/>' onfocus="reqdata();disfields();">
+            
+            <label class="lbl-right" style="width:80px;">Tel</label>
+            <input type="text" id="txttelno" name="txttelno" style="width:120px;" value='<s:property value="txttelno"/>' onfocus="reqdata();disfields();">
+            
+            <label class="lbl-right" style="width:80px;">Email</label>
+            <input type="email" id="txtemail" name="txtemail" style="flex:1;" value='<s:property value="txtemail"/>' onfocus="reqdata();disfields();">
+        </div>
+    </div>
     
-  </tr>
-  </table>
-  <table  width="100%" >
-  <tr>
-  <td align="right" width="10.8%">Remarks</td> 
-    <td colspan="3">
-    <input type="text" id="txtRemarks" name="txtRemarks" style="width:76.6%;" value='<s:property value="txtRemarks"/>'onfocus="reqdata();disfields();"></td>
+    <div class="middle-panel">
+        <span class="middle-panel-title">Contract & Process Info</span>
+        
+        <div class="field-row">
+            <label class="lbl-right" style="width:80px;">Contract Type</label>
+            <div style="display:flex; align-items:center; gap:15px; margin-right: 20px;">
+                <label style="font-size:12px;"><input type="radio" id="c1" name="cnt" value="AMC" onchange="getsjobtype();" onClick="getsjobtype();jobChange();"> AMC</label>
+                <label style="font-size:12px;"><input type="radio" id="c2" name="cnt" value="SJOB" onchange="getsjobtype();" onClick="getsjobtype();jobChange();"> SJOB</label>
+            </div>
+            
+            <label class="lbl-right" style="width:80px;">Type</label>
+            <select name="cmbprocess" id="cmbprocess" style="width:150px;" onchange="funtxtenable(value);" value='<s:property value="cmbprocess"/>'></select>
+            <input type="hidden" name="hidcmbprocess" id="hidcmbprocess" value='<s:property value="hidcmbprocess"/>' /> 
+            
+            <label class="lbl-right" style="width:80px;">Source</label>
+            <input type="text" id="txtsource" name="txtsource" style="width:150px;" readonly placeholder="Press F3" onKeyDown="getSource(event);" value='<s:property value="txtsource"/>'>
+            
+            <div style="margin-left: 20px;">
+                <label style="font-size:12px; font-weight:bold;"><input type="checkbox" name="chksurvey" id="chksurvey" value='<s:property value="chksurvey"/>' onclick="$(this).attr('value', this.checked ? 1 : 0);"> Surveyed</label>
+            </div>
+        </div>
+        
+        <div class="field-row">
+            <label class="lbl-right" style="width:80px;">Remarks</label>
+            <input type="text" id="txtRemarks" name="txtRemarks" style="flex:1;" value='<s:property value="txtRemarks"/>' onfocus="reqdata();disfields();">
+        </div>
+    </div>
 
-  </tr>
-</table> 
-</fieldset>
+    <div class="middle-panel">
+        <span class="middle-panel-title">Site Details</span>
+        <div id="sitediv" class="grid-container">
+            <jsp:include page="siteGrid.jsp"></jsp:include>
+        </div>
+    </div>
+    
+    <div class="middle-panel">
+        <span class="middle-panel-title">Enquiry Details</span>
+        <div id="enqdiv" class="grid-container">
+            <jsp:include page="enquiryDetails.jsp"></jsp:include>
+        </div>
+    </div>
 
-<table width="100%">
-  <tr>
-    <td><fieldset><legend>Site Details</legend>
-    <div id="sitediv"><jsp:include page="siteGrid.jsp"></jsp:include></div>
-    </fieldset></td>
-   
-  </tr>
-</table>
-<fieldset>
-<div id="enqdiv">
-<jsp:include page="enquiryDetails.jsp"></jsp:include></div>
-</fieldset>
+    <div style="display:none;">
+        <input type="hidden" id="masterdoc_no" name="masterdoc_no" value='<s:property value="masterdoc_no"/>' />
+        <input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>' />
+        <input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>' />
+        <input type="hidden" name="enqdtype" id="enqdtype" value='<s:property value="enqdtype"/>' />
+        <input type="hidden" id="enqgridlenght" name="enqgridlenght" />
+        <input type="hidden" id="siteGridlength" name="siteGridlength" /> 
+        <input type="hidden" name="gridval" id="gridval" value='<s:property value="gridval"/>' />
+        <input type="hidden" name="forradiochk" id="forradiochk" value='<s:property value="forradiochk"/>' />  
+        <input type="hidden" name="brandval" id="brandval" value='<s:property value="brandval"/>' />  
+        <input type="hidden" name="sourceid" id="sourceid" value='<s:property value="sourceid"/>'/>
+        <input type="hidden" name="cpersonid" id="cpersonid" value='<s:property value="cpersonid"/>'/>
+        <input type="hidden" name="fromdatesval" id="fromdatesval" value='<s:property value="fromdatesval"/>' />  
+        <input type="hidden" name="todateval" id="todateval" value='<s:property value="todateval"/>' /> 
+        <input type="hidden" id="sertypeids" name="sertypeids" value='<s:property value="sertypeids"/>'/> 
+        <input type="hidden" id="hidradio" name="hidradio" value='<s:property value="hidradio"/>'/>
+        <input type="hidden" id="hidsurvey" name="hidsurvey" value='<s:property value="hidsurvey"/>'/>
+        <input type="hidden" name="txtradio" id="txtradio" value='<s:property value="txtradio"/>' /> 
+        <input type="hidden" name="proname" id="proname" value='<s:property value="proname"/>' />
+        <input type="hidden" id="msg" name="msg" value='<s:property value="msg"/>'/> 
+        <input type="hidden" id="hidenqedit" name="hidenqedit" value='<s:property value="hidenqedit"/>'/> 
+        <input type="hidden" id="hidtrno" name="hidtrno" value='<s:property value="hidtrno"/>'/> 
+    </div>
 
-<input type="hidden" id="masterdoc_no" name="masterdoc_no" value='<s:property value="masterdoc_no"/>' />
-
-<input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>' />
-<input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>' />
-<input type="hidden" name="enqdtype" id="enqdtype" value='<s:property value="enqdtype"/>' />
-<input type="hidden" id="enqgridlenght" name="enqgridlenght" />
-<input type="hidden" id="siteGridlength" name="siteGridlength" /> 
-<input type="hidden" name="gridval" id="gridval" value='<s:property value="gridval"/>' />
-<input type="hidden" name="forradiochk" id="forradiochk" value='<s:property value="forradiochk"/>' />  
-<input type="hidden" name="brandval" id="brandval" value='<s:property value="brandval"/>' />  
-<input type="hidden" name="sourceid" id="sourceid" value='<s:property value="sourceid"/>'/>
-<input type="hidden" name="cpersonid" id="cpersonid" value='<s:property value="cpersonid"/>'/>
-<input type="hidden" name="fromdatesval" id="fromdatesval" value='<s:property value="fromdatesval"/>' />  
-<input type="hidden" name="todateval" id="todateval" value='<s:property value="todateval"/>' /> 
-<input type="hidden" id="sertypeids" name="sertypeids"  value='<s:property value="sertypeids"/>'/> 
-
-
-<input type="hidden" id="hidradio" name="hidradio"  value='<s:property value="hidradio"/>'/>
-<input type="hidden" id="hidsurvey" name="hidsurvey"  value='<s:property value="hidsurvey"/>'/>
-<input type="hidden" name="txtradio" id="txtradio" value='<s:property value="txtradio"/>' /> 
-<input type="hidden" name="proname" id="proname" value='<s:property value="proname"/>' />
-
-  <input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/> 
-  <input type="hidden" id="hidenqedit" name="hidenqedit"  value='<s:property value="hidenqedit"/>'/> 
-  <input type="hidden" id="hidtrno" name="hidtrno"  value='<s:property value="hidtrno"/>'/> 
-
+</div>
 
 </form>
 
+<div id="sourcesearchwndow"><div></div></div>
+<div id="modelsearchwndow"><div></div></div>
+<div id="brandsearchwndow"><div></div></div>
+<div id="clientsearch1"><div></div></div>
+<div id="salesManDetailsWindow"><div></div></div>
+<div id="cpinfowindow"><div></div></div>
+<div id="areainfowindow"><div></div></div>
+<div id="surveytypewindow"><div></div></div>
 
-<div id="sourcesearchwndow">
-   <div ></div>
- </div>
-<div id="modelsearchwndow">
-   <div ></div>
-</div>
-<div id="brandsearchwndow">
-   <div ></div>
-</div>
-<div id="clientsearch1">
-   <div ></div>
-</div>
-<div id="salesManDetailsWindow">
-   <div ></div>
-</div>
-<div id="cpinfowindow">
-   <div ></div>
-   </div>
-   <div id="areainfowindow">
-   <div ></div>
-   </div>
-    <div id="surveytypewindow">
-   <div ></div>
-   </div>
 </div>  
 </body>
 </html>
