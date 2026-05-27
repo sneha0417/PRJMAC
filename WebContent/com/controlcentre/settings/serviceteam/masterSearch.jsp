@@ -44,53 +44,144 @@
 		}
  
 	</script>
-<body bgcolor="#E0ECF8">
-<div id=search>
-<table width="100%" >
-  <%-- <tr >
-   <td>
-   <table width="95%" >
-   <tr>
-    <td align="left" width="11%">Product Name</td>
-    <td align="left" width="31%"><input type="text" name="name" id="name"  style="width:100%;" value='<s:property value="name"/>'></td>
-    <td width="14%" align="right"  >&nbsp;&nbsp;&nbsp;Product Code</td>
-    <td align="left" width="44%"><input type="text" name="pcode" id="pcode" value='<s:property value="pcode"/>'></td>
-    <tr>
-    </table>
-    </td>
-  </tr> --%>
- <tr><td>
-		
-  <table >
-  <tr>
- 
-<td align="left" width="6%">Group Code</td>
-    <td align="left" width=21%><input type="text" name="stype" id="stype" value='<s:property value="stype"/>'>
-    <td width="1%"></td>
-    <%-- <td width="8%" align="right">Category</td>
-    
-    <td align="left" width="20%"><input type="text" name="cat" id="cat" style="width:96.5%;" value='<s:property value="cat"/>'></td> --%>
-    <%-- <td width="14%" align="right">Sub Category</td>
-    <td width="21%" align="left"><input type="text" id="subcat" name="subcat" value='<s:property value="subcat"/>'></td> --%>
-   
-    
-    
-    <td colspan="2" align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" name="mbtnrasearch" id="mbtnrasearch" class="myButton" value="Search"  onclick="mainloadSearch();"></td>
-  </tr>
-  </table>
-  </td>
+<style>
+/* =========================================================
+   SCOPED UI: Pure White Panel
+========================================================= */
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff !important; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
 
-  <tr>
-    <td colspan="8" align="right">
-    
-    <div id="srefreshdiv">
-      
-   <jsp:include  page="submainSearch.jsp"></jsp:include> 
-   
-   </div>
-    </td>
-  </tr>
-</table>
-  </div>
+.modern-ui {
+    font-size: 12px;
+    color: #333;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #ffffff !important;
+}
+
+/* Master Input Styles */
+.modern-ui input[type="text"],
+.modern-ui select {
+    height: 24px !important;
+    border: 1px solid #cccccc; 
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 12px; 
+    font-family: inherit;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+/* Panel Styling - Clean White Panel */
+.modern-ui .search-panel {
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 15px 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Table Alignment */
+.modern-ui table {
+    border-collapse: separate;
+    border-spacing: 5px 8px; 
+    width: 100%;
+    table-layout: fixed; 
+}
+
+.modern-ui td {
+    vertical-align: middle;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #333;
+    font-size: 12px; 
+    font-weight: 500;
+    font-family: inherit;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* Search Button */
+.modern-ui .myButton {
+    height: 28px;
+    padding: 0 24px;
+    background-color: #205fd3; 
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    transition: background-color 0.2s;
+}
+
+.modern-ui .myButton:hover {
+    background-color: #1a4eb8;
+}
+
+/* Grid Container */
+.modern-ui .grid-container {
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    min-height: 200px;
+}
+</style>
+
+<body style="background-color: #ffffff;">
+
+<div id="search" class="modern-ui">
+
+    <div class="search-panel">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <colgroup>
+                <col width="15%" /> 
+                <col width="30%" /> 
+                <col width="55%" /> 
+            </colgroup>
+            
+            <tr>
+                <td class="lbl-right">Group Code</td>
+                <td>
+                    <input type="text" name="stype" id="stype" value='<s:property value="stype"/>'>
+                </td>
+                
+                <td align="left" style="padding-left: 10px;">
+                    <button type="button" name="mbtnrasearch" id="mbtnrasearch" class="myButton" onclick="mainloadSearch(); return false;">
+                        Search
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="grid-container">
+        <div id="srefreshdiv">
+            <jsp:include page="submainSearch.jsp"></jsp:include>
+        </div>
+    </div>
+
+</div>
+
 </body>
 </html>

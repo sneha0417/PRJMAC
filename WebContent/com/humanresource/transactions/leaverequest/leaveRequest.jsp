@@ -398,80 +398,446 @@
   height: 530px;
 }
 </style>
+<style>
 
+/* ================= MASTER UI ================= */
+
+body,
+input,
+select,
+textarea,
+button,
+table,
+td,
+th,
+div,
+span,
+label,
+.modern-ui {
+    font-family: "Segoe UI", Tahoma, sans-serif !important;
+    font-size: 12px;
+    color: #333;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #dbe5f1 100%);
+    margin: 0;
+    padding: 24px 0;
+    overflow-y: auto !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 14px;
+    padding: 15px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.modern-ui {
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* ================= SCROLL ================= */
+
+.hidden-scrollbar {
+    overflow: auto;
+    height: 530px;
+    padding-right: 5px;
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.hidden-scrollbar::-webkit-scrollbar-thumb {
+    background: #c5d3e0;
+    border-radius: 3px;
+}
+
+/* ================= INPUTS ================= */
+
+.modern-ui input[type="text"],
+.modern-ui select {
+    height: 24px !important;
+    border: 1px solid #b8c6d8;
+    border-radius: 3px;
+    padding: 2px 6px;
+    background: #fff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled {
+    background: #f8f9fa !important;
+    color: #6b7280 !important;
+    border-color: #dbe1ea !important;
+}
+
+/* ================= LABELS ================= */
+
+.modern-ui .lbl-right {
+    text-align: right;
+    color: #2f2f2f;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ================= LAYOUT ================= */
+
+.modern-ui .field-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+/* ================= PANELS ================= */
+
+.modern-ui .middle-panel {
+    border: 1px solid #c7d2df;
+    border-radius: 4px;
+    background: #fff;
+    padding: 20px 12px 12px 12px;
+    position: relative;
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title {
+    position: absolute;
+    top: -12px;
+    left: 10px;
+    background: #fff;
+    padding: 0 8px;
+    color: #0056b3;
+    font-size: 13px;
+    font-weight: 700;
+    border-left: 3px solid #0056b3;
+}
+
+/* ================= CHECKBOX ================= */
+
+.modern-ui input[type="checkbox"] {
+    vertical-align: middle;
+}
+
+/* ================= DISABLED ================= */
+
+button:disabled,
+button[disabled],
+input[type="button"]:disabled,
+input[type="submit"]:disabled,
+a.disabled,
+a[disabled],
+.disabled,
+.l-btn-disabled,
+.ui-state-disabled,
+.btn-disabled,
+[disabled="disabled"],
+[disabled="true"] {
+    background: #e2e8f0 !important;
+    background-image: none !important;
+    color: #94a3b8 !important;
+    border: 1px solid #cbd5e1 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    box-shadow: none !important;
+}
+
+/* ================= LEGACY RESET ================= */
+
+fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+}
+
+legend {
+    display: none;
+}
+
+</style>
 </head>
 <body onload="setValues();">
-<div id="mainBG" class="homeContent" data-type="background" >
-<form id="frmLeaveRequest" action="saveLeaveRequests" method="post" autocomplete="off">
-<jsp:include page="../../../../header.jsp"></jsp:include><br/>
 
-<div  class='hidden-scrollbar'>
-<fieldset style="background-color: #EBDEF0;">
-<table width="100%">
-  <tr>
-    <td width="8%" align="right">Date</td>
-    <td width="15%"><div id="leaveRequestDate" name="leaveRequestDate" value='<s:property value="leaveRequestDate"/>'></div>
-    <input type="hidden" id="hidleaveRequestDate" name="hidleaveRequestDate" value='<s:property value="hidleaveRequestDate"/>'/></td>
-    <td colspan="4">&nbsp;</td>
-    <td width="12%" align="right">Doc No.</td>
-    <td width="22%"><input type="text" id="docno" name="txtleaverequestdocno" style="width:49%;" value='<s:property value="txtleaverequestdocno"/>' tabindex="-1"/></td>
-  </tr>
-  <tr>
-    <td align="right">Designation</td>
-    <td><select id="cmbempdesignation" name="cmbempdesignation" style="width:95%;" value='<s:property value="cmbempdesignation"/>'>
-      <option value="">--Select--</option></select>
-      <input type="hidden" id="hidcmbempdesignation" name="hidcmbempdesignation" value='<s:property value="hidcmbempdesignation"/>'/></td>
-    <td width="10%" align="right">Department</td>
-    <td colspan="3"><select id="cmbempdepartment" name="cmbempdepartment" style="width:60%;" value='<s:property value="cmbempdepartment"/>'>
-      <option value="">--Select--</option></select>
-      <input type="hidden" id="hidcmbempdepartment" name="hidcmbempdepartment" value='<s:property value="hidcmbempdepartment"/>'/></td>
-    <td align="right">Payroll Category</td>
-    <td><select id="cmbpayrollcategory" name="cmbpayrollcategory" style="width:50%;" value='<s:property value="cmbpayrollcategory"/>'>
-      <option value="">--Select--</option></select>
-      <input type="hidden" id="hidcmbpayrollcategory" name="hidcmbpayrollcategory" value='<s:property value="hidcmbpayrollcategory"/>'/></td>
-  </tr>
-  <tr>
-    <td align="right">Employee</td>
-    <td><input type="text" id="txtemployeeid" name="txtemployeeid" style="width:80%;" placeholder="Press F3 to Search" value='<s:property value="txtemployeeid"/>'  onkeydown="getEmployee(event);"/></td>
-    <td colspan="6"><input type="text" id="txtemployeename" name="txtemployeename" placeholder="Employee Name" style="width:82%;" value='<s:property value="txtemployeename"/>' tabindex="-1"/>
-    <input type="hidden" id="txtemployeedocno" name="txtemployeedocno" value='<s:property value="txtemployeedocno"/>'/></td>
-  </tr>
-  <tr>
-    <td align="right">From</td>
-    <td><div id="fromDate" name="fromDate" onchange="funNoofDaysLeave();" value='<s:property value="fromDate"/>'></div>
-    <input type="hidden" id="hidfromDate" name="hidfromDate" value='<s:property value="hidfromDate"/>'/></td>
-    <td align="right">To</td>
-    <td width="16%"><div id="toDate" name="toDate" onchange="funNoofDaysLeave();" value='<s:property value="toDate"/>'></div>
-    <input type="hidden" id="hidtoDate" name="hidtoDate" value='<s:property value="hidtoDate"/>'/></td>
-            <td width="8%" align="center"><input type="checkbox" id="chckhalfday" name="chckhalfday" value="" onchange="halfdaycheck();funNoofDaysLeave();" onclick="$(this).attr('value', this.checked ? 1 : 0)">Half Day
-	    <input type="hidden" id="hidchckhalfday" name="hidchckhalfday" value='<s:property value="hidchckhalfday"/>'/></td>
-    <td width="9%"><div id="halfDayDate" name="halfDayDate" onchange="funHalfDayCheck();" value='<s:property value="halfDayDate"/>'></div>
-    <input type="hidden" id="hidhalfDayDate" name="hidhalfDayDate" value='<s:property value="hidhalfDayDate"/>'/></td>
-    <td align="right">No. of Days</td>
-    <td><input type="text" id="txtnoofdays" name="txtnoofdays" placeholder="No. of Days" style="width:49%;" value='<s:property value="txtnoofdays"/>' tabindex="-1"/></td>
-  </tr>
-  <tr>
-    <td align="right">Leave Type</td>
-    <td><select id="cmbleavetype" name="cmbleavetype" style="width:80%;" value='<s:property value="cmbleavetype"/>'>
-      <option value="">--Select--</option></select>
-      <input type="hidden" id="hidcmbleavetype" name="hidcmbleavetype" value='<s:property value="hidcmbleavetype"/>'/></td>
-    <td align="right">Description</td>
-    <td colspan="4"><input type="text" id="txtdescription" name="txtdescription" placeholder="Description" style="width:79%;" value='<s:property value="txtdescription"/>'/></td>
-  </tr>
-</table>
-</fieldset><br/>
+<div id="mainBG" class="homeContent" data-type="background">
 
+<form id="frmLeaveRequest"
+      action="saveLeaveRequests"
+      method="post"
+      autocomplete="off">
 
-<input type="hidden" id="mode" name="mode"/>
-<input type="hidden" id="deleted" name="deleted" value='<s:property value="deleted"/>'/>
-<input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
+<jsp:include page="../../../../header.jsp"></jsp:include>
+
+<div class="modern-ui hidden-scrollbar">
+
+    <!-- LEAVE REQUEST -->
+    <div class="middle-panel">
+
+        <span class="middle-panel-title">Leave Request</span>
+
+        <!-- ROW 1 -->
+        <div class="field-row">
+
+            <label class="lbl-right" style="width:90px;">Date</label>
+
+            <div style="width:160px;">
+
+                <div id="leaveRequestDate"
+                     name="leaveRequestDate"
+                     value='<s:property value="leaveRequestDate"/>'></div>
+
+                <input type="hidden"
+                       id="hidleaveRequestDate"
+                       name="hidleaveRequestDate"
+                       value='<s:property value="hidleaveRequestDate"/>'/>
+
+            </div>
+
+            <label class="lbl-right" style="width:90px; margin-left:auto;">Doc No.</label>
+
+            <input type="text"
+                   id="docno"
+                   name="txtleaverequestdocno"
+                   style="width:140px;"
+                   value='<s:property value="txtleaverequestdocno"/>'
+                   tabindex="-1"/>
+
+        </div>
+
+        <!-- ROW 2 -->
+        <div class="field-row">
+
+            <label class="lbl-right" style="width:90px;">Designation</label>
+
+            <select id="cmbempdesignation"
+                    name="cmbempdesignation"
+                    style="width:180px;"
+                    value='<s:property value="cmbempdesignation"/>'>
+
+                <option value="">--Select--</option>
+
+            </select>
+
+            <input type="hidden"
+                   id="hidcmbempdesignation"
+                   name="hidcmbempdesignation"
+                   value='<s:property value="hidcmbempdesignation"/>'/>
+
+            <label class="lbl-right" style="width:90px;">Department</label>
+
+            <select id="cmbempdepartment"
+                    name="cmbempdepartment"
+                    style="width:220px;"
+                    value='<s:property value="cmbempdepartment"/>'>
+
+                <option value="">--Select--</option>
+
+            </select>
+
+            <input type="hidden"
+                   id="hidcmbempdepartment"
+                   name="hidcmbempdepartment"
+                   value='<s:property value="hidcmbempdepartment"/>'/>
+
+            <label class="lbl-right" style="width:110px;">Payroll Category</label>
+
+            <select id="cmbpayrollcategory"
+                    name="cmbpayrollcategory"
+                    style="width:180px;"
+                    value='<s:property value="cmbpayrollcategory"/>'>
+
+                <option value="">--Select--</option>
+
+            </select>
+
+            <input type="hidden"
+                   id="hidcmbpayrollcategory"
+                   name="hidcmbpayrollcategory"
+                   value='<s:property value="hidcmbpayrollcategory"/>'/>
+
+        </div>
+
+        <!-- ROW 3 -->
+        <div class="field-row">
+
+            <label class="lbl-right" style="width:90px;">Employee</label>
+
+            <input type="text"
+                   id="txtemployeeid"
+                   name="txtemployeeid"
+                   style="width:180px;"
+                   placeholder="Press F3 to Search"
+                   value='<s:property value="txtemployeeid"/>'
+                   onkeydown="getEmployee(event);"/>
+
+            <input type="text"
+                   id="txtemployeename"
+                   name="txtemployeename"
+                   placeholder="Employee Name"
+                   style="flex:1;"
+                   value='<s:property value="txtemployeename"/>'
+                   tabindex="-1"/>
+
+            <input type="hidden"
+                   id="txtemployeedocno"
+                   name="txtemployeedocno"
+                   value='<s:property value="txtemployeedocno"/>'/>
+
+        </div>
+
+        <!-- ROW 4 -->
+        <div class="field-row">
+
+            <label class="lbl-right" style="width:90px;">From</label>
+
+            <div style="width:160px;">
+
+                <div id="fromDate"
+                     name="fromDate"
+                     onchange="funNoofDaysLeave();"
+                     value='<s:property value="fromDate"/>'></div>
+
+                <input type="hidden"
+                       id="hidfromDate"
+                       name="hidfromDate"
+                       value='<s:property value="hidfromDate"/>'/>
+
+            </div>
+
+            <label class="lbl-right" style="width:60px;">To</label>
+
+            <div style="width:160px;">
+
+                <div id="toDate"
+                     name="toDate"
+                     onchange="funNoofDaysLeave();"
+                     value='<s:property value="toDate"/>'></div>
+
+                <input type="hidden"
+                       id="hidtoDate"
+                       name="hidtoDate"
+                       value='<s:property value="hidtoDate"/>'/>
+
+            </div>
+
+            <div style="display:flex; align-items:center; gap:5px; margin-left:10px;">
+
+                <input type="checkbox"
+                       id="chckhalfday"
+                       name="chckhalfday"
+                       value=""
+                       onchange="halfdaycheck();funNoofDaysLeave();"
+                       onclick="$(this).attr('value', this.checked ? 1 : 0)">
+
+                Half Day
+
+                <input type="hidden"
+                       id="hidchckhalfday"
+                       name="hidchckhalfday"
+                       value='<s:property value="hidchckhalfday"/>'/>
+
+            </div>
+
+            <div style="width:160px;">
+
+                <div id="halfDayDate"
+                     name="halfDayDate"
+                     onchange="funHalfDayCheck();"
+                     value='<s:property value="halfDayDate"/>'></div>
+
+                <input type="hidden"
+                       id="hidhalfDayDate"
+                       name="hidhalfDayDate"
+                       value='<s:property value="hidhalfDayDate"/>'/>
+
+            </div>
+
+            <label class="lbl-right" style="width:90px;">No. of Days</label>
+
+            <input type="text"
+                   id="txtnoofdays"
+                   name="txtnoofdays"
+                   placeholder="No. of Days"
+                   style="width:120px;"
+                   value='<s:property value="txtnoofdays"/>'
+                   tabindex="-1"/>
+
+        </div>
+
+        <!-- ROW 5 -->
+        <div class="field-row">
+
+            <label class="lbl-right" style="width:90px;">Leave Type</label>
+
+            <select id="cmbleavetype"
+                    name="cmbleavetype"
+                    style="width:180px;"
+                    value='<s:property value="cmbleavetype"/>'>
+
+                <option value="">--Select--</option>
+
+            </select>
+
+            <input type="hidden"
+                   id="hidcmbleavetype"
+                   name="hidcmbleavetype"
+                   value='<s:property value="hidcmbleavetype"/>'/>
+
+            <label class="lbl-right" style="width:90px;">Description</label>
+
+            <input type="text"
+                   id="txtdescription"
+                   name="txtdescription"
+                   placeholder="Description"
+                   style="flex:1;"
+                   value='<s:property value="txtdescription"/>'/>
+
+        </div>
+
+    </div>
+
+    <!-- HIDDEN FIELDS -->
+    <div style="display:none;">
+
+        <input type="hidden" id="mode" name="mode"/>
+
+        <input type="hidden"
+               id="deleted"
+               name="deleted"
+               value='<s:property value="deleted"/>'/>
+
+        <input type="hidden"
+               id="msg"
+               name="msg"
+               value='<s:property value="msg"/>'/>
+
+    </div>
 
 </div>
+
 </form>
+
 <div id="employeeDetailsWindow">
-   <div></div>
+    <div></div>
 </div>
 
 </div>
+
 </body>
 </html>

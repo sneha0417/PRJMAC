@@ -77,32 +77,208 @@
 		}
 
 	</script>
-<body>
-<div id=search>
-<table width="100%">
-  <tr>
-    <td width="7%" align="right">Name</td>
-    <td colspan="3"><input type="text" name="txtempname" id="txtempname" style="width:96%" value='<s:property value="txtempname"/>'></td>
-    <td width="8%" align="right">Mob</td>
-    <td colspan="2"><input type="text" name="txtmobile" id="txtmobile" value='<s:property value="txtmobile"/>'></td>
-    <td width="15%" align="center"><input type="button" name="btnsearch" id="btnsearch" class="myButton" value="Search"  onclick="loadSearch();"></td>
-  </tr>
-  <tr>
-    <td align="right">Designation</td>
-    <td width="15%"><select id="employeedesignation" name="employeedesignation" style="width:96%;" value='<s:property value="employeedesignation"/>'>
-      <option value="">--Select--</option></select></td>
-    <td width="10%" align="right">Department</td>
-    <td width="19%"><select id="employeedepartment" name="employeedepartment" style="width:96%;" value='<s:property value="employeedepartment"/>'>
-      <option value="">--Select--</option></select></td>
-    <td width="8%" align="right">Emp#</td>
-    <td width="14%"><input type="text" name="txtempid" id="txtempid" value='<s:property value="txtempid"/>'></td>
-    <td width="12%" align="right">Date of Join</td>
-    <td><div id="txtdoj" name="txtdoj"  value='<s:property value="txtdoj"/>'></div></td>
-  </tr>
-  <tr>
-    <td colspan="8"><div id="refreshdiv"><jsp:include  page="employeeDetailsSearchGrid.jsp"></jsp:include></div></td>
-  </tr>
-</table>
-  </div>
+<style>
+/* =========================================================
+   SCOPED UI: Pure White Panel (Master UI)
+========================================================= */
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.modern-ui {
+    font-size: 12px;
+    color: #333;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #ffffff !important;
+}
+
+/* Master Input Styles */
+.modern-ui input[type="text"],
+.modern-ui select {
+    height: 24px !important;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-family: inherit;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+/* Panel Styling */
+.modern-ui .search-panel {
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 15px 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Table Alignment */
+.modern-ui table {
+    border-collapse: separate;
+    border-spacing: 5px 8px;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.modern-ui td {
+    vertical-align: middle;
+}
+
+.modern-ui .lbl-right {
+    text-align: right;
+    color: #333;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: inherit;
+    white-space: nowrap;
+    padding-right: 5px;
+}
+
+/* Search Button */
+.modern-ui .myButton {
+    height: 28px;
+    padding: 0 24px;
+    background-color: #205fd3;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    transition: background-color 0.2s;
+}
+
+.modern-ui .myButton:hover {
+    background-color: #1a4eb8;
+}
+
+/* Grid Container */
+.modern-ui .grid-container {
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    min-height: 200px;
+}
+</style>
+
+<body style="background-color:#ffffff;">
+
+<div id="search" class="modern-ui">
+
+    <div class="search-panel">
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+            <colgroup>
+                <col width="10%">
+                <col width="22%">
+                <col width="10%">
+                <col width="18%">
+                <col width="8%">
+                <col width="12%">
+                <col width="10%">
+                <col width="10%">
+            </colgroup>
+
+            <tr>
+
+                <td class="lbl-right">Name</td>
+                <td colspan="3">
+                    <input type="text" 
+                           name="txtempname" 
+                           id="txtempname"
+                           value='<s:property value="txtempname"/>'>
+                </td>
+
+                <td class="lbl-right">Mob</td>
+                <td>
+                    <input type="text" 
+                           name="txtmobile" 
+                           id="txtmobile"
+                           value='<s:property value="txtmobile"/>'>
+                </td>
+
+                <td colspan="2" align="center">
+                    <button type="button"
+                            name="btnsearch"
+                            id="btnsearch"
+                            class="myButton"
+                            onclick="loadSearch(); return false;">
+                        Search
+                    </button>
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td class="lbl-right">Designation</td>
+                <td>
+                    <select id="employeedesignation"
+                            name="employeedesignation"
+                            value='<s:property value="employeedesignation"/>'>
+                        <option value="">--Select--</option>
+                    </select>
+                </td>
+
+                <td class="lbl-right">Department</td>
+                <td>
+                    <select id="employeedepartment"
+                            name="employeedepartment"
+                            value='<s:property value="employeedepartment"/>'>
+                        <option value="">--Select--</option>
+                    </select>
+                </td>
+
+                <td class="lbl-right">Emp#</td>
+                <td>
+                    <input type="text"
+                           name="txtempid"
+                           id="txtempid"
+                           value='<s:property value="txtempid"/>'>
+                </td>
+
+                <td class="lbl-right">Date of Join</td>
+                <td>
+                    <div id="txtdoj"
+                         name="txtdoj"
+                         value='<s:property value="txtdoj"/>'>
+                    </div>
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <div class="grid-container">
+        <div id="refreshdiv">
+            <jsp:include page="employeeDetailsSearchGrid.jsp"></jsp:include>
+        </div>
+    </div>
+
+</div>
+
 </body>
 </html>
