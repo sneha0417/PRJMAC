@@ -10,8 +10,69 @@
 <title>GatewayERP(i)</title>
  <%--   <jsp:include page="../../../../includes.jsp"></jsp:include>   --%>   
 <style>
-<link href="<%=contextPath%>/css/body.css" media="screen" rel="stylesheet" type="text/css" />
-</style>
+     #search {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            padding: 10px;
+            background-color: #fff !important;
+        }
+
+        #search .search-bar-wrapper {
+            border: 1px solid #b8c6d8;
+            background-color: #fff;
+            border-radius: 4px;
+            padding: 10px 5px;
+            margin-bottom: 15px;
+        }
+
+        #search table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 5px;
+        }
+
+        #search td {
+            padding: 4px 5px;
+            vertical-align: middle;
+        }
+
+        #search input[type="text"] {
+            height: 24px;
+            border: 1px solid #b8c6d8;
+            border-radius: 3px;
+            padding: 2px 6px;
+            box-sizing: border-box;
+            background-color: #fff;
+            color: #333;
+            outline: none;
+        }
+
+        #search input[type="text"]:focus {
+            border-color: #0b45a2;
+        }
+
+        #search .myButton {
+            height: 26px;
+            padding: 0 15px;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+            border: none;
+            background: linear-gradient(135deg, #0b45a2 0%, #2563eb 100%);
+            color: #ffffff;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        #search .myButton:hover {
+            background: linear-gradient(135deg, #083a8a 0%, #1d4ed8 100%);
+        }
+
+        #search #refreshdivs {
+            margin-top: 10px;
+            width: 100%;
+        }
+    </style>
 
 	<script type="text/javascript">
 	$(document).ready(function () {
@@ -40,35 +101,47 @@
 		}
 
 	</script>
-<body bgcolor="#E0ECF8">
+<body >
 <div id=search>
-<table width="100%" >
+<div class="search-bar-wrapper">
+<table width="100%">
   <tr>
-   <td>                         
-   <table width="100%">
-   <tr>
-   <td width="7%" align="right">Docno</td>
-    <td align="left" width="21%"><input type="text" name="msdocno" id="msdocno"  value='<s:property value="msdocno"/>'></td>
-    <td align="right" >To Branch</td>
-    <td align="left" width="18%" ><input type="text" name="tobranch" id="tobranch"  style="width:100%;" value='<s:property value="tobranch"/>'></td>
-    <td width="15%" align="right" >To Location</td>
-      <td align="left" width="23%"><input type="text" name="tolocation" id="tolocation" value='<s:property value="tolocation"/>'></td>
-      </tr>
-        <tr>
-        <td  align="center"> Type</td>
-    <td><select id="reftype" name="reftype" value='<s:property value="reftype"/>'>
-     <option value="">----select------</option>
-      <option value="IBT">Branch Trasfer(IBT)</option>
-      <option value="ILT">Location Transfer(ILT)</option></select></td>
-        <td align="right">Date </td>
-    <td align="left" ><div id="sdate" name="sdate"  value='<s:property value="sdate"/>'></div>
-   
-    <td width="16%" align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="button" name="qotbtnrasearch" id="qotbtnrasearch" class="myButton" value="Search"  onclick="qotloadSearch1()"></td>
-    <tr>
-    </table>
+    <td width="5%" align="right">Docno</td>
+    <td width="11%" align="left">
+      <input type="text" name="msdocno" id="msdocno" style="width:100%;" value='<s:property value="msdocno"/>'>
     </td>
-</tr>
+    
+    <td width="7%" align="right">To Branch</td>
+    <td width="12%" align="left">
+      <input type="text" name="tobranch" id="tobranch" style="width:100%;" value='<s:property value="tobranch"/>'>
+    </td>
+    
+    <td width="7%" align="right">To Loc</td>
+    <td width="12%" align="left">
+      <input type="text" name="tolocation" id="tolocation" style="width:100%;" value='<s:property value="tolocation"/>'>
+    </td>
+    
+    <td width="4%" align="right">Type</td>
+    <td width="15%" align="left">
+      <select id="reftype" name="reftype" style="width:100%;" value='<s:property value="reftype"/>'>
+        <option value="">----select------</option>
+        <option value="IBT">Branch Transfer (IBT)</option>
+        <option value="ILT">Location Transfer (ILT)</option>
+      </select>
+    </td>
+    
+    <td width="5%" align="right">Date</td>
+    <td width="12%" align="left">
+      <div id="sdate" name="sdate" value='<s:property value="sdate"/>'></div>
+    </td>
+    
+    <td width="10%" align="center">
+      <input type="button" name="qotbtnrasearch" id="qotbtnrasearch" class="myButton" value="Search" onclick="qotloadSearch1()">
+    </td>
+  </tr>
+</table>
+</div>
+<table>
 
   <tr>
     <td colspan="8" align="right">

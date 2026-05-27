@@ -12,9 +12,7 @@
 .classpass {
     -webkit-text-security: disc;
 }
- #psearch {
-	background:#FAEBD7;
-}
+
 
 .blink {
   animation: blink-animation 2s steps(5, start) infinite;
@@ -30,120 +28,6 @@
     visibility: hidden;
   }
 }
-.btn {
-  background: #3498db;
-  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
-  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
-  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
-  background-image: -o-linear-gradient(top, #3498db, #2980b9);
-  background-image: linear-gradient(to bottom, #3498db, #2980b9);
-  -webkit-border-radius: 28;
-  -moz-border-radius: 28;
-  border-radius: 28px;
-  font-family: Arial;
-  color: #ffffff;
-  font-size: 10px;
-  padding: 4px 15px 6px 17px;
-  text-decoration: none;
-}
-
-.btn:hover {
-  background: #3cb0fd;
-  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-  text-decoration: none;
-  
-  
- 
-}
-
-
- #divname {
-     
-    background-color: #e2c791;
-    box-shadow: 10px 10px grey;
-     position:fixed;z-index:1000;right:30px;top:100px;  
-}
-.classpass {
-    -webkit-text-security: disc;
-}
- #psearch {
- 
-background:#FAEBD7;
- 
-}
-.btn {
-  background: #3498db;
-  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
-  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
-  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
-  background-image: -o-linear-gradient(top, #3498db, #2980b9);
-  background-image: linear-gradient(to bottom, #3498db, #2980b9);
-  -webkit-border-radius: 28;
-  -moz-border-radius: 28;
-  border-radius: 28px;
-  font-family: Arial;
-  color: #ffffff;
-  font-size: 10px;
-  padding: 4px 15px 6px 17px;
-  text-decoration: none;
-}
-
-.btn:hover {
-  background: #3cb0fd;
-  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-  text-decoration: none;
-  
-  
- 
-}
-
-
- #divname {
-     
-    background-color: #e2c791;
-    box-shadow: 10px 10px grey;
-     position:fixed;z-index:1000;right:30px;top:100px;  
-}
-.myButtons {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #7892c2), color-stop(1, #476e9e));
-	background:-moz-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-webkit-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-o-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-ms-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7892c2', endColorstr='#476e9e',GradientType=0);
-	background-color:#7892c2;
-	border:1px solid #4e6096;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:12px;
-	padding:2px 7px;
-	text-decoration:none;
-}
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #476e9e), color-stop(1, #7892c2));
-	background:-moz-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-webkit-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-o-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-ms-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2',GradientType=0);
-	background-color:#476e9e;
-}
-.myButtons:active {
-	position:relative;
-	top:1px;
-}      
 
 </style>
 
@@ -2559,18 +2443,165 @@ function getrefno(event)
   overflow: auto;
   height: 530px;
 }
-.textbox {
-    border: 0;
-    height: 25px;
-    width: 20%;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    box-shadow: 1px 1px 0 0 #E0ECF8, 5px 5px 40px 2px #E0ECF8 inset;
-    -moz-box-shadow: 1px 1px 0 0 #E0ECF8, 5px 5px 40px 2px #E0ECF8 inset;
-    -webkit-box-shadow: 1px 1px 0 0 #E0ECF8, 5px 5px 40px 2px #E0ECF8 inset;
-    -webkit-background-clip: padding-box;
-    outline: 0;
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+#frmSalesInvoice input[type="text"],
+#frmSalesInvoice input[type="password"],
+#frmSalesInvoice select,
+.textbox { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    box-shadow: none !important;
+    outline: none;
+}
+
+
+
+
+fieldset {
+    border: 1px solid #c5d3e0; 
+    padding: 10px 10px 5px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+
+
+legend {
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    font-family: Arial, sans-serif;
+    border-left: 3px solid #0056b3;
+    line-height: normal; 
+    margin-left: -2px; 
+}
+
+#frmSalesInvoice table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px; 
+}
+
+#frmSalesInvoice td {
+    padding: 0 5px;
+    vertical-align: middle;
+    font-family: Arial, sans-serif; 
+    font-size: 12px; 
+    color: #333;
+}
+
+#frmSalesInvoice td[align="right"] {
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 10px;
+}
+
+#frmSalesInvoice td[align="center"] {
+    text-align: center; 
+    font-weight: bold;
+    color: #444;
+}
+
+form label.error {
+    color: red;
+    font-weight: bold;
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+}
+
+.btn, .myButtons, .myButton {
+    height: 24px !important;
+    line-height: 22px !important;
+    padding: 0 12px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: none;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    border: none;
+    background: linear-gradient(135deg, #0b45a2 0%, #2563eb 100%);
+    color: #ffffff;
+    white-space: nowrap;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.btn:hover, .myButtons:hover, .myButton:hover { 
+    background: linear-gradient(135deg, #083a8a 0%, #1d4ed8 100%); 
+}
+
+#invoiceDiv, #hidegrid, #servicegrid, #termsDiv, #shipdetdiv {
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.hidden-scrollbar {
+    overflow-y: auto;
+    height: calc(100vh - 100px);
+    padding-right: 5px;
+}
+.hidden-scrollbar::-webkit-scrollbar { width: 6px; }
+.hidden-scrollbar::-webkit-scrollbar-thumb { background: #c5d3e0; border-radius: 3px; }
+
+.classpass {
+    -webkit-text-security: disc;
+}
+
+.blink {
+    animation: blink-animation 2s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+    to { visibility: hidden; }
+}
+
+#divname {
+    background-color: #e2c791;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    position: fixed;
+    z-index: 1000;
+    right: 30px;
+    top: 100px;
+    border-radius: 4px;
+    padding: 10px;
 }
 </style>
 
@@ -2666,88 +2697,47 @@ function getrefno(event)
   </tr> --%>
 </table>
 <fieldset>
+<legend>General Detail</legend>
 <table width="100%">   
   <tr>
-    <td width="7%" align="right">Customer</td>
-    <td width="14%"><input type="text" id="txtclient" name="txtclient" style="width:70%;" placeholder="Press F3 to Search" value='<s:property value="txtclient"/>' onKeyDown="getclinfo(event);"/></td>
-    <td colspan="3"><input type="text" id="txtclientdet" name="txtclientdet" style="width:48%;" value='<s:property value="txtclientdet"/>' tabindex="-1"/>
-     &nbsp;&nbsp;&nbsp;&nbsp;MOB&nbsp;
-    <input type="text" id="txtclientmob" name="txtclientmob"  style="width:20%;" value='<s:property value="txtclientmob"/>'   tabindex="-1"/>
-    
-    </td>
+    <td width="6%" align="right">Customer</td>
+    <td width="12%"><input type="text" id="txtclient" style="width:100%;" name="txtclient" placeholder="Press F3 to Search" value='<s:property value="txtclient"/>' onKeyDown="getclinfo(event);"/></td>
+    <td width="12%"><input type="text" id="txtclientdet" style="width:100%;" name="txtclientdet" value='<s:property value="txtclientdet"/>' tabindex="-1"/></td>
+    <td width="4%" align="right">MOB</td>
+    <td width="9%"><input type="text" id="txtclientmob" style="width:100%;" name="txtclientmob" value='<s:property value="txtclientmob"/>' tabindex="-1"/></td>
+    <td width="6%" align="right">Currency</td>
+    <td width="8%"><input type="text" name="cmbcurr" style="width:100%;" id="cmbcurr" value='<s:property value="cmbcurr"/>'><input type="hidden" id="hidcmbcurr" name="hidcmbcurr" value='<s:property value="hidcmbcurr"/>'/></td>
+    <td width="8%"><input type="text" id="currate" style="width:100%;" name="currate" value='<s:property value="currate"/>'/></td>
+    <td width="7%" align="right"><label id="billname">Bill Type</label></td>
+    <td width="10%"><select id="cmbbilltype" name="cmbbilltype" style="width:100%;" onchange="gettaxaccounts()" value='<s:property value="cmbbilltype"/>'><option value="1">VAT</option></select><input type="hidden" id="hidcmbbilltype" name="hidcmbbilltype" value='<s:property value="hidcmbbilltype"/>'/></td>
+    <td width="8%" align="right"><label id="vatype">Vat Type</label></td>
+    <td width="10%"><select id="cmbvatype" name="cmbvatype" style="width:100%;" onchange="vatChange();" value='<s:property value="cmbvatype"/>'><option value="inclusive">Inclusive</option><option value="exclusive">Exclusive</option><option value="export">Export</option></select><input type="hidden" id="hidcmbvatype" name="hidcmbvatype" value='<s:property value="hidcmbvatype"/>'/></td>
   </tr>
-  <tr>
-    <td   align="right">Currency</td>
-     <td  ><input type="text" name="cmbcurr" id="cmbcurr"  value='<s:property value="cmbcurr"/>'>
-     <input type="hidden" id="hidcmbcurr" name="hidcmbcurr" value='<s:property value="hidcmbcurr"/>'/></td>
-    <td colspan="3"><input type="text" id="currate" name="currate" style="width:13%;" value='<s:property value="currate"/>'/>
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-     &nbsp;&nbsp;&nbsp;&nbsp;
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <label id="billname">Bill Type</label>&nbsp;<select id="cmbbilltype" name="cmbbilltype" onchange="gettaxaccounts()"  style="width:13%;" value='<s:property value="cmbbilltype"/>'>
-     <!--  <option value="1">ST</option>
-      <option value="2">CST</option> -->
-       <option value="1">VAT </option>
-      
-      </select>
-      <input type="hidden" id="hidcmbbilltype" name="hidcmbbilltype" value='<s:property value="hidcmbbilltype"/>'/>
-    <label id="vatype">Vat Type</label><select id="cmbvatype" name="cmbvatype" style="width:13%;" onchange="vatChange();" value='<s:property value="cmbvatype"/>'>
-       <option value="inclusive">Inclusive</option>
-       <option value="exclusive">Exclusive</option>
-       <option value="export">Export</option>
-       </select>
-      <input type="hidden" id="hidcmbvatype" name="hidcmbvatype" value='<s:property value="hidcmbvatype"/>'/>
-    
-    </td>
-    
-    
-  </tr>
+  
   <tr>
     <td align="right">Ref. Type</td>
-    <td><select id="cmbreftype" name="cmbreftype" style="width:71%;" onchange="refChange();" value='<s:property value="cmbreftype"/>'>
-       <option value="DIR">DIR</option>
-       <option value="SOR">SOR</option>
-       <option value="DEL">DEL</option>
-       <!-- <option value="JOR">JOR</option> -->
-       </select>
-      <input type="hidden" id="hidcmbreftype" name="hidcmbreftype" value='<s:property value="hidcmbreftype"/>'/></td>
-     <td width="14%"><input type="text" id="rrefno" name="rrefno" style="width:100%;" placeholder="Press F3 to Search"  onKeyDown="getrefno(event);" value='<s:property value="rrefno"/>'/></td> 
-     <%-- <td>Sales Order
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="rrefno" name="rrefno" style="width:35%;"  placeholder="Press F3 to Search"  onKeyDown="getrefno(event);" value='<s:property value="rrefno"/>'/>
-     </td> --%>
-    <td width="5%" align="right">&nbsp;</td>
-    <td width="53%"> <select hidden="true" id="cmbprice" name="cmbprice" style="width:20%;" value='<s:property value="cmbprice"/>'>
-      <option value="1">Max Rate1</option>
-       <option value="2">Mid Rate2</option>
-         <option value="3">Min Rate3</option> </select>
-      <input type="hidden" id="hidcmbprice" name="hidcmbprice" value='<s:property value="hidcmbprice"/>'/>&nbsp;  Bill To 
-   <input type="text" id="billto" name="billto" style="width:30%;" placeholder="Press F3 to Search" value='<s:property value="billto"/>' onKeyDown="getbillto(event);"/> 
-           TRN NO 
-      <input type="text" id="btrno" name="btrno" style="width:21%;"  value='<s:property value="btrno"/>' ></td>
-       
+    <td><select id="cmbreftype" name="cmbreftype" style="width:100%;" onchange="refChange();" value='<s:property value="cmbreftype"/>'><option value="DIR">DIR</option><option value="SOR">SOR</option><option value="DEL">DEL</option></select><input type="hidden" id="hidcmbreftype" name="hidcmbreftype" value='<s:property value="hidcmbreftype"/>'/></td>
+    <td><input type="text" id="rrefno" name="rrefno" style="width:100%;" placeholder="Press F3 to Search" onKeyDown="getrefno(event);" value='<s:property value="rrefno"/>'/></td> 
+    <td align="right" colspan="2">Bill To <input type="text" id="billto" name="billto" style="width:60%;" placeholder="Press F3 to Search" value='<s:property value="billto"/>' onKeyDown="getbillto(event);"/></td> 
+    <td align="right" colspan="2">TRN NO <input type="text" id="btrno" name="btrno" style="width:60%;" value='<s:property value="btrno"/>' ></td>
+    <td align="right" colspan="2">Payment Due on</td>
+    <td colspan="3"><div id="payDueDate" name="payDueDate" value='<s:property value="payDueDate"/>'></div><input type="hidden" id="hidpayDueDate" name="hidpayDueDate" value='<s:property value="hidpayDueDate"/>'/></td>
+    <input type="hidden" id="hidcmbprice" name="hidcmbprice" value='<s:property value="hidcmbprice"/>'/>
   </tr>
+  
   <tr>
-    <td align="right">Payment Due on</td>     
-    <td><div id="payDueDate" name="payDueDate" value='<s:property value="payDueDate"/>'></div>
-    <input type="hidden" id="hidpayDueDate" name="hidpayDueDate" value='<s:property value="hidpayDueDate"/>'/></td>
-    <td align="left" colspan="3">Del. Terms <input type="text" id="txtdelterms" name="txtdelterms" style="width:65%;" value='<s:property value="txtdelterms"/>'/></td>
-  </tr>
-  <tr>
-    <td align="right">Payment Terms</td>
-    <td colspan="4"><input type="text" id="txtpaymentterms" name="txtpaymentterms" style="width:75%;" value='<s:property value="txtpaymentterms"/>'/></td>
-  </tr>
-  <tr>
+    <td align="right">Del. Terms</td>
+    <td colspan="3"><input type="text" id="txtdelterms" name="txtdelterms" style="width:95%;" value='<s:property value="txtdelterms"/>'/></td>
+    <td align="right">Pay. Terms</td>
+    <td colspan="3"><input type="text" id="txtpaymentterms" name="txtpaymentterms" style="width:95%;" value='<s:property value="txtpaymentterms"/>'/></td>
     <td align="right">Description</td>
-    <td colspan="4"><input type="text" id="txtdescription" name="txtdescription" style="width:75%;" value='<s:property value="txtdescription"/>'/>
-    
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button class="myButton" type="button" id="btnvaluechange" name="btnvaluechange" onclick="funwarningopen();">Value Change</button>
-    
-    
+    <td colspan="3">
+        <input type="text" id="txtdescription" name="txtdescription" style="width:80%;" value='<s:property value="txtdescription"/>'/>
+        <button class="myButton" type="button" id="btnvaluechange" name="btnvaluechange" onclick="funwarningopen();">Value Change</button>
     </td>
   </tr>
 </table>
-</fieldset><br/>
+</fieldset>
 
  
 <table width="96%"  id="disitems" > 
@@ -2780,80 +2770,90 @@ function getrefno(event)
 </table>
  
  <fieldset id="psearch">
- 
- <legend>Item Details</legend>
- 
-   <table width="100% " >   
-   <tr> 
-   <td align="center"> &nbsp;</td>
-   <td align="center">Product ID</td>
-   <td align="center" colspan="2">Product Name</td>
-   <td align="center" style="width:15%;" >Brand</td>
-   <td align="center">Unit</td>
-     
-   <td  width="6%" align="center">Qty</td>
-      <td align="center"> Unit price</td>
-   <td align="center">Total</td> 
-   
-   </tr>
-  <!--   onblur="funRoundAmt(this.value,this.id);" --> 
-  <tr><td align="center" ><input type="hidden" id="cleardata">&nbsp; <input type="button" id="setbtn"  class="btn" onclick="prosrch()" value="PS" ></td> 
- <td align="center"><div id="part"><jsp:include page="part.jsp"></jsp:include></div> </td>
- <td colspan="2" align="center"> <div id="pnames"><jsp:include page="name.jsp"></jsp:include></div> </td> 
- <td align="center" >   <input type="text" id="brand"   > <input type="hidden" id="collqty"    ></td>
-<td align="center"> <select    id="unit"   onchange="closes()"  >   </select>      </td>  
-  <input type="hidden" id="loads" class="myButtons" value="Load Data" >     
+  <legend>Item Details</legend>
+  <table width="100%">
+    <tr>
+      <td width="8%" align="center">&nbsp;</td>
+      <td width="12%" align="center">Product ID</td>
+      <td width="24%" align="center">Product Name</td>
+      <td width="12%" align="center">Brand</td>
+      <td width="11%" align="center">Unit</td>
+      <td width="11%" align="center">Qty</td>
+      <td width="11%" align="center">Unit price</td>
+      <td width="11%" align="center">Total</td>
+    </tr>
 
+    <tr>
+      <td align="center">
+        <input type="hidden" id="cleardata">
+        <input type="button" id="setbtn" class="btn" onclick="prosrch()" value="PS">
+      </td>
+      <td align="center">
+        <div id="part"><jsp:include page="part.jsp"></jsp:include></div>
+      </td>
+      <td align="center">
+        <div id="pnames"><jsp:include page="name.jsp"></jsp:include></div>
+      </td>
+      <td align="center">
+        <input type="text" id="brand" style="width:100%;">
+        <input type="hidden" id="collqty">
+      </td>
+      <td align="center">
+        <select id="unit" style="width:100%;" onchange="closes()"></select>
+        <input type="hidden" id="loads" class="myButtons" value="Load Data">
+      </td>
+      <td align="center">
+        <input type="text" id="quantity" style="width:100%; text-align: left;" onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber1 (event);" onchange="vatSwitch();">
+        <input type="hidden" id="focs" onchange="vatSwitch();">
+      </td>
+      <td align="center">
+        <input type="text" id="uprice" style="width:100%; text-align: right;" onkeypress="javascript:return isNumber1 (event);" onchange="vatSwitch();">
+      </td>
+      <td align="center">
+        <input type="text" id="totamt" style="width:100%; text-align: right;" tabindex="-1">
+      </td>
+    </tr>
 
-<td width="6%" align="center">   <input type="text"   onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber1 (event);"  id="quantity" style="text-align: left;" onchange="vatSwitch();"  ></td>
-  <input type="hidden" id="focs"   onchange="vatSwitch();"   >
- 
-   <td align="center">   <input type="text"      id="uprice"      onkeypress="javascript:return isNumber1 (event);"  onchange="vatSwitch();"  style="text-align: right;"   style="text-align: right;"></td>
- 
- <td align="center">  <input type="text" id="totamt" tabindex="-1"      style="text-align: right;"   ></td>
- 
+    <tr>
+      <td align="center">Discount%</td>
+      <td align="center">Discount</td>
+      <td align="center">Net Total</td>
+      <td align="center">Tax%</td>
+      <td align="center">Tax Amount</td>
+      <td align="center">Net Total</td>
+      <td align="center" colspan="2">&nbsp;</td>
+    </tr>
 
- </tr>
- <tr>
-
-
-   <td align="center">Discount% </td>
-      <td align="center">Discount</td>  
- 
-     <td align="center">Net Total</td>  
- 
-<td align="center">Tax%</td>  
-<td align="center">Tax Amount</td>  
-  <td    align="center">Net Total</td>    
-    <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>    
- </tr>
- <tr>
-
- 
- 
- 
-
-
-  <td align="center">   <input type="text" id="dispers"    onkeypress="javascript:return isNumber1 (event);"  onchange="vatSwitch();"  style="text-align: right;"  ></td>
-<td align="center">   <input type="text" id="dict"  onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber1 (event);"   onchange="vatSwitch();"    style="text-align: right;"  ></td>
- <td align="center">   <input type="text" id="amounts" tabindex="-1"     style="text-align: right;" ></td>
-
- 
-
- <td align="center"> <input type="text" id="taxpers"  tabindex="-1"      style="text-align: right;" ></td>  
- 
- <td align="center"> 
- <input type="text" id="taxamounts"   tabindex="-1"   onkeypress="javascript:return isNumber1 (event);"  style="text-align: right;" ></td>
-  <td align="center"> 
- <input type="text" id="taxamountstotal" tabindex="-1"    onkeypress="javascript:return isNumber1 (event);"  style="text-align: right;" onblur="funRoundAmt(this.value,this.id);"></td>  
-  <td align="center">
-     <input type="hidden" id="cleardata">
- &nbsp; <input type="button" id="setbtn"  class="btn" onclick="setgrid()" value="ADD" ></td>
- <td align="center"><input type="hidden" id="cleardata">&nbsp; <input type="button" id="setbtn1"  class="btn" onclick="detailstock()" value="SD" ></td>
- </tr>  
-   
-   </table> 
-   </fieldset> 
+    <tr>
+      <td align="center">
+        <input type="text" id="dispers" style="width:100%; text-align: right;" onkeypress="javascript:return isNumber1 (event);" onchange="vatSwitch();">
+      </td>
+      <td align="center">
+        <input type="text" id="dict" style="width:100%; text-align: right;" onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber1 (event);" onchange="vatSwitch();">
+      </td>
+      <td align="center">
+        <input type="text" id="amounts" style="width:100%; text-align: right;" tabindex="-1">
+      </td>
+      <td align="center">
+        <input type="text" id="taxpers" style="width:100%; text-align: right;" tabindex="-1">
+      </td>
+      <td align="center">
+        <input type="text" id="taxamounts" style="width:100%; text-align: right;" tabindex="-1" onkeypress="javascript:return isNumber1 (event);">
+      </td>
+      <td align="center">
+        <input type="text" id="taxamountstotal" style="width:100%; text-align: right;" tabindex="-1" onkeypress="javascript:return isNumber1 (event);" onblur="funRoundAmt(this.value,this.id);">
+      </td>
+      <td align="center">
+        <input type="hidden" id="cleardata">
+        <input type="button" id="setbtn" class="btn" onclick="setgrid()" value="ADD">
+      </td>
+      <td align="center">
+        <input type="hidden" id="cleardata">
+        <input type="button" id="setbtn1" class="btn" onclick="detailstock()" value="SD">
+      </td>
+    </tr>
+  </table>
+</fieldset>
 <div id="invoiceDiv"><center><jsp:include page="invoiceGrid.jsp"></jsp:include></center></div>
 
 <div id="hidegrid" hidden="true" ><center><jsp:include page="hidegrid.jsp"></jsp:include></center></div>

@@ -12,6 +12,110 @@ String contextPath=request.getContextPath();
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <jsp:include page="../../../../includes.jsp"></jsp:include>
 <style>
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+#frmcategory input[type="text"],
+#frmcategory select { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    width: 100%;
+}
+
+#frmcategory input[type="text"]:focus,
+#frmcategory select:focus { 
+    border-color: #007bff; 
+    outline: none;
+}
+
+#frmcategory input[readonly],
+#frmcategory input:disabled,
+#frmcategory select:disabled { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
+}
+
+fieldset {
+    border: 1px solid #c5d3e0; 
+    padding: 10px 10px 5px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+legend {
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    font-family: Arial, sans-serif;
+    border-left: 3px solid #0056b3;
+    line-height: normal; 
+    margin-left: -2px; 
+}
+
+#frmcategory table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px; 
+}
+
+#frmcategory td {
+    padding: 0 5px;
+    vertical-align: middle;
+    font-family: Arial, sans-serif; 
+    font-size: 12px; 
+    color: #333;
+}
+
+#frmcategory td[align="right"] {
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 10px;
+}
+
+form label.error {
+    color: red;
+    font-weight: bold;
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+}
+
+#jqxcategorySearch1 {
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+    overflow: hidden;
+}
 form label.error {
 color:red;
   font-weight:bold;
@@ -154,15 +258,17 @@ color:red;
 	<fieldset><legend>Category Details</legend>
 	<table width="100%">
 		<tr><td width="6%" align="right">Date</td>
-			<td width="31%"  align="left"><div id="date" name="date"></div>
+			<td width="15%"  align="left"><div id="date" name="date"></div>
 		  	</td>
-			<td width="46%" align="right">Doc No.</td>
-			<td width="17%">
+		  	<td width="6%" align="right">Category</td>
+			<td><input type="text" width="25%" name="txtcategory" id="txtcategory"  value='<s:property value="txtcategory"/>' ></td>
+		  	
+			<td width="10%" align="right">Doc No.</td>
+			<td width="20%">
 					<input type="text" name="docno" id="docno" value='<s:property value="docno"/>' readonly tabindex="-1">
 			</td>
 		</tr><!-- pattern=".{1,3}" required="required" -->
-		<tr><td align="right">Category</td>
-			<td><input type="text" name="txtcategory" id="txtcategory"  value='<s:property value="txtcategory"/>' ></td></tr>
+		
 			
 			<tr>
 			
