@@ -11,22 +11,28 @@
 
 <style>
 /* =========================================================
-   SCOPED UI: Pure White Panel (BRV Standard)
+   SCOPED UI: Pure White Panel (Strict Weight Control)
 ========================================================= */
 body, html {
     margin: 0;
     padding: 0;
-    background-color: #ffffff !important; /* Forced pure white for the entire page */
+    background-color: #ffffff !important;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
 
 .modern-ui {
     font-size: 12px;
-    color: #333;
     padding: 10px;
     box-sizing: border-box;
     width: 100%;
-    background-color: #ffffff !important; /* Forced pure white */
+    background-color: #ffffff !important;
+    color: #333333 !important; /* Forced text color to guarantee visibility */
+}
+
+/* Strict weight enforcement for injected content */
+.modern-ui, .modern-ui table, .modern-ui td, .modern-ui input, .modern-ui select {
+    font-weight: 400 !important; 
+    color: #333333 !important; /* Forces all table text to be visible dark grey */
 }
 
 /* Master Input Styles */
@@ -40,7 +46,7 @@ body, html {
     font-family: inherit;
     box-sizing: border-box;
     background-color: #ffffff;
-    color: #333;
+    color: #333333 !important; /* Forces input text to be visible */
     width: 100%;
 }
 
@@ -50,9 +56,9 @@ body, html {
     outline: none;
 }
 
-/* Panel Styling - Clean White Panel */
+/* Panel Styling */
 .modern-ui .search-panel {
-    background-color: #ffffff !important; /* Pure white inside the border */
+    background-color: #ffffff !important;
     border: 1px solid #cccccc;
     border-radius: 4px;
     padding: 15px 10px;
@@ -61,7 +67,7 @@ body, html {
     box-sizing: border-box;
 }
 
-/* Table Alignment - STRICT PERCENTAGE GRID */
+/* Table Alignment - 5 Column Layout */
 .modern-ui table {
     border-collapse: separate;
     border-spacing: 5px 8px; 
@@ -73,39 +79,46 @@ body, html {
     vertical-align: middle;
 }
 
+/* Side-aligned labels */
 .modern-ui .lbl-right { 
     text-align: right; 
-    color: #333;
+    color: #333333 !important; 
     font-size: 12px; 
-    font-weight: 500;
-    font-family: inherit;
+    font-weight: 600 !important;
     white-space: nowrap; 
     padding-right: 5px;
 }
 
-/* Search Button - Standard Blue */
-.modern-ui .myButton {
-    height: 28px;
-    padding: 0 24px;
-    background-color: #205fd3; 
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 600;
-    font-family: inherit;
-    transition: background-color 0.2s;
-    width: 100%; /* Spans the button nicely across its column */
+/* =========================================================
+   BULLETPROOF BUTTON UI: Dark Blue + Hover
+   Targeting ID #btnClientAccountSearch directly to override body.css
+========================================================= */
+div#search.modern-ui input#btnClientAccountSearch.myButton {
+    height: 24px !important; 
+    padding: 0 24px !important;
+    background-color: #205fd3 !important; /* Solid Dark Blue */
+    background-image: none !important;
+    color: #ffffff !important; /* White text for button */
+    border: none !important;
+    border-radius: 4px !important; 
+    cursor: pointer !important;
+    font-family: Arial, sans-serif !important; 
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    line-height: 24px !important;
+    transition: background-color 0.2s ease !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
-.modern-ui .myButton:hover {
-    background-color: #1a4eb8;
+/* The Hover State */
+div#search.modern-ui input#btnClientAccountSearch.myButton:hover {
+    background-color: #124096 !important; /* Noticeably darker blue on hover */
 }
 
 /* Grid Container */
 .modern-ui .grid-container {
-    background-color: #ffffff !important; /* Pure white */
+    background-color: #ffffff !important;
     border: 1px solid #cccccc;
     border-radius: 4px;
     overflow: hidden;
@@ -115,51 +128,71 @@ body, html {
 </style>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        if(document.getElementById("txtforsearch").value == "2"){
-            document.getElementById("txtatypes").value = document.getElementById("cmbtype").value;
-        }
-        else if(document.getElementById("txtforsearch").value == "3"){
-            document.getElementById("txtatypes").value = document.getElementById("cmbacctype").value;
-        } else {
-            document.getElementById("txtatypes").value = document.getElementById("cmbtotype").value;
-        }
-        
-        document.getElementById("txtdocumenttypes").value = document.getElementById("formdetailcode").value;
-        document.getElementById("txtcreditdebit").value = document.getElementById("txtforsearch").value;
-        document.getElementById("txtnewdate").value = $('#maindate').val();
-    }); 
+$(document).ready(function () {
+    /* Safe initializations to prevent script crashing if external elements are missing */
+    var txtForSearch = document.getElementById("txtforsearch");
+    var formDetailCode = document.getElementById("formdetailcode");
     
-    function loadClientAccountSearch() {
-        var clientaccountno = document.getElementById("accountsno").value;
-        var clientaccountname = document.getElementById("accountsname").value;
-        var clientmobile = document.getElementById("clientmobileno").value;
-        var curr = document.getElementById("txtcurrencies").value;
-        var accounttype = document.getElementById("txtatypes").value;
-        var code = document.getElementById("txtdocumenttypes").value;
-        var debitcredit = document.getElementById("txtcreditdebit").value;
-        var date = document.getElementById("txtnewdate").value;
-        var checked = 1;
-
-        getClientAccountDetails(clientaccountno, clientaccountname, clientmobile, curr, accounttype, code, debitcredit, date, checked);
-    }
+    if (txtForSearch) {
+        var searchVal = txtForSearch.value;
+        var aTypeTarget = document.getElementById("txtatypes");
         
-    function getClientAccountDetails(clientaccountno, clientaccountname, clientmobile, curr, accounttype, code, debitcredit, date, checked){
-         $("#refreshClientAccountDiv").load("../../clientAccountDetailsSearchGrid.jsp?accountno=" + clientaccountno + 
-                                            "&accountname=" + clientaccountname.replace(/ /g, "%20") + 
-                                            "&mobile=" + clientmobile + 
-                                            "&currency=" + curr + 
-                                            "&atype=" + accounttype + 
-                                            "&dtype=" + code + 
-                                            "&debitcredit=" + debitcredit + 
-                                            "&date=" + date + 
-                                            "&check=" + checked);
+        if (aTypeTarget) {
+            if (searchVal == "2" && document.getElementById("cmbtype")) {
+                aTypeTarget.value = document.getElementById("cmbtype").value;
+            } else if (searchVal == "3" && document.getElementById("cmbacctype")) {
+                aTypeTarget.value = document.getElementById("cmbacctype").value;
+            } else if (document.getElementById("cmbtotype")) {
+                aTypeTarget.value = document.getElementById("cmbtotype").value;
+            }
+        }
+        
+        var creditDebitTarget = document.getElementById("txtcreditdebit");
+        if (creditDebitTarget) {
+            creditDebitTarget.value = searchVal;
+        }
     }
+    
+    if (formDetailCode && document.getElementById("txtdocumenttypes")) {
+        document.getElementById("txtdocumenttypes").value = formDetailCode.value;
+    }
+    
+    var mainDateVal = $('#maindate').length ? $('#maindate').val() : "";
+    if (document.getElementById("txtnewdate")) {
+        document.getElementById("txtnewdate").value = mainDateVal;
+    }
+}); 
+    
+function loadClientAccountSearch() {
+    var clientaccountno = document.getElementById("accountsno").value || "";
+    var clientaccountname = document.getElementById("accountsname").value || "";
+    var clientmobile = document.getElementById("clientmobileno").value || "";
+    var curr = document.getElementById("txtcurrencies").value || "";
+    var accounttype = document.getElementById("txtatypes").value || "";
+    var code = document.getElementById("txtdocumenttypes").value || "";
+    var debitcredit = document.getElementById("txtcreditdebit").value || "";
+    var date = document.getElementById("txtnewdate").value || "";
+    var checked = 1;
+
+    getClientAccountDetails(clientaccountno, clientaccountname, clientmobile, curr, accounttype, code, debitcredit, date, checked);
+}
+        
+function getClientAccountDetails(clientaccountno, clientaccountname, clientmobile, curr, accounttype, code, debitcredit, date, checked) {
+    /* Securely encode all variables for the URL */
+    $("#refreshClientAccountDiv").load("../../clientAccountDetailsSearchGrid.jsp?accountno=" + encodeURIComponent(clientaccountno) + 
+                                       "&accountname=" + encodeURIComponent(clientaccountname) + 
+                                       "&mobile=" + encodeURIComponent(clientmobile) + 
+                                       "&currency=" + encodeURIComponent(curr) + 
+                                       "&atype=" + encodeURIComponent(accounttype) + 
+                                       "&dtype=" + encodeURIComponent(code) + 
+                                       "&debitcredit=" + encodeURIComponent(debitcredit) + 
+                                       "&date=" + encodeURIComponent(date) + 
+                                       "&check=" + checked);
+}
 </script>
 </head>
 
-<body style="background-color: #ffffff;">
-
+<body>
 <div id="search" class="modern-ui">
 
     <div class="search-panel">
@@ -186,9 +219,7 @@ body, html {
                 </td>
                 
                 <td align="center" rowspan="2" valign="middle" style="padding-left: 10px;">
-                    <button type="button" name="btnClientAccountSearch" id="btnClientAccountSearch" class="myButton" onclick="loadClientAccountSearch(); return false;">
-                        Search
-                    </button>
+                    <input type="button" name="btnClientAccountSearch" id="btnClientAccountSearch" class="myButton" value="Search" onclick="loadClientAccountSearch(); return false;">
                 </td>
             </tr>
             
@@ -216,6 +247,5 @@ body, html {
     </div>
 
 </div>
-
 </body>
 </html>

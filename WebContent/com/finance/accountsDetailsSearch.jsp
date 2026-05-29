@@ -11,22 +11,28 @@
 
 <style>
 /* =========================================================
-   SCOPED UI: Pure White Panel (BRV Standard)
+   SCOPED UI: Pure White Panel (Strict Weight Control)
 ========================================================= */
 body, html {
     margin: 0;
     padding: 0;
-    background-color: #ffffff !important; /* Forced pure white for the entire page */
+    background-color: #ffffff !important;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
 
 .modern-ui {
     font-size: 12px;
-    color: #333;
     padding: 10px;
     box-sizing: border-box;
     width: 100%;
-    background-color: #ffffff !important; /* Forced pure white */
+    background-color: #ffffff !important;
+    color: #333333 !important; /* Forced text color to guarantee visibility */
+}
+
+/* Strict weight enforcement for injected content */
+.modern-ui, .modern-ui table, .modern-ui td, .modern-ui input, .modern-ui select {
+    font-weight: 400 !important; 
+    color: #333333 !important; /* Forces all table text to be visible dark grey */
 }
 
 /* Master Input Styles */
@@ -40,7 +46,7 @@ body, html {
     font-family: inherit;
     box-sizing: border-box;
     background-color: #ffffff;
-    color: #333;
+    color: #333333 !important; /* Forces input text to be visible */
     width: 100%;
 }
 
@@ -50,9 +56,9 @@ body, html {
     outline: none;
 }
 
-/* Panel Styling - Clean White Panel */
+/* Panel Styling */
 .modern-ui .search-panel {
-    background-color: #ffffff !important; /* Pure white inside the border */
+    background-color: #ffffff !important;
     border: 1px solid #cccccc;
     border-radius: 4px;
     padding: 15px 10px;
@@ -61,7 +67,7 @@ body, html {
     box-sizing: border-box;
 }
 
-/* Table Alignment - STRICT PERCENTAGE GRID */
+/* Table Alignment - 5 Column Layout */
 .modern-ui table {
     border-collapse: separate;
     border-spacing: 5px 8px; 
@@ -73,39 +79,46 @@ body, html {
     vertical-align: middle;
 }
 
+/* Side-aligned labels */
 .modern-ui .lbl-right { 
     text-align: right; 
-    color: #333;
+    color: #333333 !important; 
     font-size: 12px; 
-    font-weight: 500;
-    font-family: inherit;
+    font-weight: 600 !important;
     white-space: nowrap; 
     padding-right: 5px;
 }
 
-/* Search Button - Standard Blue */
-.modern-ui .myButton {
-    height: 28px;
-    padding: 0 24px;
-    background-color: #205fd3; 
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 600;
-    font-family: inherit;
-    transition: background-color 0.2s;
-    width: 100%; /* Ensures button fills its grid cell nicely */
+/* =========================================================
+   BULLETPROOF BUTTON UI: Dark Blue + Hover
+   Targeting ID #btnAccountSearch directly to override body.css
+========================================================= */
+div#search.modern-ui input#btnAccountSearch.myButton {
+    height: 24px !important; 
+    padding: 0 24px !important;
+    background-color: #205fd3 !important; /* Solid Dark Blue */
+    background-image: none !important;
+    color: #ffffff !important; /* White text for button */
+    border: none !important;
+    border-radius: 4px !important; 
+    cursor: pointer !important;
+    font-family: Arial, sans-serif !important; 
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    line-height: 24px !important;
+    transition: background-color 0.2s ease !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
-.modern-ui .myButton:hover {
-    background-color: #1a4eb8;
+/* The Hover State */
+div#search.modern-ui input#btnAccountSearch.myButton:hover {
+    background-color: #124096 !important; /* Noticeably darker blue on hover */
 }
 
 /* Grid Container */
 .modern-ui .grid-container {
-    background-color: #ffffff !important; /* Pure white */
+    background-color: #ffffff !important;
     border: 1px solid #cccccc;
     border-radius: 4px;
     overflow: hidden;
@@ -115,38 +128,48 @@ body, html {
 </style>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        document.getElementById("txtdoctypes").value = document.getElementById("formdetailcode").value;
-        document.getElementById("txtsearchtype").value = document.getElementById("txtforsearch").value;
-        document.getElementById("txtnewdates").value = $('#maindate').val();
-    }); 
+$(document).ready(function () {
+    /* Safe initializations to prevent script crashing if external elements are missing */
+    var formDetailCode = document.getElementById("formdetailcode");
+    var txtForSearch = document.getElementById("txtforsearch");
     
-    function loadAccountSearch() {
-        var accountsno = document.getElementById("txtaccountsno").value;
-        var accountsname = document.getElementById("txtaccountsname").value;
-        var currs = document.getElementById("txtaccountcurrency").value;
-        var formcode = document.getElementById("txtdoctypes").value;
-        var searchtype = document.getElementById("txtsearchtype").value;
-        var dates = document.getElementById("txtnewdates").value;
-        var check = 1;
+    if (formDetailCode) {
+        document.getElementById("txtdoctypes").value = formDetailCode.value;
+    }
+    if (txtForSearch) {
+        document.getElementById("txtsearchtype").value = txtForSearch.value;
+    }
+    
+    var mainDateVal = $('#maindate').length ? $('#maindate').val() : "";
+    document.getElementById("txtnewdates").value = mainDateVal;
+}); 
+    
+function loadAccountSearch() {
+    var accountsno = document.getElementById("txtaccountsno").value || "";
+    var accountsname = document.getElementById("txtaccountsname").value || "";
+    var currs = document.getElementById("txtaccountcurrency").value || "";
+    var formcode = document.getElementById("txtdoctypes").value || "";
+    var searchtype = document.getElementById("txtsearchtype").value || "";
+    var dates = document.getElementById("txtnewdates").value || "";
+    var check = 1;
 
-        getAccountDetails(accountsno, accountsname, currs, formcode, searchtype, dates, check);
-    }
+    getAccountDetails(accountsno, accountsname, currs, formcode, searchtype, dates, check);
+}
         
-    function getAccountDetails(accountsno, accountsname, currs, formcode, searchtype, dates, check){
-         $("#refreshAccountDetailsDiv").load("../../accountDetailsSearchGrid.jsp?accountno=" + accountsno + 
-                                             "&accountname=" + accountsname.replace(/ /g, "%20") + 
-                                             "&currency=" + currs + 
-                                             "&dtype=" + formcode + 
-                                             "&searchtype=" + searchtype + 
-                                             "&dates=" + dates + 
-                                             "&check=" + check);
-    }
+function getAccountDetails(accountsno, accountsname, currs, formcode, searchtype, dates, check) {
+    /* Securely encode all variables for the URL */
+    $("#refreshAccountDetailsDiv").load("../../accountDetailsSearchGrid.jsp?accountno=" + encodeURIComponent(accountsno) + 
+                                        "&accountname=" + encodeURIComponent(accountsname) + 
+                                        "&currency=" + encodeURIComponent(currs) + 
+                                        "&dtype=" + encodeURIComponent(formcode) + 
+                                        "&searchtype=" + encodeURIComponent(searchtype) + 
+                                        "&dates=" + encodeURIComponent(dates) + 
+                                        "&check=" + check);
+}
 </script>
 </head>
 
-<body style="background-color: #ffffff;">
-
+<body>
 <div id="search" class="modern-ui">
 
     <div class="search-panel">
@@ -174,9 +197,7 @@ body, html {
                 </td>
                 
                 <td align="center" rowspan="2" valign="middle" style="padding-left: 10px;">
-                    <button type="button" name="btnAccountSearch" id="btnAccountSearch" class="myButton" onclick="loadAccountSearch(); return false;">
-                        Search
-                    </button>
+                    <input type="button" name="btnAccountSearch" id="btnAccountSearch" class="myButton" value="Search" onclick="loadAccountSearch(); return false;">
                 </td>
             </tr>
             
@@ -197,6 +218,5 @@ body, html {
     </div>
 
 </div>
-
 </body>
 </html>

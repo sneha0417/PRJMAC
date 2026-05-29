@@ -1,5 +1,5 @@
- <%@ taglib prefix="s" uri="/struts-tags" %>
- <% String contextPath=request.getContextPath();%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<% String contextPath=request.getContextPath();%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,48 +9,186 @@
 <title>GatewayERP(i)</title>
 <link href="<%=contextPath%>/css/body.css" media="screen" rel="stylesheet" type="text/css" />
 
+<style>
+/* =========================================================
+   SCOPED UI: Pure White Panel (Strict Weight Control)
+========================================================= */
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+.modern-ui {
+    font-size: 12px;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #ffffff !important;
+    color: #333333 !important; /* Forced text color to guarantee visibility */
+}
+
+/* Strict weight enforcement for injected content */
+.modern-ui, .modern-ui table, .modern-ui td, .modern-ui input, .modern-ui select {
+    font-weight: 400 !important; 
+    color: #333333 !important; /* Forces all table text to be visible dark grey */
+}
+
+/* Master Input Styles */
+.modern-ui input[type="text"],
+.modern-ui select {
+    height: 24px !important;
+    border: 1px solid #cccccc; 
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 12px; 
+    font-family: inherit;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #333333 !important; /* Forces input text to be visible */
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+/* Panel Styling */
+.modern-ui .search-panel {
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 15px 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Table Alignment - 5 Column Layout */
+.modern-ui table {
+    border-collapse: separate;
+    border-spacing: 5px 8px; 
+    width: 100%;
+    table-layout: fixed; 
+}
+
+.modern-ui td {
+    vertical-align: middle;
+}
+
+/* Side-aligned labels */
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #333333 !important; 
+    font-size: 12px; 
+    font-weight: 600 !important;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* =========================================================
+   BULLETPROOF BUTTON UI: Dark Blue + Hover
+   Targeting ID #btnAccountSearch directly to override body.css
+========================================================= */
+div#search.modern-ui input#btnAccountSearch.myButton {
+    height: 24px !important; 
+    padding: 0 24px !important;
+    background-color: #205fd3 !important; /* Solid Dark Blue */
+    background-image: none !important;
+    color: #ffffff !important; /* White text for button */
+    border: none !important;
+    border-radius: 4px !important; 
+    cursor: pointer !important;
+    font-family: Arial, sans-serif !important; 
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    line-height: 24px !important;
+    transition: background-color 0.2s ease !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* The Hover State */
+div#search.modern-ui input#btnAccountSearch.myButton:hover {
+    background-color: #124096 !important; /* Noticeably darker blue on hover */
+}
+
+/* Grid Container */
+.modern-ui .grid-container {
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    min-height: 200px;
+}
+</style>
+
 <script type="text/javascript">
-	
-	
-	function loadAccountSearch() {
-		 
-		
+function loadAccountSearch() {
+    var accountsno = document.getElementById("txtaccountsno").value || "";
+    var accountsname = document.getElementById("txtaccountsname").value || "";
+    
+    /* Safe fallback for missing formdetailcode HTML element */
+    var formDetailElem = document.getElementById("formdetailcode");
+    var formcode = formDetailElem ? formDetailElem.value : "";
+    
+    var check = 1;
 
-			var accountsno=document.getElementById("txtaccountsno").value;
-			var accountsname=document.getElementById("txtaccountsname").value;
-			var formcode=document.getElementById("formdetailcode").value;
-		
-			var check = 1;
-	
-			getAccountDetails(accountsno,accountsname,check,formcode);
-	}
-		
-	function getAccountDetails(accountsno,accountsname,check,formcode){
-
-		 $("#refreshAccountDetailsDiv").load("accountsDetailsFromGrid.jsp?accountno="+accountsno+'&accountname='+accountsname.replace(/ /g, "%20")+'&check='+check+'&formcode='+formcode);
-	}
-
+    getAccountDetails(accountsno, accountsname, check, formcode);
+}
+    
+function getAccountDetails(accountsno, accountsname, check, formcode) {
+    /* Securely encode all variables for the URL */
+    $("#refreshAccountDetailsDiv").load("accountsDetailsFromGrid.jsp?accountno=" + encodeURIComponent(accountsno) + 
+                                        "&accountname=" + encodeURIComponent(accountsname) + 
+                                        "&check=" + check + 
+                                        "&formcode=" + encodeURIComponent(formcode));
+}
 </script>
+</head>
+
 <body>
-<div id=search>
-<table width="100%" >
-  <tr>
-    <td width="10%" align="right">Account No</td>
-    <td width="20%"><input type="text" name="txtaccountsno" id="txtaccountsno" style="width:85%;" value='<s:property value="txtaccountsno"/>'></td>
-   <%--  <td width="10%" align="right">Currency</td>
-    <td width="27%"><input type="text" name="txtaccountcurrency" id="txtaccountcurrency" style="width:50%;" value='<s:property value="txtaccountcurrency"/>'> --%>
-     <%-- <input type="hidden" name="txtsearchtype" id="txtsearchtype" value='<s:property value="txtsearchtype"/>'></td> --%>
-      <td width="10%" align="right">Account Name</td>
-    <td width="40%"  ><input type="text" name="txtaccountsname" id="txtaccountsname" style="width:80%;" value='<s:property value="txtaccountsname"/>'></td>
-    <td width="20%" rowspan="2" align="center"><input type="button" name="btnAccountSearch" id="btnAccountSearch" class="myButton" value="Search"  onclick="loadAccountSearch();"></td>
-  </tr>
-  <tr>
-   
-  </tr>
-  <tr>
-    <td colspan="6"><div id="refreshAccountDetailsDiv"><jsp:include page="accountsDetailsFromGrid.jsp"></jsp:include></div></td>
-  </tr>
-</table>
+<div id="search" class="modern-ui">
+
+    <div class="search-panel">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <colgroup>
+                <col width="15%" /> 
+                <col width="25%" /> 
+                <col width="15%" /> 
+                <col width="25%" /> 
+                <col width="20%" />
+            </colgroup>
+            
+            <tr>
+                <td class="lbl-right">Account No</td>
+                <td>
+                    <input type="text" name="txtaccountsno" id="txtaccountsno" value='<s:property value="txtaccountsno"/>'>
+                </td>
+                
+                <td class="lbl-right">Account Name</td>
+                <td>
+                    <input type="text" name="txtaccountsname" id="txtaccountsname" value='<s:property value="txtaccountsname"/>'>
+                </td>
+                
+                <td align="center" valign="middle" style="padding-left: 10px;">
+                    <input type="button" name="btnAccountSearch" id="btnAccountSearch" class="myButton" value="Search" onclick="loadAccountSearch(); return false;">
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div class="grid-container">
+        <div id="refreshAccountDetailsDiv">
+            <jsp:include page="accountsDetailsFromGrid.jsp"></jsp:include>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>
