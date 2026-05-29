@@ -185,55 +185,336 @@
 			
 		   }
 </script>
-</head>
-<body onLoad="setValues();"><div id="mainBG" class="homeContent" data-type="background">
-<form id="frmStaff" action="saveActionStaff"  autocomplete="off">
-<jsp:include page="../../../../header.jsp" /><br/> 
-<fieldset>
-<legend>Staff Details</legend>
-<table width="100%">
-  <tr>
-    <td width="5%" align="right">Date</td>
-    <td width="16%"><div id="staffdate" name="staffdate" value='<s:property value="staffdate"/>'></div></td>
-    <td colspan="3" align="right">Doc No.</td>
-    <td width="27%"><input type="text" id="docno" name="docno" value='<s:property value="docno"/>' readonly tabindex="-1"></td>
-  </tr>
-  <tr>
-    <td align="right">Code</td>
-    <td><input type="text" id="code" name="code" placeholder="Code" value='<s:property value="code"/>'/></td>
-    <td width="15%" align="right">Name</td>
-    <td width="33%"><input type="text" name="name" id="name" placeholder="Name" value='<s:property value="name"/>' style="width:81%;" ></td>
-    <td width="4%" align="right">Email</td>
-    <td><input type="email" name="mail" id="mail" style="width:80%;" placeholder="someone@example.com" value='<s:property value="mail"/>'></td>
-  </tr>
-  <tr>
-    <td align="right">Account</td>
-    <td><input type="text" name="txtaccno" id="txtaccno" value='<s:property value="txtaccno"/>' onKeyDown="getAcc(event);" readonly placeholder="Press F3 to Search"></td>
-    <td colspan="4"><input type="text" name="txtaccname" style="width:53%;" id="txtaccname" value='<s:property value="txtaccname"/>' readonly></td>
-  </tr>
-</table>
-</fieldset><br/>
-<div id="staffdiv"><jsp:include page="driver2.jsp"></jsp:include></div>
 
-<input type="hidden" name="hidstaffdate" id="hidstaffdate" value='<s:property value="hidstaffdate"/>'>
-<input type="hidden" name="mode" id="mode" value='<s:property value="mode"/>'>
-<input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>'>
-<input type="hidden" name="gridlength" id="gridlength" value='<s:property value="gridlength"/>'>
-<input type="hidden" name="msg" id="msg" value='<s:property value="msg"/>'>
-<input type="hidden" name="hidacno" id="hidacno" value='<s:property value="hidacno"/>'>
+<style>
+
+/* ================= MASTER UI ================= */
+
+body,
+input,
+select,
+textarea,
+button,
+table,
+td,
+th,
+div,
+span,
+label,
+.modern-ui {
+    font-family: "Segoe UI", Tahoma, sans-serif !important;
+    font-size: 12px;
+    color: #333;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #dbe5f1 100%);
+    margin: 0;
+    padding: 24px 0;
+    overflow-y: auto !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 14px;
+    padding: 15px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.modern-ui {
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* ================= INPUTS ================= */
+
+.modern-ui input[type="text"],
+.modern-ui input[type="email"],
+.modern-ui select {
+    height: 24px !important;
+    border: 1px solid #b8c6d8;
+    border-radius: 3px;
+    padding: 2px 6px;
+    background: #fff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui input[type="email"]:focus,
+.modern-ui select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled {
+    background: #f8f9fa !important;
+    color: #6b7280 !important;
+    border-color: #dbe1ea !important;
+}
+
+/* ================= LABELS ================= */
+
+.modern-ui .lbl-right {
+    text-align: right;
+    color: #2f2f2f;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ================= LAYOUT ================= */
+
+.modern-ui .field-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+/* ================= PANELS ================= */
+
+.modern-ui .middle-panel {
+    border: 1px solid #c7d2df;
+    border-radius: 4px;
+    background: #fff;
+    padding: 20px 12px 12px 12px;
+    position: relative;
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title {
+    position: absolute;
+    top: -12px;
+    left: 10px;
+    background: #fff;
+    padding: 0 8px;
+    color: #0056b3;
+    font-size: 13px;
+    font-weight: 700;
+    border-left: 3px solid #0056b3;
+}
+
+/* ================= GRID ================= */
+
+.grid-container {
+    border: 1px solid #c7d2df;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* ================= DISABLED ================= */
+
+button:disabled,
+button[disabled],
+input[type="button"]:disabled,
+input[type="submit"]:disabled,
+a.disabled,
+a[disabled],
+.disabled,
+.l-btn-disabled,
+.ui-state-disabled,
+.btn-disabled,
+[disabled="disabled"],
+[disabled="true"] {
+    background: #e2e8f0 !important;
+    background-image: none !important;
+    color: #94a3b8 !important;
+    border: 1px solid #cbd5e1 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    box-shadow: none !important;
+}
+
+/* ================= LEGACY RESET ================= */
+
+fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+}
+
+legend {
+    display: none;
+}
+
+</style>
+</head>
+<body onLoad="setValues();">
+
+<div id="mainBG" class="homeContent" data-type="background">
+
+<form id="frmStaff"
+      action="saveActionStaff"
+      autocomplete="off">
+
+<jsp:include page="../../../../header.jsp" />
+
+<div class="modern-ui">
+
+    <!-- STAFF DETAILS -->
+    <div class="middle-panel">
+
+        <span class="middle-panel-title">Staff Details</span>
+
+        <!-- ROW 1 -->
+        <div class="field-row">
+
+            <label class="lbl-right" style="width:80px;">Date</label>
+
+            <div style="width:160px;">
+
+                <div id="staffdate"
+                     name="staffdate"
+                     value='<s:property value="staffdate"/>'></div>
+
+            </div>
+
+            <label class="lbl-right"
+                   style="width:90px; margin-left:auto;">Doc No.</label>
+
+            <input type="text"
+                   id="docno"
+                   name="docno"
+                   style="width:140px;"
+                   value='<s:property value="docno"/>'
+                   readonly
+                   tabindex="-1">
+
+        </div>
+
+        <!-- ROW 2 -->
+        <div class="field-row">
+
+            <label class="lbl-right" style="width:80px;">Code</label>
+
+            <input type="text"
+                   id="code"
+                   name="code"
+                   placeholder="Code"
+                   style="width:180px;"
+                   value='<s:property value="code"/>'/>
+
+            <label class="lbl-right" style="width:80px;">Name</label>
+
+            <input type="text"
+                   name="name"
+                   id="name"
+                   placeholder="Name"
+                   style="flex:1;"
+                   value='<s:property value="name"/>'>
+
+            <label class="lbl-right" style="width:80px;">Email</label>
+
+            <input type="email"
+                   name="mail"
+                   id="mail"
+                   style="width:260px;"
+                   placeholder="someone@example.com"
+                   value='<s:property value="mail"/>'>
+
+        </div>
+
+        <!-- ROW 3 -->
+        <div class="field-row">
+
+            <label class="lbl-right" style="width:80px;">Account</label>
+
+            <input type="text"
+                   name="txtaccno"
+                   id="txtaccno"
+                   style="width:180px;"
+                   value='<s:property value="txtaccno"/>'
+                   onKeyDown="getAcc(event);"
+                   readonly
+                   placeholder="Press F3 to Search">
+
+            <input type="text"
+                   name="txtaccname"
+                   id="txtaccname"
+                   style="flex:1;"
+                   value='<s:property value="txtaccname"/>'
+                   readonly>
+
+        </div>
+
+    </div>
+
+    <!-- GRID -->
+    <div class="middle-panel">
+
+        <span class="middle-panel-title">Staff Information</span>
+
+        <div id="staffdiv" class="grid-container">
+
+            <jsp:include page="driver2.jsp"></jsp:include>
+
+        </div>
+
+    </div>
+
+    <!-- HIDDEN FIELDS -->
+    <div style="display:none;">
+
+        <input type="hidden"
+               name="hidstaffdate"
+               id="hidstaffdate"
+               value='<s:property value="hidstaffdate"/>'>
+
+        <input type="hidden"
+               name="mode"
+               id="mode"
+               value='<s:property value="mode"/>'>
+
+        <input type="hidden"
+               name="deleted"
+               id="deleted"
+               value='<s:property value="deleted"/>'>
+
+        <input type="hidden"
+               name="gridlength"
+               id="gridlength"
+               value='<s:property value="gridlength"/>'>
+
+        <input type="hidden"
+               name="msg"
+               id="msg"
+               value='<s:property value="msg"/>'>
+
+        <input type="hidden"
+               name="hidacno"
+               id="hidacno"
+               value='<s:property value="hidacno"/>'>
+
+    </div>
+
+</div>
+
 </form>
 
+<!-- WINDOWS -->
+
 <div id="accountWindow">
-	<div ></div>
+    <div></div>
 </div>
 
 <div id="nationalityWindow">
-   <div></div>
-</div>	
+    <div></div>
+</div>
 
 <div id="stateWindow">
-   <div></div>
+    <div></div>
 </div>
+
 </div>
 
 </body>

@@ -213,6 +213,237 @@
 
 </style>
 
+<style>
+
+/* ================= MASTER UI ================= */
+
+body,
+input,
+select,
+textarea,
+button,
+table,
+td,
+th,
+div,
+span,
+label,
+.modern-ui {
+    font-family: "Segoe UI", Tahoma, sans-serif !important;
+    font-size: 12px;
+    color: #333;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #dbe5f1 100%);
+    margin: 0;
+    padding: 24px 0;
+    overflow-y: auto !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 14px;
+    padding: 15px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.modern-ui {
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* ================= SCROLL ================= */
+
+.hidden-scrollbar {
+    overflow: auto;
+    height: 530px;
+    padding-right: 5px;
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.hidden-scrollbar::-webkit-scrollbar-thumb {
+    background: #c5d3e0;
+    border-radius: 3px;
+}
+
+/* ================= INPUTS ================= */
+
+.modern-ui input[type="text"],
+.modern-ui select {
+    height: 24px !important;
+    border: 1px solid #b8c6d8;
+    border-radius: 3px;
+    padding: 2px 6px;
+    background: #fff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled {
+    background: #f8f9fa !important;
+    color: #6b7280 !important;
+    border-color: #dbe1ea !important;
+}
+
+/* ================= LABELS ================= */
+
+.modern-ui .lbl-right {
+    text-align: right;
+    color: #2f2f2f;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ================= LAYOUT ================= */
+
+.modern-ui .field-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+/* ================= PANELS ================= */
+
+.modern-ui .middle-panel {
+    border: 1px solid #c7d2df;
+    border-radius: 4px;
+    background: #fff;
+    padding: 20px 12px 12px 12px;
+    position: relative;
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title {
+    position: absolute;
+    top: -12px;
+    left: 10px;
+    background: #fff;
+    padding: 0 8px;
+    color: #0056b3;
+    font-size: 13px;
+    font-weight: 700;
+    border-left: 3px solid #0056b3;
+}
+
+/* ================= BUTTONS ================= */
+
+.myButton,
+.myButtons,
+.myProcessCalcButton,
+.mySaveButton,
+.myConfirmButton {
+    height: 24px !important;
+    line-height: 22px !important;
+    padding: 0 12px;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.2s;
+    white-space: nowrap;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+.myButton,
+.myButtons {
+    background: linear-gradient(135deg, #0b45a2 0%, #2563eb 100%);
+    color: #fff;
+}
+
+.myProcessCalcButton {
+    background: linear-gradient(135deg, #e0ecf8 0%, #81bef7 100%);
+    color: #0f172a;
+}
+
+.mySaveButton {
+    background: linear-gradient(135deg, #77d42a 0%, #5cb811 100%);
+    color: #fff;
+}
+
+.myConfirmButton {
+    background: linear-gradient(135deg, #ffec64 0%, #ffab23 100%);
+    color: #222;
+}
+
+/* ================= DISABLED ================= */
+
+.myButton:disabled,
+.myButtons:disabled,
+.myProcessCalcButton:disabled,
+.mySaveButton:disabled,
+.myConfirmButton:disabled,
+button:disabled,
+button[disabled],
+input[type="button"]:disabled,
+input[type="submit"]:disabled,
+a.disabled,
+a[disabled],
+.disabled,
+.l-btn-disabled,
+.ui-state-disabled,
+.btn-disabled,
+[disabled="disabled"],
+[disabled="true"] {
+    background: #e2e8f0 !important;
+    background-image: none !important;
+    color: #94a3b8 !important;
+    border: 1px solid #cbd5e1 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    box-shadow: none !important;
+}
+
+/* ================= GRID ================= */
+
+.grid-container {
+    border: 1px solid #c7d2df;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* ================= STATUS ================= */
+
+.bounce {
+    color: #d97706;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+/* ================= LEGACY RESET ================= */
+
+fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+}
+
+legend {
+    display: none;
+}
+
+</style>
 <script type="text/javascript">
       $(document).ready(function () {
     	  $('#btnClose').attr('disabled', true );$('#btnCreate').attr('disabled', true );$('#btnEdit').attr('disabled', true );
@@ -914,134 +1145,364 @@
 
 </head>
 <body onload="setValues();">
+
 <div id="mainBG" class="homeContent" data-type="background">
-<form id="frmMonthlyPayroll" action="saveMonthlyPayroll" method="post" autocomplete="off">
-<jsp:include page="../../../../header.jsp"></jsp:include><br/>   
 
-<div class='hidden-scrollbar'>
-<table width="99%">
-  <tr>
-    <td width="20%">
-<fieldset style="background-color: #EBDEF0;">
-<table width="99%">
-  <tr><td colspan="2" class="bounce" style="text-align: center;">&nbsp;<b><label id="lblcurrentstatus"  name="lblcurrentstatus"><s:property value="lblcurrentstatus"/></label></b></td></tr>
-  <tr><td colspan="2"><fieldset><legend><b><input type="checkbox" id="chckpayrollprocess" name="chckpayrollprocess" class="chckpayrollprocessprint" onclick="funCheckPayrollProcess();">&nbsp;Process
-       <input type="hidden" id="hidchckpayrollprocess" name="hidchckpayrollprocess" value='<s:property value="hidchckpayrollprocess"/>'/></b></legend>
-	   <table width="100%">
-  <tr>
-    <td width="29%" align="right">Date</td>
-    <td width="71%"><div id="payrollDate" name="payrollDate" value='<s:property value="payrollDate"/>'></div>
-      <input type="hidden" id="hidpayrollDate" name="hidpayrollDate" value='<s:property value="hidpayrollDate"/>'/></td>
-  </tr>
-  <tr>
-    <td align="right">Category</td>
-    <td><select id="cmbempcategory" name="cmbempcategory" style="width:80%;" value='<s:property value="cmbempcategory"/>'>
-      <option value="">--Select--</option></select>
-      <input type="hidden" id="hidcmbempcategory" name="hidcmbempcategory" value='<s:property value="hidcmbempcategory"/>'/></td>
-  </tr>
-  
-  <tr>
-    <td align="right">Employee</td>
-    <td><input type="text" id="txtemployeeid" name="txtemployeeid" style="width:80%;" placeholder="Press F3 to Search" value='<s:property value="txtemployeeid"/>'  onkeydown="getEmployeeId(event);"/>
-    <input type="hidden" id="txtemployeedocno" name="txtemployeedocno" value='<s:property value="txtemployeedocno"/>'/></td>
-  </tr>
-  
-   <tr>
-    <td colspan="2"><input type="text" id="txtemployeename" name="txtemployeename" placeholder="Employee Name" style="width:95%;" tabindex="-1" value='<s:property value="txtemployeename"/>'/></td>
-  </tr>
-  
- <tr>
-    <td colspan="2" align="center"><input type="button" class="myButtons" name="clear" id="clear"  value="Clear" onclick="funClearInfo();">&nbsp;&nbsp;&nbsp;
-    <input type="button" class="myProcessCalcButton" id="btnProcess" name="btnProcess" value="Process & Calc" onclick="funProcessGrid();"></td>
- </tr>
- 
- <tr><td colspan="2">&nbsp;</td></tr>
- <tr>
-    <td colspan="2" align="center"><input type="button" class="mySaveButton" id="btnSavePayRoll" name="btnSavePayRoll" value="Save" onclick="funSaveGrid();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="button" class="myConfirmButton" id="btnConfirmed" name="btnConfirmed" value="Confirm" onclick="funConfirm();">
-	<input type="button" class="myProcessCalcButton" id="btnPayrollprocessPrint" name="btnPayrollprocessPrint" value="Print" onclick="funPayrollprocessPrint();"></td>
- </tr>
- 
- </table>
- </fieldset></td></tr>
- <tr><td colspan="2">&nbsp;</td></tr>
- <tr><td colspan="2"><fieldset><legend><b><input type="checkbox" id="chckpayrollprint" name="chckpayrollprint" class="chckpayrollprocessprint" onclick="funCheckPayrollPrint();">&nbsp;Print
-       <input type="hidden" id="hidchckpayrollprint" name="hidchckpayrollprint" value='<s:property value="hidchckpayrollprint"/>'/></b></legend>
-	   <table width="100%">
-  <tr>
-    <td width="29%" align="right">Date</td>
-    <td width="71%"><div id="payrollPrintDate" name="payrollPrintDate" onchange="payrollprintdatechange();" value='<s:property value="payrollPrintDate"/>'></div>
-      <input type="hidden" id="hidpayrollPrintDate" name="hidpayrollPrintDate" value='<s:property value="hidpayrollPrintDate"/>'/></td>
-  </tr>
-  <tr>
-    <td align="right">Category</td>
-    <td><select id="cmbempprintcategory" name="cmbempprintcategory" style="width:80%;" value='<s:property value="cmbempprintcategory"/>'>
-      <option value="">--Select--</option></select>
-      <input type="hidden" id="hidcmbempprintcategory" name="hidcmbempprintcategory" value='<s:property value="hidcmbempprintcategory"/>'/></td>
-  </tr>
-  <tr>
-    <td align="right">Employee</td>
-    <td><input type="text" id="txtprintemployeeid" name="txtprintemployeeid" style="width:80%;" placeholder="Press F3 to Search" value='<s:property value="txtprintemployeeid"/>'  onkeydown="getEmployeeId(event);"/>
-    <input type="hidden" id="txtprintemployeedocno" name="txtprintemployeedocno" value='<s:property value="txtprintemployeedocno"/>'/></td>
-  </tr>
-   <tr>
-    <td colspan="2"><input type="text" id="txtprintemployeename" name="txtprintemployeename" placeholder="Employee Name" style="width:95%;" tabindex="-1" value='<s:property value="txtprintemployeename"/>'/></td>
-  </tr>
-  <tr><td align="center"><input type="checkbox" id="chckpayslip" name="chckpayslip" onclick="funCheckPaySlip();">&nbsp;Pay Slip
-       <input type="hidden" id="hidchckpayslip" name="hidchckpayslip" value='<s:property value="hidchckpayslip"/>'/></td><td>&nbsp;</td></tr>
-  <tr>
-    <td colspan="2" align="center"><input type="button" class="myButtons" name="clearPrint" id="clearPrint"  value="Clear" onclick="funClearPrintInfo();">&nbsp;&nbsp;&nbsp;
-    <input type="button" class="myProcessCalcButton" id="btnView" name="btnView" value="View" onclick="funLoadPrintGrid();">&nbsp;&nbsp;&nbsp;
-    <input type="button" class="myProcessCalcButton" id="btnPayrollPrint" name="btnPayrollPrint" value="Print" onclick="funPayrollPrint();"></td>
-  </tr>
-  </table></fieldset></td></tr>
-  </table>
-</fieldset>
-    </td>
-    <td width="80%">
-    <div id="payrollDiv"><jsp:include page="monthlyPayrollGrid.jsp"></jsp:include></div>
-    <div id="payrollPrintDiv" hidden="true"><jsp:include page="monthlyPayrollPrintGrid.jsp"></jsp:include></div>
-    </td>
-  </tr>
-</table>
+<form id="frmMonthlyPayroll"
+      action="saveMonthlyPayroll"
+      method="post"
+      autocomplete="off">
 
-<input type="hidden" id="mode" name="mode"/>
-<input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>'/>
-<input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
-<input type="hidden" id="docno" name="txtmonthlypayrolldocno" value='<s:property value="txtmonthlypayrolldocno"/>'/>
-<input type="hidden" id="txtselectedemployees" name="txtselectedemployees" value='<s:property value="txtselectedemployees"/>'/>
-<input type="hidden" id="txtvalidation" name="txtvalidation" value='<s:property value="txtvalidation"/>'/>
-<input type="hidden" id="txtleavetype1" name="txtleavetype1"  value='<s:property value="txtleavetype1"/>'/>
-<input type="hidden" id="txtleavetype2" name="txtleavetype2"  value='<s:property value="txtleavetype2"/>'/>
-<input type="hidden" id="txtleavetype3" name="txtleavetype3"  value='<s:property value="txtleavetype3"/>'/>
-<input type="hidden" id="txtleavetype4" name="txtleavetype4"  value='<s:property value="txtleavetype4"/>'/>
-<input type="hidden" id="txtleavetype5" name="txtleavetype5"  value='<s:property value="txtleavetype5"/>'/>
-<input type="hidden" id="txtleavetype6" name="txtleavetype6"  value='<s:property value="txtleavetype6"/>'/>
-<input type="hidden" id="txtleavetype7" name="txtleavetype7"  value='<s:property value="txtleavetype7"/>'/>
-<input type="hidden" id="txtleavetype8" name="txtleavetype8"  value='<s:property value="txtleavetype8"/>'/>
-<input type="hidden" id="txtleavetype9" name="txtleavetype9"  value='<s:property value="txtleavetype9"/>'/>
-<input type="hidden" id="txtleavetype10" name="txtleavetype10"  value='<s:property value="txtleavetype10"/>'/>
-<input type="hidden" id="txtleavetypecount" name="txtleavetypecount"  value='<s:property value="txtleavetypecount"/>'/>
-<input type="hidden" id="txtallowancetype1" name="txtallowancetype1"  value='<s:property value="txtallowancetype1"/>'/>
-<input type="hidden" id="txtallowancetype2" name="txtallowancetype2"  value='<s:property value="txtallowancetype2"/>'/>
-<input type="hidden" id="txtallowancetype3" name="txtallowancetype3"  value='<s:property value="txtallowancetype3"/>'/>
-<input type="hidden" id="txtallowancetype4" name="txtallowancetype4"  value='<s:property value="txtallowancetype4"/>'/>
-<input type="hidden" id="txtallowancetype5" name="txtallowancetype5"  value='<s:property value="txtallowancetype5"/>'/>
-<input type="hidden" id="txtallowancetype6" name="txtallowancetype6"  value='<s:property value="txtallowancetype6"/>'/>
-<input type="hidden" id="txtallowancetype7" name="txtallowancetype7"  value='<s:property value="txtallowancetype7"/>'/>
-<input type="hidden" id="txtallowancetype8" name="txtallowancetype8"  value='<s:property value="txtallowancetype8"/>'/>
-<input type="hidden" id="txtallowancetype9" name="txtallowancetype9"  value='<s:property value="txtallowancetype9"/>'/>
-<input type="hidden" id="txtallowancetype10" name="txtallowancetype10"  value='<s:property value="txtallowancetype10"/>'/>
-<input type="hidden" id="txtallowancetypecount" name="txtallowancetypecount"  value='<s:property value="txtallowancetypecount"/>'/>
-<input type="hidden" id="txtchkgridload" name="txtchkgridload"  value='<s:property value="txtchkgridload"/>'/>
-<input type="hidden" id="txtpayrollalreadyprocessed" name="txtpayrollalreadyprocessed"  value='<s:property value="txtpayrollalreadyprocessed"/>'/>
-<input type="hidden" id="gridlength" name="gridlength"/>
+<jsp:include page="../../../../header.jsp"></jsp:include>
+
+<div class="modern-ui hidden-scrollbar">
+
+    <!-- TOP PANELS -->
+    <div style="display:flex; gap:15px; margin-bottom:15px; align-items:stretch;">
+
+        <!-- PROCESS PANEL -->
+        <div class="middle-panel" style="flex:1; margin-bottom:0;">
+
+            <span class="middle-panel-title">
+
+                <input type="checkbox"
+                       id="chckpayrollprocess"
+                       name="chckpayrollprocess"
+                       class="chckpayrollprocessprint"
+                       onclick="funCheckPayrollProcess();">
+
+                Process
+
+                <input type="hidden"
+                       id="hidchckpayrollprocess"
+                       name="hidchckpayrollprocess"
+                       value='<s:property value="hidchckpayrollprocess"/>'/>
+
+            </span>
+
+            <div style="text-align:center; margin-bottom:12px;">
+
+                <label id="lblcurrentstatus"
+                       name="lblcurrentstatus"
+                       class="bounce">
+
+                    <s:property value="lblcurrentstatus"/>
+
+                </label>
+
+            </div>
+
+            <div class="field-row">
+
+                <label class="lbl-right" style="width:90px;">Date</label>
+
+                <div style="width:160px;">
+
+                    <div id="payrollDate"
+                         name="payrollDate"
+                         value='<s:property value="payrollDate"/>'></div>
+
+                    <input type="hidden"
+                           id="hidpayrollDate"
+                           name="hidpayrollDate"
+                           value='<s:property value="hidpayrollDate"/>'/>
+
+                </div>
+
+            </div>
+
+            <div class="field-row">
+
+                <label class="lbl-right" style="width:90px;">Category</label>
+
+                <select id="cmbempcategory"
+                        name="cmbempcategory"
+                        style="width:160px;"
+                        value='<s:property value="cmbempcategory"/>'>
+
+                    <option value="">--Select--</option>
+
+                </select>
+
+                <input type="hidden"
+                       id="hidcmbempcategory"
+                       name="hidcmbempcategory"
+                       value='<s:property value="hidcmbempcategory"/>'/>
+
+            </div>
+
+            <div class="field-row">
+
+                <label class="lbl-right" style="width:90px;">Employee</label>
+
+                <input type="text"
+                       id="txtemployeeid"
+                       name="txtemployeeid"
+                       style="width:160px;"
+                       placeholder="Press F3 to Search"
+                       value='<s:property value="txtemployeeid"/>'
+                       onkeydown="getEmployeeId(event);"/>
+
+                <input type="hidden"
+                       id="txtemployeedocno"
+                       name="txtemployeedocno"
+                       value='<s:property value="txtemployeedocno"/>'/>
+
+                <input type="text"
+                       id="txtemployeename"
+                       name="txtemployeename"
+                       placeholder="Employee Name"
+                       style="flex:1;"
+                       tabindex="-1"
+                       value='<s:property value="txtemployeename"/>'/>
+
+            </div>
+
+            <div class="field-row"
+                 style="justify-content:center; margin-top:15px;">
+
+                <input type="button"
+                       class="myButtons"
+                       name="clear"
+                       id="clear"
+                       value="Clear"
+                       onclick="funClearInfo();">
+
+                <input type="button"
+                       class="myProcessCalcButton"
+                       id="btnProcess"
+                       name="btnProcess"
+                       value="Process & Calc"
+                       onclick="funProcessGrid();">
+
+                <input type="button"
+                       class="mySaveButton"
+                       id="btnSavePayRoll"
+                       name="btnSavePayRoll"
+                       value="Save"
+                       onclick="funSaveGrid();">
+
+                <input type="button"
+                       class="myConfirmButton"
+                       id="btnConfirmed"
+                       name="btnConfirmed"
+                       value="Confirm"
+                       onclick="funConfirm();">
+
+                <input type="button"
+                       class="myProcessCalcButton"
+                       id="btnPayrollprocessPrint"
+                       name="btnPayrollprocessPrint"
+                       value="Print"
+                       onclick="funPayrollprocessPrint();">
+
+            </div>
+
+        </div>
+
+        <!-- PRINT PANEL -->
+        <div class="middle-panel" style="flex:1; margin-bottom:0;">
+
+            <span class="middle-panel-title">
+
+                <input type="checkbox"
+                       id="chckpayrollprint"
+                       name="chckpayrollprint"
+                       class="chckpayrollprocessprint"
+                       onclick="funCheckPayrollPrint();">
+
+                Print
+
+                <input type="hidden"
+                       id="hidchckpayrollprint"
+                       name="hidchckpayrollprint"
+                       value='<s:property value="hidchckpayrollprint"/>'/>
+
+            </span>
+
+            <div class="field-row">
+
+                <label class="lbl-right" style="width:90px;">Date</label>
+
+                <div style="width:160px;">
+
+                    <div id="payrollPrintDate"
+                         name="payrollPrintDate"
+                         onchange="payrollprintdatechange();"
+                         value='<s:property value="payrollPrintDate"/>'></div>
+
+                    <input type="hidden"
+                           id="hidpayrollPrintDate"
+                           name="hidpayrollPrintDate"
+                           value='<s:property value="hidpayrollPrintDate"/>'/>
+
+                </div>
+
+            </div>
+
+            <div class="field-row">
+
+                <label class="lbl-right" style="width:90px;">Category</label>
+
+                <select id="cmbempprintcategory"
+                        name="cmbempprintcategory"
+                        style="width:160px;"
+                        value='<s:property value="cmbempprintcategory"/>'>
+
+                    <option value="">--Select--</option>
+
+                </select>
+
+                <input type="hidden"
+                       id="hidcmbempprintcategory"
+                       name="hidcmbempprintcategory"
+                       value='<s:property value="hidcmbempprintcategory"/>'/>
+
+            </div>
+
+            <div class="field-row">
+
+                <label class="lbl-right" style="width:90px;">Employee</label>
+
+                <input type="text"
+                       id="txtprintemployeeid"
+                       name="txtprintemployeeid"
+                       style="width:160px;"
+                       placeholder="Press F3 to Search"
+                       value='<s:property value="txtprintemployeeid"/>'
+                       onkeydown="getEmployeeId(event);"/>
+
+                <input type="hidden"
+                       id="txtprintemployeedocno"
+                       name="txtprintemployeedocno"
+                       value='<s:property value="txtprintemployeedocno"/>'/>
+
+                <input type="text"
+                       id="txtprintemployeename"
+                       name="txtprintemployeename"
+                       placeholder="Employee Name"
+                       style="flex:1;"
+                       tabindex="-1"
+                       value='<s:property value="txtprintemployeename"/>'/>
+
+            </div>
+
+            <div class="field-row"
+                 style="justify-content:center;">
+
+                <input type="checkbox"
+                       id="chckpayslip"
+                       name="chckpayslip"
+                       onclick="funCheckPaySlip();">
+
+                Pay Slip
+
+                <input type="hidden"
+                       id="hidchckpayslip"
+                       name="hidchckpayslip"
+                       value='<s:property value="hidchckpayslip"/>'/>
+
+            </div>
+
+            <div class="field-row"
+                 style="justify-content:center; margin-top:15px;">
+
+                <input type="button"
+                       class="myButtons"
+                       name="clearPrint"
+                       id="clearPrint"
+                       value="Clear"
+                       onclick="funClearPrintInfo();">
+
+                <input type="button"
+                       class="myProcessCalcButton"
+                       id="btnView"
+                       name="btnView"
+                       value="View"
+                       onclick="funLoadPrintGrid();">
+
+                <input type="button"
+                       class="myProcessCalcButton"
+                       id="btnPayrollPrint"
+                       name="btnPayrollPrint"
+                       value="Print"
+                       onclick="funPayrollPrint();">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- GRID -->
+    <div class="middle-panel">
+
+        <span class="middle-panel-title">Payroll Details</span>
+
+        <div id="payrollDiv" class="grid-container">
+            <jsp:include page="monthlyPayrollGrid.jsp"></jsp:include>
+        </div>
+
+        <div id="payrollPrintDiv"
+             class="grid-container"
+             hidden="true"
+             style="margin-top:15px;">
+
+            <jsp:include page="monthlyPayrollPrintGrid.jsp"></jsp:include>
+
+        </div>
+
+    </div>
+
+    <!-- ALL HIDDEN FIELDS PRESERVED -->
+    <div style="display:none;">
+
+        <input type="hidden" id="mode" name="mode"/>
+        <input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>'/>
+        <input type="hidden" id="msg" name="msg" value='<s:property value="msg"/>'/>
+        <input type="hidden" id="docno" name="txtmonthlypayrolldocno" value='<s:property value="txtmonthlypayrolldocno"/>'/>
+        <input type="hidden" id="txtselectedemployees" name="txtselectedemployees" value='<s:property value="txtselectedemployees"/>'/>
+        <input type="hidden" id="txtvalidation" name="txtvalidation" value='<s:property value="txtvalidation"/>'/>
+
+        <input type="hidden" id="txtleavetype1" name="txtleavetype1" value='<s:property value="txtleavetype1"/>'/>
+        <input type="hidden" id="txtleavetype2" name="txtleavetype2" value='<s:property value="txtleavetype2"/>'/>
+        <input type="hidden" id="txtleavetype3" name="txtleavetype3" value='<s:property value="txtleavetype3"/>'/>
+        <input type="hidden" id="txtleavetype4" name="txtleavetype4" value='<s:property value="txtleavetype4"/>'/>
+        <input type="hidden" id="txtleavetype5" name="txtleavetype5" value='<s:property value="txtleavetype5"/>'/>
+        <input type="hidden" id="txtleavetype6" name="txtleavetype6" value='<s:property value="txtleavetype6"/>'/>
+        <input type="hidden" id="txtleavetype7" name="txtleavetype7" value='<s:property value="txtleavetype7"/>'/>
+        <input type="hidden" id="txtleavetype8" name="txtleavetype8" value='<s:property value="txtleavetype8"/>'/>
+        <input type="hidden" id="txtleavetype9" name="txtleavetype9" value='<s:property value="txtleavetype9"/>'/>
+        <input type="hidden" id="txtleavetype10" name="txtleavetype10" value='<s:property value="txtleavetype10"/>'/>
+        <input type="hidden" id="txtleavetypecount" name="txtleavetypecount" value='<s:property value="txtleavetypecount"/>'/>
+
+        <input type="hidden" id="txtallowancetype1" name="txtallowancetype1" value='<s:property value="txtallowancetype1"/>'/>
+        <input type="hidden" id="txtallowancetype2" name="txtallowancetype2" value='<s:property value="txtallowancetype2"/>'/>
+        <input type="hidden" id="txtallowancetype3" name="txtallowancetype3" value='<s:property value="txtallowancetype3"/>'/>
+        <input type="hidden" id="txtallowancetype4" name="txtallowancetype4" value='<s:property value="txtallowancetype4"/>'/>
+        <input type="hidden" id="txtallowancetype5" name="txtallowancetype5" value='<s:property value="txtallowancetype5"/>'/>
+        <input type="hidden" id="txtallowancetype6" name="txtallowancetype6" value='<s:property value="txtallowancetype6"/>'/>
+        <input type="hidden" id="txtallowancetype7" name="txtallowancetype7" value='<s:property value="txtallowancetype7"/>'/>
+        <input type="hidden" id="txtallowancetype8" name="txtallowancetype8" value='<s:property value="txtallowancetype8"/>'/>
+        <input type="hidden" id="txtallowancetype9" name="txtallowancetype9" value='<s:property value="txtallowancetype9"/>'/>
+        <input type="hidden" id="txtallowancetype10" name="txtallowancetype10" value='<s:property value="txtallowancetype10"/>'/>
+        <input type="hidden" id="txtallowancetypecount" name="txtallowancetypecount" value='<s:property value="txtallowancetypecount"/>'/>
+
+        <input type="hidden" id="txtchkgridload" name="txtchkgridload" value='<s:property value="txtchkgridload"/>'/>
+        <input type="hidden" id="txtpayrollalreadyprocessed" name="txtpayrollalreadyprocessed" value='<s:property value="txtpayrollalreadyprocessed"/>'/>
+        <input type="hidden" id="gridlength" name="gridlength"/>
+
+    </div>
+
 </div>
+
 </form>
 
 <div id="employeeDetailsWindow">
-   <div></div>
+    <div></div>
 </div>
+
 </div>
+
 </body>
 </html>

@@ -34,6 +34,167 @@ color:red;
     outline: 0;
 }
 </style>
+<style>
+
+/* ================= MASTER UI ================= */
+
+body,
+input,
+select,
+textarea,
+button,
+table,
+td,
+th,
+div,
+span,
+label,
+.modern-ui {
+    font-family: "Segoe UI", Tahoma, sans-serif !important;
+    font-size: 12px;
+    color: #333;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #dbe5f1 100%);
+    margin: 0;
+    padding: 24px 0;
+    overflow-y: auto !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 14px;
+    padding: 15px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.modern-ui {
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* ================= INPUTS ================= */
+
+.modern-ui input[type="text"],
+.modern-ui select {
+    height: 24px !important;
+    border: 1px solid #b8c6d8;
+    border-radius: 3px;
+    padding: 2px 6px;
+    background: #fff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled {
+    background: #f8f9fa !important;
+    color: #6b7280 !important;
+    border-color: #dbe1ea !important;
+}
+
+/* ================= LABELS ================= */
+
+.modern-ui .lbl-right {
+    text-align: right;
+    color: #2f2f2f;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ================= LAYOUT ================= */
+
+.modern-ui .field-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+/* ================= PANELS ================= */
+
+.modern-ui .middle-panel {
+    border: 1px solid #c7d2df;
+    border-radius: 4px;
+    background: #fff;
+    padding: 20px 12px 12px 12px;
+    position: relative;
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title {
+    position: absolute;
+    top: -12px;
+    left: 10px;
+    background: #fff;
+    padding: 0 8px;
+    color: #0056b3;
+    font-size: 13px;
+    font-weight: 700;
+    border-left: 3px solid #0056b3;
+}
+
+/* ================= GRID ================= */
+
+.grid-container {
+    border: 1px solid #c7d2df;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* ================= DISABLED ================= */
+
+button:disabled,
+button[disabled],
+input[type="button"]:disabled,
+input[type="submit"]:disabled,
+a.disabled,
+a[disabled],
+.disabled,
+.l-btn-disabled,
+.ui-state-disabled,
+.btn-disabled,
+[disabled="disabled"],
+[disabled="true"] {
+    background: #e2e8f0 !important;
+    background-image: none !important;
+    color: #94a3b8 !important;
+    border: 1px solid #cbd5e1 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    box-shadow: none !important;
+}
+
+/* ================= LEGACY RESET ================= */
+
+fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+}
+
+legend {
+    display: none;
+}
+
+</style>
+
 <script type="text/javascript">
 <%-- var text1='<%=dtype%>'; --%>
 
@@ -225,64 +386,121 @@ color:red;
 </script>
 </head>
 <body onload="setValues();">
+
 <div id="mainBG" class="homeContent" data-type="background">
-<form id="frmprdopn" action="savePrdopnData" autocomplete="OFF" >     
 
-<jsp:include page="../../../../header.jsp"></jsp:include><br/>
-<br>
-<fieldset>
+<form id="frmprdopn"
+      action="savePrdopnData"
+      autocomplete="OFF">
 
-<table width="100%" >                        
-  <tr>
-    <td width="5%" align="right">Date</td>  
-    <td   width="6%"><div id='date' name='date' value='<s:property value="date"/>'></div> 
-                     <input type="hidden" id="hiddate" name="hiddate" value='<s:property value="hiddate"/>'/></td>
-                     
-              
-    <td width="32%" align="right">Doc No</td>
-    <td width="33%"><input type="text" id="docno" name="docno" tabindex="-1" value='<s:property value="docno"/>'/></td>
-    
-    <%--  <td   align="right">Description</td>  <td> <input type="text" id="docno" name="docno" tabindex="-1" value='<s:property value="docno"/>'/> </td>
-     --%>
-  </tr>
-  
-   
-</table>    
-     
-</fieldset>    
-  
-<br/>
-<fieldset>
-<div id="prdgriddiv">  <jsp:include page="prdgrid.jsp"></jsp:include></div>
- </fieldset>
-   <input type="hidden" id="refno" name="refno" value='<s:property value="refno"/>'  />
- <input type="hidden" id="masterdoc_no" name="masterdoc_no" value='<s:property value="masterdoc_no"/>' /> 
- 
-<input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>' />
-<input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>' />
+<jsp:include page="../../../../header.jsp"></jsp:include>
 
-  <input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
- 
- <input type="hidden" name="gridlenght" id="gridlenght" value='<s:property value="gridlenght"/>' />   
- 
- 
- 
- 
+<div class="modern-ui">
+
+    <!-- GENERAL INFO -->
+    <div class="middle-panel">
+
+        <span class="middle-panel-title">General Information</span>
+
+        <div class="field-row">
+
+            <label class="lbl-right" style="width:80px;">Date</label>
+
+            <div style="width:160px;">
+
+                <div id="date"
+                     name="date"
+                     value='<s:property value="date"/>'></div>
+
+                <input type="hidden"
+                       id="hiddate"
+                       name="hiddate"
+                       value='<s:property value="hiddate"/>'/>
+
+            </div>
+
+            <label class="lbl-right"
+                   style="width:90px; margin-left:auto;">Doc No</label>
+
+            <input type="text"
+                   id="docno"
+                   name="docno"
+                   tabindex="-1"
+                   readonly
+                   style="width:160px;"
+                   value='<s:property value="docno"/>'/>
+
+        </div>
+
+    </div>
+
+    <!-- GRID -->
+    <div class="middle-panel">
+
+        <span class="middle-panel-title">Product Opening Details</span>
+
+        <div id="prdgriddiv" class="grid-container">
+
+            <jsp:include page="prdgrid.jsp"></jsp:include>
+
+        </div>
+
+    </div>
+
+    <!-- HIDDEN FIELDS -->
+    <div style="display:none;">
+
+        <input type="hidden"
+               id="refno"
+               name="refno"
+               value='<s:property value="refno"/>'/>
+
+        <input type="hidden"
+               id="masterdoc_no"
+               name="masterdoc_no"
+               value='<s:property value="masterdoc_no"/>'/>
+
+        <input type="hidden"
+               id="mode"
+               name="mode"
+               value='<s:property value="mode"/>'/>
+
+        <input type="hidden"
+               name="deleted"
+               id="deleted"
+               value='<s:property value="deleted"/>'/>
+
+        <input type="hidden"
+               id="msg"
+               name="msg"
+               value='<s:property value="msg"/>'/>
+
+        <input type="hidden"
+               name="gridlenght"
+               id="gridlenght"
+               value='<s:property value="gridlenght"/>'/>
+
+    </div>
+
+</div>
 
 </form>
 
-	 <div id="sidesearchwndow">
-	   <div ></div>
-	</div>
+<!-- WINDOWS -->
 
- <div id="branchwindow">
-   <div ></div>
+<div id="sidesearchwndow">
+    <div></div>
 </div>
+
+<div id="branchwindow">
+    <div></div>
+</div>
+
 <div id="locationwindow">
-   <div ></div>
+    <div></div>
 </div>
- 
 
 </div>
+
 </body>
 </html>

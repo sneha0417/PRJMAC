@@ -321,86 +321,443 @@
 </script>
 
 <style>
-.icon {
-	width: 2.5em;
-	height: 2em;
-	border: none;
-	background-color: #E0ECF8;
+
+/* ================= MASTER UI ================= */
+
+body,
+input,
+select,
+textarea,
+button,
+table,
+td,
+th,
+div,
+span,
+label,
+.modern-ui {
+    font-family: "Segoe UI", Tahoma, sans-serif !important;
+    font-size: 12px;
+    color: #333;
 }
 
-.hidden-scrollbar {
-  overflow: auto;
-  height: 530px;
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #dbe5f1 100%);
+    margin: 0;
+    padding: 24px 0;
+    overflow-y: auto !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
+
+#mainBG {
+    background: #fff;
+    border-radius: 14px;
+    padding: 15px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.modern-ui {
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* ================= SCROLL ================= */
+
+.hidden-scrollbar {
+    overflow: auto;
+    height: 530px;
+    padding-right: 5px;
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.hidden-scrollbar::-webkit-scrollbar-thumb {
+    background: #c5d3e0;
+    border-radius: 3px;
+}
+
+/* ================= INPUTS ================= */
+
+.modern-ui input[type="text"],
+.modern-ui select {
+    height: 24px !important;
+    border: 1px solid #b8c6d8;
+    border-radius: 3px;
+    padding: 2px 6px;
+    background: #fff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled {
+    background: #f8f9fa !important;
+    color: #6b7280 !important;
+    border-color: #dbe1ea !important;
+}
+
+/* ================= LABELS ================= */
+
+.modern-ui .lbl-right {
+    text-align: right;
+    color: #2f2f2f;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ================= LAYOUT ================= */
+
+.modern-ui .field-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+/* ================= PANELS ================= */
+
+.modern-ui .middle-panel {
+    border: 1px solid #c7d2df;
+    border-radius: 4px;
+    background: #fff;
+    padding: 20px 12px 12px 12px;
+    position: relative;
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title {
+    position: absolute;
+    top: -12px;
+    left: 10px;
+    background: #fff;
+    padding: 0 8px;
+    color: #0056b3;
+    font-size: 13px;
+    font-weight: 700;
+    border-left: 3px solid #0056b3;
+}
+
+/* ================= ICON BUTTONS ================= */
+
+.icon-btn {
+    width: 28px;
+    height: 24px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.icon-btn:hover {
+    background: #eff6ff;
+    border-color: #2563eb;
+}
+
+/* ================= GRID ================= */
+
+.grid-container {
+    border: 1px solid #c7d2df;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* ================= TOTAL BOX ================= */
+
+.total-box {
+    width: 120px !important;
+    text-align: right;
+}
+
+/* ================= DISABLED ================= */
+
+button:disabled,
+button[disabled],
+input[type="button"]:disabled,
+input[type="submit"]:disabled,
+a.disabled,
+a[disabled],
+.disabled,
+.l-btn-disabled,
+.ui-state-disabled,
+.btn-disabled,
+[disabled="disabled"],
+[disabled="true"] {
+    background: #e2e8f0 !important;
+    background-image: none !important;
+    color: #94a3b8 !important;
+    border: 1px solid #cbd5e1 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    box-shadow: none !important;
+}
+
+/* ================= LEGACY RESET ================= */
+
+fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+}
+
+legend {
+    display: none;
+}
+
 </style>
 
 </head>
 <body onload="setValues();">
-<div id="mainBG" class="homeContent" data-type="background" >
-<form id="frmTerminalBenefitsPosting" action="terminalbenefitsposting" method="post" autocomplete="off">
-<jsp:include page="../../../../header.jsp"></jsp:include><br/>
 
-<div  class='hidden-scrollbar'>
-<fieldset>
-<table width="100%">
-  <tr>
-    <td width="3%" align="right">Date</td>
-    <td width="24%"><div id="terminationBenefitsPostingDate" name="terminationBenefitsPostingDate"  onchange="datechange();" value='<s:property value="terminationBenefitsPostingDate"/>'></div>
-    <input type="hidden" id="hidterminationBenefitsPostingDate" name="hidterminationBenefitsPostingDate" value='<s:property value="hidterminationBenefitsPostingDate"/>'/></td>
-    <td width="8%" align="right"><button type="button" class="icon" id="btnExcelExporter" title="Export current Document to Excel" onclick="funExcelExporter();">
-      						 <img alt="Export current Document to Excel" src="<%=contextPath%>/icons/excel_new.png">
-      					</button></td>
-    <td width="13%" align="right"><button type="button" id="btnProcessing" title="Process"  style="border:none;background:none;" onclick="funProcessBtn();">
-      						 <img alt="Process" src="<%=contextPath%>/icons/process2.png" width="16" height="16">
-      					</button></td>
-    <td width="10%" align="center"><button type="button" class="icon" id="btnCalculate" title="Calculate" onclick="funCalculateBtn();">
-							<img alt="Calculate" src="<%=contextPath%>/icons/calculate_new.png">
-						</button></td>
-    <td width="18%" align="right">Doc No.</td>
-    <td width="24%"><input type="text" id="docno" name="txtjvno" value='<s:property value="txtjvno"/>' tabindex="-1"/></td>
-  </tr>
-</table>
-</fieldset>
-<fieldset><legend>Details</legend>
-<div id="terminationBenefitsDetailsDiv"><jsp:include page="terminationBenefitsGrid.jsp"></jsp:include></div>
-</fieldset>
+<div id="mainBG" class="homeContent" data-type="background">
 
-<table width="100%">
-  <tr>
-    <td width="8%" align="right">Terminal Benefits</td>
-    <td width="24%"><input type="text" id="txtterminalbenefitstotal" name="txtterminalbenefitstotal" style="width:50%;text-align: right;" value='<s:property value="txtterminalbenefitstotal"/>' tabindex="-1"/></td>
-    <td width="5%" align="right">Leave Salary</td>
-    <td width="26%"><input type="text" id="txtleavesalarytotal" name="txtleavesalarytotal" style="width:50%;text-align: right;" value='<s:property value="txtleavesalarytotal"/>' tabindex="-1"/></td>
-    <td width="10%" align="right">Travels</td>
-    <td width="27%"><input type="text" id="txttravelstotal" name="txttravelstotal" style="width:50%;text-align: right;" value='<s:property value="txttravelstotal"/>' tabindex="-1"/></td>
-  </tr>
-</table>
+<form id="frmTerminalBenefitsPosting"
+      action="terminalbenefitsposting"
+      method="post"
+      autocomplete="off">
 
-<fieldset><legend>Accounts</legend>
-<div id="accountsDetailsDiv"><jsp:include page="accountsDetailsGrid.jsp"></jsp:include></div>
-</fieldset>
-<table width="100%">
-  <tr>
-    <td width="7%" align="right">Dr. Total</td>
-    <td width="68%"><input type="text" id="txtdrtotal" name="txtdrtotal" style="width:15%;text-align: right;" value='<s:property value="txtdrtotal"/>' tabindex="-1"/></td>
-    <td width="6%" align="right">Cr. Total</td>
-    <td width="19%"><input type="text" id="txtcrtotal" name="txtcrtotal" style="width:50%;text-align: right;" value='<s:property value="txtcrtotal"/>' tabindex="-1"/></td>
-  </tr>
-</table>
+<jsp:include page="../../../../header.jsp"></jsp:include>
 
-<input type="hidden" id="mode" name="mode"/>
-<input type="hidden" id="deleted" name="deleted" value='<s:property value="deleted"/>'/>
-<input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
-<input type="hidden" id="gridlength" name="gridlength"/>
-<input type="hidden" id="journalgridlength" name="journalgridlength"/>
-<input type="hidden" id="txttrno" name="txttrno"  value='<s:property value="txttrno"/>'/>
-<input type="hidden" id="txtgridload" name="txtgridload"  value='<s:property value="txtgridload"/>'/>
-<input type="hidden" id="txtchkgridload" name="txtchkgridload"  value='<s:property value="txtchkgridload"/>'/>
-<input type="hidden" id="txtchksalarypaid" name="txtchksalarypaid"  value='<s:property value="txtchksalarypaid"/>'/>
-<input type="hidden" id="txtchkdate" name="txtchkdate"  value='<s:property value="txtchkdate"/>'/>
+<div class="modern-ui hidden-scrollbar">
+
+    <!-- GENERAL INFO -->
+    <div class="middle-panel">
+
+        <span class="middle-panel-title">General Info</span>
+
+        <div class="field-row" style="margin-bottom:0;">
+
+            <label class="lbl-right" style="width:80px;">Date</label>
+
+            <div style="width:160px;">
+
+                <div id="terminationBenefitsPostingDate"
+                     name="terminationBenefitsPostingDate"
+                     onchange="datechange();"
+                     value='<s:property value="terminationBenefitsPostingDate"/>'></div>
+
+                <input type="hidden"
+                       id="hidterminationBenefitsPostingDate"
+                       name="hidterminationBenefitsPostingDate"
+                       value='<s:property value="hidterminationBenefitsPostingDate"/>'/>
+
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div style="display:flex; align-items:center; gap:8px; margin-left:15px;">
+
+                <button type="button"
+                        class="icon-btn"
+                        id="btnExcelExporter"
+                        title="Export current Document to Excel"
+                        onclick="funExcelExporter();">
+
+                    <img alt="Export current Document to Excel"
+                         src="<%=contextPath%>/icons/excel_new.png">
+
+                </button>
+
+                <button type="button"
+                        class="icon-btn"
+                        id="btnProcessing"
+                        title="Process"
+                        onclick="funProcessBtn();">
+
+                    <img alt="Process"
+                         src="<%=contextPath%>/icons/process2.png"
+                         width="16"
+                         height="16">
+
+                </button>
+
+                <button type="button"
+                        class="icon-btn"
+                        id="btnCalculate"
+                        title="Calculate"
+                        onclick="funCalculateBtn();">
+
+                    <img alt="Calculate"
+                         src="<%=contextPath%>/icons/calculate_new.png">
+
+                </button>
+
+            </div>
+
+            <label class="lbl-right" style="width:90px; margin-left:auto;">Doc No.</label>
+
+            <input type="text"
+                   id="docno"
+                   name="txtjvno"
+                   style="width:140px;"
+                   value='<s:property value="txtjvno"/>'
+                   tabindex="-1"/>
+
+        </div>
+
+    </div>
+
+    <!-- DETAILS GRID -->
+    <div class="middle-panel">
+
+        <span class="middle-panel-title">Details</span>
+
+        <div id="terminationBenefitsDetailsDiv" class="grid-container">
+
+            <jsp:include page="terminationBenefitsGrid.jsp"></jsp:include>
+
+        </div>
+
+    </div>
+
+    <!-- TOTALS -->
+    <div class="middle-panel">
+
+        <span class="middle-panel-title">Summary</span>
+
+        <div class="field-row" style="margin-bottom:0;">
+
+            <label class="lbl-right" style="width:130px;">Terminal Benefits</label>
+
+            <input type="text"
+                   id="txtterminalbenefitstotal"
+                   name="txtterminalbenefitstotal"
+                   class="total-box"
+                   value='<s:property value="txtterminalbenefitstotal"/>'
+                   tabindex="-1"/>
+
+            <label class="lbl-right" style="width:100px; margin-left:20px;">Leave Salary</label>
+
+            <input type="text"
+                   id="txtleavesalarytotal"
+                   name="txtleavesalarytotal"
+                   class="total-box"
+                   value='<s:property value="txtleavesalarytotal"/>'
+                   tabindex="-1"/>
+
+            <label class="lbl-right" style="width:70px; margin-left:20px;">Travels</label>
+
+            <input type="text"
+                   id="txttravelstotal"
+                   name="txttravelstotal"
+                   class="total-box"
+                   value='<s:property value="txttravelstotal"/>'
+                   tabindex="-1"/>
+
+        </div>
+
+    </div>
+
+    <!-- ACCOUNTS -->
+    <div class="middle-panel">
+
+        <span class="middle-panel-title">Accounts</span>
+
+        <div id="accountsDetailsDiv" class="grid-container">
+
+            <jsp:include page="accountsDetailsGrid.jsp"></jsp:include>
+
+        </div>
+
+        <div class="field-row"
+             style="justify-content:flex-end; margin-top:15px; margin-bottom:0;">
+
+            <label class="lbl-right" style="width:70px;">Dr. Total</label>
+
+            <input type="text"
+                   id="txtdrtotal"
+                   name="txtdrtotal"
+                   class="total-box"
+                   value='<s:property value="txtdrtotal"/>'
+                   tabindex="-1"/>
+
+            <label class="lbl-right"
+                   style="width:70px; margin-left:20px;">Cr. Total</label>
+
+            <input type="text"
+                   id="txtcrtotal"
+                   name="txtcrtotal"
+                   class="total-box"
+                   value='<s:property value="txtcrtotal"/>'
+                   tabindex="-1"/>
+
+        </div>
+
+    </div>
+
+    <!-- HIDDEN FIELDS -->
+    <div style="display:none;">
+
+        <input type="hidden" id="mode" name="mode"/>
+
+        <input type="hidden"
+               id="deleted"
+               name="deleted"
+               value='<s:property value="deleted"/>'/>
+
+        <input type="hidden"
+               id="msg"
+               name="msg"
+               value='<s:property value="msg"/>'/>
+
+        <input type="hidden"
+               id="gridlength"
+               name="gridlength"/>
+
+        <input type="hidden"
+               id="journalgridlength"
+               name="journalgridlength"/>
+
+        <input type="hidden"
+               id="txttrno"
+               name="txttrno"
+               value='<s:property value="txttrno"/>'/>
+
+        <input type="hidden"
+               id="txtgridload"
+               name="txtgridload"
+               value='<s:property value="txtgridload"/>'/>
+
+        <input type="hidden"
+               id="txtchkgridload"
+               name="txtchkgridload"
+               value='<s:property value="txtchkgridload"/>'/>
+
+        <input type="hidden"
+               id="txtchksalarypaid"
+               name="txtchksalarypaid"
+               value='<s:property value="txtchksalarypaid"/>'/>
+
+        <input type="hidden"
+               id="txtchkdate"
+               name="txtchkdate"
+               value='<s:property value="txtchkdate"/>'/>
+
+    </div>
+
 </div>
+
 </form>
-	
+
 </div>
+
 </body>
 </html>
