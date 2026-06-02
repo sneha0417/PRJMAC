@@ -63,7 +63,227 @@
 }
 
 </style>
+<style>
+/* ===== GLOBAL RESET & STRICT FONT ENFORCER ===== */
+html, body, table, td, th, input, select, textarea, button, span, div, label {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif !important;
+}
 
+body {
+    background-color: #f4f7f9;
+}
+
+/* ===== THE NUCLEAR FIX: FIXED SIDEBAR ===== */
+/* This detaches the sidebar from the table and locks it strictly to your monitor's viewport */
+.fixed-sidebar-container {
+    position: fixed; 
+    top: 0;                   
+    bottom: 0; /* Locks to the exact bottom of the browser, ignoring table height */
+    left: 0;
+    width: 310px; 
+    overflow-y: auto; /* Guarantees a scrollbar */
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 9999; /* Ensures it floats above everything */
+}
+
+.fixed-sidebar-container::-webkit-scrollbar {
+    width: 6px;
+}
+.fixed-sidebar-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+.fixed-sidebar-container::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
+
+.sidebar-content-padding {
+    padding: 15px;
+    padding-bottom: 100px; /* MASSIVE padding ensures you can scroll way past the bottom buttons */
+}
+
+/* Cards */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px 12px;
+    margin-bottom: 15px;
+}
+
+/* Specific styling for the Action Cards (View/Add) */
+.card-header {
+    font-size: 11px; 
+    font-weight: 600; 
+    color: #4e5e71; 
+    margin-bottom: 10px; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e3e8ee;
+    padding-bottom: 5px;
+}
+.action-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+.action-grid .btn-submit {
+    flex: 1;
+    min-width: 45%; 
+}
+.action-grid .btn-full {
+    flex: 100%;
+}
+
+/* Tables */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 12px; 
+}
+
+/* WIDENED LABELS */
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 11.5px; 
+    color: #4e5e71;
+    font-weight: 600;
+    width: 110px; 
+    white-space: nowrap; 
+    line-height: 1.2;
+}
+
+/* ===== UNIFORM INPUTS ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;
+    padding: 2px 8px;
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff !important; 
+    box-shadow: none !important; 
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+textarea, .release-filter-table textarea {
+    width: 100%;
+    padding: 4px 8px;
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    font-family: inherit;
+    resize: none;
+}
+
+input[readonly], select[readonly], textarea[readonly],
+input:disabled, select:disabled, textarea:disabled,
+.release-filter-table input[readonly] {
+    background-color: #f8fafc !important; 
+    color: #555;
+    cursor: default;
+}
+
+/* ===== SEARCH INFRASTRUCTURE ===== */
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.search-input-wrapper input[type="text"] {
+    width: 100%;
+    padding-right: 26px; 
+    cursor: pointer;
+}
+.search-icon {
+    position: absolute;
+    right: 6px;
+    width: 12px;
+    height: 12px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    pointer-events: none; 
+    opacity: 0.8;
+}
+
+/* Sleek Clear Button */
+.btn-clear-inline {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 2px 2px 2px 6px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-clear-inline svg {
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+.btn-clear-inline:hover svg {
+    opacity: 1;
+    stroke: #dc2626; 
+}
+
+.release-filter-table div[id^="fromdate"],
+.release-filter-table div[id^="todate"] {
+    width: 100%;
+}
+
+/* ===== BUTTONS ===== */
+.btn-submit {
+    width: 100%;
+    height: 30px;
+    padding: 0 12px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    line-height: 30px;
+}
+.btn-submit:hover {
+    background: #1d4ed8;
+}
+.btn-secondary {
+    background: #64748b;
+}
+.btn-secondary:hover {
+    background: #475569;
+}
+.btn-primary-action {
+    background: #059669; 
+}
+.btn-primary-action:hover {
+    background: #047857;
+}
+.release-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+</style>
 <script type="text/javascript">
 
 $(document).ready(function () {
@@ -303,154 +523,125 @@ function funreload()
 	}
 </script>
 </head>
-<body onload="getBranch();disablebtn();" >
+<body onload="getBranch();disablebtn();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
 
-<table width="100%" height="100%" >
+<table width="100%" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20%" style=" vertical-align: top;">
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		<tr><td colspan="2"></td></tr>
- <tr><td width="20%" align="right" ><label class="branch">From</label></td><td align="left"><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div>
-                    </td></tr>
-      <tr><td  align="right" ><label class="branch">To</label></td><td align="left"><div id='todate' name='todate' value='<s:property value="todate"/>'></div>
-       </td></tr>
-	    <tr>
-	      <td align="right"><label class="branch">Client</label></td>
-	      <td ><input style="height:19px;" type="text" name="txtclient" id="txtclient" value='<s:property value="txtclient"/>' onKeyDown="getclinfo(event);" readonly placeholder="Press F3 to Search">
-      <input type="hidden" id="clientid" name="clientid" value='<s:property value="clientid"/>'>
-      <button type="button" class="bicon" id="clear" title="clear" onclick="funClear()"> 
-							<img alt="clear" src="<%=contextPath%>/icons/clear.png">
-						</button></td>
-	      </tr>
-	     
-	   <tr><td colspan="2"></td></tr>
-	 <tr><td colspan="4"><hr  size=1 color="black"  width="100%"></td></tr>  
-	  <tr><td colspan="2"></td></tr>
-	    
-	<tr>
-	<td colspan="2" align="center">
-	<!-- <fieldset style="height:15px;"> -->
-	<label id="test"   class="branch" style="font-family: comic sans ms;font-weight: bold;color:blue;height:10px;"></label>
-	<!-- </fieldset> -->
-	</td></tr>
-	 <tr><td colspan="2"></td></tr> 
-	
-	</table>
-	
-<fieldset id="viewform" >
-<legend>View</legend>
-<table width="100%">
-	       
-	<tr>
-	 <td ><input type="button" id="btnenquiry" name="btnenquiry" class="myButton"
-						value=" Enquiry "  onclick="btnenquiry();"/></td>
-	      <td align="right"><input type="button" id="btnsurvey" name="btnsurvey" class="myButton"
-						value=" Survey "  onclick="btnsurvey();" /></td>
-	     
-	      </tr>
-	      <tr><td></td></tr>
-	      <tr>
-	      <td colspan="2" align="center" >
-			<input type="button" id="btnservicereport" name="btnservicereport" class="myButton"
-						value="Service Report"  onclick="btnservicereport();" />			
-						</td>
-	      
-	      </tr>
-	 
-	      </table>
-</fieldset>
-<table>
-	       <tr><td colspan="2">&nbsp;</td></tr> 
-	       </table>
-<fieldset id="addform" >
-<legend>Add</legend>
-<table width="100%">
-	       
-	<tr>
-	  <td align="right"><input type="button" id="btnestimation" name="btnestimation" class="myButton"
-						value=" Estimation "  onclick="btnestimation();" /></td>
-	 <td ><input type="button" id="btnqotation" name="btnqotation" class="myButton"
-						value=" Quotation "  onclick="btnqotation();"/></td>
-	      </tr>
-	      <tr><td></td></tr>
-	    
-	 
-	      </table>
-</fieldset>
-	<table>
-	       <tr><td colspan="2">&nbsp;</td></tr> 
-	     
-	
-	        <tr><td colspan="2">&nbsp;</td></tr>
-	        <tr><td colspan="2">&nbsp;</td></tr> 
-	         <tr><td colspan="2">&nbsp;</td></tr> 
-	          <tr><td colspan="2">&nbsp;</td></tr> 
-	          
-	 <tr>
-	      
-	      <td >
-     
-      <input type="hidden" id="trno" name="trno" value='<s:property value="trno"/>'>
-     
-      <input type="hidden" id="dtype" name="dtype" value='<s:property value="dtype"/>'>
-       <input type="hidden" id="reportdocno" name="reportdocno" value='<s:property value="reportdocno"/>'>
-       <input type="hidden" id="surveydocno" name="surveydocno" value='<s:property value="surveydocno"/>'>
-       <input type="hidden" id="enqdocno" name="enqdocno" value='<s:property value="enqdocno"/>'>
-       
-         <input type="hidden" id="reftrno" name="reftrno" value='<s:property value="reftrno"/>'>
-      <input type="hidden" id="brhid1" name="brhid1" value='<s:property value="brhid1"/>'>
-      <input type="hidden" id="refdtype" name="refdtype" value='<s:property value="refdtype"/>'>
+
+<td width="310" style="width: 310px; min-width: 310px; padding: 0;">
     
-     <input type="hidden" id="client" name="client" value='<s:property value="client"/>'>
-      <input type="hidden" id="cldocno" name="cldocno" value='<s:property value="cldocno"/>'>
-      <input type="hidden" id="address" name="address" value='<s:property value="address"/>'>
-      
-       <input type="hidden" id="pertel" name="pertel" value='<s:property value="pertel"/>'>
-      <input type="hidden" id="per_mob" name="per_mob" value='<s:property value="per_mob"/>'>
-    
-     <input type="hidden" id="mail1" name="mail1" value='<s:property value="mail1"/>'>
-      <input type="hidden" id="salname" name="salname" value='<s:property value="salname"/>'>
-      <input type="hidden" id="salid" name="salid" value='<s:property value="salid"/>'>
-      <input type="hidden" id="surtrno" name="surtrno" value='<s:property value="surtrno"/>'>
-      <input type="hidden" id="esttrno" name="esttrno" value='<s:property value="esttrno"/>'> 
-      <input type="hidden" id="contrtype" name="contrtype" value='<s:property value="contrtype"/>'>
-      <input type="hidden" id="txtcpersonid" name="txtcpersonid" value='<s:property value="txtcpersonid"/>'>
-      <input type="hidden" id="txtcperson" name="txtcperson" value='<s:property value="txtcperson"/>'>
-      <input type="hidden" id="txtcpersondet" name="txtcpersondet" value='<s:property value="txtcpersondet"/>'>
-      <input type="hidden" id="txtsjobtype" name="txtsjobtype" value='<s:property value="txtsjobtype"/>'>  
-      <input type="hidden" id="txtclienttaxper" name="txtclienttaxper" value='<s:property value="txtclienttaxper"/>'>  
-       
-     
-      </td>
-	      </tr>  
-	     
-	</table>
-	</fieldset>
+    <div class="fixed-sidebar-container">
+        <div class="sidebar-content-padding">
+            
+            <div class="filter-card">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">From</td>
+                        <td><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">To</td>
+                        <td><div id='todate' name='todate' value='<s:property value="todate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Client</td>
+                        <td>
+                            <div style="display: flex; width: 100%; align-items: center; gap: 4px;">
+                                <div class="search-input-wrapper" style="flex: 1;">
+                                    <input type="text" name="txtclient" id="txtclient" value='<s:property value="txtclient"/>' readonly="readonly" placeholder="Double click to search" onKeyDown="getclinfo(event);" ondblclick="getclinfo(event);" />
+                                    <div class="search-icon"></div>
+                                </div>
+                                <button type="button" class="btn-clear-inline" id="clear" title="Clear" onclick="funClear()"> 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                </button>
+                            </div>
+                            <input type="hidden" id="clientid" name="clientid" value='<s:property value="clientid"/>'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <label id="test" class="branch" style="font-weight: bold; color: #2563eb; font-size: 11px; display: block; min-height: 14px; margin: 4px 0;"></label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="filter-card">
+                <div class="card-header">View</div>
+                <div class="action-grid">
+                    <button type="button" id="btnenquiry" name="btnenquiry" class="btn-submit btn-secondary" onclick="btnenquiry();">Enquiry</button>
+                    <button type="button" id="btnsurvey" name="btnsurvey" class="btn-submit btn-secondary" onclick="btnsurvey();">Survey</button>
+                    <button type="button" id="btnservicereport" name="btnservicereport" class="btn-submit btn-secondary btn-full" onclick="btnservicereport();">Service Report</button>
+                </div>
+            </div>
+
+            <div class="filter-card">
+                <div class="card-header">Add</div>
+                <div class="action-grid">
+                    <button type="button" id="btnestimation" name="btnestimation" class="btn-submit btn-primary-action" onclick="btnestimation();">Estimation</button>
+                    <button type="button" id="btnqotation" name="btnqotation" class="btn-submit btn-primary-action" onclick="btnqotation();">Quotation</button>
+                </div>
+            </div>
+
+            <input type="hidden" id="trno" name="trno" value='<s:property value="trno"/>'>
+            <input type="hidden" id="dtype" name="dtype" value='<s:property value="dtype"/>'>
+            <input type="hidden" id="reportdocno" name="reportdocno" value='<s:property value="reportdocno"/>'>
+            <input type="hidden" id="surveydocno" name="surveydocno" value='<s:property value="surveydocno"/>'>
+            <input type="hidden" id="enqdocno" name="enqdocno" value='<s:property value="enqdocno"/>'>
+            <input type="hidden" id="reftrno" name="reftrno" value='<s:property value="reftrno"/>'>
+            <input type="hidden" id="brhid1" name="brhid1" value='<s:property value="brhid1"/>'>
+            <input type="hidden" id="refdtype" name="refdtype" value='<s:property value="refdtype"/>'>
+            <input type="hidden" id="client" name="client" value='<s:property value="client"/>'>
+            <input type="hidden" id="cldocno" name="cldocno" value='<s:property value="cldocno"/>'>
+            <input type="hidden" id="address" name="address" value='<s:property value="address"/>'>
+            <input type="hidden" id="pertel" name="pertel" value='<s:property value="pertel"/>'>
+            <input type="hidden" id="per_mob" name="per_mob" value='<s:property value="per_mob"/>'>
+            <input type="hidden" id="mail1" name="mail1" value='<s:property value="mail1"/>'>
+            <input type="hidden" id="salname" name="salname" value='<s:property value="salname"/>'>
+            <input type="hidden" id="salid" name="salid" value='<s:property value="salid"/>'>
+            <input type="hidden" id="surtrno" name="surtrno" value='<s:property value="surtrno"/>'>
+            <input type="hidden" id="esttrno" name="esttrno" value='<s:property value="esttrno"/>'> 
+            <input type="hidden" id="contrtype" name="contrtype" value='<s:property value="contrtype"/>'>
+            <input type="hidden" id="txtcpersonid" name="txtcpersonid" value='<s:property value="txtcpersonid"/>'>
+            <input type="hidden" id="txtcperson" name="txtcperson" value='<s:property value="txtcperson"/>'>
+            <input type="hidden" id="txtcpersondet" name="txtcpersondet" value='<s:property value="txtcpersondet"/>'>
+            <input type="hidden" id="txtsjobtype" name="txtsjobtype" value='<s:property value="txtsjobtype"/>'>  
+            <input type="hidden" id="txtclienttaxper" name="txtclienttaxper" value='<s:property value="txtclienttaxper"/>'>  
+
+        </div>
+    </div>
 
 </td>
-<td width="80" style=" vertical-align: top;">
-	<table width="100%">
-		<tr><td><div id="estfollowupdiv">
-				<jsp:include page="estimationFollowupGrid.jsp"></jsp:include> 
-			</div></td></tr>
 
-	</table>
-	</td>
+<td style="vertical-align: top; padding: 15px; background: #fff;">
+    <table width="100%">
+        <tr>
+            <td>
+                <div id="estfollowupdiv">
+                    <jsp:include page="estimationFollowupGrid.jsp"></jsp:include> 
+                </div>
+            </td>
+        </tr>
+    </table>
+</td>
+
 </tr>
 </table>
-</div>
+
 <div id="clientsearch1">
-   <div ></div>
+   <div></div>
 </div> 
-
 <div id="userinfowindow">
-   <div ></div>
+   <div></div>
 </div>
 
+</div>
 </div>
 </body>
 </html>

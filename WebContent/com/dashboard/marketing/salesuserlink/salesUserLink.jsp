@@ -48,6 +48,194 @@
 	top:1px;
 }
 </style>
+<style>
+/* ===== GLOBAL RESET & STRICT FONT ENFORCER ===== */
+html, body, table, td, th, input, select, textarea, button, span, div, label {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif !important;
+}
+
+body {
+    background-color: #f4f7f9;
+}
+
+/* ===== WIDENED STICKY SIDEBAR ===== */
+.sticky-sidebar-container {
+    position: -webkit-sticky; 
+    position: sticky;
+    top: 0;                   
+    height: 100vh;            
+    overflow-y: auto;         
+    width: 310px; 
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    box-sizing: border-box;
+}
+
+.sticky-sidebar-container::-webkit-scrollbar {
+    width: 6px;
+}
+.sticky-sidebar-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+.sticky-sidebar-container::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
+
+.sidebar-content-padding {
+    padding: 15px;
+    padding-bottom: 60px; 
+}
+
+/* Cards */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px 12px;
+    margin-bottom: 15px;
+}
+
+/* Tables */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 12px; 
+}
+
+/* WIDENED LABELS TO PREVENT WRAPPING */
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 11.5px; 
+    color: #4e5e71;
+    font-weight: 600;
+    width: 110px; 
+    white-space: nowrap; 
+    line-height: 1.2;
+}
+
+/* ===== UNIFORM INPUTS & PINK-COLOR KILLER ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;
+    padding: 2px 8px;
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff !important; 
+    box-shadow: none !important; 
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+/* Fixes browser autofill yellow/pink colors */
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.release-filter-table input[type="radio"] {
+    width: auto;
+    height: auto;
+    margin: 0;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+textarea, .release-filter-table textarea {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    font-family: inherit;
+    resize: none;
+}
+
+/* Readonly fields get a subtle grey, not pink */
+input[readonly], select[readonly], textarea[readonly],
+input:disabled, select:disabled, textarea:disabled,
+.release-filter-table input[readonly] {
+    background-color: #f8fafc !important; 
+    color: #555;
+    cursor: default;
+}
+
+/* ===== DOUBLE-CLICK SEARCH INFRASTRUCTURE ===== */
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.search-input-wrapper input[type="text"] {
+    width: 100%;
+    padding-right: 26px; 
+    cursor: pointer;
+}
+
+.search-icon {
+    position: absolute;
+    right: 6px;
+    width: 12px;
+    height: 12px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    pointer-events: none; 
+    opacity: 0.8;
+}
+
+/* ===== BUTTONS ===== */
+.btn-submit {
+    width: 100%;
+    height: 30px;
+    padding: 0 12px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    line-height: 30px;
+}
+
+.btn-submit:hover {
+    background: #1d4ed8;
+}
+
+.btn-secondary {
+    background: #64748b; /* A neutral gray for clear/remove */
+}
+.btn-secondary:hover {
+    background: #475569;
+}
+
+.btn-danger {
+    background: #dc2626; /* Red for remove */
+}
+.btn-danger:hover {
+    background: #b91c1c;
+}
+
+.release-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+    flex-wrap: wrap; /* Allows the clear button to fall to the next line smoothly */
+}
+</style>
 <script type="text/javascript">
 
 	$(document).ready(function () {
@@ -237,47 +425,86 @@
 <body onload="getBranch();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
+
+<table width="100%" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2" align="center"><input type="radio" id="rdlinking" name="rdo" onchange="funClearRadioInfo();" value="rdlinking"><label for="rdlinking" class="branch">Linking</label>&nbsp;&nbsp;&nbsp;&nbsp;
-	    <input type="radio" id="rddelete" name="rdo" onchange="funClearRadioInfo();" value="rddelete"><label for="rddelete" class="branch">Remove Linking</label></td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td align="right"><label class="branch">User</label></td>
-	<td align="left"><input type="text" id="txtusername" name="txtusername" style="width:100%;height:20px;" placeholder="Press F3 to Search" readonly="readonly" onkeydown="getUserDetails(event);" value='<s:property value="txtusername"/>'/>
-    <input type="hidden" id="txtuserdocno" name="txtuserdocno" value='<s:property value="txtuserdocno"/>'/></td></tr> 
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2" align="center"><textarea id="txtsalesmaninfo" style="height:80px;width:200px;font: 10px Tahoma;resize:none" name="txtsalesmaninfo"  readonly="readonly"><s:property value="txtsalesmaninfo" ></s:property></textarea></td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2" align="center"><button class="myButton" type="button" id="btnlinking" name="btnlinking" onclick="funLinking(event);">Linking</button>&nbsp;&nbsp;&nbsp;&nbsp;
-		<button class="myButton" type="button" id="btnremovelinking" name="btnremovelinking" onclick="funRemoveLinking(event);">Remove Linking</button></td></tr>
-	<tr><td colspan="2" align="center"><input type="button" class="myButtons" name="clear" id="clear"  value="Clear" onclick="funClearInfo();"></td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr> 
-	<tr><td colspan="2">&nbsp;</td></tr> 
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2"><input type="hidden" name="txtsalesmanid" id="txtsalesmanid" style="height:20px;width:70%;" value='<s:property value="txtsalesmanid"/>'></td></tr> 
-	</table>
-	</fieldset>
+
+<td width="310" style="width: 310px; min-width: 310px; vertical-align: top; padding: 0;">
+    
+    <div class="sticky-sidebar-container">
+        <div class="sidebar-content-padding">
+            
+            <div class="filter-card">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+
+            <div class="filter-card">
+                <table class="release-filter-table">
+
+                    <tr>
+                        <td colspan="2" align="center">
+                            <div style="display: flex; justify-content: center; gap: 20px; align-items: center; padding: 5px 0;">
+                                <label for="rdlinking" style="display: flex; align-items: center; gap: 5px; font-size: 12px; color: #4e5e71; cursor: pointer; font-weight: 600;">
+                                    <input type="radio" id="rdlinking" name="rdo" onchange="funClearRadioInfo();" value="rdlinking">
+                                    Linking
+                                </label>
+                                <label for="rddelete" style="display: flex; align-items: center; gap: 5px; font-size: 12px; color: #4e5e71; cursor: pointer; font-weight: 600;">
+                                    <input type="radio" id="rddelete" name="rdo" onchange="funClearRadioInfo();" value="rddelete">
+                                    Remove Linking
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">User</td>
+                        <td>
+                            <div class="search-input-wrapper">
+                                <input type="text" id="txtusername" name="txtusername" readonly="readonly" placeholder="Double click to search" value='<s:property value="txtusername"/>' onkeydown="getUserDetails(event);" ondblclick="getUserDetails(event);" />
+                                <div class="search-icon"></div>
+                            </div>
+                            <input type="hidden" id="txtuserdocno" name="txtuserdocno" value='<s:property value="txtuserdocno"/>'/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" align="center">
+                            <textarea id="txtsalesmaninfo" name="txtsalesmaninfo" readonly="readonly" style="height:80px;"><s:property value="txtsalesmaninfo"></s:property></textarea>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="release-actions">
+                <button type="button" class="btn-submit" id="btnlinking" name="btnlinking" onclick="funLinking(event);" style="flex: 1; min-width: 100px;">Linking</button>
+                <button type="button" class="btn-submit btn-danger" id="btnremovelinking" name="btnremovelinking" onclick="funRemoveLinking(event);" style="flex: 1; min-width: 100px;">Remove</button>
+                <button type="button" class="btn-submit btn-secondary" id="clear" name="clear" onclick="funClearInfo();" style="width: 100%;">Clear</button>
+            </div>
+
+            <input type="hidden" name="txtsalesmanid" id="txtsalesmanid" value='<s:property value="txtsalesmanid"/>'>
+
+        </div>
+    </div>
+
 </td>
-<td width="80%">
-	<table width="100%">
-		<tr>
-			 <td><div id="salesUserLinkDiv"><jsp:include page="salesUserLinkGrid.jsp"></jsp:include></div></td>
-		</tr>
-	</table>
+
+<td style="vertical-align: top; padding: 15px; background: #fff;">
+    <table width="100%">
+        <tr>
+            <td><div id="salesUserLinkDiv"><jsp:include page="salesUserLinkGrid.jsp"></jsp:include></div></td>
+        </tr>
+    </table>
+</td>
+
 </tr>
 </table>
-</div>
 
 <div id="userDetailsWindow">
-<div></div>
+    <div></div>
 </div>
-</div> 
+
+</div>
+</div>
 </body>
 </html>

@@ -59,7 +59,196 @@
 }
 
 </style>
+<style>
+/* ===== GLOBAL RESET & STRICT FONT ENFORCER ===== */
+html, body {
+    height: 100%; /* Locks the main body height */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents the whole page from scrolling */
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif !important;
+    background-color: #f4f7f9;
+}
+#mainBG, .hidden-scrollbar {
+    height: 100%;
+}
+table, td, th, input, select, textarea, button, span, div, label {
+    font-family: inherit !important;
+}
 
+/* ===== INDEPENDENT SCROLLING COLUMNS ===== */
+/* This is the magic fix. It creates perfect scrolling boxes inside the table cells */
+.scrollable-column {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+}
+.scrollable-column::-webkit-scrollbar {
+    width: 6px;
+}
+.scrollable-column::-webkit-scrollbar-track {
+    background: transparent;
+}
+.scrollable-column::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
+
+.sidebar-content-padding {
+    padding: 15px;
+    padding-bottom: 80px; /* Safe space at the bottom so buttons are never cut off */
+}
+
+/* Cards */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px 12px;
+    margin-bottom: 15px;
+}
+
+/* Tables */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 12px; 
+}
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 11.5px; 
+    color: #4e5e71;
+    font-weight: 600;
+    width: 110px; 
+    white-space: nowrap; 
+    line-height: 1.2;
+}
+
+/* ===== UNIFORM INPUTS & PINK-COLOR KILLER ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;
+    padding: 2px 8px;
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff !important; 
+    box-shadow: none !important; 
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.release-filter-table input[type="checkbox"] {
+    width: auto;
+    height: auto;
+    margin: 0;
+    vertical-align: middle;
+}
+
+textarea, .release-filter-table textarea {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    resize: none;
+}
+
+input[readonly], select[readonly], textarea[readonly],
+input:disabled, select:disabled, textarea:disabled,
+.release-filter-table input[readonly] {
+    background-color: #f8fafc !important; 
+    color: #555;
+    cursor: default;
+}
+
+/* ===== SEARCH INFRASTRUCTURE ===== */
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.search-input-wrapper input[type="text"] {
+    width: 100%;
+    padding-right: 26px; 
+    cursor: pointer;
+}
+.search-icon {
+    position: absolute;
+    right: 6px;
+    width: 12px;
+    height: 12px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    pointer-events: none; 
+    opacity: 0.8;
+}
+
+/* RESTORED ORIGINAL CLEAR IMAGE (Transparent styling) */
+.btn-clear-inline {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 2px 2px 2px 6px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-clear-inline img {
+    height: 14px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+.btn-clear-inline:hover img {
+    opacity: 1;
+}
+
+/* jqx containers */
+.release-filter-table div[id^="fromdate"],
+.release-filter-table div[id^="todate"],
+.release-filter-table div[id^="followupdate"],
+.release-filter-table div[id^="date"] {
+    width: 100%;
+}
+
+/* ===== BUTTONS ===== */
+.btn-submit {
+    width: 100%;
+    height: 30px;
+    padding: 0 12px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    line-height: 30px;
+}
+.btn-submit:hover {
+    background: #1d4ed8;
+}
+.release-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+</style>
 <script type="text/javascript">
 
 	$(document).ready(function () {
@@ -296,68 +485,137 @@
 <body onload="getBranch();getProcess();disable();followupcheck();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
+
+<table width="100%" style="height: 100%;" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-	 <tr><td colspan="2"></td></tr>
-	  <tr><td width="20%" align="right" ><label class="branch">From</label></td><td align="left"><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div>
-                    </td></tr>
-      <tr><td  align="right" ><label class="branch">To</label></td><td align="left"><div id='todate' name='todate' value='<s:property value="todate"/>'></div>
-       </td></tr>
-        <tr>
-	      <td align="right"><label class="branch">Sales Man</label></td>
-	      <td ><input style="height:19px;" type="text" name="txtsalman" id="txtsalman" value='<s:property value="txtsalman"/>' onKeyDown=" getsalesAgent(event);" readonly placeholder="Press F3 to Search">
-      <input type="hidden" id="salid" name="salid" value='<s:property value="salid"/>'>
-       <button type="button" class="bicon" id="clear" title="clear" onclick="funsalClear()"> 
-							<img alt="clear" src="<%=contextPath%>/icons/clear.png">
-						</button>
-      </td>
-	      </tr>
-        <tr><td colspan="2"><input type="checkbox" id="chckfollowup" name="chckfollowup" value="" onchange="followupcheck();" onclick="$(this).attr('value', this.checked ? 1 : 0)" /> 
-                                 <input type="hidden" id="hidchckfollowup" name="hidchckfollowup" value='<s:property value="hidchckfollowup"/>'/></td></tr>
-     <tr><td align="right"><label class="branch">FollowUp</label></td>
-     <td align="left"><div id="followupdate" name="followupdate" value='<s:property value="followupdate"/>'></div></td></tr>
-    <tr><td colspan="2"></td></tr>
+
+<td style="width: 310px; min-width: 310px; height: 100%; vertical-align: top; position: relative; padding: 0; background: #fff; border-right: 1px solid #e1e8ed; box-shadow: 2px 0 8px rgba(0,0,0,.05); z-index: 10;">
     
-    	<tr><td colspan="2" align="center"><textarea id="info" style="height:50px;width:200px;font-family:Tahoma;font-size:12px;resize:none" name="info"  readonly="readonly"  ><s:property value="info" ></s:property></textarea></td></tr>	
-	 <tr><td colspan="2">&nbsp;</td></tr> 
-	 <tr><td align="right"><label class="branch">Process</label></td>
-	 <td align="left"><select name="cmbprocess" id="cmbprocess" style="width:40%;" name="cmbprocess" onChange="funtxtenable();"  value='<s:property value="cmbprocess"/>'></select></td></tr>
-	 <tr><td align="right"><label class="branch">Date</label></td>
-     <td align="left"><div id="date" name="date" value='<s:property value="date"/>'></div></td></tr>
-     <tr><td align="right"><label class="branch">Remarks</label></td>
-	 <td align="left"><input type="text" id="txtremarks" name="txtremarks" style="width:100%;height:20px;" value='<s:property value="txtremarks"/>'/></td></tr>
-	 <tr><td colspan="2"></td></tr>
-	 <tr><td colspan="2" align="center"><button class="myButton" type="button" id="btnupdate" name="btnupdate" onclick="funUpdate(event);">Update</button></td></tr>
-	 	 <tr><td colspan="2">&nbsp;</td></tr>
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	 <tr><td colspan="2">
-	 <input type="hidden" id="txtdocno" name="txtdocno" style="width:100%;height:20px;" value='<s:property value="txtdocno"/>'/>
-     <input type="hidden" id="txtbranch" name="txtbranch" style="width:100%;height:20px;" value='<s:property value="txtbranch"/>'/>
-     <input type="hidden" id="txtenqstat" name="txtenqstat" style="width:100%;height:20px;" value='<s:property value="txtenqstat"/>'/>
-      <input type="hidden" id="conttype" name="conttype"  value='<s:property value="conttype"/>'/></td></tr>
-	 </table>
-	</fieldset>
+    <div class="scrollable-column">
+        <div class="sidebar-content-padding">
+            
+            <div class="filter-card">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+
+            <div class="filter-card">
+                <table class="release-filter-table">
+
+                    <tr>
+                        <td class="label-cell">From</td>
+                        <td><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div></td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">To</td>
+                        <td><div id='todate' name='todate' value='<s:property value="todate"/>'></div></td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">Sales Man</td>
+                        <td>
+                            <div style="display: flex; width: 100%; align-items: center; gap: 4px;">
+                                <div class="search-input-wrapper" style="flex: 1;">
+                                    <input type="text" name="txtsalman" id="txtsalman" value='<s:property value="txtsalman"/>' readonly="readonly" placeholder="Double click to search" onKeyDown="getsalesAgent(event);" ondblclick="getsalesAgent(event);" />
+                                    <div class="search-icon"></div>
+                                </div>
+                                <button type="button" class="btn-clear-inline" id="clear" title="Clear" onclick="funsalClear()"> 
+                                    <img alt="clear" src="<%=contextPath%>/icons/clear.png">
+                                </button>
+                            </div>
+                            <input type="hidden" id="salid" name="salid" value='<s:property value="salid"/>'>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell"></td>
+                        <td>
+                            <input type="checkbox" id="chckfollowup" name="chckfollowup" value="" onchange="followupcheck();" onclick="$(this).attr('value', this.checked ? 1 : 0)" /> 
+                            <span style="font-size: 11px; color: #4e5e71; margin-left: 2px;">Enable FollowUp</span>
+                            <input type="hidden" id="hidchckfollowup" name="hidchckfollowup" value='<s:property value="hidchckfollowup"/>'/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">FollowUp</td>
+                        <td>
+                            <div id="followupdate" name="followupdate" value='<s:property value="followupdate"/>'></div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" align="center">
+                            <textarea id="info" name="info" readonly="readonly" style="height:50px;"><s:property value="info"></s:property></textarea>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">Process</td>
+                        <td>
+                            <select name="cmbprocess" id="cmbprocess" onChange="funtxtenable();" value='<s:property value="cmbprocess"/>'></select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">Date</td>
+                        <td>
+                            <div id="date" name="date" value='<s:property value="date"/>'></div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">Remarks</td>
+                        <td>
+                            <input type="text" id="txtremarks" name="txtremarks" value='<s:property value="txtremarks"/>'/>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="release-actions">
+                <button type="button" class="btn-submit" id="btnupdate" name="btnupdate" onclick="funUpdate(event);">Update</button>
+            </div>
+
+            <input type="hidden" id="txtdocno" name="txtdocno" value='<s:property value="txtdocno"/>'/>
+            <input type="hidden" id="txtbranch" name="txtbranch" value='<s:property value="txtbranch"/>'/>
+            <input type="hidden" id="txtenqstat" name="txtenqstat" value='<s:property value="txtenqstat"/>'/>
+            <input type="hidden" id="conttype" name="conttype" value='<s:property value="conttype"/>'/>
+
+        </div>
+    </div>
 </td>
-<td width="80%">
-	<table width="100%">
-		<tr><td><div id="quotationfollowupDiv"><jsp:include page="quotationfollowupGrid.jsp"></jsp:include></div><br/></td></tr>
-		<tr><td><div id="detailDiv"><jsp:include page="detailGrid.jsp"></jsp:include></div></td></tr>
-	</table>
-	</td>
+
+<td style="height: 100%; vertical-align: top; position: relative; padding: 0; background: #fff;">
+    <div class="scrollable-column" style="padding: 15px;">
+        <table width="100%">
+            <tr>
+                <td>
+                    <div id="quotationfollowupDiv">
+                        <jsp:include page="quotationfollowupGrid.jsp"></jsp:include>
+                    </div>
+                    <br/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="detailDiv">
+                        <jsp:include page="detailGrid.jsp"></jsp:include>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</td>
+
 </tr>
 </table>
-</div>
+
 <div id="Salesagentinfowindow">
-   <div ></div>
-   </div>
-</div> 
+   <div></div>
+</div>
+
+</div>
+</div>
 </body>
 </html>
