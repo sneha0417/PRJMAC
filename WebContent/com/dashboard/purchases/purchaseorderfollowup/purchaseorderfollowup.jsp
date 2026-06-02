@@ -1,4 +1,3 @@
- 
 <jsp:include page="../../../../includes.jsp"></jsp:include>    
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
@@ -14,216 +13,229 @@
 <%-- <script type="text/javascript" src="../../js/dashboard.js"></script> --%> 
 
 <style type="text/css">
- 
-.myButtons {
-	-moz-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	-webkit-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	
-	font-size:8pt;
-	
-	padding:3px 17px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
-}
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
-}
-.myButtons:active {
-	position:relative;
-	top:1px;
+/* ===== MASTER LAYOUT ===== */
+body, html, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Prevents whole-page scrolling, delegates to specific panes */
 }
 
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background-color: #f4f7f9;
+}
+
+/* Sidebar (LEFT SIDE ONLY) */
+.sidebar-filters {
+    width: 350px;
+    flex: 0 0 350px;
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto; /* Independent Sidebar Scrollbar */
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 2;
+}
+
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    padding: 15px 20px 25px;
+}
+
+/* Cards */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Tables */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 75px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;             
+    padding: 2px 8px;         
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;       
+    font-size: 12px;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+}
+
+/* Readonly / disabled look - NO BAN ICON */
+input[readonly],
+input:disabled,
+select:disabled {
+    background-color: #f3f6f9 !important;
+    color: #555;
+    cursor: default; /* Forces normal cursor instead of not-allowed */
+}
+
+/* jqx date/time containers */
+.release-filter-table div[id^="date"],
+.release-filter-table div[id^="invdate"] {
+    width: 100%;
+}
+
+/* Main Buttons replacing old .myButtons */
+.btn-submit {
+    flex: 1;
+    height: 30px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    width: 100%;
+}
+.btn-submit:hover:not(:disabled) { background: #1d4ed8; }
+.btn-submit:disabled { background: #9ca3af; }
+.btn-submit:active:not(:disabled) { transform: scale(0.98); }
+
+.btn-secondary { background: #64748b; }
+.btn-secondary:hover:not(:disabled) { background: #475569; }
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+/* Main Content Area (RIGHT SIDE) */
+.main-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto; /* Independent Main Content Scrollbar */
+    background: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
+}
 </style>
 
 <script type="text/javascript">
 
 $(document).ready(function () {
-	
-
 	  $("body").prepend('<div id="overlay" class="ui-widget-overlay" style="z-index: 1; display: none;"></div>');
-	     $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:180px;right:550px;'><img src='../../../../icons/31load.gif'/></div>");
+	  $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:180px;right:550px;'><img src='../../../../icons/31load.gif'/></div>");
 
-
-	       $('#accountSearchwindow').jqxWindow({ width: '50%', height: '62%',  maxHeight: '75%' ,maxWidth: '50%' , title: 'Account Search' ,position: { x: 150, y: 60 }, keyboardCloseKey: 27});
-		   $('#accountSearchwindow').jqxWindow('close');
+	  $('#accountSearchwindow').jqxWindow({ width: '50%', height: '62%',  maxHeight: '75%' ,maxWidth: '50%' , title: 'Account Search' ,position: { x: 150, y: 60 }, keyboardCloseKey: 27});
+	  $('#accountSearchwindow').jqxWindow('close');
 		   
-		   $("#date").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
+	  // Enforced 100% width and 24px height
+	  $("#date").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
 			 
-		     $('#locationwindow').jqxWindow({ width: '30%', height: '55%',  maxHeight: '75%' ,maxWidth: '50%' , title: 'Location Search' ,position: { x: 200, y: 70 }, keyboardCloseKey: 27});
-		     $('#locationwindow').jqxWindow('close');  
+	  $('#locationwindow').jqxWindow({ width: '30%', height: '55%',  maxHeight: '75%' ,maxWidth: '50%' , title: 'Location Search' ,position: { x: 200, y: 70 }, keyboardCloseKey: 27});
+	  $('#locationwindow').jqxWindow('close');  
 		   
-		     $("#invdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});  
+	  $("#invdate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});  
 		     
-		   
-	/*  $("#fromdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-	 $("#todate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-	 var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-	 var onemounth=new Date(new Date(fromdates).setMonth(fromdates.getMonth()-1)); 
-	    
-     $('#fromdate').jqxDateTimeInput('setDate', new Date(onemounth));
-	 $('#todate').on('change', function (event) {
-			
-		   var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-		 
-		  // out date
-		 	 var todates=new Date($('#todate').jqxDateTimeInput('getDate')); //del date
-		 	 
-		   if(fromdates>todates){
-			   
-			   $.messager.alert('Message','To Date Less Than From Date  ','warning');   
-			 
-		   return false;
-		  }   
-	 });
-	 
-	  */
-	 
-	   $('#account').dblclick(function(){
-	    
-	    	
-	    		
-		  	    $('#accountSearchwindow').jqxWindow('open');
-		  	
-		  	  accountSearchContent('accountsDetailsSearch.jsp?');
-	    		 
+	  $('#account').dblclick(function(){
+		  $('#accountSearchwindow').jqxWindow('open');
+		  accountSearchContent('accountsDetailsSearch.jsp?');
 	  });   
-	   $('#txtlocation').dblclick(function(){
-		   
- 
-			   
-		  	    $('#locationwindow').jqxWindow('open');
-		  	
-		  	  locationsearchContent('searchlocation.jsp?brhid='+document.getElementById("brhid").value); 
-				 
-			  
-	  	  
-       
-           }); 
-	  
+	   
+	  $('#txtlocation').dblclick(function(){
+		  $('#locationwindow').jqxWindow('open');
+		  locationsearchContent('searchlocation.jsp?brhid='+document.getElementById("brhid").value); 
+      }); 
 });
+
 function getloc(event){
 	 var x= event.keyCode;
 	 if(x==114){
 	  $('#locationwindow').jqxWindow('open');
-	
 	  locationsearchContent('searchlocation.jsp?brhid='+document.getElementById("brhid").value);   }
 	 else{
-		 }
-	 }  
+	 }
+}  
+
 function funExportBtn(){
 	JSONToCSVCon(datasex,'Purchase Order Followup Mater', true);
 	JSONToCSVCon(datas11ex,'Purchase Order Followup Details', true);
-	 }
+}
 
 function locationsearchContent(url) {
-    //alert(url);
-       $.get(url).done(function (data) {
-//alert(data);
-     $('#locationwindow').jqxWindow('setContent', data);
-
+    $.get(url).done(function (data) {
+        $('#locationwindow').jqxWindow('setContent', data);
 	}); 
- 	}
+}
+
 function getaccountdetails(event){
 	 var x= event.keyCode;
-  	
- 
-		
 	 if(x==114){
-	  $('#accountSearchwindow').jqxWindow('open');
-	
-	 accountSearchContent('accountsDetailsSearch.jsp?');    }
-	 else{
-		 }
-		 
-	 }  
-	  function accountSearchContent(url) {
- 
-         $.get(url).done(function (data) {
- 
-       $('#accountSearchwindow').jqxWindow('setContent', data);
-
+	    $('#accountSearchwindow').jqxWindow('open');
+	    accountSearchContent('accountsDetailsSearch.jsp?');    
+	 }
+}  
+	  
+function accountSearchContent(url) {
+    $.get(url).done(function (data) {
+        $('#accountSearchwindow').jqxWindow('setContent', data);
 	}); 
-   	}
-function funreload(event)
-{
+}
 
-	/*   var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-		 
-	  // out date
-	 	 var todates=new Date($('#todate').jqxDateTimeInput('getDate')); //del date
-	 	 
-	   if(fromdates>todates){
-		   
-		   $.messager.alert('Message','To Date Less Than From Date  ','warning');   
-		 
-	   return false;
-	  } 
-	   else
-		   { */
+function funreload(event) {
 	 var barchval = document.getElementById("cmbbranch").value;
-/*      var fromdate= $("#fromdate").val();
-	 var todate= $("#todate").val(); */
-	 
 	 var fromdate="";
 	 var todate="";
-	 
 	 var statusselect="";
-	 
 	 var acno=$("#acno").val();
-	  $("#ordersubgrid").jqxGrid('clear');
-	  $("#duedetailsgrid").jqxGrid('clear');
-	   $("#overlay, #PleaseWait").show();
-	  $("#listdiv").load("ordermainGrid.jsp?barchval="+barchval+"&fromdate="+fromdate+"&todate="+todate+"&statusselect="+statusselect+"&acno="+acno);
-	
-		  /*  } */
-	}
+	 
+	 $("#ordersubgrid").jqxGrid('clear');
+	 $("#duedetailsgrid").jqxGrid('clear');
+	 $("#overlay, #PleaseWait").show();
+	 $("#listdiv").load("ordermainGrid.jsp?barchval="+barchval+"&fromdate="+fromdate+"&todate="+todate+"&statusselect="+statusselect+"&acno="+acno);
+}
 
-function  funcleardata()
-{
+function funcleardata() {
 	document.getElementById("acno").value="";
 	document.getElementById("account").value="";
 	document.getElementById("accname").value="";
- 
-	
- 
 	document.getElementById("statusselect").value="All";
 	
-	
-	
-	 if (document.getElementById("account").value == "") {
-			
-		 
-	        $('#account').attr('placeholder', 'Press F3 TO Search'); 
-	    }
-	  
-		
+	if (document.getElementById("account").value == "") {
+	    $('#account').attr('placeholder', 'Press F3 TO Search'); 
 	}
+}
+
 function getinfo() {
-	  var x = new XMLHttpRequest();
+	var x = new XMLHttpRequest();
 	x.onreadystatechange = function() {
 		if (x.readyState == 4 && x.status == 200) {
 			var items = x.responseText;
-		//alert(items);
 			items = items.split('####');
 			
 			var srno  = items[0].split(",");
@@ -235,19 +247,17 @@ function getinfo() {
 			}
 			$("select#cmbinfo").html(optionsbranch);
 			
-		} else {
-			//alert("Error");
 		}
 	}
 	x.open("GET","getinfo.jsp", true);
 	x.send(); 
 }
+
 function getstatus() {
 	var x = new XMLHttpRequest();
 	x.onreadystatechange = function() {
 		if (x.readyState == 4 && x.status == 200) {
 			var itemss = x.responseText;
-		//alert(items);
 			itemss = itemss.split('####');
 			
 			var srno1  = itemss[0].split(",");
@@ -258,347 +268,286 @@ function getstatus() {
 						+ process1[i] + '</option>';
 			}
 			$("select#status").html(optionsbranch1);
-			
-		} else {
-			//alert("Error");
 		}
 	}
 	x.open("GET","getstatus.jsp", true);
 	x.send();
 }
 
-
-function funupdate()
-{
-	
+function funupdate() {
 	var listss = new Array();
-	 if(document.getElementById("cmbinfo").value=="")
-	 {
+	if(document.getElementById("cmbinfo").value=="") {
 		 $.messager.alert('Message','Select Process ','warning');   
-					 
 		 return 0;
-	 }
+	}
 	 
-	 
-	 if(document.getElementById("cmbinfo").value=="1")
-		 {
-	 
-	 if($('#remarks').val()=="")
-	 {
-		 $.messager.alert('Message','Enter Remarks ','warning');   
-		 return 0;
-	 }
-	 var remarkss = document.getElementById("remarks").value;
-	 var nmax = remarkss.length;
-      if(nmax>99)
-   	   {
-   	  $.messager.alert('Message',' Remarks cannot contain more than 200 characters ','warning');   
-   	
+	if(document.getElementById("cmbinfo").value=="1") {
+	    if($('#remarks').val()=="") {
+		    $.messager.alert('Message','Enter Remarks ','warning');   
+		    return 0;
+	    }
+	    var remarkss = document.getElementById("remarks").value;
+	    var nmax = remarkss.length;
+        if(nmax>99) {
+   	        $.messager.alert('Message',' Remarks cannot contain more than 200 characters ','warning');   
 			return false; 
-   	 
-   	   } 
-		 }
-	 
-	 
-	 else if(document.getElementById("cmbinfo").value=="2")
-		 {
-		 if($('#status').val()=="")
-		 {
+   	    } 
+	} else if(document.getElementById("cmbinfo").value=="2") {
+		 if($('#status').val()=="") {
 			 $.messager.alert('Message','Select Status ','warning');   
 			 return 0;
 		 }
-		 
-		 }
-	  
-	 
-	 else if(document.getElementById("cmbinfo").value=="3")
-		 {
-		 if($('#txtlocation').val()=="")
-		 {
+	} else if(document.getElementById("cmbinfo").value=="3") {
+		 if($('#txtlocation').val()=="") {
 			 $.messager.alert('Message','Select Location ','warning');   
 			 return 0;
 		 }
 		 
-		 if($('#invno').val()=="")
-		 {
+		 if($('#invno').val()=="") {
 			 $.messager.alert('Message','Enter Inv No ','warning');   
 			 return 0;
 		 }
 		 
-		
-			var selectedrows=$("#ordersubgrid").jqxGrid('selectedrowindexes');
-			 
-			
-			
-			 if(selectedrows.length=="0" ||selectedrows.length==0)
-			 {
-				 $.messager.alert('Message','Select Product','warning');   
-				 return 0;
-			 }
-			
-			
-			selectedrows = selectedrows.sort(function(a,b){return a - b});  
-				  for(var i=0 ; i < selectedrows.length ; i++){
-					 listss.push($("#ordersubgrid").jqxGrid('getcellvalue',selectedrows[i],'psrno')); 
-						  }
-				  
-		 
-		 
-		 }
+         var selectedrows=$("#ordersubgrid").jqxGrid('selectedrowindexes');
+         
+         if(selectedrows.length=="0" ||selectedrows.length==0) {
+             $.messager.alert('Message','Select Product','warning');   
+             return 0;
+         }
+        
+        selectedrows = selectedrows.sort(function(a,b){return a - b});  
+        for(var i=0 ; i < selectedrows.length ; i++){
+            listss.push($("#ordersubgrid").jqxGrid('getcellvalue',selectedrows[i],'psrno')); 
+        }
+    }
 	  
-	 
-	 
-      
-      
-      var docno = document.getElementById("masterdocno").value;
-  
- 	 var branchids = document.getElementById("brhid").value;
- 	 var remarks = document.getElementById("remarks").value;
- 	 var cmbinfo = document.getElementById("cmbinfo").value;
-       var refrowno=0;
- 	 var folldate =$('#date').val();
+    var docno = document.getElementById("masterdocno").value;
+ 	var branchids = document.getElementById("brhid").value;
+ 	var remarks = document.getElementById("remarks").value;
+ 	var cmbinfo = document.getElementById("cmbinfo").value;
+    var refrowno=0;
+ 	var folldate =$('#date').val();
  	 
  	var cmbval = document.getElementById("cmbinfo");
  	var cmbText = cmbval.options[cmbval.selectedIndex].text;
- 	 
-	 var statuschg = document.getElementById("status").value;
-	 
-	 
-	 var invdate = document.getElementById("invdate").value;
-	 var invno = document.getElementById("invno").value;
-	 var txtlocationid = document.getElementById("txtlocationid").value;
+ 	var statuschg = document.getElementById("status").value;
+	var invdate = document.getElementById("invdate").value;
+	var invno = document.getElementById("invno").value;
+	var txtlocationid = document.getElementById("txtlocationid").value;
  	
-
-	    $.messager.confirm('Message', 'Do you want to save changes?', function(r){
-	     	  
-		        
-	     	if(r==false)
-	     	  {
-	     		return false; 
-	     	  }
-	     	else{
-	     		
-	     		
-	     		
-	     		
-	     		
-	     		 savegriddata(docno,branchids,remarks,cmbinfo,folldate,cmbText,refrowno,statuschg,invdate,invno,txtlocationid,listss);	
-	     	}
-		     });
-	
-	
-	
+    $.messager.confirm('Message', 'Do you want to save changes?', function(r){
+        if(r==false) {
+            return false; 
+        } else {
+            savegriddata(docno,branchids,remarks,cmbinfo,folldate,cmbText,refrowno,statuschg,invdate,invno,txtlocationid,listss);	
+        }
+    });
 }
-function savegriddata(docno,branchids,remarks,cmbinfo,folldate,cmbText,refrowno,statuschg,invdate,invno,txtlocationid,listss)
-{
-	
+
+function savegriddata(docno,branchids,remarks,cmbinfo,folldate,cmbText,refrowno,statuschg,invdate,invno,txtlocationid,listss) {
 	var x=new XMLHttpRequest();
 	x.onreadystatechange=function(){
-	if (x.readyState==4 && x.status==200)
-		{
-		
-     			
+	if (x.readyState==4 && x.status==200) {
 			var items=x.responseText;
-			if(parseInt(items)>0)
-				 {
-				 
-				 				if(document.getElementById("cmbinfo").value=="3" || document.getElementById("cmbinfo").value==3)  
-					{
-					  $.messager.alert('Message', ' Successfully Created PIV NO : '+items);
-					}
-				else
-					{
-					  $.messager.alert('Message', ' Successfully Updated');
-					}
-				
-				  funreload(event);
-				
-				  
-				  disitems(0);
-				  
-				 }
-			 else
-				 {
-				 $.messager.alert('Message', ' Not Updated '); 
-				 }
-			 
-			  
-			
-			 
-			
-			}
-	}
-		
-x.open("GET","savedata.jsp?docno="+docno+"&branchids="+branchids+"&remarks="+remarks+"&cmbinfo="+cmbinfo+"&folldate="+folldate+"&cmbText="+cmbText+"&refrowno="+refrowno+"&statuschg="+statuschg+"&invdate="+invdate+"&invno="+invno+"&txtlocationid="+txtlocationid+"&listss="+listss,true);
-
-x.send();
-		
-}
-
-
-function disitems(val)
-{
-	
-	 
-			if(val=="1")
-				{
-				
-				 $('#cmbinfo').attr("disabled",false);
-				 $('#status').attr("disabled",true);
-				 $('#remarks').attr("disabled",false);
-				 $('#remarks').attr("readonly",false);
-				 $('#Update').attr("disabled",false);
-			   
-				 document.getElementById("remarks").value="";
-				 document.getElementById("status").value="";
-				 
-				 $('#date').val(new Date());
-				 $('#date').jqxDateTimeInput({ disabled: false});
-				 document.getElementById("status").value="";
-				 document.getElementById("txtlocation").value="";
-				 document.getElementById("txtlocationid").value="";
-				 document.getElementById("invno").value="";
-				 $('#invdate').val(new Date());
-				 $('#invdate').jqxDateTimeInput({ disabled: true});
-				 $('#txtlocation').attr("disabled",true);
-				 $('#invno').attr("disabled",true);
-					 
+			if(parseInt(items)>0) {
+				if(document.getElementById("cmbinfo").value=="3" || document.getElementById("cmbinfo").value==3) {
+					$.messager.alert('Message', ' Successfully Created PIV NO : '+items);
+				} else {
+					$.messager.alert('Message', ' Successfully Updated');
 				}
-			else if(val=="2")
-			{
-			    $('#cmbinfo').attr("disabled",false);
-			    $('#status').attr("disabled",false);
-			    $('#remarks').attr("readonly",true);
-			    $('#remarks').attr("disabled",true);
-			    $('#Update').attr("disabled",false);
-				 
-				document.getElementById("remarks").value="";
-				document.getElementById("status").value="";
-		 
-			    $('#date').val(new Date());
-			    $('#date').jqxDateTimeInput({ disabled: true});
-			    document.getElementById("status").value="1";
-			    document.getElementById("txtlocation").value="";
-			    document.getElementById("txtlocationid").value="";
-			    document.getElementById("invno").value="";
-			    $('#invdate').val(new Date());
-			    $('#invdate').jqxDateTimeInput({ disabled: true});
-			    $('#txtlocation').attr("disabled",true);
-			    $('#invno').attr("disabled",true);
-				 
-				 
-				 
+				funreload(event);
+				disitems(0);
+			} else {
+				$.messager.alert('Message', ' Not Updated '); 
 			}
-			else if(val=="3")
-			{
-			    $('#cmbinfo').attr("disabled",false);
-			    $('#status').attr("disabled",true);
-			    $('#remarks').attr("readonly",true);
-			    $('#Update').attr("disabled",false);
-			    $('#remarks').attr("disabled",true);
-				document.getElementById("remarks").value="";
-				document.getElementById("status").value="";
-			    $('#date').val(new Date());
-			    $('#date').jqxDateTimeInput({ disabled: true});
-			    document.getElementById("status").value="";
-			    document.getElementById("txtlocation").value="";
-				document.getElementById("txtlocationid").value="";
-				document.getElementById("invno").value="";
-				$('#invdate').val(new Date());
-				$('#invdate').jqxDateTimeInput({ disabled: false});
-				 $('#txtlocation').attr("disabled",false);
-				 $('#invno').attr("disabled",false);
-			
-			}
-			
-			else
-			{
-				document.getElementById("txtlocation").value=""; 
-				document.getElementById("txtlocationid").value="";
-				document.getElementById("invno").value="";
-				$('#invdate').val(new Date());
-				$('#invdate').jqxDateTimeInput({ disabled: true});
-				$('#txtlocation').attr("disabled",true);
-				$('#invno').attr("disabled",true);
-			    document.getElementById("cmbinfo").value="";
-			    document.getElementById("remarks").value="";
-			    document.getElementById("status").value="";
-			    document.getElementById("masterdocno").value="";
-			    $('#date').val(new Date());
-			    $('#date').jqxDateTimeInput({ disabled: true});
-			    $('#cmbinfo').attr("disabled",true);
-			    $('#status').attr("disabled",true);
-			    $('#remarks').attr("readonly",true);
-			   $('#Update').attr("disabled",true);
-			
-			}
-		
-			
-	
+        }
+	}
+    x.open("GET","savedata.jsp?docno="+docno+"&branchids="+branchids+"&remarks="+remarks+"&cmbinfo="+cmbinfo+"&folldate="+folldate+"&cmbText="+cmbText+"&refrowno="+refrowno+"&statuschg="+statuschg+"&invdate="+invdate+"&invno="+invno+"&txtlocationid="+txtlocationid+"&listss="+listss,true);
+    x.send();
 }
 
+function disitems(val) {
+	if(val=="1") {
+        $('#cmbinfo').attr("disabled",false);
+        $('#status').attr("disabled",true);
+        $('#remarks').attr("disabled",false);
+        $('#remarks').attr("readonly",false);
+        $('#Update').attr("disabled",false);
+        
+        document.getElementById("remarks").value="";
+        document.getElementById("status").value="";
+        
+        $('#date').val(new Date());
+        $('#date').jqxDateTimeInput({ disabled: false});
+        document.getElementById("status").value="";
+        document.getElementById("txtlocation").value="";
+        document.getElementById("txtlocationid").value="";
+        document.getElementById("invno").value="";
+        $('#invdate').val(new Date());
+        $('#invdate').jqxDateTimeInput({ disabled: true});
+        $('#txtlocation').attr("disabled",true);
+        $('#invno').attr("disabled",true);
+    } else if(val=="2") {
+        $('#cmbinfo').attr("disabled",false);
+        $('#status').attr("disabled",false);
+        $('#remarks').attr("readonly",true);
+        $('#remarks').attr("disabled",true);
+        $('#Update').attr("disabled",false);
+            
+        document.getElementById("remarks").value="";
+        document.getElementById("status").value="";
 
-
-
+        $('#date').val(new Date());
+        $('#date').jqxDateTimeInput({ disabled: true});
+        document.getElementById("status").value="1";
+        document.getElementById("txtlocation").value="";
+        document.getElementById("txtlocationid").value="";
+        document.getElementById("invno").value="";
+        $('#invdate').val(new Date());
+        $('#invdate').jqxDateTimeInput({ disabled: true});
+        $('#txtlocation').attr("disabled",true);
+        $('#invno').attr("disabled",true);
+    } else if(val=="3") {
+        $('#cmbinfo').attr("disabled",false);
+        $('#status').attr("disabled",true);
+        $('#remarks').attr("readonly",true);
+        $('#Update').attr("disabled",false);
+        $('#remarks').attr("disabled",true);
+        document.getElementById("remarks").value="";
+        document.getElementById("status").value="";
+        $('#date').val(new Date());
+        $('#date').jqxDateTimeInput({ disabled: true});
+        document.getElementById("status").value="";
+        document.getElementById("txtlocation").value="";
+        document.getElementById("txtlocationid").value="";
+        document.getElementById("invno").value="";
+        $('#invdate').val(new Date());
+        $('#invdate').jqxDateTimeInput({ disabled: false});
+        $('#txtlocation').attr("disabled",false);
+        $('#invno').attr("disabled",false);
+    } else {
+        document.getElementById("txtlocation").value=""; 
+        document.getElementById("txtlocationid").value="";
+        document.getElementById("invno").value="";
+        $('#invdate').val(new Date());
+        $('#invdate').jqxDateTimeInput({ disabled: true});
+        $('#txtlocation').attr("disabled",true);
+        $('#invno').attr("disabled",true);
+        document.getElementById("cmbinfo").value="";
+        document.getElementById("remarks").value="";
+        document.getElementById("status").value="";
+        document.getElementById("masterdocno").value="";
+        $('#date').val(new Date());
+        $('#date').jqxDateTimeInput({ disabled: true});
+        $('#cmbinfo').attr("disabled",true);
+        $('#status').attr("disabled",true);
+        $('#remarks').attr("readonly",true);
+        $('#Update').attr("disabled",true);
+    }
+}
 </script>
 </head>
 <body onload="getBranch();getinfo();getstatus();disitems(0);">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-	<tr><td align="right"><label class="branch">Account</label></td>
-    <td><input type="text" name="account" id="account" value='<s:property value="account"/>' readonly="readonly" placeholder="Press F3 To Search"   style="height:20px;width:70%;" onKeyDown="getaccountdetails(event);" >  </td></tr>
-    <tr><td>&nbsp;</td><td> <input type="text" id="accname" name="accname" value='<s:property value="accname"/>'  readonly="readonly"  style="height:20px;width:100%;"></td></tr>
-   	<tr><td colspan="2">&nbsp;</td></tr> 
-    <tr><td colspan="2" align="center"><input type="button" class="myButtons" name="clear" id="clear"  value="Clear" onclick="funcleardata()"></td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr> 
-    <tr> <td  align="right"><label class="branch">Process</label></td><td align="left">
-    <select name="cmbinfo" id="cmbinfo" style="width:70%;" value='<s:property value="cmbinfo"/>' onchange="disitems(this.value);" > </select></td></tr>
-    <tr><td  align="right" ><label class="branch">Date</label></td><td align="left"><div id='date' name='date' value='<s:property value="date"/>'></div> </td></tr>
-    <tr><td align="right"><label class="branch">Remarks</label></td><td align="left"><input type="text" id="remarks" style="height:20px;width:88%;" name="remarks"  value='<s:property value="remarks"/>'> </td></tr>
-     <tr><td align="right"><label class="branch">Status</label></td><td align="left"><select name="status" id="status" style="width:70%;"  value='<s:property value="status"/>'> </select></td></tr>
-     <tr><td align="right"><label class="branch">Location</label></td><td align="left"><input type="text" id="txtlocation" name="txtlocation"  readonly="readonly" style="height:20px;width:70%;" placeholder="Press F3 to Search" value='<s:property value="txtlocation"/>'  onkeydown="getloc(event);"/>
-     <input type="hidden" id="txtlocationid" name="txtlocationid" value='<s:property value="txtlocationid"/>'/></td></tr>
-      <tr><td  align="right" ><label class="branch">Inv Date</label></td><td align="left"><div id='invdate' name='invdate' value='<s:property value="invdate"/>'></div> </td></tr>
-       <tr><td  align="right" ><label class="branch">Inv No</label></td><td align="left"> <input type="text" id="invno" style="height:20px;width:70%;"  name="invno" value='<s:property value="invno"/>'/> </td></tr>
-     
-    <tr><td colspan="2">&nbsp;</td></tr> 
-    <tr><td  align="center" colspan="2"><input type="Button" name="Update" id="Update" class="myButton" value="Update" onclick="funupdate()"> </td> </tr>
- 
-	<tr>
-	<td colspan="2"><div id='paychaaaaa' style="width: 100% ; align:right; height:90px;"></div></td>
-	</tr>	
-	</table>
-	</fieldset>
-   <input type="hidden" id="acno" name="acno" value='<s:property value="acno"/>'>
-      <input type="hidden" id="brhid" name="brhid" value='<s:property value="brhid"/>'>
-   
-</td>
-<td width="80%">
-	<table width="100%">
-		<tr><td><div id="listdiv"><jsp:include page="ordermainGrid.jsp"></jsp:include></div></td></tr>
-	    <tr><td><div id="listdiv1"><jsp:include page="ordersubGrid.jsp"></jsp:include></div></td></tr>
-		<tr><td><div id="detaildiv"><jsp:include page="detailgrid.jsp"></jsp:include></div></td></tr>
-	</table>
-</tr>
-</table>
-<input type="hidden" id="masterdocno" name="masterdocno" value='<s:property value="masterdocno"/>'>
 
+<div class="master-container">
+    
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px;">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+        </div>
 
+        <div class="sidebar-scroll-content">
+            
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">Account</td>
+                        <td>
+                            <input type="text" name="account" id="account" value='<s:property value="account"/>' readonly="readonly" placeholder="Press F3 To Search" onKeyDown="getaccountdetails(event);" >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell"></td>
+                        <td>
+                            <input type="text" id="accname" name="accname" value='<s:property value="accname"/>' readonly="readonly">
+                        </td>
+                    </tr>
+                </table>
+                <div class="button-group">
+                    <button type="button" class="btn-submit btn-secondary" name="clear" id="clear" onclick="funcleardata()">Clear</button>
+                </div>
+            </div>
+
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">Process</td>
+                        <td>
+                            <select name="cmbinfo" id="cmbinfo" value='<s:property value="cmbinfo"/>' onchange="disitems(this.value);" ></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Date</td>
+                        <td><div id='date' name='date' value='<s:property value="date"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Remarks</td>
+                        <td><input type="text" id="remarks" name="remarks" value='<s:property value="remarks"/>'></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Status</td>
+                        <td><select name="status" id="status" value='<s:property value="status"/>'></select></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Location</td>
+                        <td>
+                            <input type="text" id="txtlocation" name="txtlocation" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtlocation"/>' onkeydown="getloc(event);"/>
+                            <input type="hidden" id="txtlocationid" name="txtlocationid" value='<s:property value="txtlocationid"/>'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Inv Date</td>
+                        <td><div id='invdate' name='invdate' value='<s:property value="invdate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Inv No</td>
+                        <td><input type="text" id="invno" name="invno" value='<s:property value="invno"/>'/></td>
+                    </tr>
+                </table>
+                
+                <div class="button-group">
+                    <button type="button" name="Update" id="Update" class="btn-submit" onclick="funupdate()">Update</button>
+                </div>
+                
+                <div id='paychaaaaa' style="width: 100%; height:90px; margin-top:15px;"></div>
+            </div>
+
+            <div style="display: none;">
+                <input type="hidden" id="acno" name="acno" value='<s:property value="acno"/>'>
+                <input type="hidden" id="brhid" name="brhid" value='<s:property value="brhid"/>'>
+                <input type="hidden" id="masterdocno" name="masterdocno" value='<s:property value="masterdocno"/>'>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="main-content-area">
+        <table width="100%">
+            <tr><td><div id="listdiv"><jsp:include page="ordermainGrid.jsp"></jsp:include></div></td></tr>
+            <tr><td><div id="listdiv1"><jsp:include page="ordersubGrid.jsp"></jsp:include></div></td></tr>
+            <tr><td><div id="detaildiv"><jsp:include page="detailgrid.jsp"></jsp:include></div></td></tr>
+        </table>
+    </div>
 
 </div>
-	  <div id="locationwindow">
-	   <div ></div>
-	</div>
 
-<div id="accountSearchwindow">
-   <div ></div>
-</div> 
+<div id="locationwindow"><div></div></div>
+<div id="accountSearchwindow"><div></div></div> 
+
 </div>
 </body>
 </html>

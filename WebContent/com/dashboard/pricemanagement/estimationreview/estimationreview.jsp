@@ -1,4 +1,3 @@
-
 <jsp:include page="../../../../includes.jsp"></jsp:include>    
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%
@@ -16,94 +15,177 @@
 <%-- <script type="text/javascript" src="../../js/dashboard.js"></script> --%> 
 
 <style type="text/css">
- 
-.myButtons {
-	display: inline-block;
-	margin-right:4px;
-	margin-left:4px; 
-  margin-bottom: 0;
-  font-weight: normal;
-  line-height: 1.3;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  background-image: none;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  color: #fff;
-  background-color: grey;
-}
-.myButtons:hover {
-	  color: #fff;
-  background-color: #31b0d5;
-  
-}
-.myButtons:active {
-  color: #fff;
-  background-color: #31b0d5;
-  
-}
-.myButtons:focus {
-  color: #fff;
-  background-color: grey;
-}
-.myButtonss {
-	-moz-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	-webkit-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	
-	font-size:8pt;
-	
-	padding:3px 17px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
-}
-.myButtonss:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
-}
-.myButtonss:active {
-	position:relative;
-	top:1px;
+/* ===== MASTER LAYOUT ===== */
+body, html, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
 }
 
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background-color: #f4f7f9;
+}
+
+/* Sidebar (LEFT SIDE ONLY) */
+.sidebar-filters {
+    width: 350px;
+    flex: 0 0 350px;
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 2;
+}
+
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 20px 25px;
+}
+
+/* Cards */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Tables */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 80px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;             
+    padding: 2px 8px;         
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;       
+    font-size: 12px;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+}
+
+/* Textarea styling */
+textarea {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    font-family: 'Segoe UI', 'Tahoma', sans-serif;
+    resize: none;
+}
+
+/* Readonly / disabled look - NO BAN ICON */
+input[readonly],
+input:disabled,
+select:disabled,
+textarea[readonly],
+textarea:disabled {
+    background-color: #f3f6f9 !important;
+    color: #555;
+}
+
+/* jqx date/time containers */
+.release-filter-table div[id^="fromdate"],
+.release-filter-table div[id^="todate"] {
+    width: 100%;
+}
+
+/* Add/Remove small buttons */
+.btn-small {
+    height: 24px;
+    padding: 0 10px;
+    background: #64748b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-small:hover { background: #475569; }
+
+/* Main Buttons */
+.btn-submit {
+    flex: 1;
+    height: 30px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+.btn-submit:hover:not(:disabled) { background: #1d4ed8; }
+.btn-submit:disabled { background: #9ca3af; }
+.btn-submit:active:not(:disabled) { transform: scale(0.98); }
+
+.btn-secondary { background: #64748b; }
+.btn-secondary:hover:not(:disabled) { background: #475569; }
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Main Content Area (RIGHT SIDE) */
+.main-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow: auto;
+    background: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
+}
 </style>
 
 <script type="text/javascript">
 
 $(document).ready(function () {
 	
-
 	  $("body").prepend('<div id="overlay" class="ui-widget-overlay" style="z-index: 1; display: none;"></div>');
 	     $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:180px;right:550px;'><img src='../../../../icons/31load.gif'/></div>");
  
-	 $("#fromdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-	 $("#todate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
+	 // Enforced 100% width and 24px height to match new UI standard
+	 $("#fromdate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+	 $("#todate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
 	 var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
 	 var onemounth=new Date(new Date(fromdates).setMonth(fromdates.getMonth()-1)); 
 	    
@@ -121,10 +203,6 @@ $(document).ready(function () {
 			 
 		   return false;
 		  }   
-		 	 
-		 	 
-		 	 
-		 	 
 	 });
 	 $("#updatdata").attr("disabled",true);
 		$('#catsearchwindow').jqxWindow({
@@ -173,12 +251,7 @@ $(document).ready(function () {
 			keyboardCloseKey : 27
 		});
 		
-		
-		
 		$('#brandsearchwindow').jqxWindow('close');
-		
-		
-		
 		
 		   $('#brandwindow').jqxWindow({ width: '50%',height: '62%',  maxHeight: '80%'  ,maxWidth: '50%' , title: 'Product Brand Search' ,position: { x: 250, y: 60 }, keyboardCloseKey: 27});
 		   $('#brandwindow').jqxWindow('close');   
@@ -213,12 +286,7 @@ $(document).ready(function () {
 			 {
 				 productSearchContent('productSearch1.jsp');
 			 }
-		
-			
-			
 		}); 
-		
-		 
 		
 });
 function brandFormSearchContent(url) {
@@ -246,11 +314,9 @@ function catFormSearchContent(url) {
 function productSearchContent(url) {
 	$('#productwindow').jqxWindow('open');
 	    $.get(url).done(function (data) {
-	//alert(data);
 	  $('#productwindow').jqxWindow('setContent', data);
-
 	}); 
-	}
+}
 
 
 function getname(event)
@@ -271,18 +337,13 @@ else if($('#type').val()=="PR")
 {
 	 productSearchContent('productSearch.jsp');
 }
-	
-	
-	}
+}
 
 
 function funExportBtn(){
 	JSONToCSVCon(dat1, 'Product Review Master', true);
-	
 	JSONToCSVCon(pmdata1, 'Product Review Detail ', true);
- 
-	
-	 }
+}
 
  
 function funreload(event)
@@ -334,10 +395,6 @@ function funreload(event)
 	   $("#overlay, #PleaseWait").show(); 
 	   var load="yes";
 		 
-	//  hidbrandid hidtypeid hideptid hidcatid hidsubcatid hidproductid
-		 
-		
-	   
  	  $("#mainlistdiv").load("mainlistGrid.jsp?barchval="+barchval+"&fromdate="+fromdate+"&todate="+todate+"&type="+type
  			  +"&brandid="+brandid+"&catid="+catid+"&subcatid="+subcatid+"&psrno="+psrno+"&load="+load+"&hidbrandid="+hidbrandid
  			  +"&hidtypeid="+hidtypeid+"&hideptid="+hideptid+"&hidcatid="+hidcatid+"&hidsubcatid="+hidsubcatid+"&hidproductid="+hidproductid+"&optype="+optype);
@@ -350,8 +407,6 @@ function funreload(event)
   
   function funCalculate()
   {
-	  
-	  
 		 $("#updatdata").attr("disabled",false);
 	  var discountval=document.getElementById("discountval").value;
 	  
@@ -360,8 +415,6 @@ function funreload(event)
 		  $.messager.alert('Message', ' Enter Max Discount ', function(r){
 			     
 		     });
-		  
-		  
 		  return 0;
 			  }
 	  
@@ -389,29 +442,20 @@ function funreload(event)
   }
   function funupdates()
   {
-	  
 		$.messager.confirm('Message', 'Do you want to save changes?', function(r){
-		 	  
-		     
 		   	if(r==false)
 		   	  {
-		   		
 		   	  }
 		   	else
 		   		{
 		var listss = new Array();
 	 	var rows = $("#jqxpmgt").jqxGrid('getrows'); 
 	 	
-	 	
 	   for(var i=0 ; i < rows.length ; i++){
-		   
 		   if(parseFloat(rows[i].stdcost)>0)
 			   {
-		   
 		   listss.push(rows[i].sdoc_no+"::"+rows[i].stdcost+"::"+rows[i].salmargin+"::"+rows[i].fixingprice);  
 			   }
-	   
-	   
 	   }
 	   save(listss);
 		   		}
@@ -426,38 +470,18 @@ function funreload(event)
 				 var items= x.responseText;
 				 	var itemval=items.trim();
 				 	
-				 	//alert(items);
-				 	
       if(parseInt(itemval)==1)
       	{
 				 	$.messager.alert('Message', '  Record successfully Updated ', function(r){
-					     
 				     });
 				    
-				 //	funreload(event);
-			/* 	 	document.getElementById("discountval").value="";
-				 	
-				 	document.getElementById("rowindexs").value="";
-				 	document.getElementById("std_cost").value="";
-				 	document.getElementById("psrno").value="";
-				 	document.getElementById("type").value="BR";
-				 	
-				 	document.getElementById("name").value="";
-				 	document.getElementById("brandid").value="";
-				 	document.getElementById("catid").value="";
-				 	document.getElementById("subcatid").value=""; */
-				 	
-				 	
 				     $("#jqxpmgt").jqxGrid('clear');
 					 
 					  $("#updatdata").attr("disabled",true);  
-				  
-				 	
 				}
 			else
 				{
 				$.messager.alert('Message', '  Not Updated ', function(r){
-				     
 			     });
 				}  
 		}
@@ -469,17 +493,9 @@ function funreload(event)
  
 	function hidebranch()
 	{
-	 
-		  /* $("#branchdiv").hide();
-		  $("#branchlabel").hide(); */
-		 
 	}
 	function clearnames()
-	
-	
 	{
-		
-		
 		 $("#mainlistgrid").jqxGrid('clear');
 		
 		  $("#mainlistgrid").jqxGrid('addrow', null, {});
@@ -509,21 +525,13 @@ function funreload(event)
 	   {
 			   $("#overlay, #PleaseWait").show();
 		   setTimeout(function(){
-			    
 		   funprocess();
-			    
 			}, 2000);
-		  
-		 
 	   }
 	 
 	
 	   function funprocess()
-		
 		{	  
-		     
-		  
-		   
 			var rows = $("#mainlistgrid").jqxGrid('getrows');
 			
 			var i=0;
@@ -532,11 +540,9 @@ function funreload(event)
 
 	 	var std_cost=rows[i].std_cost;
 	 	
-	 	 
 	 	if(std_cost>0 && std_cost!="" && typeof(std_cost)!="undefined")
 	       {
 	 		$('#mainlistgrid').jqxGrid('setcellvalue', i, "std_cost",0);
-		
 			   }
 	 	
 		if(std_cost>0 && std_cost!="" && typeof(std_cost)!="undefined")
@@ -544,22 +550,11 @@ function funreload(event)
 			$('#mainlistgrid').jqxGrid('setcellvalue', i, "std_cost",std_cost);
 			
 			$('#mainlistgrid').jqxGrid('setcellvalue', i, "cellselects",1);
-			
-		
 			   }
-	 	
-		/* if(i==k)
-			{
-			  document.getElementById("loadings").innerText="";
-			} */
-		
-	 	
 			   }
 			   $("#overlay, #PleaseWait").hide();
 		}
 	   
-		 
-		 
 	   function getPtype(){
 	   	 
 	    	  $('#ptypewindow').jqxWindow('open');
@@ -583,7 +578,6 @@ function funreload(event)
 	   	
 	   	if(brandid==""){
 	   		 $.messager.alert('Message','Select Brand','warning');
-	   		 
 	   		 return 0;
 	   	 }
 	   	
@@ -600,13 +594,11 @@ function funreload(event)
 	   	
 	   	if(brandid==""){
 	   		 $.messager.alert('Message','Select Brand','warning');
-	   		 
 	   		 return 0;
 	   	 }
 	   	
 	   	if(modelid==""){
 	   		 $.messager.alert('Message','Select Model','warning');
-	   		 
 	   		 return 0;
 	   	 }
 	   	
@@ -656,62 +648,48 @@ function funreload(event)
 	   }
 
 	   function typeSearchContent(url) {
-		   //alert(url);
 		     $.get(url).done(function (data) {
-		 //alert(data);
 		   $('#ptypewindow').jqxWindow('setContent', data);
 
 		 }); 
 		 }
 		 function brandSearchContent(url) {
-		   //alert(url);
 		     $.get(url).done(function (data) {
-		 //alert(data);
 		   $('#brandwindow').jqxWindow('setContent', data);
 
 		 }); 
 		 }
 
 		 function modelSearchContent(url) {
-		   //alert(url);
 		     $.get(url).done(function (data) {
-		 //alert(data);
 		   $('#modelwindow').jqxWindow('setContent', data);
 
 		 }); 
 		 }
 
 		 function subModelSearchContent(url) {
-		 	  //alert(url);
 		 	    $.get(url).done(function (data) {
-		 	//alert(data);
 		 	  $('#submodelwindow').jqxWindow('setContent', data);
 
 		 	}); 
 		 	}
 
 		 function categorySearchContent(url) {
-		   //alert(url);
 		     $.get(url).done(function (data) {
-		 //alert(data);
 		   $('#pcategorywindow').jqxWindow('setContent', data);
 
 		 }); 
 		 }
 
 		 function deptSearchContent(url) {
-		 	  //alert(url);
 		 	    $.get(url).done(function (data) {
-		 	//alert(data);
 		 	  $('#pdeptwindow').jqxWindow('setContent', data);
 
 		 	}); 
 		 	}
 
 		 function subcategorySearchContent(url) {
-		   //alert(url);
 		     $.get(url).done(function (data) {
-		 //alert(data);
 		   $('#psubcategorywindow').jqxWindow('setContent', data);
 
 		 }); 
@@ -737,7 +715,6 @@ function funreload(event)
 	   	else if(value=="psubcategory"){
 	   		getPsubcategory();
 	   	}
-	   	
 	   	
 	   	else{
 	   		
@@ -773,9 +750,6 @@ function funreload(event)
 	   	 document.getElementById("hideptid").value="";
 	   	 document.getElementById("hidept").value="";
 	   	 document.getElementById("cmbbranch").value="a";
-	   	 //$("#partSearchdiv").load("partSearchGrid.jsp");
-	   	  //clearnames();
-	   	
 	   }
 	   function setRemove(){
 	   	
@@ -887,197 +861,157 @@ function funreload(event)
 <body onload="getBranch();hidebranch();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		 
-<%-- 	  <tr><td  align="right" ><label class="branch">From</label></td><td align="left"><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div>
-                    </td></tr>
-                     <tr><td  align="right" ><label class="branch">To</label></td><td align="left"><div id='todate' name='todate' value='<s:property value="todate"/>'></div>
-                    </td></tr> --%>
-                    
-           <tr><td  align="right" colspan="2">
-	    <table  width="100%"    >
-	  <tr><td  align="right" ><label class="branch">From</label></td><td align="left"><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div>
-                </td></tr>
-                     <tr><td  align="right" ><label class="branch">To</label></td><td align="left"><div id='todate' name='todate' value='<s:property value="todate"/>'></div>
-                    </td>
+
+<div class="master-container">
+    
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px;">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+        </div>
+
+        <div class="sidebar-scroll-content">
+            
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">From</td>
+                        <td><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div></td>
                     </tr>
-            	
-       </table>
-               
-       
-       </td></tr>            
-                    
-                    
-                    
-  <tr><td  align="right" ><label class="branch">Type</label></td><td  align="left"   ><select id="type" style="width: 75%;height:20PX;"   name="type" onchange="clearnames()">
-  <option value="BR">Brand</option>
-  <option value="CA">Category</option>
-  <option value="SC">Sub Category</option>
-  <option value="PR">Product</option>
-  
-  </select></td></tr>
-  
-  <tr> <td  align="left" ></td><td><input type="text" id="name" style="width: 100%;height:20PX;"  style="width: 75%;"  placeholder="Press F3 for Search" readonly="readonly" onKeyDown="getname(event);" name="name"  value='<s:property value="name"/>'> </td></tr>
-  
-  
-    <tr><td  align="right" ><label class="branch">Option</label></td><td  align="left"   ><select id="optype" style="width: 75%;height:20PX;"   name="optype" >
-  <option value="EP">Existing Product</option>
-  <option value="NR">Existing Not Reviewed</option>
-  <option value="NP">New Product</option>
- 
-  
-  </select></td></tr>
-  
- 	<tr><td colspan="2" ></td>	  </tr> 
- 	<tr><td  align="center" colspan="2"><input type="Button" name="updatdata" id="updatdata" class="myButton" value="Update" onclick="funupdates()"></td></tr>
- 	 
-  	       <tr >
-	  <td align="right"><label class="branch">PRODUCT</label></td>
-	  <td  align="left"><select name="prodsearchby" id="prodsearchby" style="width:52%;"> 
-    <option value="">--Select--</option>
-    <option value="ptype">TYPE</option>
-    <option value="pbrand">BRAND</option>
-    <option value="pdept">DEPARTMENT</option>
-    <option value="pcategory">CATEGORY</option>
-    <option value="psubcategory">SUB CATEGORY</option>
-    <option value="product">PRODUCT</option>
-    </select>&nbsp;&nbsp;<button type="button" name="btnadditem" id="additem" class="myButtons" onClick="setprodSearch();">+</button>&nbsp;&nbsp;<button  type="button" name="btnremoveitem" id="btnremoveitem" class="myButtons" onclick="setRemove();">-</button></td>
-	  </tr>
-	<tr >
-	  <td colspan="2"
-      align="right" ><textarea id="searchdetails" name="searchdetails" style="resize:none;font: 10px Tahoma;width:100%;" rows="16"  readonly></textarea></td>
-	  </tr>
-	<tr >
-	<td colspan="2" style="border-top:2px solid #DCDDDE;"><center><input type="button" name="btnclear" id="btnclear" value="Clear" class="myButtonss" onclick="funClearData();"></center>
-    </td>
-	</tr>     
-	<tr><td colspan="2" ></td>	  </tr>      	        	  
-       <input type="hidden" id="brandid" name="brandid" >  
-       <input type="hidden" id="catid" name="catid" >
-       <input type="hidden" id="subcatid" name="subcatid" >      
- 
+                    <tr>
+                        <td class="label-cell">To</td>
+                        <td><div id='todate' name='todate' value='<s:property value="todate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Type</td>
+                        <td>
+                            <select id="type" name="type" onchange="clearnames()">
+                                <option value="BR">Brand</option>
+                                <option value="CA">Category</option>
+                                <option value="SC">Sub Category</option>
+                                <option value="PR">Product</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Name</td>
+                        <td><input type="text" id="name" placeholder="Press F3 for Search" readonly="readonly" onKeyDown="getname(event);" name="name" value='<s:property value="name"/>'></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Option</td>
+                        <td>
+                            <select id="optype" name="optype">
+                                <option value="EP">Existing Product</option>
+                                <option value="NR">Existing Not Reviewed</option>
+                                <option value="NP">New Product</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <div class="button-group">
+                    <button type="button" name="updatdata" id="updatdata" class="btn-submit" onclick="funupdates()">Update</button>
+                </div>
+            </div>
 
- 
- 
- 	<input type="hidden" id="psrno" name="psrno" >
- 	 	<input type="hidden" id="rowindexs" name="rowindexs" >       
- 	 	<input type="hidden" id="discountval" name="discountval" >
- 	 	
- 	 		<input type="hidden" id="std_cost" name="std_cost" >
- 	 	 	 	<input type="hidden" id="fixing" name="fixing" >
- 	 	 	 	
- 	 	 	 	
- 	 	 	 		<input type="hidden" id="labourcharge" name="labourcharge" >
- 	
- 	
- 	
- 	
-			  
- 			  
-			  <input type="hidden" name="hidbrandid" id="hidbrandid">
-			  <input type="hidden" name="hidmodelid" id="hidmodelid">
-			  <input type="hidden" name="hidyomid" id="hidyomid">
-			  <input type="hidden" name="hidspec1id" id="hidspec1id">
-			  <input type="hidden" name="hidspec2id" id="hidspec2id">
-			  <input type="hidden" name="hidspec3id" id="hidspec3id">
-			  <input type="hidden" name="hidsubmodelid" id="hidsubmodelid">
-			  
-              <input type="hidden" name="hidsubmodel" id="hidsubmodel">
-			  <input type="hidden" name="hidbrand" id="hidbrand">
-			  <input type="hidden" name="hidmodel" id="hidmodel">
-			  <input type="hidden" name="hidyom" id="hidyom">
-			  <input type="hidden" name="hidspec1" id="hidspec1">
-			  <input type="hidden" name="hidspec2" id="hidspec2">
-			  <input type="hidden" name="hidspec3" id="hidspec3">  
-			  
-			  <input type="hidden" name="hidsbrandid" id="hidsbrandid">  
-			  <input type="hidden" name="hidsmodelid" id="hidsmodelid">
-			  <input type="hidden" name="hidtypeid" id="hidtypeid">
-			  <input type="hidden" name="hideptid" id="hideptid">
-			  <input type="hidden" name="hidcatid" id="hidcatid">
-			  <input type="hidden" name="hidsubcatid" id="hidsubcatid">
-			  <input type="hidden" name="hidproductid" id="hidproductid">
-			  
-   			<input type="hidden" name="hidept" id="hidept">
-			  <input type="hidden" name="hidsbrand" id="hidsbrand">
-			  <input type="hidden" name="hidsmodel" id="hidsmodel">
-			   <input type="hidden" name="hidtype" id="hidtype">
-			  <input type="hidden" name="hidcat" id="hidcat">
-			  <input type="hidden" name="hidsubcat" id="hidsubcat">
-			  <input type="hidden" name="hidproduct" id="hidproduct">
-			  
-			  <input type="hidden" name="hidvehsuitid" id="hidvehsuitid">  
-	</table>
-	</fieldset>
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">PRODUCT</td>
+                        <td>
+                            <div style="display: flex; gap: 4px; align-items: center;">
+                                <select name="prodsearchby" id="prodsearchby">
+                                    <option value="">--Select--</option>
+                                    <option value="ptype">TYPE</option>
+                                    <option value="pbrand">BRAND</option>
+                                    <option value="pdept">DEPARTMENT</option>
+                                    <option value="pcategory">CATEGORY</option>
+                                    <option value="psubcategory">SUB CATEGORY</option>
+                                    <option value="product">PRODUCT</option>
+                                </select>
+                                <button type="button" name="btnadditem" id="additem" class="btn-small" onClick="setprodSearch();">+</button>
+                                <button type="button" name="btnremoveitem" id="btnremoveitem" class="btn-small" onclick="setRemove();">-</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <textarea id="searchdetails" name="searchdetails" rows="16" readonly></textarea>
+                        </td>
+                    </tr>
+                </table>
+                <div class="button-group">
+                    <button type="button" name="btnclear" id="btnclear" class="btn-submit btn-secondary" onclick="funClearData();">Clear</button>
+                </div>
+            </div>
 
+            <div style="display: none;">
+                <input type="hidden" id="brandid" name="brandid" >  
+                <input type="hidden" id="catid" name="catid" >
+                <input type="hidden" id="subcatid" name="subcatid" >      
+                <input type="hidden" id="psrno" name="psrno" >
+                <input type="hidden" id="rowindexs" name="rowindexs" >       
+                <input type="hidden" id="discountval" name="discountval" >
+                <input type="hidden" id="std_cost" name="std_cost" >
+                <input type="hidden" id="fixing" name="fixing" >
+                <input type="hidden" id="labourcharge" name="labourcharge" >
+                
+                <input type="hidden" name="hidbrandid" id="hidbrandid">
+                <input type="hidden" name="hidmodelid" id="hidmodelid">
+                <input type="hidden" name="hidyomid" id="hidyomid">
+                <input type="hidden" name="hidspec1id" id="hidspec1id">
+                <input type="hidden" name="hidspec2id" id="hidspec2id">
+                <input type="hidden" name="hidspec3id" id="hidspec3id">
+                <input type="hidden" name="hidsubmodelid" id="hidsubmodelid">
+                <input type="hidden" name="hidsubmodel" id="hidsubmodel">
+                <input type="hidden" name="hidbrand" id="hidbrand">
+                <input type="hidden" name="hidmodel" id="hidmodel">
+                <input type="hidden" name="hidyom" id="hidyom">
+                <input type="hidden" name="hidspec1" id="hidspec1">
+                <input type="hidden" name="hidspec2" id="hidspec2">
+                <input type="hidden" name="hidspec3" id="hidspec3">  
+                <input type="hidden" name="hidsbrandid" id="hidsbrandid">  
+                <input type="hidden" name="hidsmodelid" id="hidsmodelid">
+                <input type="hidden" name="hidtypeid" id="hidtypeid">
+                <input type="hidden" name="hideptid" id="hideptid">
+                <input type="hidden" name="hidcatid" id="hidcatid">
+                <input type="hidden" name="hidsubcatid" id="hidsubcatid">
+                <input type="hidden" name="hidproductid" id="hidproductid">
+                <input type="hidden" name="hidept" id="hidept">
+                <input type="hidden" name="hidsbrand" id="hidsbrand">
+                <input type="hidden" name="hidsmodel" id="hidsmodel">
+                <input type="hidden" name="hidtype" id="hidtype">
+                <input type="hidden" name="hidcat" id="hidcat">
+                <input type="hidden" name="hidsubcat" id="hidsubcat">
+                <input type="hidden" name="hidproduct" id="hidproduct">
+                <input type="hidden" name="hidvehsuitid" id="hidvehsuitid">  
+            </div>
+        </div>
+    </div>
 
-</td>
-<td width="80%">
-	<table width="100%">
-		<tr>
-			 <td ><div id="mainlistdiv"><jsp:include page="mainlistGrid.jsp"></jsp:include></div></td>
-		</tr>
-		
-		
-		<tr>
-			 <td ><div id="pricelistdiv"><jsp:include page="pricelistgrid.jsp"></jsp:include></div></td>
-			 
-			 
-			 
-			 
-<!--  
-		 
-			<table  width="100%" >
-			
-			 
-			
-			  <tr>    <td align="left" width="15%"><font    size="1.8px"> <b><label id=name1></label></b></font></td>  <td align="left" width="85%"><font color="#0000ff" size="1.85px"><b> <label id=productid></label></b></font></td>  </tr>
-		    <tr>      <td align="left" width="15%"><font   size="1.8px"> <b><label id=name2></label></b></font></td><td align="left"><font color="#0000ff" size="1.8px"> <b><label id=productname></label></b></font> </td>  </tr>
-		   <tr>      <td align="left" width="15%"><font    size="1.8px"><b> <label id=name3></label></b></font></td>  <td align="left"><font color="#0000ff" size="1.8px"><b><label id=productbrand></label></b></font> </td> </tr>
-			  
-			  
-			  
-			  </table> -->
-			 
-			  
-			 
-			 
-		</tr>
-		
-		
-	</table>
-</tr>
-</table>
+    <div class="main-content-area">
+        <table width="100%">
+            <tr>
+                 <td ><div id="mainlistdiv"><jsp:include page="mainlistGrid.jsp"></jsp:include></div></td>
+            </tr>
+            <tr>
+                 <td ><div id="pricelistdiv"><jsp:include page="pricelistgrid.jsp"></jsp:include></div></td>
+            </tr>
+        </table>
+    </div>
 
 </div>
-  	<div id="brandsearchwindow">
-			<div></div>
-			<div></div>
-		</div>
-		
-		<div id="catsearchwindow">
-			<div></div>
-			<div></div>
-		</div>
-		
-		<div id="subcatsearchwindow">
-			<div></div>
-			<div></div>
-		</div>	
-		
-		<div id="brandwindow"><div></div></div>
-		<div id="productwindow"><div></div></div>
-		<div id="ptypewindow"><div></div></div>
-		<div id="pcategorywindow"><div></div></div>
-		<div id="pdeptwindow"><div></div></div>
-		<div id="psubcategorywindow"><div></div></div>
- 
 
+    <div id="brandsearchwindow"><div></div><div></div></div>
+	<div id="catsearchwindow"><div></div><div></div></div>
+	<div id="subcatsearchwindow"><div></div><div></div></div>	
+	<div id="brandwindow"><div></div></div>
+	<div id="productwindow"><div></div></div>
+	<div id="ptypewindow"><div></div></div>
+	<div id="pcategorywindow"><div></div></div>
+	<div id="pdeptwindow"><div></div></div>
+	<div id="psubcategorywindow"><div></div></div>
+ 
 </div>
 </body>
 </html>
