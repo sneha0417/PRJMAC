@@ -12,12 +12,151 @@
 <script type="text/javascript" src="<%=contextPath%>/js/ajaxfileupload.js"></script>
 <script type="text/javascript" src="<%=contextPath%>/js/resample.js"></script> 
 
+<style type="text/css">
+/* ===== MASTER LAYOUT ===== */
+body, html, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Prevents whole-page scrolling, delegates to specific panes */
+}
+
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background-color: #f4f7f9;
+}
+
+/* Sidebar (LEFT SIDE ONLY) */
+.sidebar-filters {
+    width: 350px;
+    flex: 0 0 350px;
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto; /* Independent Sidebar Scrollbar */
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 2;
+}
+
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    padding: 15px 20px 25px;
+}
+
+/* Cards */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Tables */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 80px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;             
+    padding: 2px 8px;         
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;       
+    font-size: 12px;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+}
+
+/* Readonly / disabled look - NO BAN ICON */
+input[readonly],
+input:disabled,
+select:disabled,
+textarea[readonly],
+textarea:disabled {
+    background-color: #f3f6f9 !important;
+    color: #555;
+    cursor: default !important; /* Forces normal cursor instead of not-allowed */
+}
+
+/* jqx date/time containers */
+.release-filter-table div[id^="date"],
+.release-filter-table div[id^="followupdate"],
+.release-filter-table div[id^="uptodate"] {
+    width: 100%;
+}
+
+/* ===== BLUE BUTTONS ===== */
+.btn-submit {
+    flex: 1;
+    height: 30px;
+    background: #007bff; /* Primary Blue */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    width: 100%;
+}
+.btn-submit:hover:not(:disabled) { background: #0056b3; /* Darker Blue on Hover */ }
+.btn-submit:disabled { background: #9ca3af; cursor: default !important; }
+.btn-submit:active:not(:disabled) { transform: scale(0.98); }
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+/* Main Content Area (RIGHT SIDE) */
+.main-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto; /* Independent Main Content Scrollbar */
+    background: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.grid-container {
+    margin-bottom: 20px;
+}
+</style>
+
 <script type="text/javascript">
 
 	$(document).ready(function () {
-		 $("#uptodate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-		 $("#followupdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-		 $("#date").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
+		 // Standardized 100% width and 24px height
+		 $("#uptodate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+		 $("#followupdate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+		 $("#date").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
 		 
 		 $('#accountDetailsWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Accounts Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
 		 $('#accountDetailsWindow').jqxWindow('close');
@@ -28,7 +167,7 @@
 	     $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:180px;right:550px;'><img src='../../../../icons/31load.gif'/></div>");
 		 
 		 $('#txtclientaccount').dblclick(function(){
-			  accountsSearchContent('clientAccountDetailsSearch.jsp');
+			 accountsSearchContent('clientAccountDetailsSearch.jsp');
 		 });
 		 $('#txtcalculation').val(0);
 	});
@@ -45,7 +184,7 @@
         var iKeyCode = (evt.which) ? evt.which : evt.keyCode
         if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
          {
-          $.messager.alert('Message',' Enter Numbers Only ','warning');    
+          $.messager.alert('Message',' Enter Numbers Only ','warning');   
             return false;
          }
         return true;
@@ -124,7 +263,7 @@
 	function getClientAccount(event){
        var x= event.keyCode;
        if(x==114){
-     	  accountsSearchContent('clientAccountDetailsSearch.jsp');
+     	 accountsSearchContent('clientAccountDetailsSearch.jsp');
        }
        else{}
        }
@@ -149,73 +288,16 @@
 			 $('#followupdate').jqxDateTimeInput({ disabled: true});
 		 }
 	 }
-/* 	function funCalculate(){
-				
-				var rows2=$('#paymentFollowUp').jqxGrid('getrows');
-				var arr2=new Array();
-				 for(var i=0;i<rows2.length;i++){
-				     	arr2.push(		
-				     			$('#paymentFollowUp').jqxGrid('getcellvalue',i,'cldocno')+" :: " //0
-				    			 );
-				 }	
-				 alert(arr2);
-				 paymentFollowUpGriGridReload(arr2);
-	}
-	 */
-/* 	function paymentFollowUpGriGridReload(arr2){
-		var x=new XMLHttpRequest();
-		   x.onreadystatechange=function(){
-		   		if (x.readyState==4 && x.status==200)
-		   		 {
-				      
-		  
-		   var items = x.responseText.trim();
-		   
-		   alert(items);
-		   
-			items = items.split('###');
-			var cldocno = items[0];
-			var salik = items[1];
-			var traffic = items[2];
-			var currentrate = items[3];
-			 
-			
- 			var rows2=$('#paymentFollowUp').jqxGrid('getrows');
-			 
-			 for(var i=0;i<rows2.length;i++){  
-			     	 
-		 
-				$('#paymentFollowUp').jqxGrid('setcellvalue', i, "current",currentrate[i]); 
-				$('#paymentFollowUp').jqxGrid('setcellvalue', i, "salik",salik[i]); 
-				$('#paymentFollowUp').jqxGrid('setcellvalue', i, "traffic",traffic[i]); 
-				
-				
-			 
-			
-			 }
-			
-			
-			
-		   
-		   
-		   		 }
-		   }
-			 
-		   
-		   
-		 x.open("GET","paymentGridReload.jsp?paymentfollowuparray="+arr2+"&check=1",true);
-		 x.send();   
 
-	} */
-	  	function funCalculate(){
-			$("#overlay, #PleaseWait").show();
-			$('#txtcalculation').val(1);
-			$('#paymentFollowUp').jqxGrid('showcolumn', 'current');
-			$('#paymentFollowUp').jqxGrid('showcolumn', 'salik');
-			$('#paymentFollowUp').jqxGrid('showcolumn', 'traffic');   
-			paymentFollowUpGriGridReload();
-			
-		}
+	function funCalculate(){
+		$("#overlay, #PleaseWait").show();
+		$('#txtcalculation').val(1);
+		$('#paymentFollowUp').jqxGrid('showcolumn', 'current');
+		$('#paymentFollowUp').jqxGrid('showcolumn', 'salik');
+		$('#paymentFollowUp').jqxGrid('showcolumn', 'traffic');   
+		paymentFollowUpGriGridReload();
+	}
+
 	function paymentFollowUpGriGridReload(){
 		var x=new XMLHttpRequest();
 		   x.onreadystatechange=function(){
@@ -224,17 +306,6 @@
 		   			var items = x.responseText.trim();
 		   			var arrayitems=items.split(",");
 		   			var rows=$('#paymentFollowUp').jqxGrid('getrows');
-		   			/* for(var i=0;i<rows.length;i++){
-		   				var temp=arrayitems[i].split("###");
-		   				if(rows[i].cldocno==temp[0]){
-		   					$('#paymentFollowUp').jqxGrid('setcellvalue', i, "current",temp[3]);
-		   					$('#paymentFollowUp').jqxGrid('setcellvalue', i, "salik",temp[1]);
-		   					$('#paymentFollowUp').jqxGrid('setcellvalue', i, "traffic",temp[2]);
-		   				}
-		   				if(i==rows.length-1){
-		   					$("#overlay, #PleaseWait").hide();
-		   				}
-		   			} */
 		   			for(var i=0;i<rows.length;i++){
 		   				for(var j=0;j<arrayitems.length;j++){
 		   					var temp=arrayitems[j].split("###");
@@ -248,14 +319,10 @@
 			   				}	
 		   				}
 		   			}
-		   			
 		   		 }
-		   		
 		   }
 		 x.open("GET","paymentGridReload.jsp",true);
 		 x.send();   
-		
-		
 	}
 	
 	function funreload(event){
@@ -272,7 +339,7 @@
 		 $("#overlay, #PleaseWait").show();
 		 
 		 $("#paymentFollowUpDiv").load("paymentFollowUpGrid.jsp?clientaccount="+clientaccount+'&branchval='+branchval+'&uptodate='+uptodate+'&chkfollowup='+chkfollowup+'&followupdate='+followupdate+'&salesperson='+salesperson+'&category='+category+'&amtrangefrm='+amtrangefrm+'&amtrangeto='+amtrangeto+'&clientstatus=0&check=1');
-		}
+	}
 	
 	function funUpdate(event){
 		var process = $('#cmbprocess').val();
@@ -379,13 +446,13 @@
 	    	          dataType: 'string',// json  
 	    	          success: function (data, status) {  
 	
-	    	             if(status=='success'){
+	    	              if(status=='success'){
 							$("#overlay, #PleaseWait").hide();
 							$.messager.alert('Message','E-Mail Send Successfully');
 	    	              }
 	    	             if(status=='error'){
-	    	            	 $("#overlay, #PleaseWait").hide();
-	    	            	 $.messager.alert('Message','E-Mail Sending failed');
+	    	             	 $("#overlay, #PleaseWait").hide();
+	    	             	 $.messager.alert('Message','E-Mail Sending failed');
 	    	             }
 	    	             
 	    	              $("#testImg").attr("src",data.message);
@@ -409,7 +476,7 @@
  		
 		  } 
       }
-	    
+	   
 	function saveGridData(process,processname,date,branchid,docno,accountno,remarks,cldocno){
 
 		var x=new XMLHttpRequest();
@@ -446,7 +513,7 @@
 	
 	function funExportBtn(){
 		 if(parseInt(window.parent.chkexportdata.value)=="1") {
-		  	JSONToCSVCon(dataExcelExport, 'PaymentFollowUp', true);
+		 	JSONToCSVCon(dataExcelExport, 'PaymentFollowUp', true);
 		 } else {
 			 $("#paymentFollowUp").jqxGrid('exportdata', 'xls', 'PaymentFollowUp');
 		 }
@@ -457,68 +524,121 @@
 <body onload="getBranch();getProcess();disable();getSalesPerson();getCategory();followupcheck();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-	 <tr><td colspan="2">&nbsp;</td></tr>
-     <tr><td align="right"><label class="branch">Up To</label></td> 
-     <td align="left"><div id="uptodate" name="uptodate" value='<s:property value="uptodate"/>'></div></td></tr> 
-     <tr><td align="right"><label class="branch">Client</label></td>
-	 <td align="left"><input type="text" id="txtclientaccount" name="txtclientaccount" style="width:100%;height:20px;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtclientaccount"/>' onkeydown="getClientAccount(event);"/></td></tr>
-	 <tr><td colspan="2"><input type="text" id="txtclientname" name="txtclientname" style="width:100%;height:20px;" readonly="readonly" value='<s:property value="txtclientname"/>'/>
-	 <input type="hidden" id="txtclientaccountdocno" name="txtclientaccountdocno" style="width:100%;height:20px;" value='<s:property value="txtclientaccountdocno"/>'/>
-	 <input type="hidden" id="txtclientaccountemail" name="txtclientaccountemail" value='<s:property value="txtclientaccountemail"/>'/></td></tr>
-	 <tr><td colspan="2"><input type="checkbox" id="chckfollowup" name="chckfollowup" value="" onchange="followupcheck();" onclick="$(this).attr('value', this.checked ? 1 : 0)" /> 
-                                 <input type="hidden" id="hidchckfollowup" name="hidchckfollowup" value='<s:property value="hidchckfollowup"/>'/></td></tr>
-     <tr><td align="right"><label class="branch">FollowUp</label></td>
-     <td align="left"><div id="followupdate" name="followupdate" value='<s:property value="followupdate"/>'></div></td></tr>
-	 <tr><td align="right"><label class="branch">Sales Person</label></td>
-	   <td><select id="cmbsalesperson" name="cmbsalesperson" style="width:100%;" value='<s:property value="cmbsalesperson"/>'>
-       <option value="">--Select--</option></select>
-       <input type="hidden" id="hidcmbsalesperson" name="hidcmbsalesperson" value='<s:property value="hidcmbsalesperson"/>'/></td></tr>
-	 <tr><td align="right"><label class="branch">Category</label></td>
-	 <td><select id="cmbcategory" name="cmbcategory" style="width:100%;" value='<s:property value="cmbcategory"/>'>
-      <option value="">--Select--</option></select>
-      <input type="hidden" id="hidcmbcategory" name="hidcmbcategory" value='<s:property value="hidcmbcategory"/>'/></td></tr>
-	 <tr><td align="right"><label class="branch">Amount Range</label></td>
-	 <td align="left"><input type="text" id="txtamtrangefrom" name="txtamtrangefrom" style="width:40%;height:20px;text-align: right;" onkeypress="javascript:return isNumber(event)" onblur="funRoundAmt(this.value,this.id);" value='<s:property value="txtamtrangefrom"/>'/>&nbsp;-&nbsp;
-	 <input type="text" id="txtamtrangeto" name="txtamtrangeto" style="width:40%;height:20px;text-align: right;" onkeypress="javascript:return isNumber(event)" onblur="funRoundAmt(this.value,this.id);" value='<s:property value="txtamtrangeto"/>'/></td></tr>
-	 <tr><td colspan="2">&nbsp;</td></tr> 
-	 <tr><td align="right"><label class="branch">Process</label></td>
-	 <td align="left"><select name="cmbprocess" id="cmbprocess" style="width:40%;" name="cmbprocess"  value='<s:property value="cmbprocess"/>'></select></td></tr>
-	 <tr><td align="right"><label class="branch">Date</label></td>
-     <td align="left"><div id="date" name="date" value='<s:property value="date"/>'></div></td></tr>
-     <tr><td align="right"><label class="branch">Remarks</label></td>
-	 <td align="left"><input type="text" id="txtremarks" name="txtremarks" style="width:100%;height:20px;" value='<s:property value="txtremarks"/>'/></td></tr>
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	 <tr><td colspan="2" align="center"><button class="myButton" type="button" id="btnupdate" name="btnupdate" onclick="funUpdate(event);">Update</button></td></tr>
-	 <tr><td colspan="2"><center><button class="myButton" type="button" id="btnIndividual" name="btnIndividual" onclick="funOutStandingStatement();">Outstanding Statement</button></center></td></tr>
-	 <tr><td colspan="2">&nbsp;</td></tr> 
-	 <tr><td colspan="2"><input type="hidden" id="txtacountno" name="txtacountno" style="width:100%;height:20px;" value='<s:property value="txtacountno"/>'/>
-	 <input type="hidden" id="txtdocno" name="txtdocno" style="width:100%;height:20px;" value='<s:property value="txtdocno"/>'/>
-     <input type="hidden" id="txtbranch" name="txtbranch" style="width:100%;height:20px;" value='<s:property value="txtbranch"/>'/>
-     <input type="hidden" id="txtcldocno" name="txtcldocno" style="width:100%;height:20px;" value='<s:property value="txtcldocno"/>'/></td>
-     <input type="hidden" id="txtcalculation" name="txtcalculation" style="width:100%;height:20px;" value='<s:property value="txtcalculation"/>'/></td></tr>
-	 
-	 </table>
-	</fieldset>
-</td>
-<td width="80%">
-	<table width="100%">
-		<tr><td><div id="paymentFollowUpDiv"><jsp:include page="paymentFollowUpGrid.jsp"></jsp:include></div><br/></td></tr>
-		<tr><td><div id="detailDiv"><jsp:include page="detailGrid.jsp"></jsp:include></div></td></tr>
-	</table>
-</tr>
-</table>
+
+<div class="master-container">
+    
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px;">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+        </div>
+
+        <div class="sidebar-scroll-content">
+            
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">Up To</td> 
+                        <td><div id="uptodate" name="uptodate" value='<s:property value="uptodate"/>'></div></td>
+                    </tr> 
+                    <tr>
+                        <td class="label-cell">Client</td>
+                        <td><input type="text" id="txtclientaccount" name="txtclientaccount" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtclientaccount"/>' onkeydown="getClientAccount(event);"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="text" id="txtclientname" name="txtclientname" readonly="readonly" value='<s:property value="txtclientname"/>' style="margin-bottom: 5px;"/>
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <input type="checkbox" id="chckfollowup" name="chckfollowup" value="" onchange="followupcheck();" onclick="$(this).attr('value', this.checked ? 1 : 0)" style="width: auto; height: auto;" />
+                                <label for="chckfollowup" style="font-size: 11px; font-weight: 600; color: #4e5e71;">Follow Up</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">FollowUp Date</td>
+                        <td><div id="followupdate" name="followupdate" value='<s:property value="followupdate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Sales Person</td>
+                        <td>
+                            <select id="cmbsalesperson" name="cmbsalesperson" value='<s:property value="cmbsalesperson"/>'>
+                                <option value="">--Select--</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Category</td>
+                        <td>
+                            <select id="cmbcategory" name="cmbcategory" value='<s:property value="cmbcategory"/>'>
+                                <option value="">--Select--</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Amount Range</td>
+                        <td>
+                            <div style="display: flex; gap: 5px; align-items: center;">
+                                <input type="text" id="txtamtrangefrom" name="txtamtrangefrom" style="text-align: right;" onkeypress="javascript:return isNumber(event)" onblur="funRoundAmt(this.value,this.id);" value='<s:property value="txtamtrangefrom"/>'/>
+                                <span>-</span>
+                                <input type="text" id="txtamtrangeto" name="txtamtrangeto" style="text-align: right;" onkeypress="javascript:return isNumber(event)" onblur="funRoundAmt(this.value,this.id);" value='<s:property value="txtamtrangeto"/>'/>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">Process</td>
+                        <td><select name="cmbprocess" id="cmbprocess" value='<s:property value="cmbprocess"/>'></select></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Date</td>
+                        <td><div id="date" name="date" value='<s:property value="date"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Remarks</td>
+                        <td><input type="text" id="txtremarks" name="txtremarks" value='<s:property value="txtremarks"/>'/></td>
+                    </tr>
+                </table>
+                <div class="button-group">
+                    <button class="btn-submit" type="button" id="btnupdate" name="btnupdate" onclick="funUpdate(event);">Update</button>
+                    <button class="btn-submit btn-secondary" type="button" id="btnIndividual" name="btnIndividual" onclick="funOutStandingStatement();">Outstanding Statement</button>
+                </div>
+                
+                <div style="display: none;">
+                    <input type="hidden" id="txtclientaccountdocno" name="txtclientaccountdocno" value='<s:property value="txtclientaccountdocno"/>'/>
+                    <input type="hidden" id="txtclientaccountemail" name="txtclientaccountemail" value='<s:property value="txtclientaccountemail"/>'/>
+                    <input type="hidden" id="hidchckfollowup" name="hidchckfollowup" value='<s:property value="hidchckfollowup"/>'/>
+                    <input type="hidden" id="hidcmbsalesperson" name="hidcmbsalesperson" value='<s:property value="hidcmbsalesperson"/>'/>
+                    <input type="hidden" id="hidcmbcategory" name="hidcmbcategory" value='<s:property value="hidcmbcategory"/>'/>
+                    
+                    <input type="hidden" id="txtacountno" name="txtacountno" value='<s:property value="txtacountno"/>'/>
+                    <input type="hidden" id="txtdocno" name="txtdocno" value='<s:property value="txtdocno"/>'/>
+                    <input type="hidden" id="txtbranch" name="txtbranch" value='<s:property value="txtbranch"/>'/>
+                    <input type="hidden" id="txtcldocno" name="txtcldocno" value='<s:property value="txtcldocno"/>'/>
+                    <input type="hidden" id="txtcalculation" name="txtcalculation" value='<s:property value="txtcalculation"/>'/>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="main-content-area">
+        <div class="grid-container">
+            <div id="paymentFollowUpDiv"><jsp:include page="paymentFollowUpGrid.jsp"></jsp:include></div>
+        </div>
+        <div class="grid-container">
+            <div id="detailDiv"><jsp:include page="detailGrid.jsp"></jsp:include></div>
+        </div>
+    </div>
+
 </div>
 
-<div id="accountDetailsWindow">
-	<div></div>
-</div>
+<div id="accountDetailsWindow"><div></div></div>
+
 </div> 
 </body>
 </html>

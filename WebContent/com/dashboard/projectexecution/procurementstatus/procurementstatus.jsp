@@ -47,13 +47,158 @@
 	position:relative;
 	top:1px;
 }
+
+/* ===== MASTER LAYOUT ===== */
+body, html, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Prevents whole-page scrolling, delegates to specific panes */
+}
+
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background-color: #f4f7f9;
+}
+
+/* Sidebar (LEFT SIDE ONLY) */
+.sidebar-filters {
+    width: 350px;
+    flex: 0 0 350px;
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto; /* Independent Sidebar Scrollbar */
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 2;
+}
+
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    padding: 15px 20px 25px;
+}
+
+/* Cards */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Tables */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 80px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;             
+    padding: 2px 8px;         
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;       
+    font-size: 12px;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+}
+
+/* Textarea styling */
+textarea {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    font-family: 'Segoe UI', 'Tahoma', sans-serif;
+    resize: none;
+}
+
+/* Readonly / disabled look - NO BAN ICON */
+input[readonly],
+input:disabled,
+select:disabled,
+textarea[readonly] {
+    background-color: #f3f6f9 !important;
+    color: #555;
+    cursor: default; /* Forces normal cursor instead of not-allowed */
+}
+
+/* jqx date/time containers */
+.release-filter-table div[id^="fromdate"],
+.release-filter-table div[id^="todate"] {
+    width: 100%;
+}
+
+/* ===== BLUE BUTTONS ===== */
+.btn-submit {
+    flex: 1;
+    height: 30px;
+    background: #007bff; /* Primary Blue */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    width: 100%;
+}
+.btn-submit:hover:not(:disabled) { background: #0056b3; /* Darker Blue on Hover */ }
+.btn-submit:disabled { background: #9ca3af; }
+.btn-submit:active:not(:disabled) { transform: scale(0.98); }
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+/* Main Content Area (RIGHT SIDE) */
+.main-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto; /* Independent Main Content Scrollbar */
+    background: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
 </style>
 <script type="text/javascript">
 
 	$(document).ready(function () {
 		
-		   $("#fromdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-			 $("#todate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
+		   // Enforced 100% width and 24px height
+		   $("#fromdate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+		   $("#todate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
 			
 			 var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
 			 var onemounth=new Date(new Date(fromdates).setMonth(fromdates.getMonth()-1)); 
@@ -128,10 +273,10 @@
 			 }
 		 } 
 	     function clientSearchContent(url) {
-	           
+	            
 	               $.get(url).done(function (data) {
 	  
-		           $('#clientsearch1').jqxWindow('setContent', data);
+		            $('#clientsearch1').jqxWindow('setContent', data);
 
 	    	}); 
 	         	}
@@ -152,7 +297,7 @@
 			function contractSearchContent(url) {
 				 $.get(url).done(function (data) {
 				$('#contractwindow').jqxWindow('setContent', data);
-			           	}); 
+			            	}); 
 			 	}
 	
 			 function getproduct(event){
@@ -231,7 +376,7 @@ function funcleardata()
 	document.getElementById("txtbrand").value="";
 	document.getElementById("txtbrandid").value="";
 	document.getElementById("txtareadet").value="";
-	       
+	        
 	 $('#txtclient').attr('placeholder', 'Press F3 TO Search'); 
 	 $('#txtcontract').attr('placeholder', 'Press F3 TO Search'); 
 	 $('#txtproduct').attr('placeholder', 'Press F3 TO Search'); 
@@ -243,101 +388,104 @@ function funcleardata()
 <body onload="getBranch();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%" >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-	<tr><td colspan="2"></td></tr>
-	 <tr><td  align="right" ><label class="branch">From</label></td><td align="left"><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div>
-                    </td></tr>
-                     <tr><td  align="right" ><label class="branch">To</label></td><td align="left"><div id='todate' name='todate' value='<s:property value="todate"/>'></div>
-                    </td></tr>                 
-	 
-   
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	<tr>
-	      <td align="right" width="26%" ><label class="branch"> Client</label></td>
-	      <td ><input style="width:170px;height:19px;" type="text" name="txtclient" id="txtclient" value='<s:property value="txtclient"/>' onKeyDown="getclient(event);" readonly placeholder="Press F3 to Search">
-	      <input type="hidden" id="txtclientid" name="txtclientid" value='<s:property value="txtclientid"/>'>
-	      </td></tr>
-	      <tr><td colspan="2"></td></tr>
-	<tr>
-	      <td align="right"><label class="branch"> Contract No.</label></td>
-	      <td >
-	    
-	      <input style="width:170px;height:19px;" type="text" name="txtcontract" id="txtcontract" placeholder="Press F3 To Search"  onKeyDown="getcontract(event);" readonly value='<s:property value="txtcontract"/>'>
-	      <input type="hidden" id="txtcontractid" name="txtcontractid" value='<s:property value="txtcontractid"/>'>
-	      </td></tr>
-	      <tr><td colspan="2"></td></tr>
-	 <tr>
-	      <td align="right"><label class="branch"> Product</label></td>
-	      <td ><input style="width:170px;height:19px;" type="text" name="txtproduct" id="txtproduct" value='<s:property value="txtproduct"/>' onKeyDown="getproduct(event);" readonly placeholder="Press F3 to Search">
-	      <input type="hidden" id="txtproductid" name="txtproductid" value='<s:property value="txtproductid"/>'>
-	      </td></tr>
-	
-	<tr><td colspan="2"></td></tr>
-	 <tr>
-	      <td align="right"><label class="branch"> Brand</label></td>
-	      <td ><input style="width:170px;height:19px;" type="text" name="txtbrand" id="txtbrand" value='<s:property value="txtbrand"/>' onKeyDown="getbrand(event);" readonly placeholder="Press F3 to Search">
-	      <input type="hidden" id="txtbrandid" name="txtbrandid" value='<s:property value="txtbrandid"/>'>
-	      </td></tr>
-	      
-	      <tr><td colspan="2"></td></tr>
-	      
-	      
-	 <tr>
-	 <td align="right"><label class="branch"> Details</label></td>
-	 <td><textarea rows="6" cols="21" name="txtareadet" id="txtareadet" readonly></textarea>
 
-</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	 
-	    <tr><td colspan="2" align="center"><input type="button" class="myButtons" name="clear" id="clear"  value="Clear" onclick="funcleardata()"></td></tr>
-	 
-	  <tr><td colspan="2">&nbsp;</td></tr>
-	 
-	 
-	
-	 
-	 <tr><td colspan="2">
-	 <input type="hidden" id="txtdocno" name="txtdocno" style="width:100%;height:20px;" value='<s:property value="txtdocno"/>'/>
-     <input type="hidden" id="txtbranch" name="txtbranch" style="width:100%;height:20px;" value='<s:property value="txtbranch"/>'/>
-     <input type="hidden" id="txtsalid" name="txtsalid" style="width:100%;height:20px;" value='<s:property value="txtsalid"/>'/>
-     <input type="hidden" id="txtrdocno" name="txtrdocno" style="width:100%;height:20px;" value='<s:property value="txtrdocno"/>'/>
-     <input type="hidden" id="txtbrchid" name="txtbrchid" style="width:100%;height:20px;" value='<s:property value="txtbrchid"/>'/>
-     <input type="hidden" id="txtuserid" name="txtuserid" style="width:100%;height:20px;" value='<s:property value="txtuserid"/>'/>
-      <input type="hidden" name="subgridlength" id="subgridlength" value='<s:property value="subgridlength"/>'>
-      <input type="hidden" name="contracttrno" id="contracttrno" value='<s:property value="contracttrno"/>'>
-      <input type="hidden" name="contractdocno" id="contractdocno" value='<s:property value="contractdocno"/>'>
-      <input type="hidden" id="puchasechk" name="puchasechk"/> 
-     </td></tr> 
-	 </table>
-	</fieldset>
-</td>
-<td width="80%">
-	<table width="100%" style=" vertical-align: top;">
-		
-		<tr><td><div id="detailDiv"><jsp:include page="procurementStatusGrid.jsp"></jsp:include></div></td></tr>
-	</table>
-	</td>
-</tr>
-</table>
+<div class="master-container">
+    
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px;">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+        </div>
+
+        <div class="sidebar-scroll-content">
+            
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">From</td>
+                        <td><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div></td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="label-cell">To</td>
+                        <td><div id='todate' name='todate' value='<s:property value="todate"/>'></div></td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="label-cell">Client</td>
+                        <td>
+                            <input type="text" name="txtclient" id="txtclient" value='<s:property value="txtclient"/>' onKeyDown="getclient(event);" readonly placeholder="Press F3 to Search">
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="label-cell">Contract No.</td>
+                        <td>
+                            <input type="text" name="txtcontract" id="txtcontract" placeholder="Press F3 To Search"  onKeyDown="getcontract(event);" readonly value='<s:property value="txtcontract"/>'>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="label-cell">Product</td>
+                        <td>
+                            <input type="text" name="txtproduct" id="txtproduct" value='<s:property value="txtproduct"/>' onKeyDown="getproduct(event);" readonly placeholder="Press F3 to Search">
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="label-cell">Brand</td>
+                        <td>
+                            <input type="text" name="txtbrand" id="txtbrand" value='<s:property value="txtbrand"/>' onKeyDown="getbrand(event);" readonly placeholder="Press F3 to Search">
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="label-cell">Details</td>
+                        <td>
+                            <textarea rows="6" name="txtareadet" id="txtareadet" readonly></textarea>
+                        </td>
+                    </tr>
+                </table>
+                
+                <div class="button-group">
+                    <button type="button" class="btn-submit" name="clear" id="clear" onclick="funcleardata()">Clear</button>
+                </div>
+                
+                <div style="display: none;">
+                    <input type="hidden" id="txtclientid" name="txtclientid" value='<s:property value="txtclientid"/>'>
+                    <input type="hidden" id="txtcontractid" name="txtcontractid" value='<s:property value="txtcontractid"/>'>
+                    <input type="hidden" id="txtproductid" name="txtproductid" value='<s:property value="txtproductid"/>'>
+                    <input type="hidden" id="txtbrandid" name="txtbrandid" value='<s:property value="txtbrandid"/>'>
+                    
+                    <input type="hidden" id="txtdocno" name="txtdocno" value='<s:property value="txtdocno"/>'/>
+                    <input type="hidden" id="txtbranch" name="txtbranch" value='<s:property value="txtbranch"/>'/>
+                    <input type="hidden" id="txtsalid" name="txtsalid" value='<s:property value="txtsalid"/>'/>
+                    <input type="hidden" id="txtrdocno" name="txtrdocno" value='<s:property value="txtrdocno"/>'/>
+                    <input type="hidden" id="txtbrchid" name="txtbrchid" value='<s:property value="txtbrchid"/>'/>
+                    <input type="hidden" id="txtuserid" name="txtuserid" value='<s:property value="txtuserid"/>'/>
+                    <input type="hidden" name="subgridlength" id="subgridlength" value='<s:property value="subgridlength"/>'>
+                    <input type="hidden" name="contracttrno" id="contracttrno" value='<s:property value="contracttrno"/>'>
+                    <input type="hidden" name="contractdocno" id="contractdocno" value='<s:property value="contractdocno"/>'>
+                    <input type="hidden" id="puchasechk" name="puchasechk"/> 
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="main-content-area">
+        <table width="100%" style=" vertical-align: top;">
+            <tr><td><div id="detailDiv"><jsp:include page="procurementStatusGrid.jsp"></jsp:include></div></td></tr>
+        </table>
+    </div>
+
 </div>
-<div id="productsearchwndow">
-   <div ></div> 
-</div>
-<div id="clientsearch1">
-   <div ></div>
-</div>
-<div id="contractwindow">
-   <div ></div>
-</div>
-            	
-		<div id="brandsearch"> 
-   <div ></div>
-</div>
+
+<div id="productsearchwndow"><div></div></div>
+<div id="clientsearch1"><div></div></div>
+<div id="contractwindow"><div></div></div>
+<div id="brandsearch"><div></div></div>
 	
 </div> 
 </body>

@@ -8,64 +8,170 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GatewayERP(i)</title>
 <link href="../../../../css/dashboard.css" media="screen" rel="stylesheet" type="text/css" />  
+
 <style type="text/css">
-.myButtons {
-	-moz-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	-webkit-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	
-	font-size:8pt;
-	
-	padding:3px 17px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
+/* ===== MASTER LAYOUT ===== */
+body, html, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Prevents whole-page scrolling, delegates to specific panes */
 }
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
+
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background-color: #f4f7f9;
 }
-.myButtons:active {
-	position:relative;
-	top:1px;
+
+/* Sidebar (LEFT SIDE ONLY) */
+.sidebar-filters {
+    width: 350px;
+    flex: 0 0 350px;
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto; /* Independent Sidebar Scrollbar */
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 2;
 }
-.account {
-	color: black;
-	background-color: #E0ECF8;
-	width: 100%;
-	height: 28px;
-	font-family: Myriad Pro;
-	font-weight: bold;
+
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
 }
+
+.sidebar-scroll-content {
+    flex: 1;
+    padding: 15px 20px 25px;
+}
+
+/* Cards */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Tables */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 80px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;             
+    padding: 2px 8px;         
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;       
+    font-size: 12px;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+}
+
+/* Readonly / disabled look - NO BAN ICON */
+input[readonly],
+input:disabled,
+select:disabled {
+    background-color: #f3f6f9 !important;
+    color: #555;
+    cursor: default !important; /* Forces normal cursor instead of not-allowed */
+}
+
+/* jqx date/time containers */
+.release-filter-table div[id^="fromdate"],
+.release-filter-table div[id^="todate"] {
+    width: 100%;
+}
+
+/* Range input layout */
+.range-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.range-group input[type="text"] {
+    width: 45%;
+    text-align: right;
+}
+.range-group span {
+    font-weight: bold;
+    color: #4e5e71;
+}
+
+/* ===== BLUE BUTTONS ===== */
+.btn-submit {
+    flex: 1;
+    height: 30px;
+    background: #007bff; /* Primary Blue */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    width: 100%;
+}
+.btn-submit:hover:not(:disabled) { background: #0056b3; /* Darker Blue on Hover */ }
+.btn-submit:disabled { background: #9ca3af; cursor: default !important; }
+.btn-submit:active:not(:disabled) { transform: scale(0.98); }
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+/* Main Content Area (RIGHT SIDE) */
+.main-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto; /* Independent Main Content Scrollbar */
+    background: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* Header for the grid */
 .accname {
 	color: black;
 	background-color: #E0ECF8;
 	width: 100%;
 	font-family: comic sans ms;
+    display: inline-block;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
 }
 </style>
+
 <script type="text/javascript">
 
 	$(document).ready(function () {
-		 $("#fromdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-		 $("#todate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
+         // Standardized to 100% width and 24px height
+		 $("#fromdate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+		 $("#todate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
 		 
 		 $('#accountDetailsWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Accounts Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
 		 $('#accountDetailsWindow').jqxWindow('close');
@@ -76,18 +182,18 @@
 		 var curfromdate= $('#fromdate').jqxDateTimeInput('getDate');
 	     var oneyeardate=new Date(new Date(curfromdate).setMonth(curfromdate.getMonth()-1));
 	     var oneyearbackdate=new Date(new Date(oneyeardate).setDate(oneyeardate.getDate()));
-	     $('#fromdate ').jqxDateTimeInput('setDate', new Date(oneyearbackdate));
+	     $('#fromdate').jqxDateTimeInput('setDate', new Date(oneyearbackdate));
 	     
 	     $('#txtaccid').dblclick(function(){
-	    	  if($('#cmbtype').val()==''){
-    			 $.messager.alert('Message','Account Type is Mandatory.','warning');
-    			 return 0;
-    		  }
-	    	  
-	    	  if($('#cmbtype').val()==null){
-	    			 $.messager.alert('Message','Account Search Not Available.','warning');
-	    			 return 0;
-	    	   }
+	      	  if($('#cmbtype').val()==''){
+     			 $.messager.alert('Message','Account Type is Mandatory.','warning');
+     			 return 0;
+     		  }
+	      	  
+	      	  if($('#cmbtype').val()==null){
+	      			 $.messager.alert('Message','Account Search Not Available.','warning');
+	      			 return 0;
+	      	   }
 			  accountsSearchContent('accountsDetailsSearch.jsp');
 		 });
 	});
@@ -135,7 +241,7 @@
  			 $.messager.alert('Message','Account Search Not Available.','warning');
  			 return 0;
  	      }
-      	  accountsSearchContent('accountsDetailsSearch.jsp');
+       	  accountsSearchContent('accountsDetailsSearch.jsp');
         }
         else{}
         }
@@ -351,24 +457,13 @@
 					worksheetName: "UnclearedChequeReceiptVoucher"
 				});
 		 }
-		 /* if(dtype=='CRV'){JSONToCSVCon(dataExcelExport, 'CashReceiptVoucher', true);}if(dtype=='CPV'){JSONToCSVCon(dataExcelExport, 'CashPaymentVoucher', true);}
-		 if(dtype=='BRV'){JSONToCSVCon(dataExcelExport1, 'BankReceiptVoucher', true);}if(dtype=='BPV'){JSONToCSVCon(dataExcelExport1, 'BankPaymentVoucher', true);}
-		 if(dtype=='CNO'){JSONToCSVCon(dataExcelExport2, 'CreditVoucher', true);}if(dtype=='DNO'){JSONToCSVCon(dataExcelExport2, 'DebitVoucher', true);}
-		 if(dtype=='JVT'){JSONToCSVCon(dataExcelExport3, 'JournalVoucher', true);}if(dtype=='IJV'){JSONToCSVCon(dataExcelExport3, 'IBJournalVoucher', true);}
-		 if(dtype=='PC'){JSONToCSVCon(dataExcelExport, 'PettyCashVoucher', true);}if(dtype=='COT'){JSONToCSVCon(dataExcelExport4, 'ContraTransVoucher', true);}
-		 if(dtype=='SEC'){JSONToCSVCon(dataExcelExport5, 'SecurityCheque', true);}if(dtype=='UCP'){JSONToCSVCon(dataExcelExport6, 'UnclearedChequePaymentVoucher', true);}
-		 if(dtype=='UCR'){JSONToCSVCon(dataExcelExport6, 'UnclearedChequeReceiptVoucher', true);}if(dtype=='FCR'){JSONToCSVCon(dataExcelExport, 'FuelCardReimbursement', true);}
-		 if(dtype=='ICRV'){JSONToCSVCon(dataExcelExport, 'IBCashReceiptVoucher', true);}if(dtype=='ICPV'){JSONToCSVCon(dataExcelExport, 'IBCashPaymentVoucher', true);}
-		 if(dtype=='IBR'){JSONToCSVCon(dataExcelExport1, 'IBBankReceiptVoucher', true);}if(dtype=='IBP'){JSONToCSVCon(dataExcelExport1, 'IBBankPaymentVoucher', true);}
-		 if(dtype=='PRIV'){JSONToCSVCon(dataExcelExport1, 'PropertyInvoice', true);}if(dtype=='PRIV'){JSONToCSVCon(dataExcelExport1, 'PropertyInvoice', true);}
-	     */
 	} 
 	
 	function isNumber(evt) {
         var iKeyCode = (evt.which) ? evt.which : evt.keyCode
         if (iKeyCode != 46 && iKeyCode > 31 && (iKeyCode < 48 || iKeyCode > 57))
          {
-          $.messager.alert('Message',' Enter Numbers Only ','warning');    
+          $.messager.alert('Message',' Enter Numbers Only ','warning');   
             return false;
          }
         return true;
@@ -381,7 +476,7 @@
 		var curfromdate= $('#fromdate').jqxDateTimeInput('getDate');
 	    var oneyeardate=new Date(new Date(curfromdate).setMonth(curfromdate.getMonth()-1));
 	    var oneyearbackdate=new Date(new Date(oneyeardate).setDate(oneyeardate.getDate()));
-	    $('#fromdate ').jqxDateTimeInput('setDate', new Date(oneyearbackdate));
+	    $('#fromdate').jqxDateTimeInput('setDate', new Date(oneyearbackdate));
 	     
 	    $('#todate').val(new Date());
 	    
@@ -528,71 +623,119 @@
 <body onload="getBranch();getDocumentType();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	 <tr>
-	 <td align="right"><label class="branch">Period</label></td>
-     <td align="left"><div id="fromdate" name="fromdate" value='<s:property value="fromdate"/>'></div></td></tr> 
-	<tr>
-	<td align="right"><label class="branch">To</label></td>
-    <td align="left"><div id="todate" name="todate" value='<s:property value="todate"/>'></div></td>
-	</tr>  
-	<tr><td colspan="2">&nbsp;</td></tr> 
-	<tr><td align="right"><label class="branch">Dtype</label></td>
-	<td align="left"><select id="cmbdoctype" name="cmbdoctype" style="width:90%;" onchange="docTypeInfo();" value='<s:property value="cmbdoctype"/>'>
-    <option value="">--Select--</option></select>
-      <input type="hidden" id="hidcmbdoctype" name="hidcmbdoctype" value='<s:property value="hidcmbdoctype"/>'/></td></tr>
-    <tr><td align="right"><label class="branch">Doc. Range</label></td>
-	<td align="left"><input type="text" id="txtdocrangefrom" name="txtdocrangefrom" style="width:40%;height:20px;" onkeypress="javascript:return isNumber(event)" value='<s:property value="txtdocrangefrom"/>'/>&nbsp;-&nbsp;
-	<input type="text" id="txtdocrangeto" name="txtdocrangeto" style="width:40%;height:20px;" onkeypress="javascript:return isNumber(event)" value='<s:property value="txtdocrangeto"/>'/></td></tr>
-	<tr><td align="right"><label class="branch">Amount Range</label></td>
-	<td align="left"><input type="text" id="txtamtrangefrom" name="txtamtrangefrom" style="width:40%;height:20px;text-align: right;" onkeypress="javascript:return isNumber(event)" onblur="funRoundAmt(this.value,this.id);" value='<s:property value="txtamtrangefrom"/>'/>&nbsp;-&nbsp;
-	<input type="text" id="txtamtrangeto" name="txtamtrangeto" style="width:40%;height:20px;text-align: right;" onkeypress="javascript:return isNumber(event)" onblur="funRoundAmt(this.value,this.id);" value='<s:property value="txtamtrangeto"/>'/></td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td align="right"><label class="branch">Type</label></td>
-	<td align="left"><select id="cmbtype" name="cmbtype" style="width:40%;" onchange="clearAccountInfo();" value='<s:property value="cmbtype"/>'>
-    <option value="">--Select--</option><option value="AP">AP</option><option value="AR">AR</option><option value="GL">GL</option>
-    <option value="HR">HR</option></select></td></tr>
-    <tr><td align="right"><label class="branch">Account</label></td>
-	<td align="left"><input type="text" id="txtaccid" name="txtaccid" style="width:60%;height:20px;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtaccid"/>' onkeydown="getAccTypeFrom(event);"/></td></tr> 
-	<tr><td>&nbsp;</td>
-	<td><input type="text" id="txtaccname" name="txtaccname" style="width:100%;height:20px;" readonly="readonly" value='<s:property value="txtaccname"/>' tabindex="-1"/>
-    <input type="hidden" id="txtdocno" name="txtdocno" value='<s:property value="txtdocno"/>'/></td></tr> 
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2" align="center"><input type="button" class="myButtons" name="clear" id="clear"  value="Clear" onclick="funClearInfo();"></td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	</table>
-	</fieldset>
-</td>
-<td width="80%">
-	<table width="100%">
-	    <!-- <tr><td><label class="account">Document Type :&nbsp;</label>--> <tr><td><label class="accname" name="lbldoctype" id="lbldoctype"></label></td></tr> 
-		<tr>
-			 <td><div id="cashDiv"><jsp:include page="cashVoucher.jsp"></jsp:include></div>
-			 <div id="bankDiv" hidden="true"><jsp:include page="bankVoucher.jsp"></jsp:include></div>
-			 <div id="creditDiv" hidden="true"><jsp:include page="creditVoucher.jsp"></jsp:include></div>
-			 <div id="journalDiv" hidden="true"><jsp:include page="journalVoucher.jsp"></jsp:include></div>
-			 <div id="contraDiv" hidden="true"><jsp:include page="contraTransVoucher.jsp"></jsp:include></div>
-			 <div id="securityChqDiv" hidden="true"><jsp:include page="securityCheque.jsp"></jsp:include></div>
-			 <div id="propertyDiv" hidden="true"><jsp:include page="propertyVoucher.jsp"></jsp:include></div>
-			 <div id="unclearedChqDiv" hidden="true"><jsp:include page="unclearedVoucher.jsp"></jsp:include></div></td>
-		</tr>
-	</table>
-</tr>
-</table>
+
+<div class="master-container">
+    
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px;">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+        </div>
+
+        <div class="sidebar-scroll-content">
+            
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">Period</td>
+                        <td><div id="fromdate" name="fromdate" value='<s:property value="fromdate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">To</td>
+                        <td><div id="todate" name="todate" value='<s:property value="todate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Dtype</td>
+                        <td>
+                            <select id="cmbdoctype" name="cmbdoctype" onchange="docTypeInfo();" value='<s:property value="cmbdoctype"/>'>
+                                <option value="">--Select--</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Doc. Range</td>
+                        <td>
+                            <div class="range-group">
+                                <input type="text" id="txtdocrangefrom" name="txtdocrangefrom" onkeypress="javascript:return isNumber(event)" value='<s:property value="txtdocrangefrom"/>'/>
+                                <span>-</span>
+                                <input type="text" id="txtdocrangeto" name="txtdocrangeto" onkeypress="javascript:return isNumber(event)" value='<s:property value="txtdocrangeto"/>'/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Amount Range</td>
+                        <td>
+                            <div class="range-group">
+                                <input type="text" id="txtamtrangefrom" name="txtamtrangefrom" onkeypress="javascript:return isNumber(event)" onblur="funRoundAmt(this.value,this.id);" value='<s:property value="txtamtrangefrom"/>'/>
+                                <span>-</span>
+                                <input type="text" id="txtamtrangeto" name="txtamtrangeto" onkeypress="javascript:return isNumber(event)" onblur="funRoundAmt(this.value,this.id);" value='<s:property value="txtamtrangeto"/>'/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Type</td>
+                        <td>
+                            <select id="cmbtype" name="cmbtype" onchange="clearAccountInfo();" value='<s:property value="cmbtype"/>'>
+                                <option value="">--Select--</option>
+                                <option value="AP">AP</option>
+                                <option value="AR">AR</option>
+                                <option value="GL">GL</option>
+                                <option value="HR">HR</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Account</td>
+                        <td>
+                            <input type="text" id="txtaccid" name="txtaccid" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtaccid"/>' onkeydown="getAccTypeFrom(event);"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell"></td>
+                        <td>
+                            <input type="text" id="txtaccname" name="txtaccname" readonly="readonly" value='<s:property value="txtaccname"/>' tabindex="-1"/>
+                        </td>
+                    </tr>
+                </table>
+                
+                <div class="button-group">
+                    <button type="button" class="btn-submit" name="clear" id="clear" onclick="funClearInfo();">Clear</button>
+                </div>
+                
+                <div style="display: none;">
+                    <input type="hidden" id="hidcmbdoctype" name="hidcmbdoctype" value='<s:property value="hidcmbdoctype"/>'/>
+                    <input type="hidden" id="txtdocno" name="txtdocno" value='<s:property value="txtdocno"/>'/>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="main-content-area">
+        <label class="accname" name="lbldoctype" id="lbldoctype"></label>
+        <table width="100%">
+            <tr>
+                 <td>
+                     <div id="cashDiv"><jsp:include page="cashVoucher.jsp"></jsp:include></div>
+                     <div id="bankDiv" hidden="true"><jsp:include page="bankVoucher.jsp"></jsp:include></div>
+                     <div id="creditDiv" hidden="true"><jsp:include page="creditVoucher.jsp"></jsp:include></div>
+                     <div id="journalDiv" hidden="true"><jsp:include page="journalVoucher.jsp"></jsp:include></div>
+                     <div id="contraDiv" hidden="true"><jsp:include page="contraTransVoucher.jsp"></jsp:include></div>
+                     <div id="securityChqDiv" hidden="true"><jsp:include page="securityCheque.jsp"></jsp:include></div>
+                     <div id="propertyDiv" hidden="true"><jsp:include page="propertyVoucher.jsp"></jsp:include></div>
+                     <div id="unclearedChqDiv" hidden="true"><jsp:include page="unclearedVoucher.jsp"></jsp:include></div>
+                 </td>
+            </tr>
+        </table>
+    </div>
+
 </div>
 
 <div id="accountDetailsWindow">
 	<div></div><div></div>
 </div>
+
 </div> 
 </body>
 </html>
