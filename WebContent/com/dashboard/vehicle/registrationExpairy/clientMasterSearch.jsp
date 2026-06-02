@@ -43,52 +43,239 @@
 		}
 
 	</script>
-<body bgcolor="#E0ECF8">
-<div id="search">
-<table width="100%" >
-  <tr >
-   <td>
-    <table>
-   <tr>
-    <td align="right"><label class="formfont">Name</label></td>
-    <td align="left" width="73.7%"><input type="text" name="Cl_name" id="Cl_name"  style="width:99%;height:18px;" value='<s:property value="Cl_name"/>'></td>
-    <td align="left"><label class="formfont">MOB</label></td>
-    <td align="left"><input type="text" name="Cl_mob" id="Cl_mob" value='<s:property value="Cl_mob"/>'></td>
-    <tr>
-    </table>
-    </td>
-  </tr>
-  
-  <table>
-  <tr>
-   <td align="right"><label class="formfont">Licence#</label></td>
-    <td align="left"><input type="text" name="dr_Licence" id="dr_Licence" value='<s:property value="dr_Licence"/>'>
-    <td align="right"><label class="formfont">Passport#</label></td>
-    <td align="left"><input type="text" name="dr_Passport" id="dr_Passport" value='<s:property value="dr_Passport"/>'></td>
-    <td align="right"><label class="formfont">Nationality</label></td>
-    <td align="left"><input type="text" id="dr_Nation" name="dr_Nation" value='<s:property value="dr_Nation"/>'></td>
-    
-    <td align="right"><label class="formfont">DOB</label></td>
-    <td align="left"><div id="dr_DOB" name="dr_DOB"  value='<s:property value="dr_DOB"/>'></div>
+<style>
+/* =========================================================
+   MASTER SEARCH UI - PURE WHITE PANEL
+========================================================= */
 
-        <input type="hidden" name="hiddr_DOB" id="hiddr_DOB" value='<s:property value="hiddr_DOB"/>'>
-    </td>
-    <td colspan="2" align="center"><input type="button" name="btnrasearch" id="btnrasearch" class="myButton" value="Search"  onclick="loadSearch();"></td>
-  </tr>
-  </table>
-  </td>
+body, html{
+    margin:0;
+    padding:0;
+    background:#ffffff !important;
+    font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
+}
 
-  <tr>
-    <td colspan="8" align="right">
-    
-    <div id="refreshdiv">
-      
-   <jsp:include  page="clientSearchGrid.jsp"></jsp:include> 
-   
-   </div>
-    </td>
-  </tr>
-</table>
-  </div>
+.modern-ui{
+    padding:10px;
+    font-size:12px;
+    color:#333;
+    background:#ffffff;
+}
+
+.modern-ui .search-panel{
+    background:#ffffff;
+    border:1px solid #d6d6d6;
+    border-radius:4px;
+    padding:12px;
+    margin-bottom:12px;
+}
+
+.modern-ui table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.modern-ui td{
+    padding:6px;
+    vertical-align:middle;
+}
+
+.modern-ui .lbl-right{
+    text-align:right;
+    white-space:nowrap;
+    font-size:12px;
+    font-weight:500;
+    padding-right:8px;
+    color:#333;
+}
+
+.modern-ui input[type=text],
+.modern-ui select{
+    width:100%;
+    height:26px !important;
+    border:1px solid #cfcfcf;
+    border-radius:3px;
+    padding:2px 6px;
+    font-size:12px;
+    box-sizing:border-box;
+    background:#fff;
+}
+
+.modern-ui input[type=text]:focus,
+.modern-ui select:focus{
+    border-color:#2563eb;
+    outline:none;
+}
+
+.modern-ui .search-btn{
+    width:110px;
+    height:30px;
+    background:#205fd3 !important;
+    background-image:none !important;
+    color:#ffffff !important;
+    border:none !important;
+    border-radius:4px;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.modern-ui .search-btn:hover{
+    background:#184fb4 !important;
+}
+
+.modern-ui .grid-container{
+    background:#ffffff;
+    border:1px solid #cccccc;
+    border-radius:4px;
+    overflow:hidden;
+    min-height:250px;
+}
+body,
+html{
+    background:#ffffff !important;
+}
+
+#search{
+    background:#ffffff !important;
+}
+
+.modern-ui{
+    background:#ffffff !important;
+}
+
+.modern-ui .search-panel{
+    background:#ffffff !important;
+    border:1px solid #d6d6d6;
+}
+
+/* jqx window content override */
+
+.jqx-widget-content,
+.jqx-window-content,
+.jqx-fill-state-normal{
+    background:#ffffff !important;
+}
+</style>
+
+<body>
+
+<div id="search" class="modern-ui">
+
+    <div class="search-panel">
+
+        <table>
+
+            <colgroup>
+                <col width="10%">
+                <col width="23%">
+                <col width="10%">
+                <col width="23%">
+                <col width="10%">
+                <col width="24%">
+            </colgroup>
+
+            <!-- Row 1 -->
+
+            <tr>
+
+                <td class="lbl-right">Name</td>
+
+                <td>
+                    <input type="text"
+                           name="Cl_name"
+                           id="Cl_name"
+                           value='<s:property value="Cl_name"/>'>
+                </td>
+
+                <td class="lbl-right">Mobile</td>
+
+                <td>
+                    <input type="text"
+                           name="Cl_mob"
+                           id="Cl_mob"
+                           value='<s:property value="Cl_mob"/>'>
+                </td>
+
+                <td class="lbl-right">Nationality</td>
+
+                <td>
+                    <input type="text"
+                           id="dr_Nation"
+                           name="dr_Nation"
+                           value='<s:property value="dr_Nation"/>'>
+                </td>
+
+            </tr>
+
+            <!-- Row 2 -->
+
+            <tr>
+
+                <td class="lbl-right">Licence #</td>
+
+                <td>
+                    <input type="text"
+                           name="dr_Licence"
+                           id="dr_Licence"
+                           value='<s:property value="dr_Licence"/>'>
+                </td>
+
+                <td class="lbl-right">Passport #</td>
+
+                <td>
+                    <input type="text"
+                           name="dr_Passport"
+                           id="dr_Passport"
+                           value='<s:property value="dr_Passport"/>'>
+                </td>
+
+                <td class="lbl-right">DOB</td>
+
+                <td>
+                    <table style="width:100%;border-collapse:collapse;">
+                        <tr>
+                            <td style="padding:0;">
+                                <div id="dr_DOB"
+                                     name="dr_DOB"
+                                     value='<s:property value="dr_DOB"/>'>
+                                </div>
+
+                                <input type="hidden"
+                                       name="hiddr_DOB"
+                                       id="hiddr_DOB"
+                                       value='<s:property value="hiddr_DOB"/>'>
+                            </td>
+
+                            <td style="width:120px;padding-left:10px;">
+                                <input type="button"
+                                       name="btnrasearch"
+                                       id="btnrasearch"
+                                       value="Search"
+                                       class="search-btn"
+                                       onclick="loadSearch();">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <div class="grid-container">
+
+        <div id="refreshdiv">
+
+            <jsp:include page="clientSearchGrid.jsp"></jsp:include>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>

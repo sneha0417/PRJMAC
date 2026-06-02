@@ -54,7 +54,217 @@
 }
 
 </style>
+<style>
+/* ===== GLOBAL RESET ===== */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents the whole page from double-scrolling */
+    background-color: #f4f7f9;
+    font-family: Tahoma, Arial, sans-serif; /* Safe native fonts */
+}
 
+#mainBG, .hidden-scrollbar {
+    height: 100%;
+}
+
+table, td, th, input, select, textarea, button, span, div, label, p {
+    font-family: inherit; /* Allows your app's native fonts to cascade properly */
+}
+
+/* ===== THE FIXED SIDEBAR ===== */
+.fixed-sidebar-container {
+    position: fixed; 
+    top: 0;                   
+    bottom: 0; 
+    left: 0;
+    width: 310px; 
+    overflow-y: auto; 
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 10; /* POPUP FIX: Search windows will float over this */
+}
+
+.fixed-sidebar-container::-webkit-scrollbar {
+    width: 6px;
+}
+.fixed-sidebar-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+.fixed-sidebar-container::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
+
+.sidebar-content-padding {
+    padding: 15px;
+    padding-bottom: 100px; 
+}
+
+/* ===== INDEPENDENT SCROLLABLE RIGHT COLUMN ===== */
+.scrollable-column {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+}
+.scrollable-column::-webkit-scrollbar {
+    width: 8px;
+}
+.scrollable-column::-webkit-scrollbar-track {
+    background: #f0f4f8;
+}
+.scrollable-column::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
+
+/* ===== CARDS & HEADERS ===== */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px 12px;
+    margin-bottom: 15px;
+}
+
+.card-header {
+    font-size: 13px; 
+    font-weight: 700; 
+    color: #334155; 
+    margin-bottom: 10px; 
+    border-bottom: 1px solid #e3e8ee;
+    padding-bottom: 6px;
+}
+
+/* ===== TABLES & ROW SPACING ===== */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0; 
+}
+
+/* Forces a tighter, balanced vertical gap between rows */
+.release-filter-table td {
+    padding-bottom: 8px !important; 
+    vertical-align: middle;
+}
+
+/* Removes the padding from the very last row */
+.release-filter-table tr:last-child td {
+    padding-bottom: 0 !important;
+}
+
+/* WIDENED LABELS */
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px; 
+    color: #4e5e71;
+    font-weight: 600;
+    width: 90px; 
+    white-space: nowrap; 
+    line-height: 1.2;
+}
+
+/* ===== UNIFORM INPUTS & SPACIOUS HEIGHT ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 28px; /* SPACIOUS FIX: 28px height */
+    padding: 2px 8px;
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff !important; 
+    box-shadow: none !important; 
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/* ===== STRICT DISABLED & READONLY STYLING ===== */
+input[readonly], select[readonly], textarea[readonly],
+input:disabled, select:disabled, textarea:disabled,
+input[disabled="true"], select[disabled="true"], textarea[disabled="true"] {
+    background-color: #e2e8f0 !important; /* Deeper, obvious grey */
+    color: #64748b !important; /* Faded text */
+    cursor: not-allowed !important; /* Locked hover icon */
+    border-color: #cbd5e1 !important;
+    opacity: 1 !important; 
+}
+
+/* ===== SEARCH INFRASTRUCTURE (No Clear Button) ===== */
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.search-input-wrapper input[type="text"] {
+    width: 100%;
+    padding-right: 26px; 
+    cursor: pointer;
+}
+.search-icon {
+    position: absolute;
+    right: 6px;
+    width: 12px;
+    height: 12px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    pointer-events: none; 
+    opacity: 0.8;
+}
+
+/* jqx date containers */
+.release-filter-table div[id^="fromdate"],
+.release-filter-table div[id^="todate"] {
+    width: 100%;
+}
+
+/* ===== BUTTONS ===== */
+.btn-submit {
+    width: 100%;
+    height: 30px;
+    padding: 0 12px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    line-height: 30px;
+}
+.btn-submit:hover {
+    background: #1d4ed8;
+}
+.btn-secondary {
+    background: #64748b;
+}
+.btn-secondary:hover {
+    background: #475569;
+}
+.release-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 15px;
+}
+.release-actions .btn-submit {
+    flex: 1;
+}
+</style>
 <script type="text/javascript">
 
 $(document).ready(function () {
@@ -235,71 +445,103 @@ function dis(){
 <body onload="getBranch();dis();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
+
+<table width="100%" cellspacing="0" cellpadding="0" style="height: 100%;">
 <tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	  <tr><td  align="right" ><label class="branch">From</label></td><td align="left"><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div>
-                    </td></tr>
-                    
-                    
-                     <tr><td  align="right" ><label class="branch">To</label></td><td align="left"><div id='todate' name='todate' value='<s:property value="todate"/>'></div>
-                    </td></tr>
-<%--    <tr><td colspan="2">&nbsp;</td></tr> 
-	 	<tr ><td align="right" > <label class="branch">Status</label></td> <td ><select id="statusselect" name="statusselect" style="width:70%;">
-	<option value="All">All</option>
-	<option value="PED">Pending</option>
-		  
-		
-	
-	 </select> </td></tr> --%>
-	 <tr>
-<td align="right"><label class="branch">Account</label></td>
-    <td  ><input type="text" name="account" id="account" value='<s:property value="account"/>' readonly="readonly" placeholder="Press F3 To Search"   style="height:20px;width:70%;" onKeyDown="getaccountdetails(event);" >  </td></tr>
- <tr> <td>&nbsp;</td><td> <input type="text" id="accname" name="accname" value='<s:property value="accname"/>'  readonly="readonly"  style="height:20px;width:100%;"></td></tr>
- 
-  <tr><td align="right"><label class="branch">Type</label></td><td colspan="1"><select id="type" name="type" onchange="typechg()">
-  
-  <option value="1">Cash Invoice </option>
-    <option value="2">Credit Invoice</option>
-  </select></td></tr> 
- <tr><td colspan="2">&nbsp;</td></tr> 
- <tr><td colspan="2" align="center"><input type="button" class="myButtons" name="clear" id="clear"  value="Clear" onclick="funcleardata()"></td></tr>
- <tr><td colspan="2">&nbsp;</td></tr> 
- <tr><td colspan="2">&nbsp;</td></tr> 
 
+<td width="310" style="width: 310px; min-width: 310px; padding: 0;">
+    
+    <div class="fixed-sidebar-container">
+        <div class="sidebar-content-padding">
+            
+            <div class="filter-card">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
 
-<tr><td colspan="2" align="center"><button class="myButton" type="button" id="btnaudit" name="btnaudit" onclick="funAudit(event);">Audit</button></td></tr>
- <tr><td colspan="2">&nbsp;</td></tr> 
- 
-	<tr>
-	<td colspan="2"><div id='paychaaaaa' style="width: 100% ; align:right; height: 150px;"></div></td>
-	</tr>	
-	</table>
-	</fieldset>
-   <input type="hidden" id="acno" name="acno" value='<s:property value="acno"/>'>
-      <input type="hidden" id="docnos" name="docnos" value='<s:property value="docnos"/>'>
-     <input type="hidden" id="statusselect" name="statusselect" value='<s:property value="statusselect"/>'>
-   
-   
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">From</td>
+                        <td><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">To</td>
+                        <td><div id='todate' name='todate' value='<s:property value="todate"/>'></div></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">Account</td>
+                        <td>
+                            <div class="search-input-wrapper">
+                                <input type="text" name="account" id="account" value='<s:property value="account"/>' readonly="readonly" placeholder="Double click to search" onKeyDown="getaccountdetails(event);" ondblclick="getaccountdetails(event);" />
+                                <div class="search-icon"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell"></td>
+                        <td>
+                            <input type="text" id="accname" name="accname" value='<s:property value="accname"/>' readonly="readonly" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Type</td>
+                        <td>
+                            <select id="type" name="type" onchange="typechg()">
+                                <option value="1">Cash Invoice</option>
+                                <option value="2">Credit Invoice</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="release-actions">
+                    <button type="button" class="btn-submit btn-secondary" name="clear" id="clear" onclick="funcleardata()">Clear</button>
+                    <button type="button" class="btn-submit" id="btnaudit" name="btnaudit" onclick="funAudit(event);">Audit</button>
+                </div>
+            </div>
+
+            <div class="filter-card" style="padding: 10px;">
+                <div id='paychaaaaa' style="width: 100%; height: 150px;"></div>
+            </div>
+
+            <input type="hidden" id="acno" name="acno" value='<s:property value="acno"/>'>
+            <input type="hidden" id="docnos" name="docnos" value='<s:property value="docnos"/>'>
+            <input type="hidden" id="statusselect" name="statusselect" value='<s:property value="statusselect"/>'>
+
+        </div>
+    </div>
+
 </td>
-<td width="80%">
-	<table width="100%">
-		<tr>
-			 <td><div id="listdiv"><jsp:include page="salesinvoiceauditGrid.jsp"></jsp:include></div></td>
-		</tr>
-	</table>
+
+<td style="height: 100%; vertical-align: top; position: relative; padding: 0; background: #fff;">
+    <div class="scrollable-column">
+        <div style="padding: 15px;">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <div id="listdiv">
+                            <jsp:include page="salesinvoiceauditGrid.jsp"></jsp:include>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</td>
+
 </tr>
 </table>
 
-</div>
 <div id="accountSearchwindow">
-   <div ></div>
+    <div></div>
 </div> 
+
+</div>
 </div>
 </body>
 </html>
