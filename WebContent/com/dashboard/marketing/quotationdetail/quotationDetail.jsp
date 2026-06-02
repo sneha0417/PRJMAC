@@ -83,7 +83,273 @@
 }
 
 </style>
+<style>
+/* ===== GLOBAL RESET & STRICT FONT ENFORCER ===== */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents the whole page from scrolling */
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif !important;
+    background-color: #f4f7f9;
+}
+#mainBG, .hidden-scrollbar {
+    height: 100%;
+}
+table, td, th, input, select, textarea, button, span, div, label {
+    font-family: inherit !important;
+}
 
+/* ===== THE NUCLEAR FIX: FIXED SIDEBAR ===== */
+.fixed-sidebar-container {
+    position: fixed; 
+    top: 0;                   
+    bottom: 0; 
+    left: 0;
+    width: 310px; 
+    overflow-y: auto; 
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 9999; 
+}
+.fixed-sidebar-container::-webkit-scrollbar {
+    width: 6px;
+}
+.fixed-sidebar-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+.fixed-sidebar-container::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
+.sidebar-content-padding {
+    padding: 15px;
+    padding-bottom: 120px; /* Safe space at the bottom */
+}
+
+/* ===== INDEPENDENT SCROLLABLE RIGHT COLUMN ===== */
+.scrollable-column {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+    padding: 15px;
+}
+.scrollable-column::-webkit-scrollbar {
+    width: 8px;
+}
+.scrollable-column::-webkit-scrollbar-track {
+    background: #f0f4f8;
+}
+.scrollable-column::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
+
+/* ===== CARDS & HEADERS ===== */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px 12px;
+    margin-bottom: 15px;
+}
+.grid-card {
+    background: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.card-header {
+    font-size: 12px; 
+    font-weight: 600; 
+    color: #4e5e71; 
+    margin-bottom: 12px; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e3e8ee;
+    padding-bottom: 8px;
+}
+
+/* ===== TABLES & LABELS ===== */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 12px; 
+}
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 11.5px; 
+    color: #4e5e71;
+    font-weight: 600;
+    width: 110px; 
+    white-space: nowrap; 
+    line-height: 1.2;
+}
+
+/* ===== UNIFORM INPUTS & PINK-COLOR KILLER ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;
+    padding: 2px 8px;
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff !important; 
+    box-shadow: none !important; 
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+.release-filter-table input[type="checkbox"] {
+    width: auto;
+    height: auto;
+    margin: 0;
+    vertical-align: middle;
+    cursor: pointer;
+}
+textarea, .release-filter-table textarea {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    resize: none;
+}
+input[readonly], select[readonly], textarea[readonly],
+input:disabled, select:disabled, textarea:disabled,
+.release-filter-table input[readonly] {
+    background-color: #f8fafc !important; 
+    color: #555;
+    cursor: default;
+}
+
+/* ===== SEARCH INFRASTRUCTURE ===== */
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.search-input-wrapper input[type="text"] {
+    width: 100%;
+    padding-right: 26px; 
+    cursor: pointer;
+}
+.search-icon {
+    position: absolute;
+    right: 6px;
+    width: 12px;
+    height: 12px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    pointer-events: none; 
+    opacity: 0.8;
+}
+
+/* Native SVG Icon Buttons */
+.btn-icon-inline {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 2px 2px 2px 6px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-icon-inline svg {
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+.btn-icon-inline:hover svg {
+    opacity: 1;
+    stroke: #2563eb; 
+}
+
+/* Checkbox Centered Layout */
+.checkbox-center-row {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 6px; 
+    margin: 5px 0;
+}
+.checkbox-center-row label {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #4e5e71;
+    cursor: pointer;
+}
+
+/* ===== SUMMARY TOTALS BAR ===== */
+.summary-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    background: #f8fafc;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin-bottom: 15px;
+}
+.summary-label {
+    font-weight: 600;
+    font-size: 12px;
+    color: #334155;
+}
+
+/* ===== BUTTONS ===== */
+.btn-submit {
+    width: 100%;
+    height: 30px;
+    padding: 0 12px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    line-height: 30px;
+    margin-top: 5px;
+}
+.btn-submit:hover {
+    background: #1d4ed8;
+}
+.btn-secondary {
+    background: #64748b;
+}
+.btn-secondary:hover {
+    background: #475569;
+}
+.btn-success {
+    background: #059669;
+}
+.btn-success:hover {
+    background: #047857;
+}
+.release-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+</style>
 <script type="text/javascript">
 
 	$(document).ready(function () {
@@ -722,179 +988,223 @@ function fundisamt(){
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
 
-<table width="100%" >
+<table width="100%" style="height: 100%;" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-	 <tr><td colspan="2"></td></tr>
-	  <tr><td  align="right" ><label class="branch">From</label></td><td align="left"><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div>
-                    </td></tr>
-                     <tr><td  align="right" ><label class="branch">To</label></td><td align="left"><div id='todate' name='todate' value='<s:property value="todate"/>'></div>
-                    </td></tr>
-					<tr><td align="right"> <label class="branch">Quotation No</label></td> <td >
-    <input type="text"  id="qutno" name="qutno" readonly="readonly" style="height:20px;width:95%;"  placeholder="F3 To Search " value='<s:property value="qutno"/>' onKeyDown="getQuotation(event);">
+
+<!-- Spacer Cell: Keeps the layout from collapsing -->
+<td style="width: 310px; min-width: 310px; height: 100%; vertical-align: top; position: relative; padding: 0; background: #fff; border-right: 1px solid #e1e8ed; box-shadow: 2px 0 8px rgba(0,0,0,.05); z-index: 10;">
     
-     </td></tr> 
-    <tr><td align="right"> <label class="branch">Quotation</label></td> <td >
-    <input type="text"  id="qutname" name="qutname" readonly="readonly" style="height:20px;width:95%;"  placeholder="F3 To Search " value='<s:property value="qutname"/>' onKeyDown="getQuotation(event);">
-    <input type="hidden" id="quttrno" style="height:20px;width:70%;"  name="quttrno" value='<s:property value="quttrno"/>' >
-     </td></tr>   
-	 	<tr><td align="right"><label class="branch" id="lblscopegroup">ScopeGrp.</label></td>
-	 	<td><select id="cmbscopegroupchange" name="cmbscopegroupchange" style="width:70%;" onchange="funscopegroupchange();" value='<s:property value="cmbscopegroupchange"/>'>
-    	<option value="">--Select--</option></select>&nbsp;&nbsp;&nbsp;
-    	<input type="hidden" id="hidcmbscopegroupchange" name="hidcmbscopegroupchange" value='<s:property value="hidcmbscopegroupchange"/>'/>
-    	<button type="button" class="processicon" id="btnProcess" title="Scope Update" onclick="funProcessBtn();">
-				<img alt="Scope Update" src="<%=contextPath%>/icons/process2.png">
-		</button></td></tr>
-		<tr><td colspan="2"align="center"><label class="branch">Revision</label>         
-	 	  <input type="checkbox" id="chkestrev" name="chkestrev" value="" onchange="funchkestrev();" onclick="$(this).attr('value', this.checked ? 1 : 0)" /> 
-          <input type="hidden" id="hidchkestrev" name="hidchkestrev" value='<s:property value="hidchkestrev"/>'/>
-	      </td>
-	 	</tr> 
-	 <tr><td colspan="2"align="center"><input type="button" id="btnsaveest" name="btnsaveest" class="myButton"
-						value="Save Estimation" style="width: 150px;" onclick="revisionvalidation(this.value);" />
-	      </td>
-	 </tr> 
-	 <tr><td colspan="2"></td></tr> 
-	 	<tr><td colspan="2"align="center"><input type="button" id="btnsavereqot" name="btnsavereqot" class="myButton"
-						value="Reload Quotation" style="width: 150px;" onclick="saveReQot();" />
-	      </td>
-	 	</tr> 
-	 	<tr><td colspan="2">&nbsp;</td></tr> 
-	 	<tr><td  align="right" ><label class="branch">Quot.Date</label></td><td align="left"><div id='quotdate' name='quotdate' value='<s:property value="quotdate"/>'></div>
-         <input type="hidden" id="hidquotdate" name="hidquotdate" value='<s:property value="hidquotdate"/>'/></td></tr>
-	 	<tr><td align="right"> <label class="branch">Subject</label></td> <td >   
-         <input type="text"  id="txtsubject" name="txtsubject" style="height:20px;width:95%;" value='<s:property value="txtsubject"/>'>
-        </td></tr>
-	 	<tr><td align="right"> <label class="branch">Client</label></td> <td >
-    <input type="text"  id="txtclient" name="txtclient" readonly="readonly" style="height:20px;width:95%;"  placeholder="F3 To Search " onKeyDown="getClient(event);">
-    <input type="hidden" id="clientid" style="height:20px;width:70%;"  name="clientid">
-     </td></tr> 
-     
-     <tr><td align="right"> <label class="branch">Remarks</label></td> <td >
-   <textarea rows="10" cols="25" id="txtremarks" name="txtremarks" value='<s:property value="txtremarks"/>'></textarea>
-     </td></tr> 
-     <tr><td colspan="2"></td></tr> 
-     <tr><td colspan="2"align="center"><label class="branch">Revision</label>
-	 	<input type="checkbox" id="chkrev" name="chkrev" value="" onchange="funchkrev();" onclick="$(this).attr('value', this.checked ? 1 : 0)" /> 
-          <input type="hidden" id="hidchkrev" name="hidchkrev" value='<s:property value="hidchkrev"/>'/>
-	      </td>
-	 	</tr> 
-	 	<tr><td colspan="2"align="center">
-	 	
-	 	<input type="button" id="btnsaveqot" name="btnsaveqot" class="myButton"
-						value="Save Quotation" style="width: 150px;" onclick="revisionvalidation(this.value);" />
-	      </td>
-	 	</tr> 
-	
-	
-	<tr><td>
-	 <input type="text" name="gridtext" id="gridtext" style="width:0%;height:0%;"  class="textbox"  value='<s:property value="gridtext"/>'  />   
-  
-    <input type="text" name="gridtext1" id="gridtext1" style="width:0%;height:0%;"  class="textbox"  value='<s:property value="gridtext1"/>' />
-		 <input type="text" name="gridtext3" id="gridtext3" style="width:0%;height:0%;"  class="textbox"  value='<s:property value="gridtext3"/>'  />   
-  		
-	</td></tr> 
-	<tr><td colspan="2">&nbsp;</td></tr> 
-	<tr><td colspan="2">&nbsp;</td></tr> 
-	<tr><td colspan="2"> <input type="hidden" id="estimationtotal" style="height:20px;width:70%;"  name="estimationtotal">
-	    <input type="hidden" id="qutnettotal" style="height:20px;width:70%;"  name="qutnettotal">
-	    <input type="hidden" id="qutgridlen" style="height:20px;width:70%;"  name="qutgridlen">
-	    <input type="hidden" id="estimationgrdlen" style="height:20px;width:70%;"  name="estimationgrdlen">
-	    <input type="hidden" id="sitegridlen" style="height:20px;width:70%;"  name="sitegridlen">
-	    <input type="hidden" id="hidtrno" style="height:20px;width:70%;"  name="hidtrno" value='<s:property value="hidtrno"/>'><!-- trno of estimation grid -->
-	    <input type="hidden" id="msg" style="height:20px;width:70%;"  name="msg">
-	    <input type="hidden" id="cldocno" style="height:20px;width:70%;"  name="cldocno" value='<s:property value="cldocno"/>'>
-	    <input type="hidden" id="date" style="height:20px;width:70%;"  name="date" value='<s:property value="date"/>'>
-	    <input type="hidden" id="brhid" style="height:20px;width:70%;"  name="brhid" value='<s:property value="brhid"/>'>
-	    <input type="hidden" id="datas" style="height:20px;width:70%;"  name="datas" >
-	    <input type="hidden" id="reftype" style="height:20px;width:70%;"  name="reftype" value='<s:property value="reftype"/>'>
-	    <input type="hidden" id="revision" style="height:20px;width:70%;"  name="revision" value='<s:property value="revision"/>'>
-	    <input type="hidden" id="btnval" style="height:20px;width:80%;" readonly name="btnval" value='<s:property value="btnval"/>'>
-	    <input type="hidden" id="enqno" style="height:20px;width:70%;"  name="enqno" value='<s:property value="enqno"/>'>
-	    <input type="hidden" id="surtrno" style="height:20px;width:70%;"  name="surtrno" value='<s:property value="surtrno"/>'>
-	    <input type="hidden" id="productchk" name="productchk" style="height:20px;width:70%;" value='<s:property value="productchk"/>'/>
-	    <input type="hidden" id="txtgridservicetypeid" name="txtgridservicetypeid" style="height:20px;width:70%;" value='<s:property value="txtgridservicetypeid"/>' />  
-        <input type="hidden" id="txtgridscopeid" name="txtgridscopeid" style="height:20px;width:70%;" value='<s:property value="txtgridscopeid"/>' />
-        <input type="hidden" id="txtgridqotservicetypeid" name="txtgridqotservicetypeid" style="height:20px;width:70%;" value='<s:property value="txtgridqotservicetypeid"/>' />  
-        <input type="hidden" id="txtgridqotscopeid" name="txtgridscopeid" style="height:20px;width:70%;" value='<s:property value="txtgridqotscopeid"/>' />        
-        <input type="hidden" name="txtgridscopeproduct" id="txtgridscopeproduct" style="height:20px;width:70%;" value='<s:property value="txtgridscopeproduct"/>'>
-	    <input type="hidden" id="presalesscopeallowed" name="presalesscopeallowed" style="height:20px;width:70%;" value='<s:property value="presalesscopeallowed"/>'/>
-	    <input type="hidden" id="txtcontrmode" name="txtcontrmode" style="height:20px;width:70%;" value='<s:property value="txtcontrmode"/>'/>
-	    <input type="hidden" id="txtscopegroupchanged" name="txtscopegroupchanged" style="height:20px;width:70%;" value='<s:property value="txtscopegroupchanged"/>'/>    
-	    <select id="cmbscopegroup" name="cmbscopegroup" style="width:70%;" hidden="true" value='<s:property value="cmbscopegroup"/>'>    
-    	<option value="">--Select--</option></select>
-    	<input type="hidden" id="hidcmbscopegroup" name="hidcmbscopegroup" value='<s:property value="hidcmbscopegroup"/>'/>
-	    </td></tr>
-	</table>
-	</fieldset>
+    <!-- THE FIXED SIDEBAR -->
+    <div class="fixed-sidebar-container">
+        <div class="sidebar-content-padding">
+            
+            <div class="filter-card">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+
+            <!-- Date Filters -->
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">From</td>
+                        <td><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">To</td>
+                        <td><div id='todate' name='todate' value='<s:property value="todate"/>'></div></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Quotation Core Details -->
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">Quotation No</td>
+                        <td>
+                            <div class="search-input-wrapper">
+                                <input type="text" id="qutno" name="qutno" readonly="readonly" placeholder="Double click to search" value='<s:property value="qutno"/>' onKeyDown="getQuotation(event);" ondblclick="getQuotation(event);">
+                                <div class="search-icon"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Quotation</td>
+                        <td>
+                            <div class="search-input-wrapper">
+                                <input type="text" id="qutname" name="qutname" readonly="readonly" placeholder="Double click to search" value='<s:property value="qutname"/>' onKeyDown="getQuotation(event);" ondblclick="getQuotation(event);">
+                                <div class="search-icon"></div>
+                            </div>
+                            <input type="hidden" id="quttrno" name="quttrno" value='<s:property value="quttrno"/>' >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">ScopeGrp.</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 4px; width: 100%;">
+                                <select id="cmbscopegroupchange" name="cmbscopegroupchange" style="flex: 1;" onchange="funscopegroupchange();" value='<s:property value="cmbscopegroupchange"/>'>
+                                    <option value="">--Select--</option>
+                                </select>
+                                <input type="hidden" id="hidcmbscopegroupchange" name="hidcmbscopegroupchange" value='<s:property value="hidcmbscopegroupchange"/>'/>
+                                <!-- Native SVG replaces process2.png -->
+                                <button type="button" class="btn-icon-inline" id="btnProcess" title="Scope Update" onclick="funProcessBtn();">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.59-10.87l5.25 4.68"/></svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                
+                <div class="checkbox-center-row" style="margin-top: 15px;">
+                    <input type="checkbox" id="chkestrev" name="chkestrev" value="" onchange="funchkestrev();" onclick="$(this).attr('value', this.checked ? 1 : 0)" /> 
+                    <label for="chkestrev">Estimation Revision</label>
+                    <input type="hidden" id="hidchkestrev" name="hidchkestrev" value='<s:property value="hidchkestrev"/>'/>
+                </div>
+                
+                <button type="button" id="btnsaveest" name="btnsaveest" class="btn-submit btn-secondary" onclick="revisionvalidation(this.value);">Save Estimation</button>
+            </div>
+
+            <!-- Additional Quotation Actions -->
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">Quot. Date</td>
+                        <td>
+                            <div id='quotdate' name='quotdate' value='<s:property value="quotdate"/>'></div>
+                            <input type="hidden" id="hidquotdate" name="hidquotdate" value='<s:property value="hidquotdate"/>'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Subject</td>
+                        <td><input type="text" id="txtsubject" name="txtsubject" value='<s:property value="txtsubject"/>'></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Client</td>
+                        <td>
+                            <div class="search-input-wrapper">
+                                <input type="text" id="txtclient" name="txtclient" readonly="readonly" placeholder="Double click to search" onKeyDown="getClient(event);" ondblclick="getClient(event);">
+                                <div class="search-icon"></div>
+                            </div>
+                            <input type="hidden" id="clientid" name="clientid">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Remarks</td>
+                        <td><textarea rows="4" id="txtremarks" name="txtremarks"><s:property value="txtremarks"/></textarea></td>
+                    </tr>
+                </table>
+
+                <div class="checkbox-center-row" style="margin-top: 15px;">
+                    <input type="checkbox" id="chkrev" name="chkrev" value="" onchange="funchkrev();" onclick="$(this).attr('value', this.checked ? 1 : 0)" /> 
+                    <label for="chkrev">Quotation Revision</label>
+                    <input type="hidden" id="hidchkrev" name="hidchkrev" value='<s:property value="hidchkrev"/>'/>
+                </div>
+
+                <div class="release-actions">
+                    <button type="button" id="btnsavereqot" name="btnsavereqot" class="btn-submit" onclick="saveReQot();">Reload Quotation</button>
+                    <button type="button" id="btnsaveqot" name="btnsaveqot" class="btn-submit btn-success" onclick="revisionvalidation(this.value);">Save Quotation</button>
+                </div>
+            </div>
+
+            <!-- Zero-width/height inputs explicitly preserved as hidden inputs so they don't break flex layout -->
+            <input type="hidden" name="gridtext" id="gridtext" value='<s:property value="gridtext"/>' />   
+            <input type="hidden" name="gridtext1" id="gridtext1" value='<s:property value="gridtext1"/>' />
+            <input type="hidden" name="gridtext3" id="gridtext3" value='<s:property value="gridtext3"/>' />   
+
+            <!-- ALL Core Hidden Fields -->
+            <input type="hidden" id="estimationtotal" name="estimationtotal">
+            <input type="hidden" id="qutnettotal" name="qutnettotal">
+            <input type="hidden" id="qutgridlen" name="qutgridlen">
+            <input type="hidden" id="estimationgrdlen" name="estimationgrdlen">
+            <input type="hidden" id="sitegridlen" name="sitegridlen">
+            <input type="hidden" id="hidtrno" name="hidtrno" value='<s:property value="hidtrno"/>'>
+            <input type="hidden" id="msg" name="msg">
+            <input type="hidden" id="cldocno" name="cldocno" value='<s:property value="cldocno"/>'>
+            <input type="hidden" id="date" name="date" value='<s:property value="date"/>'>
+            <input type="hidden" id="brhid" name="brhid" value='<s:property value="brhid"/>'>
+            <input type="hidden" id="datas" name="datas" >
+            <input type="hidden" id="reftype" name="reftype" value='<s:property value="reftype"/>'>
+            <input type="hidden" id="revision" name="revision" value='<s:property value="revision"/>'>
+            <input type="hidden" id="btnval" name="btnval" value='<s:property value="btnval"/>'>
+            <input type="hidden" id="enqno" name="enqno" value='<s:property value="enqno"/>'>
+            <input type="hidden" id="surtrno" name="surtrno" value='<s:property value="surtrno"/>'>
+            <input type="hidden" id="productchk" name="productchk" value='<s:property value="productchk"/>'/>
+            <input type="hidden" id="txtgridservicetypeid" name="txtgridservicetypeid" value='<s:property value="txtgridservicetypeid"/>' />  
+            <input type="hidden" id="txtgridscopeid" name="txtgridscopeid" value='<s:property value="txtgridscopeid"/>' />
+            <input type="hidden" id="txtgridqotservicetypeid" name="txtgridqotservicetypeid" value='<s:property value="txtgridqotservicetypeid"/>' />  
+            <input type="hidden" id="txtgridqotscopeid" name="txtgridscopeid" value='<s:property value="txtgridqotscopeid"/>' />        
+            <input type="hidden" name="txtgridscopeproduct" id="txtgridscopeproduct" value='<s:property value="txtgridscopeproduct"/>'>
+            <input type="hidden" id="presalesscopeallowed" name="presalesscopeallowed" value='<s:property value="presalesscopeallowed"/>'/>
+            <input type="hidden" id="txtcontrmode" name="txtcontrmode" value='<s:property value="txtcontrmode"/>'/>
+            <input type="hidden" id="txtscopegroupchanged" name="txtscopegroupchanged" value='<s:property value="txtscopegroupchanged"/>'/>   
+            <select id="cmbscopegroup" name="cmbscopegroup" hidden="true" value='<s:property value="cmbscopegroup"/>'><option value="">--Select--</option></select>
+            <input type="hidden" id="hidcmbscopegroup" name="hidcmbscopegroup" value='<s:property value="hidcmbscopegroup"/>'/>
+
+        </div>
+    </div>
 </td>
-<td width="80%" >
-	<table width="100%" >
-		<tr><td colspan="4"><fieldset ><legend>Estimation Details</legend>
-		
-		<div id="loadsubgriddata"><jsp:include page="estimationGrid.jsp"></jsp:include> 
-			</div></fieldset></td></tr>
-			
-			<tr><td colspan="4"><fieldset><legend>Quotation Details</legend>
-			
-			<div id="loadgriddata"><jsp:include page="quotationGrid.jsp"></jsp:include> 
-			</div></fieldset></td></tr>
-			
-		<tr><td align="right" width="50%" style="font-family: Tahoma;font-size: 9px;font-weight: bold;">Discount</td>
-		<td><input type="text" id="txtdiscount" style="height:20px;width:80%;text-align:right"  name="txtdiscount" value='<s:property value="txtdiscount"/>' onblur="funRoundAmt(this.value,this.id);fundisamt();"></td>
-        <td align="right" style="font-family: Tahoma;font-size: 9px;font-weight: bold;">Net Total</td>
-		<td><input type="text" id="txtnettotal" style="height:20px;width:80%;text-align:right" readonly name="txtnettotal" value='<s:property value="txtnettotal"/>'  onblur="funRoundAmt(this.value,this.id);"></td>
-		</tr>
-		
-		<tr><td colspan="4"><fieldset><legend>Site Details</legend>  
-			
-			<div id="loadsitegriddata"><jsp:include page="siteGrid.jsp"></jsp:include> 
-			</div></fieldset></td></tr>
-	</table>
-	</td>
+
+<!-- Main Grid Cell (Right side) -->
+<td style="height: 100%; vertical-align: top; position: relative; padding: 0; background: #fff;">
+    <div class="scrollable-column">
+        
+        <!-- Estimation Grid -->
+        <div class="grid-card">
+            <div class="card-header">Estimation Details</div>
+            <div id="loadsubgriddata">
+                <jsp:include page="estimationGrid.jsp"></jsp:include> 
+            </div>
+        </div>
+
+        <!-- Quotation Grid -->
+        <div class="grid-card">
+            <div class="card-header">Quotation Details</div>
+            <div id="loadgriddata">
+                <jsp:include page="quotationGrid.jsp"></jsp:include> 
+            </div>
+        </div>
+
+        <!-- Clean Summary Bar (Replaces inline table inputs) -->
+        <div class="summary-bar">
+            <div class="summary-label">Discount</div>
+            <div>
+                <input type="text" id="txtdiscount" name="txtdiscount" style="width: 120px; text-align: right;" value='<s:property value="txtdiscount"/>' onblur="funRoundAmt(this.value,this.id);fundisamt();">
+            </div>
+            <div class="summary-label" style="margin-left: 20px;">Net Total</div>
+            <div>
+                <input type="text" id="txtnettotal" name="txtnettotal" readonly style="width: 120px; text-align: right;" value='<s:property value="txtnettotal"/>' onblur="funRoundAmt(this.value,this.id);">
+            </div>
+        </div>
+
+        <!-- Site Grid -->
+        <div class="grid-card">
+            <div class="card-header">Site Details</div>
+            <div id="loadsitegriddata">
+                <jsp:include page="siteGrid.jsp"></jsp:include> 
+            </div>
+        </div>
+
+    </div>
+</td>
+
 </tr>
 </table>
 
- <div id="quotwindow">
-   <div></div>
-</div>
- <div id="sidesearchwndow">
-   <div></div>
-</div>
- <div id="servicetypewindow">
-   <div></div>
-</div>
-<div id="unitsearchwindow">
-   <div ></div>
-</div>
-<div id="sertypefowindow">
-   <div ></div>
-</div>
-<div id="siteinfowindow">
-   <div ></div>
-</div>
-<div id="clientsearch1">
-   <div ></div>
-</div> 
-<div id="sitewindow">
-   <div ></div>
-</div>
-<div id="sidesearchwndowqot">
-   <div ></div> 
-</div>
-<div id="areainfowindow">
-   <div ></div>
-</div>
-<div id="scopesearchwindow">
-	<div ></div>
-</div>
+<!-- Window/Modal Containers -->
+<div id="quotwindow"><div></div></div>
+<div id="sidesearchwndow"><div></div></div>
+<div id="servicetypewindow"><div></div></div>
+<div id="unitsearchwindow"><div></div></div>
+<div id="sertypefowindow"><div></div></div>
+<div id="siteinfowindow"><div></div></div>
+<div id="clientsearch1"><div></div></div> 
+<div id="sitewindow"><div></div></div>
+<div id="sidesearchwndowqot"><div></div></div>
+<div id="areainfowindow"><div></div></div>
+<div id="scopesearchwindow"><div></div></div>
+
 </div>
 </div>
 </form>
 </body>
-
 </html> 

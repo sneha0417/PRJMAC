@@ -63,7 +63,199 @@
 }
 
 </style>
+<style>
+/* ===== GLOBAL RESET & STRICT FONT ENFORCER ===== */
+/* Forces every single element to use the sleek font, ignoring old defaults */
+html, body, table, td, th, input, select, textarea, button, span, div, label {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif !important;
+}
 
+body {
+    background-color: #f4f7f9;
+}
+
+/* ===== WIDENED STICKY SIDEBAR ===== */
+.sticky-sidebar-container {
+    position: -webkit-sticky; 
+    position: sticky;
+    top: 0;                   
+    height: 100vh;            
+    overflow-y: auto;         
+    width: 310px; /* INCREASED from 260px to give labels breathing room */
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    box-sizing: border-box;
+}
+
+.sticky-sidebar-container::-webkit-scrollbar {
+    width: 6px;
+}
+.sticky-sidebar-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+.sticky-sidebar-container::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
+
+.sidebar-content-padding {
+    padding: 15px;
+    padding-bottom: 60px; 
+}
+
+/* Cards */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px 12px;
+    margin-bottom: 15px;
+}
+
+/* Tables */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 12px; 
+}
+
+/* WIDENED LABELS TO PREVENT WRAPPING */
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 11.5px; 
+    color: #4e5e71;
+    font-weight: 600;
+    width: 110px; /* INCREASED width */
+    white-space: nowrap; /* FORCES text to stay on one line */
+    line-height: 1.2;
+}
+
+/* ===== UNIFORM INPUTS & PINK-COLOR KILLER ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;
+    padding: 2px 8px;
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff !important; /* Forces pure white, kills pink */
+    box-shadow: none !important; /* Kills browser validation pink shadows */
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+/* Fixes browser autofill yellow/pink colors */
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.release-filter-table input[type="checkbox"] {
+    width: auto;
+    height: auto;
+    margin: 0;
+    vertical-align: middle;
+}
+
+/* Readonly fields get a subtle grey, not pink */
+input[readonly], select[readonly],
+input:disabled, select:disabled,
+.release-filter-table input[readonly] {
+    background-color: #f8fafc !important; 
+    color: #555;
+    cursor: default;
+}
+
+/* ===== DOUBLE-CLICK SEARCH INFRASTRUCTURE ===== */
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.search-input-wrapper input[type="text"] {
+    width: 100%;
+    padding-right: 26px; 
+    cursor: pointer;
+}
+
+.search-icon {
+    position: absolute;
+    right: 6px;
+    width: 12px;
+    height: 12px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    pointer-events: none; 
+    opacity: 0.8;
+}
+
+/* Sleek, Native SVG Clear Button (Replaces the pink PNG) */
+.btn-clear-inline {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 2px 2px 2px 6px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-clear-inline svg {
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+.btn-clear-inline:hover svg {
+    opacity: 1;
+    stroke: #dc2626; /* Turns red only on hover */
+}
+
+/* jqx date/time containers */
+.release-filter-table div[id^="todate"],
+.release-filter-table div[id^="adate"],
+.release-filter-table div[id^="atime"] {
+    width: 100%;
+}
+
+/* ===== BUTTONS ===== */
+.btn-submit {
+    width: 100%;
+    height: 30px;
+    padding: 0 12px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    line-height: 30px;
+}
+
+.btn-submit:hover {
+    background: #1d4ed8;
+}
+
+.btn-secondary {
+    background: #4b5563;
+}
+.btn-secondary:hover {
+    background: #374151;
+}
+
+.release-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+</style>
 <script type="text/javascript">
 
 $(document).ready(function () {
@@ -452,163 +644,168 @@ function save(){
 	}
 </script>
 </head>
-<body onload="getBranch();" >
+<body onload="getBranch();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
 
-<table width="100%" height="100%" >
+<table width="100%" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20%" style=" vertical-align: top;">
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
- <tr><td colspan="2"></td></tr>
-	  <tr><td width="27%"  align="right" ><label class="branch">Upto Date</label></td><td width="73%" align="left"><div id='todate' name='todate' value='<s:property value="todate"/>'></div>
-                    </td></tr>
-                    
-  
-	    <tr>
-	      <td align="right"><label class="branch">Client</label></td>
-	      <td ><input style="height:19px;" type="text" name="txtclient" id="txtclient" value='<s:property value="txtclient"/>' onKeyDown="getclinfo(event);" readonly placeholder="Press F3 to Search">
-      <input type="hidden" id="clientid" name="clientid" value='<s:property value="clientid"/>'>
-      <button type="button" class="bicon" id="clear" title="clear" onclick="funClear()"> 
-							<img alt="clear" src="<%=contextPath%>/icons/clear.png">
-						</button></td>
-	      </tr>
-	     
-	       <tr>
-	      <td align="right"><label class="branch"> Area</label></td>
-	      <td ><input style="height:19px;" type="text" name="txtassignarea" id="txtassignarea" value='<s:property value="txtassignarea"/>' onKeyDown="getareas(event);" readonly placeholder="Press F3 to Search">
-	      <input type="hidden" id="txtareaid" name="txtareaid" value='<s:property value="txtareaid"/>'>
-	      </td></tr>
-	   <tr><td colspan="2"></td></tr>
-	 <tr><td colspan="4"><hr  size=1 color="black"  width="100%"></td></tr>  
-	  <tr><td colspan="2"></td></tr>
-	    
-	<tr>
-	<td colspan="2" align="center">
-	<fieldset style="height:12px;">
-	<label id="test"   class="branch" style="font-family: comic sans ms;font-weight: bold;color:blue;height:10px;"></label>
-	</fieldset>
-	</td></tr>
-	 <tr><td colspan="2"></td></tr> 
-	 <tr><td align="right"><label class="branch">Process</label></td>
-	  <td align="left"><select id="cmbprocess" style="width:60%;" onchange="funCmbChange();"  value='<s:property value="cmbprocess"/>'>
-	 <option value="">--Select--</option>
-	  <option value="SUR">Surveyed</option>
-	  <option value="ASN">Assign</option>
-	  
-	  </select></td></tr>
-	 <tr><td colspan="2"></td></tr> 
-	</table>
-	
-<fieldset id="assignfield">
-	<table>
-	       <tr><td colspan="2"></td></tr> 
-	     
-	<tr>
-	      <td align="right"><label class="branch">Assign Group</label></td>
-	      <td ><input style="height:19px;" type="text" name="txtgroup" id="txtgroup" value='<s:property value="txtgroup"/>' onKeyDown="getgrpcode(event);" readonly placeholder="Press F3 to Search">
-      <input type="hidden" id="groupid" name="groupid" value='<s:property value="groupid"/>'></td>
-	      </tr>
-	      
-	 <tr>
-	      <td align="right"><label class="branch">Group Member</label></td>
-	      <td ><input style="height:19px;" type="text" name="txtgrpmember" id="txtgrpmember" value='<s:property value="txtgrpmember"/>' onKeyDown="getteam(event);" readonly placeholder="Press F3 to Search">
-      <input type="hidden" id="grpmemberid" name="grpmemberid" value='<s:property value="grpmemberid"/>'>
-      <input type="hidden" id="grpempid" name="grpempid" value='<s:property value="grpempid"/>'>
-      </td>
-	      </tr>  
-	      
-	       <tr>
-	      <td align="right"><label class="branch">Assign Method</label></td>
-	      <td ><input style="height:19px;" type="text" name="txtassign" id="txtassign" value='<s:property value="txtassign"/>' onKeyDown="getassign(event);" readonly placeholder="Press F3 to Search">
-     
-      
-      </td>
-	      </tr>  
-	       <tr>
-	      <td align="right"><label class="branch">Planned Date</label></td>
-	      <td ><div id='adate' name='adate' value='<s:property value="adate"/>'></div> 
-      	  </td>
-	      </tr>  
-	      
-	      
-	       <tr>
-	      <td align="right"><label class="branch">Planned Time</label></td>
-	      <td ><div id='atime' name='atime' value='<s:property value="atime"/>'></div>
-	     <%--  <input style="height:19px;" type="text" name="txtptime" id="txtptime" value='<s:property value="txtptime"/>'  readonly > --%>
-         </td>
-	      </tr>
-	     
-	      
-	      <tr>
-	      <td align="right"><label class="branch">Description</label></td>
-	      <td ><input style="height:19px;" type="text" name="txtdesc" id="txtdesc" value='<s:property value="txtdesc"/>'>
-         </td>
-	      </tr> 
-	      
-	       <tr>
-	      <td></td>
-	      </tr>
-	      </table>
-	      </fieldset>
-	      <table width="100%" ><tr>
-	      <tr><td colspan="2">&nbsp;</td></tr>
-	     <tr><td align="center"><input type="button" name="btnsave" class="myButton"
-						value="Save" style="width: 80px;" onclick="save();" />
-	      </td>
-	      <td align="left"><input type="button" name="btnprint" class="myButton"
-						value="Print" style="width: 80px;" onclick="funPrint();" />
-	      </td>
-	      </tr>   
-	       <tr><td colspan="2"></td></tr>
-	        <tr><td colspan="2">&nbsp;</td></tr>
-	        <tr><td colspan="2">&nbsp;</td></tr> 
-	          
-	 <tr>
-	      
-	      <td >
-      <input type="hidden" id="assignid" name="assignid" value='<s:property value="assignid"/>'>
-      <input type="hidden" id="trno" name="trno" value='<s:property value="trno"/>'>
-      <input type="hidden" id="brhid1" name="brhid1" value='<s:property value="brhid1"/>'>
-      <input type="hidden" id="dtype" name="dtype" value='<s:property value="dtype"/>'>
-     <input type="hidden" id="schtrno" name="schtrno" value='<s:property value="schtrno"/>'>
-      <input type="hidden" id="rowindex" name="rowindex" value='<s:property value="rowindex"/>'>
-      
-      </td>
-	      </tr>  
-	     
-	</table>
-	</fieldset>
+
+<td width="310" style="width: 310px; min-width: 310px; vertical-align: top; padding: 0;">
+    
+    <div class="sticky-sidebar-container">
+        <div class="sidebar-content-padding">
+            
+            <div class="filter-card">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+
+            <div class="filter-card">
+                <table class="release-filter-table">
+
+                    <tr>
+                        <td class="label-cell">Upto Date</td>
+                        <td><div id='todate' name='todate' value='<s:property value="todate"/>'></div></td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">Client</td>
+                        <td>
+                            <div style="display: flex; width: 100%; align-items: center; gap: 4px;">
+                                <div class="search-input-wrapper" style="flex: 1;">
+                                    <input type="text" name="txtclient" id="txtclient" value='<s:property value="txtclient"/>' readonly="readonly" placeholder="Double click to search" onKeyDown="getclinfo(event);" ondblclick="getclinfo(event);" />
+                                    <div class="search-icon"></div>
+                                </div>
+                                <button type="button" class="btn-clear-inline" id="clear" title="Clear" onclick="funClear()"> 
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                </button>
+                            </div>
+                            <input type="hidden" id="clientid" name="clientid" value='<s:property value="clientid"/>'>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">Area</td>
+                        <td>
+                            <div class="search-input-wrapper">
+                                <input type="text" name="txtassignarea" id="txtassignarea" value='<s:property value="txtassignarea"/>' readonly="readonly" placeholder="Double click to search" onKeyDown="getareas(event);" ondblclick="getareas(event);" />
+                                <div class="search-icon"></div>
+                            </div>
+                            <input type="hidden" id="txtareaid" name="txtareaid" value='<s:property value="txtareaid"/>'>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" align="center">
+                            <label id="test" class="branch" style="font-weight: bold; color: #2563eb; font-size: 11px; display: block; min-height: 14px; margin: 4px 0;"></label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">Process</td>
+                        <td>
+                            <select id="cmbprocess" name="cmbprocess" onchange="funCmbChange();" value='<s:property value="cmbprocess"/>'>
+                                <option value="">--Select--</option>
+                                <option value="SUR">Surveyed</option>
+                                <option value="ASN">Assign</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div id="assignfield" class="filter-card">
+                <table class="release-filter-table">
+
+                    <tr>
+                        <td class="label-cell">Assign Group</td>
+                        <td>
+                            <div class="search-input-wrapper">
+                                <input type="text" name="txtgroup" id="txtgroup" value='<s:property value="txtgroup"/>' readonly="readonly" placeholder="Double click to search" onKeyDown="getgrpcode(event);" ondblclick="getgrpcode(event);" />
+                                <div class="search-icon"></div>
+                            </div>
+                            <input type="hidden" id="groupid" name="groupid" value='<s:property value="groupid"/>'>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">Group Member</td>
+                        <td>
+                            <div class="search-input-wrapper">
+                                <input type="text" name="txtgrpmember" id="txtgrpmember" value='<s:property value="txtgrpmember"/>' readonly="readonly" placeholder="Double click to search" onKeyDown="getteam(event);" ondblclick="getteam(event);" />
+                                <div class="search-icon"></div>
+                            </div>
+                            <input type="hidden" id="grpmemberid" name="grpmemberid" value='<s:property value="grpmemberid"/>'>
+                            <input type="hidden" id="grpempid" name="grpempid" value='<s:property value="grpempid"/>'>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">Assign Method</td>
+                        <td>
+                            <div class="search-input-wrapper">
+                                <input type="text" name="txtassign" id="txtassign" value='<s:property value="txtassign"/>' readonly="readonly" placeholder="Double click to search" onKeyDown="getassign(event);" ondblclick="getassign(event);" />
+                                <div class="search-icon"></div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">Planned Date</td>
+                        <td><div id='adate' name='adate' value='<s:property value="adate"/>'></div></td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">Planned Time</td>
+                        <td><div id='atime' name='atime' value='<s:property value="atime"/>'></div></td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">Description</td>
+                        <td><input type="text" name="txtdesc" id="txtdesc" value='<s:property value="txtdesc"/>'></td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="release-actions">
+                <button type="button" name="btnsave" class="btn-submit" onclick="save();">Save</button>
+                <button type="button" name="btnprint" class="btn-submit btn-secondary" onclick="funPrint();">Print</button>
+            </div>
+
+            <input type="hidden" id="assignid" name="assignid" value='<s:property value="assignid"/>'>
+            <input type="hidden" id="trno" name="trno" value='<s:property value="trno"/>'>
+            <input type="hidden" id="brhid1" name="brhid1" value='<s:property value="brhid1"/>'>
+            <input type="hidden" id="dtype" name="dtype" value='<s:property value="dtype"/>'>
+            <input type="hidden" id="schtrno" name="schtrno" value='<s:property value="schtrno"/>'>
+            <input type="hidden" id="rowindex" name="rowindex" value='<s:property value="rowindex"/>'>
+
+        </div>
+    </div>
 
 </td>
-<td width="80" style=" vertical-align: top;">
-	<table width="100%">
-		<tr><td><div id="enqschedulediv"><jsp:include page="enqScheduleDetails.jsp"></jsp:include></div><br/></td></tr>
-		<tr><td><div id="sitediv"><jsp:include page="siteGrid.jsp"></jsp:include></div></td></tr>
-		
-	</table>
-	</td>
+
+<td style="vertical-align: top; padding: 15px; background: #fff;">
+    <table width="100%">
+        <tr>
+            <td><div id="enqschedulediv"><jsp:include page="enqScheduleDetails.jsp"></jsp:include></div><br/></td>
+        </tr>
+        <tr>
+            <td><div id="sitediv"><jsp:include page="siteGrid.jsp"></jsp:include></div></td>
+        </tr>
+    </table>
+</td>
+
 </tr>
 </table>
-</div>
-<div id="clientsearch1">
-   <div ></div>
-</div> 
-<div id="grpinfowindow">
-   <div ></div>
-</div>
-<div id="teaminfowindow">
-   <div ></div>
-</div>
-<div id="assigninfowindow">
-   <div ></div>
-</div>
 
-   <div id="areainfowindow">
-   <div ></div>
+<div id="clientsearch1"><div></div></div> 
+<div id="grpinfowindow"><div></div></div>
+<div id="teaminfowindow"><div></div></div>
+<div id="assigninfowindow"><div></div></div>
+<div id="areainfowindow"><div></div></div>
+
 </div>
 </div>
 </body>

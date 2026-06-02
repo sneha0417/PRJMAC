@@ -56,7 +56,103 @@
 }
 
 </style>
+<style>
+/* ===== GLOBAL RESET & STRICT FONT ENFORCER ===== */
+html, body, table, td, th, input, select, textarea, button, span, div, label {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif !important;
+}
 
+body {
+    background-color: #f4f7f9;
+}
+
+/* ===== THE NUCLEAR FIX: FIXED SIDEBAR ===== */
+/* Detaches the sidebar from the table and locks it strictly to the viewport */
+.fixed-sidebar-container {
+    position: fixed; 
+    top: 0;                   
+    bottom: 0; /* Locks to the exact bottom of the browser */
+    left: 0;
+    width: 310px; 
+    overflow-y: auto; /* Guarantees a scrollbar */
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 9999; 
+}
+
+.fixed-sidebar-container::-webkit-scrollbar {
+    width: 6px;
+}
+.fixed-sidebar-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+.fixed-sidebar-container::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
+
+.sidebar-content-padding {
+    padding: 15px;
+    padding-bottom: 100px; /* Massive padding guarantees scrolling past the bottom */
+}
+
+/* Cards */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px 12px;
+    margin-bottom: 15px;
+}
+
+/* Tables */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 12px; 
+}
+
+/* WIDENED LABELS */
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 11.5px; 
+    color: #4e5e71;
+    font-weight: 600;
+    width: 110px; 
+    white-space: nowrap; 
+    line-height: 1.2;
+}
+
+/* ===== UNIFORM INPUTS ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;
+    padding: 2px 8px;
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff !important; 
+    box-shadow: none !important; 
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/* jqx date/time containers */
+.release-filter-table div[id^="fromdate"],
+.release-filter-table div[id^="todate"] {
+    width: 100%;
+}
+</style>
 <script type="text/javascript">
 
 $(document).ready(function () {
@@ -152,50 +248,60 @@ function funreload(event)
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
 
-<table width="100%" >
+<table width="100%" cellspacing="0" cellpadding="0">
 <tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	  <tr><td  align="right" ><label class="branch">From</label></td><td align="left"><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div>
-                    </td></tr>
-                    
-                    
-                     <tr><td  align="right" ><label class="branch">To</label></td><td align="left"><div id='todate' name='todate' value='<s:property value="todate"/>'></div>
-                    </td></tr>
-   <tr><td colspan="2">&nbsp;</td></tr> 
-	 	
-	 	<tr><td colspan="2">&nbsp;</td></tr> 
-	 	
-	  <tr>
-	<td colspan="2" ><div id="Countgrid"><jsp:include page="Countgrid.jsp"></jsp:include>
-	</div></td>
-	</tr> 
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	
-		
-	</table>
-	</fieldset>
-   <input type="hidden" id="acno" name="acno" value='<s:property value="acno"/>'>
+
+<td width="310" style="width: 310px; min-width: 310px; padding: 0;">
+    
+    <div class="fixed-sidebar-container">
+        <div class="sidebar-content-padding">
+            
+            <div class="filter-card">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">From</td>
+                        <td><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">To</td>
+                        <td><div id='todate' name='todate' value='<s:property value="todate"/>'></div></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="filter-card" style="padding: 10px;">
+                <div id="Countgrid">
+                    <jsp:include page="Countgrid.jsp"></jsp:include>
+                </div>
+            </div>
+
+            <input type="hidden" id="acno" name="acno" value='<s:property value="acno"/>'>
+
+        </div>
+    </div>
+
 </td>
-<td width="80%">
-	<table width="100%">
-		<tr><div id="loadgriddata">
-				<jsp:include page="gridDetails.jsp"></jsp:include> 
-			</div></tr>
-		
-	</table>
-	</td>
+
+<td style="vertical-align: top; padding: 15px; background: #fff;">
+    <table width="100%">
+        <tr>
+            <td>
+                <div id="loadgriddata">
+                    <jsp:include page="gridDetails.jsp"></jsp:include> 
+                </div>
+            </td>
+        </tr>
+    </table>
+</td>
+
 </tr>
 </table>
 
 </div>
- 
 </div>
 </body>
 </html>

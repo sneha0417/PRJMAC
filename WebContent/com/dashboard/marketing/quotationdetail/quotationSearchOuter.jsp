@@ -50,54 +50,210 @@
 	
 
 	</script>
-<body bgcolor="#E0ECF8">
-<div id=search>
-<table width="100%"  >
-  <tr>
-   <td>                         
-   <table >
-   <tr>
-   <td align="right"><label style="font:10px Tahoma;">Docno</label></td>
-    <td align="left" width="2%"><input type="text" name="msdocno" id="msdocno" style="height:20px;"  value='<s:property value="msdocno"/>'></td>
-    <td align="right" ><label style="font:10px Tahoma;">Client</label></td>
-    <td align="left" width="45%" ><input type="text" name="Cl_names" id="Cl_names"  style="width:96.5%;height:20px;" value='<s:property value="Cl_names"/>'></td>
-    <td align="right" ><label style="font:10px Tahoma;">Ref.Type</label></td>
-      <td align="left" width="28%"><select id="sereftype" name="sereftype"  style="width:100%;"  value='<s:property value="sereftype"/>'>
-      <option value=""></option>
-      <option value="DIR">DIR</option>
-      <option value="ENQ">ENQ</option>
-      </select></td>
-      </tr>
-        <tr>
-        <td width="15%"><label style="font:10px Tahoma;">Contract Type</label></td>
-    <td align="left" width="5%"><select id="cntrtype" name="cntrtype"  style="width:100%;"  value='<s:property value="cntrtype"/>'>
-    <option value=""></option>
-      <option value="AMC">AMC</option>
-      <option value="SJOB">SJOB</option>
-      </select></td>
-   <%--  <td width="10%" align="right">
-    <label style="font:10px Tahoma;">Date</label></td><td width="4%"><div id="surdate" name="surdate"  value='<s:property value="surdate"/>'></div></td> --%>
-   <td>&nbsp;</td>
-   
-   <td><input type="button" name="qotbtnrasearch" id="qotbtnrasearch" class="myButton" value="Search"  onclick="qotloadSearch1()"></td>
-    </tr>
-    
-         
-    </table>
-    </td>
-</tr>
+<style>
+/* =========================================================
+   MASTER SEARCH UI - PURE WHITE PANEL
+========================================================= */
 
-  <tr>
-    <td colspan="8" align="right">
-    
-    <div id="refreshdivmas">
-      
-   <jsp:include  page="subMastersearch.jsp"></jsp:include> 
-   
-   </div>
-    </td>
-  </tr>
-</table>
-  </div>
+body, html{
+    margin:0;
+    padding:0;
+    background:#ffffff !important;
+    font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
+}
+
+.modern-ui{
+    padding:10px;
+    font-size:12px;
+    color:#333;
+    background:#ffffff;
+}
+
+/* Search Panel */
+
+.modern-ui .search-panel{
+    background:#ffffff;
+    border:1px solid #d6d6d6;
+    border-radius:4px;
+    padding:12px;
+    margin-bottom:12px;
+}
+
+/* Table */
+
+.modern-ui table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.modern-ui td{
+    padding:6px;
+    vertical-align:middle;
+}
+
+/* Labels */
+
+.modern-ui .lbl-right{
+    text-align:right;
+    white-space:nowrap;
+    font-size:12px;
+    font-weight:500;
+    padding-right:8px;
+    color:#333;
+}
+
+/* Inputs */
+
+.modern-ui input[type=text]{
+    width:100%;
+    height:26px !important;
+    border:1px solid #cfcfcf;
+    border-radius:3px;
+    padding:2px 6px;
+    font-size:12px;
+    box-sizing:border-box;
+    background:#fff;
+}
+
+.modern-ui input[type=text]:focus{
+    border-color:#2563eb;
+    outline:none;
+}
+
+/* Search Button */
+
+.modern-ui .search-btn{
+    width:110px;
+    height:30px;
+    background:#205fd3 !important;
+    background-image:none !important;
+    color:#ffffff !important;
+    border:none !important;
+    border-radius:4px;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.modern-ui .search-btn:hover{
+    background:#184fb4 !important;
+}
+
+/* Grid */
+
+.modern-ui .grid-container{
+    background:#ffffff;
+    border:1px solid #cccccc;
+    border-radius:4px;
+    overflow:hidden;
+    min-height:250px;
+}
+</style>
+
+<body>
+
+<div id="search" class="modern-ui">
+
+    <!-- Search Panel -->
+    <div class="search-panel">
+
+        <table>
+
+            <colgroup>
+                <col width="12%">
+                <col width="28%">
+                <col width="12%">
+                <col width="28%">
+                <col width="20%">
+            </colgroup>
+
+            <!-- Row 1 -->
+
+            <tr>
+
+                <td class="lbl-right">
+                    Product
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="txtproductsname"
+                           id="txtproductsname"
+                           value='<s:property value="txtproductsname"/>'>
+                </td>
+
+                <td class="lbl-right">
+                    Brand
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="txtbrandsname"
+                           id="txtbrandsname"
+                           value='<s:property value="txtbrandsname"/>'>
+
+                    <input type="hidden" name="txtcldocnos" id="txtcldocnos" value='<s:property value="txtcldocnos"/>'>
+                    <input type="hidden" name="txtestdates" id="txtestdates" value='<s:property value="txtestdates"/>'>
+                    <input type="hidden" name="txtgridqotservicetypeids" id="txtgridqotservicetypeids" value='<s:property value="txtgridqotservicetypeids"/>'>
+                    <input type="hidden" name="txtgridqotscopeids" id="txtgridqotscopeids" value='<s:property value="txtgridqotscopeids"/>'>
+                </td>
+
+                <td align="left">
+                    <input type="button"
+                           name="btnsearch"
+                           id="btnsearch"
+                           value="Search"
+                           class="search-btn"
+                           onclick="loadSearch();">
+                </td>
+
+            </tr>
+
+            <!-- Row 2 -->
+
+            <tr>
+
+                <td class="lbl-right">
+                    Product Name
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="txtgridprdname"
+                           id="txtgridprdname"
+                           value='<s:property value="txtgridprdname"/>'>
+                </td>
+
+                <td class="lbl-right">
+                    Unit
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="txtgridunit"
+                           id="txtgridunit"
+                           value='<s:property value="txtgridunit"/>'>
+                </td>
+
+                <td></td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- Grid -->
+
+    <div class="grid-container">
+
+        <div id="refreshProductDivqot">
+            <jsp:include page="productSearchqot.jsp"></jsp:include>
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>
