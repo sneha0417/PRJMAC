@@ -1,8 +1,8 @@
 <jsp:include page="../../../../includes.jsp"></jsp:include>    
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<% String contextPath=request.getContextPath();%>
 <!DOCTYPE html>
 <html>
-<% String contextPath=request.getContextPath();%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta charset="UTF-8">
@@ -12,10 +12,156 @@
 <script type="text/javascript" src="<%=contextPath%>/js/ajaxfileupload.js"></script>
 <script type="text/javascript" src="<%=contextPath%>/js/resample.js"></script>
 
+<style type="text/css">
+/* ===== MASTER LAYOUT ===== */
+body, html, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Prevents whole-page scrolling, delegates to specific panes */
+}
+
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background-color: #f4f7f9;
+}
+
+/* Sidebar (LEFT SIDE ONLY) */
+.sidebar-filters {
+    width: 350px;
+    flex: 0 0 350px;
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto; /* Independent Sidebar Scrollbar */
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 2;
+}
+
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    padding: 15px 20px 25px;
+}
+
+/* Cards */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Tables */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 90px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;             
+    padding: 2px 8px;         
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;       
+    font-size: 12px;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+}
+
+/* Readonly / disabled look - NO BAN ICON */
+input[readonly],
+input:disabled,
+select:disabled {
+    background-color: #f3f6f9 !important;
+    color: #555;
+    cursor: default !important;
+}
+
+/* Range input layout for Ageing Levels */
+.range-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.range-group input[type="text"] {
+    width: 45%;
+    text-align: center;
+}
+
+/* jqx date/time containers */
+.release-filter-table div[id^="uptodate"] {
+    width: 100%;
+}
+
+/* ===== BLUE BUTTONS ===== */
+.btn-submit {
+    flex: 1;
+    height: 30px;
+    background: #007bff; /* Primary Blue */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    width: 100%;
+    text-align: center;
+}
+.btn-submit:hover:not(:disabled) { background: #0056b3; }
+.btn-submit:disabled { background: #9ca3af; cursor: default !important; }
+.btn-submit:active:not(:disabled) { transform: scale(0.98); }
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Main Content Area (RIGHT SIDE) */
+.main-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto; /* Independent Main Content Scrollbar */
+    background: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.grid-container {
+    margin-bottom: 20px;
+}
+</style>
+
 <script type="text/javascript">
 
 	$(document).ready(function () {
-		 $("#uptodate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
+         // Standardized to 100% width and 24px height
+		 $("#uptodate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
 		 
 		 $('#accountDetailsWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Accounts Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
 		 $('#accountDetailsWindow').jqxWindow('close');
@@ -25,9 +171,9 @@
 		 
 		  $('#txtaccid').dblclick(function(){
 		      if($('#cmbtype').val()==''){
-    			 $.messager.alert('Message','Please Choose Account Type.','warning');
-    			 return 0;
-    		  }
+   			 $.messager.alert('Message','Please Choose Account Type.','warning');
+   			 return 0;
+   		  }
 			  accountsSearchContent('accountsDetailsSearch.jsp');
 		  });
 		 
@@ -178,10 +324,10 @@
         var x= event.keyCode;
         if(x==114){
 		  if($('#cmbtype').val()==''){
-    			 $.messager.alert('Message','Please Choose Account Type.','warning');
-    			 return 0;
-    	  }
-      	  accountsSearchContent('accountsDetailsSearch.jsp');
+   			 $.messager.alert('Message','Please Choose Account Type.','warning');
+   			 return 0;
+   	  }
+       	  accountsSearchContent('accountsDetailsSearch.jsp');
         }
         else{
          }
@@ -204,29 +350,23 @@
 			 return 0;
 		 }
 		
-  	if ($("#txtacountno").val()!="") {
+ 	if ($("#txtacountno").val()!="") {
 		 
 			var url=document.URL;
 	       // var reurl=url.split("currentAgeing.jsp");
 	        var reurl=url.split("com/");
 	        $("#txtacountno").prop("disabled", false);
-	        //alert("url"+url);
 	        
 	        var x=new XMLHttpRequest();
 	        x.onreadystatechange=function(){
 	        if (x.readyState==4 && x.status==200)
 	            {
-	        		//alert("hiiii");
 	                var item=x.responseText;
 	                var value=item.split("::")[0];
 	                var pathname=item.split("::")[1];
-	               /*  alert("value=="+value);
-	                alert("path=="+pathname); */
 	                if(value=='1')
 	                {
-	                	
 					   	var win= window.open(reurl[0]+"com/dashboard/accounts/currentageingstatementmonthly/printCurrentAgeingOutstandingsStatementMonthly?atype="+document.getElementById("cmbtype").value+'&acno='+document.getElementById("txtacountno").value+'&level1from='+level1from+'&level1to='+level1to+'&level2from='+level2from+'&level2to='+level2to+'&level3from='+level3from+'&level3to='+level3to+'&level4from='+level4from+'&level4to='+level4to+'&level5from='+level5from+'&branch='+document.getElementById("cmbbranch").value+'&uptoDate='+$("#uptodate").val()+'&pathname='+pathname+'&email=Nil&print=1',"_blank","top=150,left=250,Width=1020,Height=500,location=no,scrollbars=no,toolbar=yes");
-					   	
 					   	win.focus();
 	                }
 	                else
@@ -238,10 +378,6 @@
 	        }
 	        x.open("GET","currentAgeingMonthPrintQuery.jsp",true);
 	    	x.send();
-	        
-	        
-			/* var win= window.open(reurl[0]+"printCurrentOutstandingStatement?atype="+document.getElementById("cmbtype").value+'&acno='+document.getElementById("txtacountno").value+'&level1from='+level1from+'&level1to='+level1to+'&level2from='+level2from+'&level2to='+level2to+'&level3from='+level3from+'&level3to='+level3to+'&level4from='+level4from+'&level4to='+level4to+'&level5from='+level5from+'&branch='+document.getElementById("cmbbranch").value+'&uptoDate='+$("#uptodate").val()+'&email=Nil&print=1',"_blank","top=150,left=250,Width=1020,Height=500,location=no,scrollbars=no,toolbar=yes");
-	        win.focus(); */
 	     }
 	    else {
 			$.messager.alert('Message','Account is Mandatory.','warning');
@@ -328,10 +464,10 @@
 	    	             if(status=='success'){
 							$("#overlay, #PleaseWait").hide();
 							$.messager.alert('Message','E-Mail Send Successfully');
-	    	              }
+	    	             }
 	    	             if(status=='error'){
-	    	            	 $("#overlay, #PleaseWait").hide();
-	    	            	 $.messager.alert('Message','E-Mail Sending failed');
+	    	             	 $("#overlay, #PleaseWait").hide();
+	    	             	 $.messager.alert('Message','E-Mail Sending failed');
 	    	             }
 	    	             
 	    	              $("#testImg").attr("src",data.message);
@@ -356,7 +492,7 @@
 		  } 
 	    $('#uptodate').jqxDateTimeInput({disabled: true});
       }
-	    
+	   
 	function clearAccountInfo(){
 		$('#txtdocno').val('');$('#txtaccid').val('');$('#txtaccname').val('');
 	} 
@@ -439,7 +575,7 @@
 	    	 var win= window.open(reurl[0]+"printCurrentAgeing?branchval="+branchval+'&uptodate='+uptodate+'&atype='+atype+'&accdocno='+accdocno+'&salesperson='+salesperson+'&category='+category+'&level1from='+level1from+'&level1to='+level1to+'&level2from='+level2from+'&level2to='+level2to
 					 +'&level3from='+level3from+'&level3to='+level3to+'&level4from='+level4from+'&level4to='+level4to+'&level5from='+level5from+'&check=1',"_blank","top=250,left=310,Width=800,Height=800,location=no,scrollbars=no,toolbar=yes");    
 	    	 win.focus();
-	    	 
+	    	
 	}
 	
 </script>
@@ -447,71 +583,149 @@
 <body onload="getBranch();getSalesPerson();getCategory();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	 <tr>
-	 <td align="right"><label class="branch">Up To</label></td>
-     <td align="left"><div id="uptodate" name="uptodate" value='<s:property value="uptodate"/>'></div></td></tr> 
-	<tr><td align="right"><label class="branch">Type</label></td>
-	<td align="left"><select id="cmbtype" name="cmbtype" style="width:40%;" onchange="clearAccountInfo();getCategory();" value='<s:property value="cmbtype"/>'>
-    <option value="" >--Select--</option><option value="AR" selected>AR</option><option value="AP">AP</option></select></td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td align="right"><label class="branch">Account</label></td>
-	<td align="left"><input type="text" id="txtaccid" name="txtaccid" style="width:60%;height:20px;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtaccid"/>' onkeydown="getAccType(event);"/></td></tr> 
-	<tr><td>&nbsp;</td>
-	<td><input type="text" id="txtaccname" name="txtaccname" style="width:100%;height:20px;" readonly="readonly" value='<s:property value="txtaccname"/>' tabindex="-1"/>
-    <input type="hidden" id="txtdocno" name="txtdocno" value='<s:property value="txtdocno"/>'/>
-    <input type="hidden" id="txtaccemail" name="txtaccemail" value='<s:property value="txtaccemail"/>'/></td></tr> 
-	<tr><td align="right"><label class="branch">Sales Person</label></td>
-	<td><select id="cmbsalesperson" name="cmbsalesperson" style="width:100%;" value='<s:property value="cmbsalesperson"/>'>
-      <option value="">--Select--</option></select>
-      <input type="hidden" id="hidcmbsalesperson" name="hidcmbsalesperson" value='<s:property value="hidcmbsalesperson"/>'/></td></tr>
-	<tr><td align="right"><label class="branch">Category</label></td>
-	<td><select id="cmbcategory" name="cmbcategory" style="width:100%;" value='<s:property value="cmbcategory"/>'>
-      <option value="">--Select--</option></select>
-      <input type="hidden" id="hidcmbcategory" name="hidcmbcategory" value='<s:property value="hidcmbcategory"/>'/></td></tr>
-	<tr><td align="right"><label class="branch">Level 1</label></td>
-	<td align="left"><input type="text" id="txtlevel1from" name="txtlevel1from" style="width:20%;height:20px;text-align: center;" readonly="readonly" value='0'/>&nbsp;-&nbsp;
-	<input type="text" id="txtlevel1to" name="txtlevel1to" style="width:20%;height:20px;text-align: center;" onblur="changelevel1();" value='30'/></td></tr>
-	<tr><td align="right"><label class="branch">Level 2</label></td>
-	<td align="left"><input type="text" id="txtlevel2from" name="txtlevel2from" style="width:20%;height:20px;text-align: center;" readonly="readonly" value='31'/>&nbsp;-&nbsp;
-	<input type="text" id="txtlevel2to" name="txtlevel2to" style="width:20%;height:20px;text-align: center;" onblur="changelevel2();" value='60'/></td></tr>
-	<tr><td align="right"><label class="branch">Level 3</label></td>
-	<td align="left"><input type="text" id="txtlevel3from" name="txtlevel3from" style="width:20%;height:20px;text-align: center;" readonly="readonly" value='61'/>&nbsp;-&nbsp;
-	<input type="text" id="txtlevel3to" name="txtlevel3to" style="width:20%;height:20px;text-align: center;" onblur="changelevel3();" value='90'/></td></tr>
-	<tr><td align="right"><label class="branch">Level 4</label></td>
-	<td align="left"><input type="text" id="txtlevel4from" name="txtlevel4from" style="width:20%;height:20px;text-align: center;" readonly="readonly" value='91'/>&nbsp;-&nbsp;
-	<input type="text" id="txtlevel4to" name="txtlevel4to" style="width:20%;height:20px;text-align: center;" onblur="changelevel4();" value='120'/></td></tr>
-	<tr><td align="right"><label class="branch">Level 5</label></td>
-	<td align="left"><input type="text" id="txtlevel5from" name="txtlevel5from" style="width:20%;height:20px;text-align: center;" value='121'/>&nbsp;>=</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2"><center><button class="myButton" type="button" id="btnprint" name="btnprint" onclick="funPrint();">Print</button></center></td></tr>
-	<tr><td colspan="2"><center><button class="myButton" type="button" id="btnIndividual" name="btnIndividual" onclick="funOutStandingStatement();">Outstanding Statement</button></center></td></tr>
-	<tr><td colspan="2"><input type="hidden" id="txtacountno" name="txtacountno" style="width:100%;height:20px;" value='<s:property value="txtacountno"/>'/>
-	<input type="hidden" id="txtbranch" name="txtbranch" style="width:100%;height:20px;" value='<s:property value="txtbranch"/>'/></td></tr>
-	</table>
-	</fieldset>
-</td>
-<td width="80%">
-	<table width="100%">
-		<tr>
-			 <td><div id="currentAgeingDiv"><jsp:include page="currentAgeingGrid.jsp"></jsp:include></div></td>
-		</tr>
-	</table>
-</tr>
-</table>
+
+<div class="master-container">
+    
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px;">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+        </div>
+
+        <div class="sidebar-scroll-content">
+            
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">Up To</td>
+                        <td><div id="uptodate" name="uptodate" value='<s:property value="uptodate"/>'></div></td>
+                    </tr> 
+                    <tr>
+                        <td class="label-cell">Type</td>
+                        <td>
+                            <select id="cmbtype" name="cmbtype" onchange="clearAccountInfo();getCategory();" value='<s:property value="cmbtype"/>'>
+                                <option value="">--Select--</option>
+                                <option value="AR" selected>AR</option>
+                                <option value="AP">AP</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Account</td>
+                        <td>
+                            <input type="text" id="txtaccid" name="txtaccid" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtaccid"/>' onkeydown="getAccType(event);"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell"></td>
+                        <td>
+                            <input type="text" id="txtaccname" name="txtaccname" readonly="readonly" value='<s:property value="txtaccname"/>' tabindex="-1"/>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td class="label-cell">Sales Person</td>
+                        <td>
+                            <select id="cmbsalesperson" name="cmbsalesperson" value='<s:property value="cmbsalesperson"/>'>
+                                <option value="">--Select--</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Category</td>
+                        <td>
+                            <select id="cmbcategory" name="cmbcategory" value='<s:property value="cmbcategory"/>'>
+                                <option value="">--Select--</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="filter-card">
+                <div style="font-size: 13px; font-weight: bold; color: #333; margin-bottom: 10px;">Ageing Levels</div>
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">Level 1</td>
+                        <td>
+                            <div class="range-group">
+                                <input type="text" id="txtlevel1from" name="txtlevel1from" readonly="readonly" value='0'/>
+                                <span>-</span>
+                                <input type="text" id="txtlevel1to" name="txtlevel1to" onblur="changelevel1();" value='30'/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Level 2</td>
+                        <td>
+                            <div class="range-group">
+                                <input type="text" id="txtlevel2from" name="txtlevel2from" readonly="readonly" value='31'/>
+                                <span>-</span>
+                                <input type="text" id="txtlevel2to" name="txtlevel2to" onblur="changelevel2();" value='60'/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Level 3</td>
+                        <td>
+                            <div class="range-group">
+                                <input type="text" id="txtlevel3from" name="txtlevel3from" readonly="readonly" value='61'/>
+                                <span>-</span>
+                                <input type="text" id="txtlevel3to" name="txtlevel3to" onblur="changelevel3();" value='90'/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Level 4</td>
+                        <td>
+                            <div class="range-group">
+                                <input type="text" id="txtlevel4from" name="txtlevel4from" readonly="readonly" value='91'/>
+                                <span>-</span>
+                                <input type="text" id="txtlevel4to" name="txtlevel4to" onblur="changelevel4();" value='120'/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Level 5</td>
+                        <td>
+                            <div class="range-group" style="justify-content: flex-start;">
+                                <input type="text" id="txtlevel5from" name="txtlevel5from" value='121'/>
+                                <span style="font-weight: bold;">&nbsp;&gt;=</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                
+                <div class="button-group">
+                    <button type="button" class="btn-submit" id="btnprint" name="btnprint" onclick="funPrint();">Print</button>
+                    <button type="button" class="btn-submit" id="btnIndividual" name="btnIndividual" onclick="funOutStandingStatement();">Outstanding Statement</button>
+                </div>
+            </div>
+
+            <div style="display: none;">
+                <input type="hidden" id="txtdocno" name="txtdocno" value='<s:property value="txtdocno"/>'/>
+                <input type="hidden" id="txtaccemail" name="txtaccemail" value='<s:property value="txtaccemail"/>'/>
+                <input type="hidden" id="hidcmbsalesperson" name="hidcmbsalesperson" value='<s:property value="hidcmbsalesperson"/>'/>
+                <input type="hidden" id="hidcmbcategory" name="hidcmbcategory" value='<s:property value="hidcmbcategory"/>'/>
+                <input type="hidden" id="txtacountno" name="txtacountno" value='<s:property value="txtacountno"/>'/>
+                <input type="hidden" id="txtbranch" name="txtbranch" value='<s:property value="txtbranch"/>'/>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="main-content-area">
+        <div class="grid-container">
+            <div id="currentAgeingDiv"><jsp:include page="currentAgeingGrid.jsp"></jsp:include></div>
+        </div>
+    </div>
 
 </div>
 
 <div id="accountDetailsWindow">
 	<div></div><div></div>
 </div>
+
 </div> 
 </body>
 </html>
