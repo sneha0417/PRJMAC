@@ -471,87 +471,368 @@ x.open("GET","savedata.jsp?doc_name="+doc_name+"&desc="+desc+"&note="+note+"&exp
 x.send();
 }
 </script>
+<style>
+/* ===== GLOBAL RESET ===== */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents the whole page from double-scrolling */
+    background-color: #f4f7f9;
+    font-family: Tahoma, Arial, sans-serif; /* Safe native fonts */
+}
+
+#mainBG, .hidden-scrollbar {
+    height: 100%;
+}
+
+table, td, th, input, select, textarea, button, span, div, label, p {
+    font-family: inherit; /* Allows your app's native fonts to cascade properly */
+}
+
+/* ===== THE FIXED SIDEBAR ===== */
+.fixed-sidebar-container {
+    position: fixed; 
+    top: 0;                   
+    bottom: 0; 
+    left: 0;
+    width: 310px; 
+    overflow-y: auto; 
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 10; /* POPUP FIX: Search windows will float over this */
+}
+
+.fixed-sidebar-container::-webkit-scrollbar {
+    width: 6px;
+}
+.fixed-sidebar-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+.fixed-sidebar-container::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
+
+.sidebar-content-padding {
+    padding: 15px;
+    padding-bottom: 100px; 
+}
+
+/* ===== INDEPENDENT SCROLLABLE RIGHT COLUMN ===== */
+.scrollable-column {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+}
+.scrollable-column::-webkit-scrollbar {
+    width: 8px;
+}
+.scrollable-column::-webkit-scrollbar-track {
+    background: #f0f4f8;
+}
+.scrollable-column::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
+
+/* ===== CARDS & HEADERS ===== */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px 12px;
+    margin-bottom: 15px;
+}
+
+.card-header {
+    font-size: 13px; 
+    font-weight: 700; 
+    color: #334155; 
+    margin-bottom: 15px; 
+    border-bottom: 1px solid #e3e8ee;
+    padding-bottom: 6px;
+}
+
+/* ===== TABLES & ROW SPACING ===== */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0; 
+}
+
+/* Forces a tighter, balanced vertical gap between rows */
+.release-filter-table td {
+    padding-bottom: 8px !important; 
+    vertical-align: middle;
+}
+
+/* Removes the padding from the very last row */
+.release-filter-table tr:last-child td {
+    padding-bottom: 0 !important;
+}
+
+/* WIDENED LABELS */
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px; 
+    color: #4e5e71;
+    font-weight: 600;
+    width: 95px; 
+    white-space: nowrap; 
+    line-height: 1.2;
+}
+
+/* ===== UNIFORM INPUTS & SPACIOUS HEIGHT ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 28px; /* SPACIOUS FIX: 28px height */
+    padding: 2px 8px;
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff !important; 
+    box-shadow: none !important; 
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/* ===== STRICT DISABLED & READONLY STYLING ===== */
+input[readonly], select[readonly], textarea[readonly],
+input:disabled, select:disabled, textarea:disabled,
+input[disabled="true"], select[disabled="true"], textarea[disabled="true"] {
+    background-color: #e2e8f0 !important; /* Deeper, obvious grey */
+    color: #64748b !important; /* Faded text */
+    cursor: not-allowed !important; /* Locked hover icon */
+    border-color: #cbd5e1 !important;
+    opacity: 1 !important; 
+}
+
+/* Radio Button Layout */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+.radio-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+.radio-row label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #4e5e71;
+    cursor: pointer;
+}
+.radio-row input[type="radio"] {
+    margin: 0;
+    cursor: pointer;
+}
+
+/* jqx date containers */
+.release-filter-table div[id^="uptodate"],
+.release-filter-table div[id^="exp"],
+.release-filter-table div[id^="date"] {
+    width: 100%;
+}
+
+/* ===== BUTTONS ===== */
+.btn-submit {
+    width: 100%;
+    height: 30px;
+    padding: 0 12px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    line-height: 30px;
+}
+.btn-submit:hover {
+    background: #1d4ed8;
+}
+.btn-danger {
+    background: #dc2626;
+}
+.btn-danger:hover {
+    background: #b91c1c;
+}
+.release-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 15px;
+}
+.release-actions .btn-submit {
+    flex: 1;
+}
+</style>
 </head>
 <body onload="setval()">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%"  >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%" >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		 <%-- <tr><td  align="right" width="25%" ><label class="branch">From</label></td><td align="left"><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div></td></tr> --%>
-         <%-- <tr><td  align="right" ><label class="branch">To</label></td><td align="left"><div id='todate' name='todate' value='<s:property value="todate"/>'></div> </td></tr> --%>
-         <tr><td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="chk"  checked="checked" id="chknew" value="out" onchange="funchkval()"><label class="branch">New Document</label>&nbsp;&nbsp;&nbsp;
-         											  <input type="radio" name="chk" id="chkexpd" value="in" onchange="funchkval()"><label class="branch">Expired Docment</label></td></tr>
-	<tr><td  align="right" width="25%" id='uptodatelbl' ><label class="branch">Upto.Date</label></td><td align="left"><div id='uptodate' name='uptodate' value='<s:property value="uptodate"/>'></div></td></tr>
-	  </table> 
-	  <div style="display: table; height: 170px; width:100%; overflow: hidden; ">
-  		 <div style="display: table-cell; vertical-align: middle;">
-	  <div id="divprocess" >
-	  <fieldset id="fieldnewdocmnt" >
-	  <legend>New Document</legend>
-	  <table width="100%">
-      <tr><td align="right"><label class="branch">Document name </label></td><td align="left"><input type="text" id="txtdocname" style="height:20px;width:99%;" name="txtdocname"  value='<s:property value="txtdocname"/>'> </td></tr>
-      <tr><td align="right"><label class="branch">Description </label></td><td align="left"><input type="text" id="txtdesc" style="height:20px;width:99%;" name="txtdesc"  value='<s:property value="txtdesc"/>'> </td></tr>
-      <tr><td  align="right" width="25%" ><label class="branch">Issue Date</label></td><td align="left"><div id='expfromdate' name='expfromdate' value='<s:property value="expfromdate"/>'></div></td></tr>
-      <tr><td  align="right" ><label class="branch">Exp.Date</label></td><td align="left"><div id='exptodate' name='exptodate' value='<s:property value="exptodate"/>'></div></td></tr>
-      <tr><td align="right"><label class="branch">Notes</label></td><td align="left"><input type="text" id="txtnote" style="height:20px;width:99%;" name="txtnote"  value='<s:property value="txtnote"/>'> </td></tr>
-	  <tr><td colspan="2"></td></tr> 
-	<tr><td  align="center" colspan="2"><input type="Button" name="save" id="save" class="myButton" value="save" onclick="funsave()"></td> </tr>
- </table>
-</fieldset>
-	  <fieldset id="fieldupdatedocmnt" >
-	  <legend>Update Document</legend>
-	  <table width="100%">
-      <tr><td align="right"><label class="branch">Document name </label></td><td align="left"><input type="text" id="txtdocnameupd" style="height:20px;width:99%;" name="txtdocnameupd"  value='<s:property value="txtdocnameupd"/>'> </td></tr>
-      <tr><td align="right"><label class="branch">Description </label></td><td align="left"><input type="text" id="txtdescupd" style="height:20px;width:99%;" name="txtdescupd"  value='<s:property value="txtdescupd"/>'> </td></tr>
-       <tr><td align="right"><label class="branch">Notes</label></td><td align="left"><input type="text" id="txtnoteupd" style="height:20px;width:99%;" name="txtnoteupd"  value='<s:property value="txtnoteupd"/>'> </td></tr>
-      <tr><td  align="right" width="25%" ><label class="branch">Issue Date</label></td><td align="left"><div id='expupdatefromdate' name='expupdatefromdate' value='<s:property value="expupdatefromdate"/>'></div></td></tr>
-      <tr><td  align="right" ><label class="branch">Exp.Date</label></td><td align="left"><div id='expupdatetodate' name='expupdatetodate' value='<s:property value="expupdatetodate"/>'></div></td></tr>
-     
-	  <tr><td colspan="2"></td></tr> 
-	<tr><td align="left" ><input type="Button" name="dataupdate" id="dataupdate" class="myButton" value="Update" onclick="funupdatedata()"></td> 
-	<td align="right" ><input type="Button" name="datadelete" id="datadelete" class="myButton" value="Delete" onclick="fundeletedata()"></td> </tr>
- </table>
-</fieldset>
-	  <fieldset id="fieldexpdocmnt">
-	  <legend>Extend Exp.Date</legend>
-	  <table width="100%" > 
-	      <tr><td  align="right" ><label class="branch">Extend To</label></td><td align="left"><div id='date' name='date' value='<s:property value="date"/>'></div></td></tr>
- 		  <tr><td  align="center" colspan="2"><input type="Button" name="update" id="update" class="myButton" value="Update Exp.Date" onclick="funupdate()"></td> </tr> 
-           <tr><td>&nbsp;</td></tr>
-	 <tr><td>&nbsp;</td></tr>
-	 <tr><td>&nbsp;</td></tr>
-	 <tr><td>&nbsp;</td></tr>
-	  <tr><td>&nbsp;</td></tr>
-	 <tr><td>&nbsp;</td></tr>
-	 <tr><td>&nbsp;</td></tr>
-	 <tr><td>&nbsp;</td></tr>
-	 <tr><td>&nbsp;</td></tr>
-	 <tr><td>&nbsp;</td></tr>
-	 <tr><td>&nbsp;</td></tr>
-	 <tr><td>&nbsp;</td></tr>
- </table>
-</fieldset>
-</div>
 
-</div>
-</div>
-<input type="hidden" name="hidocno" id="hidocno" style="height:20px;width:70%;" value='<s:property value="hidocno"/>' >
-<input type="hidden" name="chkvalue" id="chkvalue" style="height:20px;width:70%;" value='<s:property value="chkvalue"/>' >
-	</fieldset>
+<table width="100%" cellspacing="0" cellpadding="0" style="height: 100%;">
+<tr>
+
+<!-- Sidebar Cell -->
+<td width="310" style="width: 310px; min-width: 310px; padding: 0;">
+    
+    <!-- THE FIXED SIDEBAR -->
+    <div class="fixed-sidebar-container">
+        <div class="sidebar-content-padding">
+            
+            <div class="filter-card">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+
+            <!-- Main Filter/Mode Card -->
+            <div class="filter-card">
+                <div class="radio-group">
+                    <div class="radio-row">
+                        <input type="radio" name="chk" checked="checked" id="chknew" value="out" onchange="funchkval()">
+                        <label for="chknew">New Document</label>
+                    </div>
+                    <div class="radio-row">
+                        <input type="radio" name="chk" id="chkexpd" value="in" onchange="funchkval()">
+                        <label for="chkexpd">Expired Document</label>
+                    </div>
+                </div>
+
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell" id="uptodatelbl">Upto Date</td>
+                        <td><div id='uptodate' name='uptodate' value='<s:property value="uptodate"/>'></div></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Dynamic UI Sections Wrapper (Maintained original wrapper ID for safety) -->
+            <div id="divprocess">
+
+                <!-- New Document Section -->
+                <div class="filter-card" id="fieldnewdocmnt">
+                    <div class="card-header">New Document</div>
+                    <table class="release-filter-table">
+                        <tr>
+                            <td class="label-cell">Document Name</td>
+                            <td><input type="text" id="txtdocname" name="txtdocname" value='<s:property value="txtdocname"/>'></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Description</td>
+                            <td><input type="text" id="txtdesc" name="txtdesc" value='<s:property value="txtdesc"/>'></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Issue Date</td>
+                            <td><div id='expfromdate' name='expfromdate' value='<s:property value="expfromdate"/>'></div></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Exp. Date</td>
+                            <td><div id='exptodate' name='exptodate' value='<s:property value="exptodate"/>'></div></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Notes</td>
+                            <td><input type="text" id="txtnote" name="txtnote" value='<s:property value="txtnote"/>'></td>
+                        </tr>
+                    </table>
+                    <div class="release-actions">
+                        <button type="button" name="save" id="save" class="btn-submit" onclick="funsave()">Save</button>
+                    </div>
+                </div>
+
+                <!-- Update Document Section -->
+                <div class="filter-card" id="fieldupdatedocmnt">
+                    <div class="card-header">Update Document</div>
+                    <table class="release-filter-table">
+                        <tr>
+                            <td class="label-cell">Document Name</td>
+                            <td><input type="text" id="txtdocnameupd" name="txtdocnameupd" value='<s:property value="txtdocnameupd"/>'></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Description</td>
+                            <td><input type="text" id="txtdescupd" name="txtdescupd" value='<s:property value="txtdescupd"/>'></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Notes</td>
+                            <td><input type="text" id="txtnoteupd" name="txtnoteupd" value='<s:property value="txtnoteupd"/>'></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Issue Date</td>
+                            <td><div id='expupdatefromdate' name='expupdatefromdate' value='<s:property value="expupdatefromdate"/>'></div></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Exp. Date</td>
+                            <td><div id='expupdatetodate' name='expupdatetodate' value='<s:property value="expupdatetodate"/>'></div></td>
+                        </tr>
+                    </table>
+                    <div class="release-actions">
+                        <button type="button" name="dataupdate" id="dataupdate" class="btn-submit" onclick="funupdatedata()">Update</button>
+                        <button type="button" name="datadelete" id="datadelete" class="btn-submit btn-danger" onclick="fundeletedata()">Delete</button>
+                    </div>
+                </div>
+
+                <!-- Extend Expiry Section -->
+                <div class="filter-card" id="fieldexpdocmnt">
+                    <div class="card-header">Extend Exp. Date</div>
+                    <table class="release-filter-table">
+                        <tr>
+                            <td class="label-cell">Extend To</td>
+                            <td><div id='date' name='date' value='<s:property value="date"/>'></div></td>
+                        </tr>
+                    </table>
+                    <div class="release-actions">
+                        <button type="button" name="update" id="update" class="btn-submit" onclick="funupdate()">Update Exp. Date</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Hidden Properties -->
+            <input type="hidden" name="hidocno" id="hidocno" value='<s:property value="hidocno"/>'>
+            <input type="hidden" name="chkvalue" id="chkvalue" value='<s:property value="chkvalue"/>'>
+
+        </div>
+    </div>
 
 </td>
-<td width="80%">
-	<table width="100%">
-		<tr>
-			 <td><div id="docmntControlReg"><jsp:include page="docmntControlRegGrid.jsp"></jsp:include></div></td>
-		</tr>
-	</table>
-</tr>
 
+<!-- Main Grid Cell (Content Area) -->
+<td style="height: 100%; vertical-align: top; position: relative; padding: 0; background: #fff;">
+    <!-- Independent Right Side Scroller -->
+    <div class="scrollable-column">
+        <div style="padding: 15px;">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <div id="docmntControlReg">
+                            <jsp:include page="docmntControlRegGrid.jsp"></jsp:include>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</td>
+
+</tr>
 </table>
 
 </div>
