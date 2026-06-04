@@ -191,15 +191,35 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-/* ===== STRICT DISABLED & READONLY STYLING ===== */
-input[readonly], select[readonly], textarea[readonly],
+/* ===== STRICT DISABLED & READONLY STYLING (THE REAL FIX) ===== */
+
+/* 1. Catch only the truly locked fields, explicitly ignoring any "false" tags */
 input:disabled, select:disabled, textarea:disabled,
-input[disabled="true"], select[disabled="true"], textarea[disabled="true"] {
-    background-color: #e2e8f0 !important; /* Deeper, obvious grey */
-    color: #64748b !important; /* Faded text */
-    cursor: not-allowed !important; /* Locked hover icon */
+input[readonly]:not([readonly="false"]), 
+select[readonly]:not([readonly="false"]), 
+textarea[readonly]:not([readonly="false"]) {
+    background-color: #e2e8f0 !important; 
+    color: #64748b !important; 
+    cursor: not-allowed !important; 
     border-color: #cbd5e1 !important;
-    opacity: 1 !important; 
+    opacity: 1 !important;
+}
+
+/* 2. Actively PROTECT the enabled fields to override any framework ghost attributes */
+input:not(:disabled):not([readonly]), 
+input[readonly="false"], input[disabled="false"],
+select:not(:disabled):not([readonly]), 
+select[readonly="false"], select[disabled="false"],
+textarea:not(:disabled):not([readonly]),
+textarea[readonly="false"], textarea[disabled="false"] {
+    cursor: auto !important; /* Forces the normal text/pointer cursor */
+    background-color: #ffffff !important; /* Forces it back to white */
+}
+
+/* Ensure search inputs specifically keep their pointer cursor if enabled */
+.search-input-wrapper input[type="text"]:not(:disabled):not([readonly]),
+.search-input-wrapper input[type="text"][readonly="false"] {
+    cursor: pointer !important; 
 }
 
 /* ===== SEARCH INFRASTRUCTURE (No Clear Button) ===== */
