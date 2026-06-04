@@ -1,5 +1,6 @@
 <jsp:include page="../../../../includes.jsp"></jsp:include>    
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<% String contextPath=request.getContextPath();%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,66 +11,187 @@
 <link href="../../../../css/dashboard.css" media="screen" rel="stylesheet" type="text/css" />  
 
 <style type="text/css">
-.myButtons {
-	-moz-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	-webkit-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	
-	font-size:8pt;
-	
-	padding:3px 17px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
-}
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
-}
-.myButtons:active {
-	position:relative;
-	top:1px;
+/* ===== MASTER LAYOUT ===== */
+body, html, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Prevents whole-page scrolling, delegates to specific panes */
 }
 
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background-color: #f4f7f9;
+}
+
+/* Sidebar (LEFT SIDE ONLY) */
+.sidebar-filters {
+    width: 350px;
+    flex: 0 0 350px;
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto; /* Independent Sidebar Scrollbar */
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 2;
+}
+
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    padding: 15px 20px 25px;
+}
+
+/* Cards */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Tables */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 80px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;             
+    padding: 2px 8px;         
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;       
+    font-size: 12px;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+}
+
+/* Readonly / disabled look - NO BAN ICON */
+input[readonly],
+input:disabled,
+select:disabled {
+    background-color: #f3f6f9 !important;
+    color: #555;
+    cursor: default !important;
+}
+
+/* Custom Textbox for Totals */
 .textbox {
     border: 0;
-    height: 25px;
-    width: 20%;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+    height: 24px;
+    width: 100%;
+    border-radius: 4px;
     box-shadow: 1px 1px 0 0 #E0ECF8, 5px 5px 40px 2px #E0ECF8 inset;
-    -moz-box-shadow: 1px 1px 0 0 #E0ECF8, 5px 5px 40px 2px #E0ECF8 inset;
-    -webkit-box-shadow: 1px 1px 0 0 #E0ECF8, 5px 5px 40px 2px #E0ECF8 inset;
-    -webkit-background-clip: padding-box;
     outline: 0;
+    text-align: right;
+    padding-right: 8px;
+    font-size: 13px;
+    font-weight: bold;
 }
 
+/* jqx date/time containers */
+.release-filter-table div[id^="fromdate"],
+.release-filter-table div[id^="todate"],
+.release-filter-table div[id^="date"] {
+    width: 100%;
+}
+
+/* ===== BLUE BUTTONS ===== */
+.btn-submit {
+    flex: 1;
+    height: 30px;
+    background: #007bff; /* Primary Blue */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    width: 100%;
+    text-align: center;
+}
+.btn-submit:hover:not(:disabled) { background: #0056b3; }
+.btn-submit:disabled { background: #9ca3af; cursor: default !important; opacity: 0.7; }
+.btn-submit:active:not(:disabled) { transform: scale(0.98); }
+
+.btn-secondary {
+    background: #6c757d;
+}
+.btn-secondary:hover:not(:disabled) { background: #5a6268; }
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+/* Main Content Area (RIGHT SIDE) */
+.main-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto; /* Independent Main Content Scrollbar */
+    background: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-container {
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.totals-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    align-items: center;
+    margin-top: auto; /* Pushes to bottom if content is short */
+    padding-top: 15px;
+    border-top: 1px solid #e1e8ed;
+}
+
+.totals-footer .total-label {
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+}
 </style>
 
 <script type="text/javascript">
 
 	$(document).ready(function () {
-		 $("#fromdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-		 $("#todate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-		 $("#date").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy", enableBrowserBoundsDetection: true});
+         // Standardized to 100% width and 24px height
+		 $("#fromdate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+		 $("#todate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+		 $("#date").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy", enableBrowserBoundsDetection: true});
 		 
 		 $('#accountDetailsWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Accounts Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
 		 $('#accountDetailsWindow').jqxWindow('close');
@@ -83,7 +205,7 @@
 	     var curfromdate= $('#fromdate').jqxDateTimeInput('getDate');
 	     var oneyeardate=new Date(new Date(curfromdate).setMonth(curfromdate.getMonth()-1));
 	     var oneyearbackdate=new Date(new Date(oneyeardate).setDate(oneyeardate.getDate()));
-	     $('#fromdate ').jqxDateTimeInput('setDate', new Date(oneyearbackdate));
+	     $('#fromdate').jqxDateTimeInput('setDate', new Date(oneyearbackdate));
 	     
 		 $('#txtaccid').dblclick(function(){
 			  accountsSearchContent('accountsDetailsSearch.jsp');
@@ -752,7 +874,7 @@
     	 var curfromdate= $('#fromdate').jqxDateTimeInput('getDate');
 	     var oneyeardate=new Date(new Date(curfromdate).setMonth(curfromdate.getMonth()-1));
 	     var oneyearbackdate=new Date(new Date(oneyeardate).setDate(oneyeardate.getDate()));
-	     $('#fromdate ').jqxDateTimeInput('setDate', new Date(oneyearbackdate));
+	     $('#fromdate').jqxDateTimeInput('setDate', new Date(oneyearbackdate));
 	     
 		 $('#todate').val(new Date());
 		 $('#date').val(new Date());
@@ -1073,115 +1195,180 @@
 <form id="frmDashboardPosting" action="saveDashboardPosting" method="post">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td align="right"><label class="branch">Period</label></td>
-    <td align="left"><div id="fromdate" name="fromdate" onchange="fromdatechange();" value='<s:property value="fromdate"/>'></div>
-    <input type="hidden" id="hidfromdate" name="hidfromdate" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="hidfromdate"/>'/></td></tr> 
-    <tr><td align="right"><label class="branch">To</label></td>
-    <td align="left"><div id="todate" name="todate" onchange="todatechange();" value='<s:property value="todate"/>'></div>
-    <input type="hidden" id="hidtodate" name="hidtodate" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="hidtodate"/>'/></td></tr> 
-     <tr><td align="right"><label class="branch">Post Br.</label></td>
-     <td align="left"><input type="text" id="txtibbranch" name="txtibbranch" style="width:60%;height:20px;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtibbranch"/>' onkeydown="getIbBranch(event);"/>
-     <input type="hidden" id="txtibbranchid" name="txtibbranchid" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtibbranchid"/>'/>
-	 <input type="checkbox" id="chckibbranch" name="chckibbranch" value="" onchange="ibbranchcheck();" onclick="$(this).attr('value', this.checked ? 1 : 0)" /> 
-      <input type="hidden" id="hidchckibbranch" name="hidchckibbranch" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="hidchckibbranch"/>'/></td></tr>
-	<tr><td align="right"><label class="branch">Type</label></td>
-	<td align="left"><select id="cmbtype" name="cmbtype" style="width:50%;" onchange="funGridType();clearAccountInfo();getCommissionAccounts(this.value,$('#todate').val());getAccounts(this.value,$('#todate').val());getTaxAccounts(this.value,$('#date').val());" value='<s:property value="cmbtype"/>'>
-    <option value="">--Select--</option><option value="1">Cash</option>
-    <option value="2">Card</option>
-    <option value="3">Cheque/Online</option>
-	<option value="4">Paid to Card</option></select>
-    <input type="hidden" id="hidcmbtype" name="hidcmbtype" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="hidcmbtype"/>'/></td></tr>
-    <tr><td align="right"><label class="branch">Account</label></td>
-	<td align="left"><input type="text" id="txttypeaccid" name="txttypeaccid" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttypeaccid"/>' tabindex="-1"/></td></tr> 
-	<tr><td>&nbsp;</td>
-	<td><input type="text" id="txttypeaccname" name="txttypeaccname" style="width:100%;height:20px;" readonly="readonly" value='<s:property value="txttypeaccname"/>' tabindex="-1"/>
-    <input type="hidden" id="txttypedocno" name="txttypedocno" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttypedocno"/>'/>
-    <input type="hidden" id="txttypeatype" name="txttypeatype" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttypeatype"/>'/>
-    <input type="hidden" id="txttypecurid" name="txttypecurid" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttypecurid"/>'/>
-    <input type="hidden" id="txttyperate" name="txttyperate" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttyperate"/>'/>
-    <input type="hidden" id="txttypetype" name="txttypetype" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttypetype"/>'/></td></tr>
-    <tr><td colspan="2"><fieldset><legend><b><label class="branch">Card Commission</label></b></legend>
-	<table width="100%">
-    <tr><td colspan="2"><div id="commissionDiv"><jsp:include page="cardCommDetailsGrid.jsp"></jsp:include></div></td></tr>
-    </table></fieldset>
-	</td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td align="right"><label class="branch">Bank</label></td>
-	<td align="left"><input type="text" id="txtaccid" name="txtaccid" style="width:60%;height:20px;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtaccid"/>' onkeydown="getAccType(event);"/></td></tr> 
-	<tr><td>&nbsp;</td>
-	<td><input type="text" id="txtaccname" name="txtaccname" style="width:100%;height:20px;" readonly="readonly" value='<s:property value="txtaccname"/>' tabindex="-1"/>
-    <input type="hidden" id="txtdocno" name="txtdocno" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtdocno"/>'/>
-    <input type="hidden" id="txtatype" name="txtatype" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtatype"/>'/>
-    <input type="hidden" id="txtcurid" name="txtcurid" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtcurid"/>'/>
-    <input type="hidden" id="txtrate" name="txtrate" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtrate"/>'/>
-    <input type="hidden" id="txtcurtype" name="txtcurtype" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtcurtype"/>'/></td></tr> 
-    <tr><td align="right"><label class="branch">Posting</label></td>
-    <td align="left"><div id="date" name="date" onchange="datechange();" value='<s:property value="date"/>'></div>
-    <input type="hidden" id="hiddate" name="hiddate" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="hiddate"/>'/></td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2" align="center"><input type="button" class="myButtons" name="clear" id="clear"  value="Clear" onclick="funClearInfo();">
-    <button class="myButton" type="button" id="btnGenerate" name="btnGenerate" onclick="funNotify();">Post</button></td></tr>
-	<tr><td colspan="2"><input type="hidden" id="txtcommdocno" name="txtcommdocno" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtcommdocno"/>'/>
-	<input type="hidden" id="txtcommaccid" name="txtcommaccid" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtcommaccid"/>'/>
-	<input type="hidden" id="txtcommaccname" name="txtcommaccname" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtcommaccname"/>'/>
-    <input type="hidden" id="txtcommatype" name="txtcommatype" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtcommatype"/>'/>
-    <input type="hidden" id="txtcommcurid" name="txtcommcurid" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtcommcurid"/>'/>
-    <input type="hidden" id="txtcommrate" name="txtcommrate" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtcommrate"/>'/>
-    <input type="hidden" id="txtcommtype" name="txtcommtype" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtcommtype"/>'/>
-	<input type="hidden" id="txtcommcosttype" name="txtcommcosttype" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtcommcosttype"/>'/>
-    <input type="hidden" id="txtcommcostcode" name="txtcommcostcode" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtcommcostcode"/>'/>
-    <input type="hidden" id="txttaxaccdocno" name="txttaxaccdocno" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttaxaccdocno"/>'/>
-	<input type="hidden" id="txttaxaccid" name="txttaxaccid" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttaxaccid"/>'/>
-	<input type="hidden" id="txttaxaccname" name="txttaxaccname" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttaxaccname"/>'/>
-    <input type="hidden" id="txttaxaccatype" name="txttaxaccatype" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttaxaccatype"/>'/>
-    <input type="hidden" id="txttaxacccurid" name="txttaxacccurid" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttaxacccurid"/>'/>
-    <input type="hidden" id="txttaxaccrate" name="txttaxaccrate" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttaxaccrate"/>'/>
-    <input type="hidden" id="txttaxacccurtype" name="txttaxacccurtype" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttaxacccurtype"/>'/>
-	<input type="hidden" id="txttaxacccosttype" name="txttaxacccosttype" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttaxacccosttype"/>'/>
-    <input type="hidden" id="txttaxacccostcode" name="txttaxacccostcode" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttaxacccostcode"/>'/>
-    <input type="hidden" id="txttaxpercentage" name="txttaxpercentage" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txttaxpercentage"/>'/>
-    <input type="hidden" id="txtchequedescription" name="txtchequedescription" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="txtchequedescription"/>'/>
-    <input type="hidden" id="gridlength" name="gridlength" style="width:100%;height:20px;"/>
-    <input type="hidden" id="jvgridlength" name="jvgridlength" style="width:100%;height:20px;"/>
-    <input type="hidden" name="txttrno" id="txttrno" style="width:100%;height:20px;" value='<s:property value="txttrno"/>'>
-	<input type="hidden" name="txtselecteddocs" id="txtselecteddocs" style="width:100%;height:20px;" value='<s:property value="txtselecteddocs"/>'>
-    <input type="hidden" name="txtselectedrno" id="txtselectedrno" style="width:100%;height:20px;" value='<s:property value="txtselectedrno"/>'>
-    <input type="hidden" name="mode" id="mode" style="width:100%;height:20px;" value='<s:property value="mode"/>'>
-	<input type="hidden" name="msg" id="msg" style="width:100%;height:20px;" value='<s:property value="msg"/>'>
-	<input type="hidden" id="txtibvalidation" name="txtibvalidation" style="width:60%;height:20px;" value='<s:property value="txtibvalidation"/>'/>
-	<input type="hidden" name="txtbipostingcardcomm" id="txtbipostingcardcomm" style="width:100%;height:20px;" value='<s:property value="txtbipostingcardcomm"/>'>
-	<input type="hidden" name="txtnontaxableentity" id="txtnontaxableentity" style="width:100%;height:20px;" value='<s:property value="txtnontaxableentity"/>'></td></tr>
-	</table>
-	</fieldset>
-</td>
-<td width="80%">
-	<table width="100%">
-		<tr><td><div id="postingCashDiv"><jsp:include page="postingCashGrid.jsp"></jsp:include></div>
-		<div id="postingCardDiv" hidden="true"><jsp:include page="postingCardGrid.jsp"></jsp:include></div>
-		<div id="postingChequeDiv" hidden="true"><jsp:include page="postingChequeGrid.jsp"></jsp:include></div>
-		<div id="postingRefundDiv" hidden="true"><jsp:include page="postingRefundGrid.jsp"></jsp:include></div><br/></td></tr>
-		<tr><td><div id="JVTDiv"><jsp:include page="journalVoucherGrid.jsp"></jsp:include></div></td></tr>
-		<tr><td>
-		<table width="100%">
-		  <tr>
-		    <td width="7%" align="right" style="font-family: Myriad Pro;font-size: 12px;font-weight: bold;">Dr. Total :&nbsp;</td>
-		    <td width="68%"><input type="text" id="txtdrtotal" name="txtdrtotal" class="textbox" style="width:15%;text-align: right;" readonly="readonly" value='<s:property value="txtdrtotal"/>'/></td>
-		    <td width="6%" align="right" style="font-family: Myriad Pro;font-size: 12px;font-weight: bold;">Cr. Total :&nbsp;</td>
-		    <td width="19%"><input type="text" id="txtcrtotal" name="txtcrtotal" class="textbox" style="width:50%;text-align: right;" readonly="readonly" value='<s:property value="txtcrtotal"/>' tabindex="-1"/></td>
-		  </tr>
-		</table>
-		</td></tr>
-	</table>
-</tr>
-</table>
+
+<div class="master-container">
+    
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px;">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+        </div>
+
+        <div class="sidebar-scroll-content">
+            
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">Period</td>
+                        <td>
+                            <div id="fromdate" name="fromdate" onchange="fromdatechange();" value='<s:property value="fromdate"/>'></div>
+                            <input type="hidden" id="hidfromdate" name="hidfromdate" readonly="readonly" value='<s:property value="hidfromdate"/>'/>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td class="label-cell">To</td>
+                        <td>
+                            <div id="todate" name="todate" onchange="todatechange();" value='<s:property value="todate"/>'></div>
+                            <input type="hidden" id="hidtodate" name="hidtodate" readonly="readonly" value='<s:property value="hidtodate"/>'/>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td class="label-cell">Post Br.</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <input type="checkbox" id="chckibbranch" name="chckibbranch" value="" onchange="ibbranchcheck();" onclick="$(this).attr('value', this.checked ? 1 : 0)" style="width: auto; height: auto;" /> 
+                                <input type="text" id="txtibbranch" name="txtibbranch" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtibbranch"/>' onkeydown="getIbBranch(event);" style="flex: 1;" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Type</td>
+                        <td>
+                            <select id="cmbtype" name="cmbtype" onchange="funGridType();clearAccountInfo();getCommissionAccounts(this.value,$('#todate').val());getAccounts(this.value,$('#todate').val());getTaxAccounts(this.value,$('#date').val());" value='<s:property value="cmbtype"/>'>
+                                <option value="">--Select--</option>
+                                <option value="1">Cash</option>
+                                <option value="2">Card</option>
+                                <option value="3">Cheque/Online</option>
+                                <option value="4">Paid to Card</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Account</td>
+                        <td>
+                            <input type="text" id="txttypeaccid" name="txttypeaccid" readonly="readonly" value='<s:property value="txttypeaccid"/>' tabindex="-1"/>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td class="label-cell"></td>
+                        <td>
+                            <input type="text" id="txttypeaccname" name="txttypeaccname" readonly="readonly" value='<s:property value="txttypeaccname"/>' tabindex="-1"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="filter-card">
+                <div style="font-size: 13px; font-weight: bold; color: #333; margin-bottom: 10px;">Card Commission</div>
+                <div id="commissionDiv"><jsp:include page="cardCommDetailsGrid.jsp"></jsp:include></div>
+            </div>
+
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">Bank</td>
+                        <td>
+                            <input type="text" id="txtaccid" name="txtaccid" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtaccid"/>' onkeydown="getAccType(event);"/>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td class="label-cell"></td>
+                        <td>
+                            <input type="text" id="txtaccname" name="txtaccname" readonly="readonly" value='<s:property value="txtaccname"/>' tabindex="-1"/>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td class="label-cell">Posting</td>
+                        <td>
+                            <div id="date" name="date" onchange="datechange();" value='<s:property value="date"/>'></div>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="button-group">
+                    <div style="display: flex; gap: 10px; width: 100%;">
+                        <button type="button" class="btn-submit btn-secondary" name="clear" id="clear" onclick="funClearInfo();">Clear</button>
+                        <button type="button" class="btn-submit" id="btnGenerate" name="btnGenerate" onclick="funNotify();">Post</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: none;">
+                <input type="hidden" id="hidchckibbranch" name="hidchckibbranch" readonly="readonly" value='<s:property value="hidchckibbranch"/>'/>
+                <input type="hidden" id="txtibbranchid" name="txtibbranchid" readonly="readonly" value='<s:property value="txtibbranchid"/>'/>
+                <input type="hidden" id="hidcmbtype" name="hidcmbtype" readonly="readonly" value='<s:property value="hidcmbtype"/>'/>
+                <input type="hidden" id="txttypedocno" name="txttypedocno" readonly="readonly" value='<s:property value="txttypedocno"/>'/>
+                <input type="hidden" id="txttypeatype" name="txttypeatype" readonly="readonly" value='<s:property value="txttypeatype"/>'/>
+                <input type="hidden" id="txttypecurid" name="txttypecurid" readonly="readonly" value='<s:property value="txttypecurid"/>'/>
+                <input type="hidden" id="txttyperate" name="txttyperate" readonly="readonly" value='<s:property value="txttyperate"/>'/>
+                <input type="hidden" id="txttypetype" name="txttypetype" readonly="readonly" value='<s:property value="txttypetype"/>'/>
+                <input type="hidden" id="txtdocno" name="txtdocno" readonly="readonly" value='<s:property value="txtdocno"/>'/>
+                <input type="hidden" id="txtatype" name="txtatype" readonly="readonly" value='<s:property value="txtatype"/>'/>
+                <input type="hidden" id="txtcurid" name="txtcurid" readonly="readonly" value='<s:property value="txtcurid"/>'/>
+                <input type="hidden" id="txtrate" name="txtrate" readonly="readonly" value='<s:property value="txtrate"/>'/>
+                <input type="hidden" id="txtcurtype" name="txtcurtype" readonly="readonly" value='<s:property value="txtcurtype"/>'/>
+                <input type="hidden" id="hiddate" name="hiddate" readonly="readonly" value='<s:property value="hiddate"/>'/>
+                <input type="hidden" id="txtcommdocno" name="txtcommdocno" readonly="readonly" value='<s:property value="txtcommdocno"/>'/>
+                <input type="hidden" id="txtcommaccid" name="txtcommaccid" readonly="readonly" value='<s:property value="txtcommaccid"/>'/>
+                <input type="hidden" id="txtcommaccname" name="txtcommaccname" readonly="readonly" value='<s:property value="txtcommaccname"/>'/>
+                <input type="hidden" id="txtcommatype" name="txtcommatype" readonly="readonly" value='<s:property value="txtcommatype"/>'/>
+                <input type="hidden" id="txtcommcurid" name="txtcommcurid" readonly="readonly" value='<s:property value="txtcommcurid"/>'/>
+                <input type="hidden" id="txtcommrate" name="txtcommrate" readonly="readonly" value='<s:property value="txtcommrate"/>'/>
+                <input type="hidden" id="txtcommtype" name="txtcommtype" readonly="readonly" value='<s:property value="txtcommtype"/>'/>
+                <input type="hidden" id="txtcommcosttype" name="txtcommcosttype" readonly="readonly" value='<s:property value="txtcommcosttype"/>'/>
+                <input type="hidden" id="txtcommcostcode" name="txtcommcostcode" readonly="readonly" value='<s:property value="txtcommcostcode"/>'/>
+                <input type="hidden" id="txttaxaccdocno" name="txttaxaccdocno" readonly="readonly" value='<s:property value="txttaxaccdocno"/>'/>
+                <input type="hidden" id="txttaxaccid" name="txttaxaccid" readonly="readonly" value='<s:property value="txttaxaccid"/>'/>
+                <input type="hidden" id="txttaxaccname" name="txttaxaccname" readonly="readonly" value='<s:property value="txttaxaccname"/>'/>
+                <input type="hidden" id="txttaxaccatype" name="txttaxaccatype" readonly="readonly" value='<s:property value="txttaxaccatype"/>'/>
+                <input type="hidden" id="txttaxacccurid" name="txttaxacccurid" readonly="readonly" value='<s:property value="txttaxacccurid"/>'/>
+                <input type="hidden" id="txttaxaccrate" name="txttaxaccrate" readonly="readonly" value='<s:property value="txttaxaccrate"/>'/>
+                <input type="hidden" id="txttaxacccurtype" name="txttaxacccurtype" readonly="readonly" value='<s:property value="txttaxacccurtype"/>'/>
+                <input type="hidden" id="txttaxacccosttype" name="txttaxacccosttype" readonly="readonly" value='<s:property value="txttaxacccosttype"/>'/>
+                <input type="hidden" id="txttaxacccostcode" name="txttaxacccostcode" readonly="readonly" value='<s:property value="txttaxacccostcode"/>'/>
+                <input type="hidden" id="txttaxpercentage" name="txttaxpercentage" readonly="readonly" value='<s:property value="txttaxpercentage"/>'/>
+                <input type="hidden" id="txtchequedescription" name="txtchequedescription" readonly="readonly" value='<s:property value="txtchequedescription"/>'/>
+                <input type="hidden" id="gridlength" name="gridlength"/>
+                <input type="hidden" id="jvgridlength" name="jvgridlength"/>
+                <input type="hidden" name="txttrno" id="txttrno" value='<s:property value="txttrno"/>'>
+                <input type="hidden" name="txtselecteddocs" id="txtselecteddocs" value='<s:property value="txtselecteddocs"/>'>
+                <input type="hidden" name="txtselectedrno" id="txtselectedrno" value='<s:property value="txtselectedrno"/>'>
+                <input type="hidden" name="mode" id="mode" value='<s:property value="mode"/>'>
+                <input type="hidden" name="msg" id="msg" value='<s:property value="msg"/>'>
+                <input type="hidden" id="txtibvalidation" name="txtibvalidation" value='<s:property value="txtibvalidation"/>'/>
+                <input type="hidden" name="txtbipostingcardcomm" id="txtbipostingcardcomm" value='<s:property value="txtbipostingcardcomm"/>'>
+                <input type="hidden" name="txtnontaxableentity" id="txtnontaxableentity" value='<s:property value="txtnontaxableentity"/>'>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="main-content-area">
+        
+        <div class="grid-container">
+            <div id="postingCashDiv"><jsp:include page="postingCashGrid.jsp"></jsp:include></div>
+            <div id="postingCardDiv" hidden="true"><jsp:include page="postingCardGrid.jsp"></jsp:include></div>
+            <div id="postingChequeDiv" hidden="true"><jsp:include page="postingChequeGrid.jsp"></jsp:include></div>
+            <div id="postingRefundDiv" hidden="true"><jsp:include page="postingRefundGrid.jsp"></jsp:include></div>
+        </div>
+        
+        <div class="grid-container" style="flex: 1;">
+            <div id="JVTDiv"><jsp:include page="journalVoucherGrid.jsp"></jsp:include></div>
+        </div>
+
+        <div class="totals-footer">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="total-label">Dr. Total:</span>
+                <input type="text" id="txtdrtotal" name="txtdrtotal" class="textbox" style="width: 120px;" readonly="readonly" value='<s:property value="txtdrtotal"/>'/>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="total-label">Cr. Total:</span>
+                <input type="text" id="txtcrtotal" name="txtcrtotal" class="textbox" style="width: 120px;" readonly="readonly" value='<s:property value="txtcrtotal"/>' tabindex="-1"/>
+            </div>
+        </div>
+
+    </div>
 
 </div>
 
@@ -1191,6 +1378,7 @@
 <div id="branchSearchWindow">
 	<div></div><div></div>
 </div>
+
 </div>
 </form> 
 </body>
