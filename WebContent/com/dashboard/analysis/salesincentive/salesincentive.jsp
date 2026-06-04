@@ -63,7 +63,227 @@
 }
 
 </style>
+<style>
+/* ===== GLOBAL RESET ===== */
+html, body {
+    height: 100%; /* Respects the ERP Header */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents the whole page from double-scrolling */
+    background-color: #f4f7f9;
+    font-family: Tahoma, Arial, sans-serif; 
+}
 
+#mainBG, .hidden-scrollbar {
+    height: 100%;
+    position: relative; /* Crucial: Locks the absolute columns inside the window */
+}
+
+table, td, th, input, select, textarea, button, span, div, label, p {
+    font-family: inherit; 
+}
+
+/* ===== THE ABSOLUTE LAYOUT (THE ULTIMATE SCROLL & POPUP FIX) ===== */
+.sidebar-column {
+    position: absolute;
+    top: 0;
+    bottom: 0; /* Pins exactly to the bottom of the available screen */
+    left: 0;
+    width: 310px;
+    overflow-y: auto; /* Independent scrollbar */
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 10; /* FIXED: Low enough to let search popups/calendars float over! */
+}
+
+.sidebar-column::-webkit-scrollbar { width: 6px; }
+.sidebar-column::-webkit-scrollbar-track { background: transparent; }
+.sidebar-column::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+
+.sidebar-content-padding {
+    padding: 15px;
+    padding-bottom: 80px; 
+}
+
+.main-column {
+    position: absolute;
+    top: 0;
+    bottom: 0; 
+    left: 310px; 
+    right: 0;
+    overflow-y: auto; 
+    background: #fff;
+}
+
+.main-column::-webkit-scrollbar { width: 8px; }
+.main-column::-webkit-scrollbar-track { background: #f0f4f8; }
+.main-column::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+
+.main-content-padding {
+    padding: 15px;
+    padding-bottom: 80px; 
+}
+
+/* ===== CARDS & HEADERS ===== */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px 12px;
+    margin-bottom: 15px;
+}
+
+/* ===== TABLES & ROW SPACING ===== */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0; 
+}
+
+.release-filter-table td {
+    padding-bottom: 4px !important; /* Tighter vertical spacing */
+    vertical-align: middle;
+}
+
+.release-filter-table tr:last-child td {
+    padding-bottom: 0 !important;
+}
+
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px; 
+    color: #4e5e71;
+    font-weight: 600;
+    width: 90px; 
+    white-space: nowrap; 
+    line-height: 1.2;
+}
+
+/* ===== RADIO BUTTON STYLING ===== */
+.radio-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 28px;
+}
+.radio-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.radio-item input[type="radio"] {
+    margin: 0;
+    width: auto;
+    height: auto;
+    cursor: pointer;
+}
+.radio-item label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #4e5e71;
+    cursor: pointer;
+}
+
+/* ===== UNIFORM INPUTS ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 28px; 
+    padding: 2px 8px;
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff !important; 
+    box-shadow: none !important; 
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+/* ===== STRICT DISABLED & READONLY STYLING ===== */
+input:disabled, select:disabled, textarea:disabled,
+input[readonly]:not([readonly="false"]), 
+select[readonly]:not([readonly="false"]), 
+textarea[readonly]:not([readonly="false"]) {
+    background-color: #e2e8f0 !important; 
+    color: #64748b !important; 
+    cursor: not-allowed !important; 
+    border-color: #cbd5e1 !important;
+    opacity: 1 !important;
+}
+
+input:not(:disabled):not([readonly]), 
+input[readonly="false"], input[disabled="false"],
+select:not(:disabled):not([readonly]), 
+select[readonly="false"], select[disabled="false"],
+textarea:not(:disabled):not([readonly]),
+textarea[readonly="false"], textarea[disabled="false"] {
+    cursor: auto !important; 
+    background-color: #ffffff !important; 
+}
+
+/* ===== SEARCH INFRASTRUCTURE (WITH LEGACY CLEAR BUTTON) ===== */
+.search-and-clear-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    width: 100%;
+}
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+.search-input-wrapper input[type="text"] {
+    width: 100%;
+    padding-right: 26px; 
+}
+.search-input-wrapper input[type="text"][readonly],
+.search-input-wrapper input[type="text"][readonly="readonly"] {
+    background-color: #ffffff !important; 
+    color: #333 !important;
+    cursor: pointer !important; 
+    border-color: #ccd6e0 !important;
+}
+
+.search-icon {
+    position: absolute;
+    right: 6px;
+    width: 12px;
+    height: 12px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    pointer-events: none; 
+    opacity: 0.8;
+}
+
+/* Legacy Button Styling Override */
+button.bicon {
+    height: 28px;
+    width: 28px;
+    background: #f8fafc;
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    margin: 0;
+}
+button.bicon:hover { background: #e2e8f0; }
+button.bicon img { max-width: 16px; max-height: 16px; }
+
+/* jqx date containers */
+.release-filter-table div[id^="frmdate"],
+.release-filter-table div[id^="todate"] {
+    width: 100%;
+}
+</style>
 <script type="text/javascript">
 
 $(document).ready(function () {
@@ -218,88 +438,109 @@ function funreload()
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
 
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-	<!--  <tr><td colspan="2">&nbsp;</td></tr> -->
-	 <tr><td width="27%"  align="right" ><label class="branch">From Date</label></td><td width="73%" align="left"><div id='frmdate' name='frmdate' value='<s:property value="frmdate"/>'></div>
-                    </td></tr>
-                    
-	  <tr><td width="27%"  align="right" ><label class="branch">To Date</label></td><td width="73%" align="left"><div id='todate' name='todate' value='<s:property value="todate"/>'></div>
-                    </td></tr>
-                    
-  
-	    <tr>
-	      <td align="right"><label class="branch">Client</label></td>
-	      <td ><input style="height:19px;" type="text" name="txtclient" id="txtclient" value='<s:property value="txtclient"/>' onKeyDown="getclinfo(event);" readonly placeholder="Press F3 to Search">
-      <input type="hidden" id="clientid" name="clientid" value='<s:property value="clientid"/>'>
-      <button type="button" class="bicon" id="clear" title="clear" onclick="funClear()"> 
-							<img alt="clear" src="<%=contextPath%>/icons/clear.png">
-						</button></td>
-	      </tr>
-	      <tr>
-	      <td align="right"><label class="branch">Sales Man</label></td>
-	      <td ><input style="height:19px;" type="text" name="txtsalman" id="txtsalman" value='<s:property value="txtsalman"/>' onKeyDown=" getsalesAgent(event);" readonly placeholder="Press F3 to Search">
-      <input type="hidden" id="salid" name="salid" value='<s:property value="salid"/>'>
-      <button type="button" class="bicon" id="clear" title="clear" onclick="funsalClear()"> 
-							<img alt="clear" src="<%=contextPath%>/icons/clear.png">
-						</button></td>
-	      </tr>
-	    <%-- <tr>
-	<td colspan="2" ><div id="serCountgrid"><jsp:include page="serCountgrid.jsp"></jsp:include>
-	</div></td>
-	</tr>  --%>
-	 <tr><td align="right"><label class="branch">Contr.Type</label></td>
-<td ><select id="cmbreftype" name="cmbreftype" style="width:75%;"  value='<s:property value="cmbreftype"/>'>
-      <option value=""></option>
-      <option value="AMC">AMC</option>
-      <option value="SJOB">SJOB</option>
-      </select></td></tr>
- <tr>
-       <td align="right"><input type="radio" id="rpddetail" name="rdo" value="rpddetail"></td>
-       <td align="left"><label for="lbldetail" id="lbldetail" class="branch">Detail</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-       <input type="radio" id="rpdsummary" name="rdo" value="rpdsummary"><label for="lblsummary" id="lblsummary" class="branch">
-       Summary</label>
-       <input type="hidden" id="radval" name="radval" value='<s:property value="radval"/>'></td>
-    </tr>     
-<!-- <tr><td colspan="2">&nbsp;</td></tr> -->
-<tr><td colspan="2">&nbsp;</td></tr>
-<tr><td colspan="2">&nbsp;</td></tr>
-<tr><td colspan="2">&nbsp;</td></tr>
-<tr><td colspan="2">&nbsp;</td></tr>
-<tr><td colspan="2">&nbsp;</td></tr>
-<tr><td colspan="2">&nbsp;</td></tr>
-<tr><td colspan="2">&nbsp;</td></tr>
-<tr><td colspan="2">&nbsp;</td></tr>
-<tr><td colspan="2">&nbsp;</td></tr>
-<tr><td colspan="2">&nbsp;</td></tr>
-<tr><td colspan="2">&nbsp;</td></tr>
-	</table>
-	<!-- </fieldset>
-	<fieldset style="background: #ECF8E0;"> -->
-	</fieldset>
+    <div class="sidebar-column">
+        <div class="sidebar-content-padding">
+            
+            <div class="filter-card">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
 
-</td>
-<td width="40">
-	<table width="100%">
-		<tr><div id="saldiv">
-				<jsp:include page="salesIncentiveDetails.jsp"></jsp:include> 
-			</div></tr>
-	
-	</table>
-</tr>
-</table>
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">From Date</td>
+                        <td><div id='frmdate' name='frmdate' value='<s:property value="frmdate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">To Date</td>
+                        <td><div id='todate' name='todate' value='<s:property value="todate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Client</td>
+                        <td>
+                            <div class="search-and-clear-row">
+                                <div class="search-input-wrapper">
+                                    <input type="text" name="txtclient" id="txtclient" value='<s:property value="txtclient"/>' onKeyDown="getclinfo(event);" ondblclick="getclinfo(event);" readonly="readonly" placeholder="Double click to search">
+                                    <div class="search-icon"></div>
+                                </div>
+                                <button type="button" class="bicon" id="clear" title="clear" onclick="funClear()"> 
+                                    <img alt="clear" src="<%=contextPath%>/icons/clear.png">
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Sales Man</td>
+                        <td>
+                            <div class="search-and-clear-row">
+                                <div class="search-input-wrapper">
+                                    <input type="text" name="txtsalman" id="txtsalman" value='<s:property value="txtsalman"/>' onKeyDown="getsalesAgent(event);" ondblclick="getsalesAgent(event);" readonly="readonly" placeholder="Double click to search">
+                                    <div class="search-icon"></div>
+                                </div>
+                                <button type="button" class="bicon" id="clear" title="clear" onclick="funsalClear()"> 
+                                    <img alt="clear" src="<%=contextPath%>/icons/clear.png">
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Contr. Type</td>
+                        <td>
+                            <select id="cmbreftype" name="cmbreftype" value='<s:property value="cmbreftype"/>'>
+                                <option value=""></option>
+                                <option value="AMC">AMC</option>
+                                <option value="SJOB">SJOB</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Report Type</td>
+                        <td>
+                            <div class="radio-row">
+                                <div class="radio-item">
+                                    <input type="radio" id="rpddetail" name="rdo" value="rpddetail">
+                                    <label for="rpddetail" id="lbldetail">Detail</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" id="rpdsummary" name="rdo" value="rpdsummary">
+                                    <label for="rpdsummary" id="lblsummary">Summary</label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <input type="hidden" id="clientid" name="clientid" value='<s:property value="clientid"/>'>
+            <input type="hidden" id="salid" name="salid" value='<s:property value="salid"/>'>
+            <input type="hidden" id="radval" name="radval" value='<s:property value="radval"/>'>
+
+        </div>
+    </div>
+
+    <div class="main-column">
+        <div class="main-content-padding">
+            <table width="100%">
+                <tr>
+                    <td style="padding-bottom: 20px;">
+                        <div id="saldiv">
+                            <jsp:include page="salesIncentiveDetails.jsp"></jsp:include> 
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div> 
 </div>
+
 <div id="clientsearch1">
-   <div ></div>
+    <div></div>
 </div> 
 <div id="Salesagentinfowindow">
-   <div ></div>
-   </div>
+    <div></div>
 </div>
+
 </body>
 </html>

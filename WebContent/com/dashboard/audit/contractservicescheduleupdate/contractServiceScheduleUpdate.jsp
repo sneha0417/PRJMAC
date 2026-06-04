@@ -52,41 +52,35 @@
 </style>
 <style>
 /* ===== GLOBAL RESET ===== */
-html, body, form {
-    height: 100vh; /* Locks exactly to the monitor height */
+html, body {
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Absolutely prevents double-scrolling */
     background-color: #f4f7f9;
     font-family: Tahoma, Arial, sans-serif; 
-}
-
-#mainBG, .hidden-scrollbar {
-    height: 100%;
 }
 
 table, td, th, input, select, textarea, button, span, div, label, p {
     font-family: inherit; 
 }
 
-/* ===== THE NEW BULLETPROOF FLEXBOX LAYOUT ===== */
-.flex-layout-wrapper {
-    display: flex;
-    width: 100%;
-    height: 100vh; /* Strict viewport lock */
-    overflow: hidden;
-}
-
-/* Column 1: The Sidebar */
+/* ===== TRUE FIXED SIDEBAR (IMMUNE TO ERP STYLES) ===== */
 .sidebar-column {
-    width: 310px;
-    min-width: 310px;
-    height: 100vh;
-    overflow-y: auto; /* Independent scrollbar */
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 310px !important;
+
+    height: 100vh !important;
+    max-height: 100vh !important;
+
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+
     background: #fff;
     border-right: 1px solid #e1e8ed;
     box-shadow: 2px 0 8px rgba(0,0,0,.05);
-    z-index: 10;
+    z-index: 9999;
+    box-sizing: border-box;
 }
 
 .sidebar-column::-webkit-scrollbar { width: 6px; }
@@ -95,25 +89,16 @@ table, td, th, input, select, textarea, button, span, div, label, p {
 
 .sidebar-content-padding {
     padding: 15px;
-    padding-bottom: 100px; /* Safe padding at the bottom */
+    padding-bottom: 300px !important;
+    min-height: max-content;
+    box-sizing: border-box;
 }
-
-/* Column 2: The Main Content Area */
+/* ===== MAIN CONTENT AREA ===== */
 .main-column {
-    flex: 1; /* Takes up all remaining screen space */
-    height: 100vh;
-    overflow-y: auto; /* Independent scrollbar */
-    background: #fff;
-    position: relative;
-}
-
-.main-column::-webkit-scrollbar { width: 8px; }
-.main-column::-webkit-scrollbar-track { background: #f0f4f8; }
-.main-column::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
-
-.main-content-padding {
+    margin-left: 310px !important; /* Pushes content exactly past the fixed sidebar */
     padding: 15px;
-    padding-bottom: 100px; /* Safe bottom buffer */
+    background: #fff;
+    min-height: 100vh;
 }
 
 /* ===== CARDS & HEADERS ===== */
@@ -141,7 +126,7 @@ table, td, th, input, select, textarea, button, span, div, label, p {
 }
 
 .release-filter-table td {
-    padding-bottom: 4px !important; /* Tight spacing */
+    padding-bottom: 4px !important; /* Tighter spacing */
     vertical-align: middle;
 }
 
@@ -161,7 +146,7 @@ table, td, th, input, select, textarea, button, span, div, label, p {
     line-height: 1.2;
 }
 
-/* ===== UNIFORM INPUTS & SPACIOUS HEIGHT ===== */
+/* ===== UNIFORM INPUTS ===== */
 input[type="text"], select,
 .release-filter-table input[type="text"],
 .release-filter-table select {
@@ -176,10 +161,6 @@ input[type="text"], select,
     box-sizing: border-box;
     color: #333;
     outline: none;
-}
-
-input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
 /* ===== STRICT DISABLED & READONLY STYLING ===== */
@@ -215,8 +196,6 @@ textarea[readonly="false"], textarea[disabled="false"] {
     width: 100%;
     padding-right: 26px; 
 }
-
-/* SEARCH FIELD EXCEPTION */
 .search-input-wrapper input[type="text"][readonly],
 .search-input-wrapper input[type="text"][readonly="readonly"] {
     background-color: #ffffff !important; 
@@ -272,6 +251,11 @@ textarea[readonly="false"], textarea[disabled="false"] {
 }
 .release-actions .btn-submit {
     flex: 1;
+}
+
+#mainBG,
+.homeContent {
+    overflow: visible !important;
 }
 </style>
 <script type="text/javascript">
@@ -618,11 +602,8 @@ textarea[readonly="false"], textarea[disabled="false"] {
 </script>
 </head>
 <body onload="getBranch();disable();">
-<form id="frmcontractServiceScheduleUpdate" action="saveContractServiceScheduleUpdate" method="post" autocomplete="off" style="height: 100vh; margin: 0;">
+<form id="frmcontractServiceScheduleUpdate" action="saveContractServiceScheduleUpdate" method="post" autocomplete="off">
 <div id="mainBG" class="homeContent" data-type="background"> 
-<div class='hidden-scrollbar'>
-
-<div class="flex-layout-wrapper">
 
     <div class="sidebar-column">
         <div class="sidebar-content-padding">
@@ -733,27 +714,24 @@ textarea[readonly="false"], textarea[disabled="false"] {
     </div>
 
     <div class="main-column">
-        <div class="main-content-padding">
-            <table width="100%">
-                <tr>
-                    <td style="padding-bottom: 20px;">
-                        <div id="contractServiceScheduleUpdateDiv">
-                            <jsp:include page="contractServiceScheduleUpdateGrid.jsp"></jsp:include>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div id="serviceScheduleDiv">
-                            <jsp:include page="serviceScheduleGrid.jsp"></jsp:include>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
+        <table width="100%">
+            <tr>
+                <td style="padding-bottom: 20px;">
+                    <div id="contractServiceScheduleUpdateDiv">
+                        <jsp:include page="contractServiceScheduleUpdateGrid.jsp"></jsp:include>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="serviceScheduleDiv">
+                        <jsp:include page="serviceScheduleGrid.jsp"></jsp:include>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 
-</div> </div> 
 </div>
 </form>
 
