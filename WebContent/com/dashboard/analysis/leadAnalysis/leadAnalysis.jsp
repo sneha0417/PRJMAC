@@ -49,7 +49,197 @@
 }
 </style>
 
+<style>
+/* ===== GLOBAL RESET ===== */
+html, body {
+    height: 100%; /* Respects the ERP Header */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents the whole page from double-scrolling */
+    background-color: #f4f7f9;
+    font-family: Tahoma, Arial, sans-serif; 
+}
 
+#mainBG, .hidden-scrollbar {
+    height: 100%;
+    position: relative; /* Crucial: Locks the absolute columns inside the window */
+}
+
+table, td, th, input, select, textarea, button, span, div, label, p {
+    font-family: inherit; 
+}
+
+/* ===== THE ABSOLUTE LAYOUT (THE ULTIMATE SCROLL & POPUP FIX) ===== */
+.sidebar-column {
+    position: absolute;
+    top: 0;
+    bottom: 0; /* Pins exactly to the bottom of the available screen */
+    left: 0;
+    width: 310px;
+    overflow-y: auto; /* Independent scrollbar */
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 10; /* FIXED: Low enough to let search popups/calendars float over! */
+}
+
+.sidebar-column::-webkit-scrollbar { width: 6px; }
+.sidebar-column::-webkit-scrollbar-track { background: transparent; }
+.sidebar-column::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+
+.sidebar-content-padding {
+    padding: 15px;
+    padding-bottom: 80px; 
+}
+
+.main-column {
+    position: absolute;
+    top: 0;
+    bottom: 0; 
+    left: 310px; 
+    right: 0;
+    overflow-y: auto; 
+    background: #fff;
+}
+
+.main-column::-webkit-scrollbar { width: 8px; }
+.main-column::-webkit-scrollbar-track { background: #f0f4f8; }
+.main-column::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+
+.main-content-padding {
+    padding: 15px;
+    padding-bottom: 80px; 
+}
+
+/* ===== CARDS & HEADERS ===== */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px 12px;
+    margin-bottom: 15px;
+}
+
+/* ===== TABLES & ROW SPACING ===== */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0; 
+}
+
+.release-filter-table td {
+    padding-bottom: 4px !important; /* Tighter vertical spacing */
+    vertical-align: middle;
+}
+
+.release-filter-table tr:last-child td {
+    padding-bottom: 0 !important;
+}
+
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px; 
+    color: #4e5e71;
+    font-weight: 600;
+    width: 90px; 
+    white-space: nowrap; 
+    line-height: 1.2;
+}
+
+/* ===== UNIFORM INPUTS ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 28px; 
+    padding: 2px 8px;
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff !important; 
+    box-shadow: none !important; 
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+/* ===== FLEX ROW FOR BUTTONS NEXT TO INPUTS ===== */
+.input-with-button-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    width: 100%;
+}
+.input-with-button-row select, 
+.input-with-button-row input {
+    flex: 1; /* Takes up remaining space */
+}
+
+/* Legacy Button Styling Override (For the + button) */
+button.bicon {
+    height: 28px;
+    width: 28px;
+    background: #f8fafc;
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+    color: #334155;
+    font-size: 16px;
+}
+button.bicon:hover { background: #e2e8f0; }
+
+/* ===== STRICT DISABLED & READONLY STYLING ===== */
+input:disabled, select:disabled, textarea:disabled,
+input[readonly]:not([readonly="false"]), 
+select[readonly]:not([readonly="false"]), 
+textarea[readonly]:not([readonly="false"]) {
+    background-color: #e2e8f0 !important; 
+    color: #64748b !important; 
+    cursor: not-allowed !important; 
+    border-color: #cbd5e1 !important;
+    opacity: 1 !important;
+}
+
+input:not(:disabled):not([readonly]), 
+input[readonly="false"], input[disabled="false"],
+select:not(:disabled):not([readonly]), 
+select[readonly="false"], select[disabled="false"],
+textarea:not(:disabled):not([readonly]),
+textarea[readonly="false"], textarea[disabled="false"] {
+    cursor: auto !important; 
+    background-color: #ffffff !important; 
+}
+
+/* ===== BUTTONS ===== */
+.btn-submit {
+    width: 100%;
+    height: 30px;
+    padding: 0 12px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    line-height: 30px;
+}
+.btn-submit:hover { background: #1d4ed8; }
+.btn-secondary { background: #64748b; }
+.btn-secondary:hover { background: #475569; }
+
+/* jqx date containers */
+.release-filter-table div[id^="fromdate"],
+.release-filter-table div[id^="todate"] {
+    width: 100%;
+}
+</style>
 <script type="text/javascript">
 
 	$(document).ready(function () {
@@ -141,72 +331,85 @@
 <body onload="getBranch();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%">
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
 
-	 <tr>
-	 <td align="right"><label class="branch">From</label></td>
-     <td align="left"><div id="fromdate" name="fromdate" value='<s:property value="fromdate"/>' ></div></td></tr> 
-	<tr>
-	<td align="right"><label class="branch">To</label></td>
-    <td align="left"><div id="todate" name="todate" value='<s:property value="todate"/>'></div></td>
-	</tr>
-	 <tr >
-	  <td align="right"><label class="branch" id="lblgrpby">Group By</label></td>
-	  <td  align="left"><select name="grpby" id="grpby" style="width:52%;">
-<option value="">--Select--</option>
-    <option value="salm">SALESMAN</option>
-    <option value="status">STATUS</option>
-    <option value="type">TYPE</option>
-    </select>
-    </td>
-    </tr>  
-	  <tr >
-	  <td align="right" width="25%"><label class="branch">Filter By</label></td>
-	  <td  align="left"><select name="filterby" id="filterby" style="width:52%;">
-<option value="">--Select--</option>
-   <option value="salm">SALESMAN</option>
-    <option value="status">STATUS</option>
-    <option value="type">TYPE</option>
-    </select>&nbsp;&nbsp;<button type="button" name="btnadditem" id="additem" class="myButtons" onClick="setprodSearch();">+</button>
-    <!-- &nbsp;&nbsp;<button  type="button" name="btnremoveitem" id="btnremoveitem" class="myButtons" onclick="setRemove();">-</button> --></td>
-	  </tr> 
-	  <tr>
-	<td colspan="2" ><div id="Countgrid"><jsp:include page="Countgrid.jsp"></jsp:include>
-	</div></td>
-	</tr> 
-	<!-- <tr >
-	  <td colspan="2"
-      align="right" ><textarea id="searchdetails" name="searchdetails" style="resize:none;font: 10px Tahoma;width:100%;" rows="18"  readonly></textarea></td>
-	  </tr> -->
-	  <tr >
-	<td colspan="2" style="border-top:2px solid #DCDDDE;">
-	<center><input type="button" name="btnclear" id="btnclear" value="Clear" class="myButtons" onclick="funClearData();"></center>
-    </td>
-	</tr>
-	<tr><td colspan="2">&nbsp;</td></tr> 
-	
-	</table>
-	</fieldset>
-</td>
-<td width="80%">
-	<table width="100%">
-		<tr>
-			 <td><div id="leadDiv"><jsp:include page="leadAnalysisGrid.jsp"></jsp:include></div></td>
-		</tr>
-		    
-	</table>
-</tr>
-</table>
+    <div class="sidebar-column">
+        <div class="sidebar-content-padding">
+            
+            <div class="filter-card">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
 
-   <div id="filterSearchwindow">
-   <div ></div>
-   </div>
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">From</td>
+                        <td><div id="fromdate" name="fromdate" value='<s:property value="fromdate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">To</td>
+                        <td><div id="todate" name="todate" value='<s:property value="todate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell" id="lblgrpby">Group By</td>
+                        <td>
+                            <select name="grpby" id="grpby">
+                                <option value="">--Select--</option>
+                                <option value="salm">SALESMAN</option>
+                                <option value="status">STATUS</option>
+                                <option value="type">TYPE</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Filter By</td>
+                        <td>
+                            <div class="input-with-button-row">
+                                <select name="filterby" id="filterby">
+                                    <option value="">--Select--</option>
+                                    <option value="salm">SALESMAN</option>
+                                    <option value="status">STATUS</option>
+                                    <option value="type">TYPE</option>
+                                </select>
+                                <button type="button" name="btnadditem" id="additem" class="bicon" onClick="setprodSearch();">+</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="filter-card" style="padding: 10px;">
+                <div id="Countgrid">
+                    <jsp:include page="Countgrid.jsp"></jsp:include>
+                </div>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <button type="button" class="btn-submit btn-secondary" name="btnclear" id="btnclear" onclick="funClearData();">Clear</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="main-column">
+        <div class="main-content-padding">
+            <table width="100%">
+                <tr>
+                    <td style="padding-bottom: 20px;">
+                        <div id="leadDiv">
+                            <jsp:include page="leadAnalysisGrid.jsp"></jsp:include>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div> 
 </div>
+
+<div id="filterSearchwindow">
+    <div></div>
 </div>
+
 </body>
 </html>
