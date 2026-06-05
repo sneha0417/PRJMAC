@@ -43,51 +43,206 @@
 		}
 
 	</script>
-<body bgcolor="#E0ECF8">
-<div id=search>
-<table width="100%" >
-  <tr >
-   <td>
-   <table width="100%" >
-   <tr>
-    <td align="right" width="6%">Doc No</td>
-    <td align="left" width="20%"><input type="text" name="docnoss" id="docnoss"  style="width:90%;" value='<s:property value="docnoss"/>'></td>
-    <td align="right" width="10%">Type</td>
-    <td align="left"><input type="text" name="types" id="types" style="width:80%;"  value='<s:property value="types"/>'></td>
-    
-   <td align="right"  width="14%">Job No</td>
-    <td align="left"  width="30%"><input type="text" name="prjdocnos" style="width:60%;" id="prjdocnos" value='<s:property value="prjdocnos"/>'></td>
-    
-    <tr>
-    </table>
-    </td>
-  </tr>
-  <tr>
-  <td>
-  <table width="100%">
-        <tr> 
-        <td align="right" width="6%">Date </td>
-    <td align="left" width="20%"><div id="datess" name="datess"  value='<s:property value="datess"/>'></div></td>
-    <td align="right" width="10%">&nbsp;</td><td  width="20%"><input type="button" name="searchs" id="searchs" class="myButton" value="Search"  onclick="loadSearchs()">
-</td>
-   <td width="10%"></td>
-   <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-   </td>
-    <tr>
-    </table>
-  </td>
+<style>
+/* =========================================================
+   MASTER SEARCH UI - PURE WHITE PANEL
+========================================================= */
 
-  <tr>
-    <td colspan="8" align="right">
-    
-    <div id="refreshdivs">
-      
-   <jsp:include  page="Subsearch.jsp"></jsp:include> 
-   
-   </div>
-    </td>
-  </tr>
-</table>
-  </div>
+body,
+html{
+    margin:0;
+    padding:0;
+    background:#ffffff !important;
+    font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
+}
+
+body[bgcolor]{
+    background:#ffffff !important;
+}
+
+#search{
+    background:#ffffff !important;
+    padding:10px;
+}
+
+.jqx-widget-content,
+.jqx-window-content,
+.jqx-fill-state-normal{
+    background:#ffffff !important;
+}
+
+/* Search Panel */
+
+.search-panel{
+    background:#ffffff !important;
+    border:1px solid #d6d6d6;
+    border-radius:4px;
+    padding:12px;
+    margin-bottom:12px;
+}
+
+.search-panel table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.search-panel td{
+    padding:6px;
+    vertical-align:middle;
+}
+
+.lbl-right{
+    text-align:right;
+    white-space:nowrap;
+    font-size:12px;
+    font-weight:500;
+    color:#333;
+    padding-right:8px;
+}
+
+.search-panel input[type="text"]{
+    width:100%;
+    height:28px;
+    border:1px solid #cfcfcf;
+    border-radius:3px;
+    padding:2px 8px;
+    box-sizing:border-box;
+    background:#ffffff;
+    font-size:12px;
+}
+
+.search-panel input[type="text"]:focus{
+    border-color:#2563eb;
+    outline:none;
+}
+
+/* Grid */
+
+.grid-container{
+    background:#ffffff !important;
+    border:1px solid #cccccc;
+    border-radius:4px;
+    overflow:hidden;
+}
+</style>
+
+<body>
+
+<div id="search">
+
+    <!-- Search Panel -->
+
+    <div class="search-panel">
+
+        <table>
+
+            <colgroup>
+                <col width="8%">
+                <col width="16%">
+                <col width="8%">
+                <col width="20%">
+                <col width="8%">
+                <col width="20%">
+                <col width="20%">
+            </colgroup>
+
+            <!-- Row 1 -->
+
+            <tr>
+
+                <td class="lbl-right">
+                    Doc No
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="docnoss"
+                           id="docnoss"
+                           value='<s:property value="docnoss"/>'>
+                </td>
+
+                <td class="lbl-right">
+                    Type
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="types"
+                           id="types"
+                           value='<s:property value="types"/>'>
+                </td>
+
+                <td class="lbl-right">
+                    Job No
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="prjdocnos"
+                           id="prjdocnos"
+                           value='<s:property value="prjdocnos"/>'>
+                </td>
+
+                <td></td>
+
+            </tr>
+
+            <!-- Row 2 -->
+
+            <tr>
+
+                <td class="lbl-right">
+                    Date
+                </td>
+
+                <td>
+                    <div id="datess"
+                         name="datess"
+                         value='<s:property value="datess"/>'>
+                    </div>
+                </td>
+
+                <td colspan="4"></td>
+
+                <td align="center">
+
+                    <button type="button"
+                            id="searchs"
+                            onclick="loadSearchs();"
+                            style="
+                                width:110px;
+                                height:30px;
+                                background:#205fd3;
+                                color:#ffffff;
+                                border:1px solid #205fd3;
+                                border-radius:4px;
+                                font-size:12px;
+                                font-weight:600;
+                                cursor:pointer;">
+                        Search
+                    </button>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- Grid -->
+
+    <div class="grid-container">
+
+        <div id="refreshdivs">
+
+            <jsp:include page="Subsearch.jsp"></jsp:include>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>

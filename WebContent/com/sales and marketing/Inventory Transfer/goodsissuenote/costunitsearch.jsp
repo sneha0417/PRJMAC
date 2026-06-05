@@ -128,53 +128,185 @@ String docnoss=request.getParameter("docno")==null?"0":request.getParameter("doc
 	
 
 	</script>
-<body bgcolor="#E0ECF8">
-<div id=search>
-<table width="100%" >
-  <tr >
-   <td>
- 
-    </td>
-  </tr>
-  <tr>
-  <td>
-    
-  <table width="100%" >  
-  
-        <tr> 
-       
-            <td align="right" width="5%">Doc No</td>
-    <td align="left" width="15%"><input type="text" name="docnoss" id="docnoss"  style="width:90%;" value='<s:property value="docnoss"/>'></td>
-        
-         <td align="right" width="4%">Customer</td>
-    <td align="left" width="22%"><input type="text" name="refnames" id="refnames"  style="width:90%;" value='<s:property value="refnames"/>'></td>
-      <td align="right" width="3%">Site</td>
-    <td align="left" width="22%"><input type="text" name="sitenames" id="sitenames"  style="width:90%;" value='<s:property value="sitenames"/>'></td>
-    <td align="center" width="10%" ><input type="button" name="searchss" id="searchss" class="myButton" value="Search"  onclick="loadSearchss()">
- 
-</td>
+<style>
+/* =========================================================
+   MASTER SEARCH UI - PURE WHITE PANEL
+========================================================= */
 
-    </tr> 
-    
-    </table>
- 
+body,
+html{
+    margin:0;
+    padding:0;
+    background:#ffffff !important;
+    font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
+}
 
-    
+body[bgcolor]{
+    background:#ffffff !important;
+}
 
-    
-  </td>
+#search{
+    background:#ffffff !important;
+    padding:10px;
+}
 
-  <tr>
-    <td colspan="8" align="right">
-    
-    <div id="refsearch">
-      
-   <jsp:include  page="subcostunitsearch.jsp"></jsp:include> 
-   
-   </div>
-    </td>
-  </tr>
-</table>
-  </div>
+/* Force jqx popup background white */
+
+.jqx-widget-content,
+.jqx-window-content,
+.jqx-fill-state-normal{
+    background:#ffffff !important;
+}
+
+/* Search Panel */
+
+.search-panel{
+    background:#ffffff !important;
+    border:1px solid #d6d6d6;
+    border-radius:4px;
+    padding:12px;
+    margin-bottom:12px;
+}
+
+.search-panel table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.search-panel td{
+    padding:6px;
+    vertical-align:middle;
+}
+
+.lbl-right{
+    text-align:right;
+    white-space:nowrap;
+    font-size:12px;
+    font-weight:500;
+    color:#333;
+    padding-right:8px;
+}
+
+.search-panel input[type="text"]{
+    width:100%;
+    height:28px;
+    border:1px solid #cfcfcf;
+    border-radius:3px;
+    padding:2px 8px;
+    box-sizing:border-box;
+    background:#ffffff;
+    font-size:12px;
+}
+
+.search-panel input[type="text"]:focus{
+    border-color:#2563eb;
+    outline:none;
+}
+
+/* Grid */
+
+.grid-container{
+    background:#ffffff !important;
+    border:1px solid #cccccc;
+    border-radius:4px;
+    overflow:hidden;
+}
+</style>
+
+<body>
+
+<div id="search">
+
+    <!-- Search Panel -->
+
+    <div class="search-panel">
+
+        <table>
+
+            <colgroup>
+                <col width="8%">
+                <col width="15%">
+                <col width="8%">
+                <col width="24%">
+                <col width="8%">
+                <col width="24%">
+                <col width="13%">
+            </colgroup>
+
+            <tr>
+
+                <td class="lbl-right">
+                    Doc No
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="docnoss"
+                           id="docnoss"
+                           value='<s:property value="docnoss"/>'>
+                </td>
+
+                <td class="lbl-right">
+                    Customer
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="refnames"
+                           id="refnames"
+                           value='<s:property value="refnames"/>'>
+                </td>
+
+                <td class="lbl-right">
+                    Site
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="sitenames"
+                           id="sitenames"
+                           value='<s:property value="sitenames"/>'>
+                </td>
+
+                <td align="center">
+
+                    <button type="button"
+                            id="searchss"
+                            onclick="loadSearchss();"
+                            style="
+                                width:110px;
+                                height:30px;
+                                background:#205fd3;
+                                color:#ffffff;
+                                border:1px solid #205fd3;
+                                border-radius:4px;
+                                font-size:12px;
+                                font-weight:600;
+                                cursor:pointer;">
+                        Search
+                    </button>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- Grid -->
+
+    <div class="grid-container">
+
+        <div id="refsearch">
+
+            <jsp:include page="subcostunitsearch.jsp"></jsp:include>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>
