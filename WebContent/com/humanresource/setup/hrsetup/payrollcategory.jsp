@@ -148,38 +148,150 @@ form label.error {
 	     }
 	  
 </script>   
- 
+ <style>
+/* Master UI - Scoped strictly to avoid breaking enterprise sidebars/headers */
+.modern-ui {
+    font-family: Arial, sans-serif; 
+    color: #333;
+    font-size: 12px; 
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Master Input Heights - Forced to 24px */
+.modern-ui input[type="text"],
+.modern-ui select { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus { 
+    border-color: #007bff; 
+    outline: none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
+}
+
+/* Layout Utilities */
+.modern-ui .field-row { 
+    display: flex;
+    align-items: center; 
+    gap: 8px;
+    margin-bottom: 10px; 
+    flex-wrap: wrap;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* Middle Section Panels */
+.modern-ui .middle-panel {
+    border: 1px solid #c5d3e0; 
+    padding: 20px 10px 10px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title { 
+    position: absolute; 
+    top: -12px;
+    left: 10px; 
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    border-left: 3px solid #0056b3;
+    z-index: 2; 
+    line-height: normal; 
+}
+
+/* Checkbox Alignment Fix */
+.modern-ui .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #333;
+    margin-left: 10px;
+}
+</style>
 </head>
 <body onLoad="setValues();" >
 
 <form id="frmpayrollcategory" action="savePayrollcategory" method="post" autocomplete="off">
-<jsp:include page="../../../../header.jsp" /><br/>
+    <jsp:include page="../../../../header.jsp" /><br/>
  
-<fieldset><legend>Payroll Category Details</legend> 
-<table width="100%"  >
-	<tr><td width="10%" align="right">Date</td> 
-	<td width="15%" align="left"><div id="parrolldate" name="parrolldate" value='<s:property value="parrolldate"/>'> </div></td>
-	<td width="12%" align="right">Category</td>
-	<td width="34%"><input type="text" name="category" id="category" style="width:99%;" placeholder="Category" value='<s:property value="category"/>'></td>
-	<td width="9%" >&nbsp;&nbsp;<input type="checkbox" id="timesheet"  name="timesheet" value="0" onclick="$(this).attr('value', this.checked ? 1 : 0)" >&nbsp;Time Sheet </td>
-	<td width="10%"  align="right">Doc No</td>
-	<td width="10%"><input type="text" name="docno" id="docno" value='<s:property value="docno"/>' readonly="readonly" tabindex="-1"></td></tr> 
-	<tr><td align="right">Remarks</td>
-	<td colspan="4"><input type="text" name="remarks" id="remarks" style="width:86.2%;" placeholder="Remarks" value='<s:property value="remarks"/>' ></td></tr>
-</table>
-	 
-<input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>' />
-<input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/> 
-<input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>'/> 
-<input type="hidden" id="datehidden" name="datehidden" value='<s:property value="datehidden"/>'/> 
-<input type="hidden" id="hidtimesheet" name="hidtimesheet" value='<s:property value="hidtimesheet"/>'/> 
-	
-</fieldset> 
+    <div class="modern-ui">
+        <div class="middle-panel" style="margin-top: 5px;">
+            <span class="middle-panel-title">Payroll Category Details</span>
+            
+            <div class="field-row">
+                <label class="lbl-right" style="width:80px;">Date</label>
+                <div style="width: 125px;">
+                    <div id="parrolldate" name="parrolldate" value='<s:property value="parrolldate"/>'></div>
+                </div>
+                
+                <label class="lbl-right" style="width:80px;">Category</label>
+                <input type="text" name="category" id="category" style="flex:1; min-width: 150px;" placeholder="Category" value='<s:property value="category"/>'>
+                
+                <label class="checkbox-label">
+                    <input type="checkbox" id="timesheet" name="timesheet" value="0" onclick="$(this).attr('value', this.checked ? 1 : 0)">
+                    Time Sheet
+                </label>
+
+                <label class="lbl-right" style="width:80px; margin-left:auto;">Doc No</label>
+                <input type="text" name="docno" id="docno" value='<s:property value="docno"/>' readonly="readonly" tabindex="-1" style="width:120px;">
+            </div>
+
+            <div class="field-row" style="margin-bottom:0;">
+                <label class="lbl-right" style="width:80px;">Remarks</label>
+                <input type="text" name="remarks" id="remarks" style="flex:1;" placeholder="Remarks" value='<s:property value="remarks"/>'>
+            </div>
+        </div>
+
+        <div style="display:none;">
+            <input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>' />
+            <input type="hidden" id="msg" name="msg" value='<s:property value="msg"/>'/> 
+            <input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>'/> 
+            <input type="hidden" id="datehidden" name="datehidden" value='<s:property value="datehidden"/>'/> 
+            <input type="hidden" id="hidtimesheet" name="hidtimesheet" value='<s:property value="hidtimesheet"/>'/> 
+        </div>
+    </div>
 </form>
-		 
+        
 <table width="100%">
-    <tr><td><div id="categorygrid"></div></td></tr>
-</table><br/>	
+    <tr>
+        <td>
+            <div id="categorygrid"></div>
+        </td>
+    </tr>
+</table>
+<br/>    
 
 </body>
 </html>
