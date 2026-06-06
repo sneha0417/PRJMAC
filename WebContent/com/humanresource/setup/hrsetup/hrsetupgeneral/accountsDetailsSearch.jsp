@@ -31,26 +31,151 @@
 	}
 
 </script>
+<style>
+/* =========================================================
+   MASTER SEARCH UI - PURE WHITE PANEL
+========================================================= */
+
+body,
+html{
+    margin:0;
+    padding:0;
+    background:#ffffff !important;
+    font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
+}
+
+#search{
+    background:#ffffff !important;
+    padding:10px;
+}
+
+.search-panel{
+    background:#ffffff !important;
+    border:1px solid #d6d6d6;
+    border-radius:4px;
+    padding:12px;
+    margin-bottom:12px;
+}
+
+.search-panel table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.search-panel td{
+    padding:6px;
+    vertical-align:middle;
+}
+
+.lbl-right{
+    text-align:right;
+    white-space:nowrap;
+    font-size:12px;
+    font-weight:500;
+    color:#333;
+    padding-right:8px;
+}
+
+.search-panel input[type="text"]{
+    width:100%;
+    height:28px;
+    border:1px solid #cfcfcf;
+    border-radius:3px;
+    padding:2px 8px;
+    box-sizing:border-box;
+    background:#ffffff;
+    font-size:12px;
+}
+
+.grid-container{
+    background:#ffffff !important;
+    border:1px solid #cccccc;
+    border-radius:4px;
+    overflow:hidden;
+}
+</style>
+
 <body>
-<div id=search>
-<table width="100%" >
-  <tr>
-    <td width="10%" align="right">Account No</td>
-    <td width="20%"><input type="text" name="txtaccountsno" id="txtaccountsno" style="width:85%;" value='<s:property value="txtaccountsno"/>'></td>
-   <%--  <td width="10%" align="right">Currency</td>
-    <td width="27%"><input type="text" name="txtaccountcurrency" id="txtaccountcurrency" style="width:50%;" value='<s:property value="txtaccountcurrency"/>'> --%>
-     <%-- <input type="hidden" name="txtsearchtype" id="txtsearchtype" value='<s:property value="txtsearchtype"/>'></td> --%>
-      <td width="10%" align="right">Account Name</td>
-    <td width="40%"  ><input type="text" name="txtaccountsname" id="txtaccountsname" style="width:80%;" value='<s:property value="txtaccountsname"/>'></td>
-    <td width="20%" rowspan="2" align="center"><input type="button" name="btnAccountSearch" id="btnAccountSearch" class="myButton" value="Search"  onclick="loadAccountSearch();"></td>
-  </tr>
-  <tr>
-   
-  </tr>
-  <tr>
-    <td colspan="6"><div id="refreshAccountDetailsDiv"><jsp:include page="accountsDetailsFromGrid.jsp"></jsp:include></div></td>
-  </tr>
-</table>
+
+<div id="search">
+
+    <!-- Search Panel -->
+
+    <div class="search-panel">
+
+        <table>
+
+            <colgroup>
+                <col width="12%">
+                <col width="25%">
+                <col width="12%">
+                <col width="35%">
+                <col width="16%">
+            </colgroup>
+
+            <tr>
+
+                <td class="lbl-right">
+                    Account No
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="txtaccountsno"
+                           id="txtaccountsno"
+                           value='<s:property value="txtaccountsno"/>'>
+                </td>
+
+                <td class="lbl-right">
+                    Account Name
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="txtaccountsname"
+                           id="txtaccountsname"
+                           value='<s:property value="txtaccountsname"/>'>
+                </td>
+
+                <td align="center">
+
+                    <button type="button"
+                            id="btnAccountSearch"
+                            onclick="loadAccountSearch();"
+                            style="
+                                width:110px;
+                                height:30px;
+                                background:#205fd3;
+                                color:#ffffff;
+                                border:1px solid #205fd3;
+                                border-radius:4px;
+                                font-size:12px;
+                                font-weight:600;
+                                cursor:pointer;">
+                        Search
+                    </button>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- Grid -->
+
+    <div class="grid-container">
+
+        <div id="refreshAccountDetailsDiv">
+
+            <jsp:include page="accountsDetailsFromGrid.jsp"></jsp:include>
+
+        </div>
+
+    </div>
+
 </div>
+
 </body>
 </html>

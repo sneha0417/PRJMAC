@@ -59,6 +59,121 @@
     outline: 0;
 }
 </style>
+<style>
+.hidden-scrollbar{
+    overflow:auto;
+    height:530px;
+}
+
+.modern-ui{
+    font-family:Tahoma, Arial, sans-serif;
+    font-size:11px;
+    color:#333;
+    padding:5px 10px;
+}
+
+.modern-ui .field-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:8px;
+    flex-wrap:wrap;
+}
+
+.modern-ui .lbl-right{
+    text-align:right;
+    font-weight:bold;
+    white-space:nowrap;
+    color:#333;
+}
+
+.modern-ui .middle-panel{
+    border:1px solid #c5d3e0;
+    border-radius:4px;
+    background:#fff;
+    padding:18px 10px 10px 10px;
+    margin-bottom:10px;
+    position:relative;
+}
+
+.modern-ui .middle-panel-title{
+    position:absolute;
+    top:-10px;
+    left:10px;
+    background:#fff;
+    padding:0 8px;
+    font-weight:bold;
+    color:#0056b3;
+    border-left:3px solid #0056b3;
+}
+
+.modern-ui input[type="text"],
+.modern-ui select{
+    height:24px !important;
+    border:1px solid #b8c6d8;
+    border-radius:3px;
+    padding:2px 6px;
+    box-sizing:border-box;
+    font-family:Tahoma, Arial, sans-serif;
+    font-size:11px;
+    background:#fff;
+}
+
+.modern-ui input[readonly]{
+    background:#fff !important;
+    color:#333 !important;
+}
+
+.modern-ui input:disabled,
+.modern-ui select:disabled,
+.modern-ui textarea:disabled{
+    background:#f1f5f9 !important;
+    color:#94a3b8 !important;
+    border-color:#cbd5e1 !important;
+}
+
+.modern-ui .grid-container{
+    border:1px solid #c5d3e0;
+    border-radius:4px;
+    background:#fff;
+    overflow:hidden;
+}
+
+.modern-ui .total-panel{
+    border:1px solid #c5d3e0;
+    border-radius:4px;
+    background:#fff;
+    padding:8px;
+    margin-top:8px;
+}
+
+.modern-ui .total-panel input{
+    text-align:right;
+    font-weight:bold;
+}
+
+#gridtext,
+#gridtext1{
+    width:0 !important;
+    height:0 !important;
+    border:none !important;
+    padding:0 !important;
+    margin:0 !important;
+}
+button:disabled,
+input:disabled,
+select:disabled,
+.l-btn-disabled,
+.ui-state-disabled{
+    background:#e2e8f0 !important;
+    color:#94a3b8 !important;
+    border:1px solid #cbd5e1 !important;
+    pointer-events:none !important;
+    cursor:not-allowed !important;
+    box-shadow:none !important;
+}
+
+</style>
 <%
 String modes =request.getParameter("modes")==null?"0":request.getParameter("modes").toString();
 String mod =request.getParameter("mod")==null?"view":request.getParameter("mod").toString();
@@ -565,118 +680,169 @@ var mastertrno='<%=mastertrno%>';
 				   }
 </script>
 
-<style>
-.hidden-scrollbar {
-  overflow: auto;
-  height: 530px;
-}
-</style>
+
 
 </head>
 <body onload="setValues();">
 <div id="mainBG" class="homeContent" data-type="background">
+
 <form id="frmTemplate" action="saveTemplatemaster" method="post" autocomplete="off">
-<jsp:include page="../../../../header.jsp"></jsp:include><br/>   
 
-<div class='hidden-scrollbar'>
-<fieldset>
-<table width="100%">
+<jsp:include page="../../../../header.jsp"></jsp:include>
 
-  <tr>
-    <td width="3%" height="42" align="right">Date</td>
-    <td width="11%"><div id="date" name="date" value='<s:property value="date"/>'></div>
-    <input type="hidden" id="hiddate" name="hiddate" value='<s:property value="hiddate"/>'/></td>
-    <td width="15%" align="left">&nbsp;</td>
-    <td width="8%" align="right">Doc No.</td>
-    <td width="25%"><input type="text" id="docno" name="docno" style="width:70%;" value='<s:property value="docno"/>' tabindex="-1"/></td>
-  </tr>
-  <tr>
-   <td width="10%" align="right">Code</td>
-    <td width="10%"><input type="text" id="txtcodeno" name="txtcodeno"  value='<s:property value="txtcodeno"/>'/></td>
-   <td width="10%" align="right">Name</td>
-    <td width="28%"><input type="text" id="txtname" name="txtname" style="width:50%;" value='<s:property value="txtname"/>'/></td>
-   
-  </tr>
-</table>
-</fieldset>
- 
-<table width="100%">
- 
-<fieldset><legend>Material Details</legend>
- <input type="text" name="gridtext" id="gridtext" style="width:0%;height:0%;"  class="textbox"  value='<s:property value="gridtext"/>'  />   
-  
-    <input type="text" name="gridtext1" id="gridtext1" style="width:0%;height:0%;"  class="textbox"  value='<s:property value="gridtext1"/>' /> 
-<div id="materialDiv"><jsp:include page="materialDetailsGrid.jsp"></jsp:include></div>
+<div class="modern-ui hidden-scrollbar">
 
-</fieldset></table> 
-<table width="100%">
-  <tr>
-    <td width="87%" align="right">Total</td>
-    <td width="13%">
-    
-    <input type="hidden" id="txtnettotal" name="txtnettotal" style="width:94%;text-align: right;" value='<s:property value="txtnettotal"/>'/>
-    <input type="text" id="txtnettotalshow" name="txtnettotalshow" style="width:94%;text-align: right;" value='<s:property value="txtnettotal"/>'/>
-    </td>
-  </tr>
-</table>
+    <!-- Template Details -->
+    <div class="middle-panel">
+        <span class="middle-panel-title">Template Details</span>
 
-<input type="hidden" id="activitiesid" name="activitiesid"  value='<s:property value="activitiesid"/>'/>
-<input type="hidden" id="masterdoc_no" name="masterdoc_no"  value='<s:property value="masterdoc_no"/>'/>
-<input type="hidden" id="mode" name="mode"  value='<s:property value="mode"/>'/>
-<input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>'/>
-<input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
-<input type="hidden" id="txtmatotal" name="txtmatotal"  value='<s:property value="txtmatotal"/>'/>
-<input type="hidden" id="txtlabtotal" name="txtlabtotal"  value='<s:property value="txtlabtotal"/>'/>
-<input type="hidden" id="txteqptotal" name="txteqptotal"  value='<s:property value="txteqptotal"/>'/>
-<input type="hidden" id="matgridlen" name="matgridlen"  value='<s:property value="matgridlen"/>'/>
-<input type="hidden" id="labgridlen" name="labgridlen"  value='<s:property value="labgridlen"/>'/>
-<input type="hidden" id="eqgridlen" name="eqgridlen"  value='<s:property value="eqgridlen"/>'/>
-<input type="hidden" id="actgridlen" name="actgridlen"  value='<s:property value="actgridlen"/>'/>
-  <input type="hidden" id="hidestedit" name="hidestedit"  value='<s:property value="hidestedit"/>'/>
-  
-  <input type="hidden" id="hidsurtrno" name="hidsurtrno" value='<s:property value="hidsurtrno"/>' />
-  <input type="hidden" id="hidenqtrno" name="hidenqtrno" value='<s:property value="hidenqtrno"/>' />
-  <input type="hidden" id="productchk" name="productchk"  value='<s:property value="productchk"/>' />  
-<input type="hidden" id="txtgridservicetypeid" name="txtgridservicetypeid"  value='<s:property value="txtgridservicetypeid"/>' />  
-<input type="hidden" id="txtgridscopeid" name="txtgridscopeid"  value='<s:property value="txtgridscopeid"/>' />
+        <div class="field-row">
+            <label class="lbl-right" style="width:70px;">Date</label>
+
+            <div style="width:140px;">
+                <div id="date" name="date" value='<s:property value="date"/>'></div>
+                <input type="hidden" id="hiddate" name="hiddate"
+                       value='<s:property value="hiddate"/>'/>
+            </div>
+
+            <label class="lbl-right" style="margin-left:auto;width:70px;">Doc No.</label>
+
+            <input type="text"
+                   id="docno"
+                   name="docno"
+                   style="width:180px;"
+                   value='<s:property value="docno"/>'
+                   tabindex="-1"/>
+        </div>
+
+        <div class="field-row" style="margin-bottom:0;">
+            <label class="lbl-right" style="width:70px;">Code</label>
+
+            <input type="text"
+                   id="txtcodeno"
+                   name="txtcodeno"
+                   style="width:140px;"
+                   value='<s:property value="txtcodeno"/>'/>
+
+            <label class="lbl-right" style="width:70px;">Name</label>
+
+            <input type="text"
+                   id="txtname"
+                   name="txtname"
+                   style="width:320px;"
+                   value='<s:property value="txtname"/>'/>
+        </div>
+    </div>
+
+    <!-- Material Details -->
+    <div class="middle-panel">
+        <span class="middle-panel-title">Material Details</span>
+
+        <input type="text"
+               name="gridtext"
+               id="gridtext"
+               class="textbox"
+               value='<s:property value="gridtext"/>'/>
+
+        <input type="text"
+               name="gridtext1"
+               id="gridtext1"
+               class="textbox"
+               value='<s:property value="gridtext1"/>'/>
+
+        <div class="grid-container">
+            <div id="materialDiv">
+                <jsp:include page="materialDetailsGrid.jsp"></jsp:include>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total -->
+    <div class="total-panel">
+        <div class="field-row" style="justify-content:flex-end;margin-bottom:0;">
+            <label class="lbl-right" style="width:60px;">Total</label>
+
+            <input type="hidden"
+                   id="txtnettotal"
+                   name="txtnettotal"
+                   value='<s:property value="txtnettotal"/>'/>
+
+            <input type="text"
+                   id="txtnettotalshow"
+                   name="txtnettotalshow"
+                   style="width:160px;"
+                   value='<s:property value="txtnettotal"/>'/>
+        </div>
+    </div>
+
+    <!-- Hidden Fields -->
+    <input type="hidden" id="activitiesid" name="activitiesid" value='<s:property value="activitiesid"/>'/>
+    <input type="hidden" id="masterdoc_no" name="masterdoc_no" value='<s:property value="masterdoc_no"/>'/>
+    <input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>'/>
+    <input type="hidden" name="deleted" id="deleted" value='<s:property value="deleted"/>'/>
+    <input type="hidden" id="msg" name="msg" value='<s:property value="msg"/>'/>
+    <input type="hidden" id="txtmatotal" name="txtmatotal" value='<s:property value="txtmatotal"/>'/>
+    <input type="hidden" id="txtlabtotal" name="txtlabtotal" value='<s:property value="txtlabtotal"/>'/>
+    <input type="hidden" id="txteqptotal" name="txteqptotal" value='<s:property value="txteqptotal"/>'/>
+    <input type="hidden" id="matgridlen" name="matgridlen" value='<s:property value="matgridlen"/>'/>
+    <input type="hidden" id="labgridlen" name="labgridlen" value='<s:property value="labgridlen"/>'/>
+    <input type="hidden" id="eqgridlen" name="eqgridlen" value='<s:property value="eqgridlen"/>'/>
+    <input type="hidden" id="actgridlen" name="actgridlen" value='<s:property value="actgridlen"/>'/>
+    <input type="hidden" id="hidestedit" name="hidestedit" value='<s:property value="hidestedit"/>'/>
+    <input type="hidden" id="hidsurtrno" name="hidsurtrno" value='<s:property value="hidsurtrno"/>'/>
+    <input type="hidden" id="hidenqtrno" name="hidenqtrno" value='<s:property value="hidenqtrno"/>'/>
+    <input type="hidden" id="productchk" name="productchk" value='<s:property value="productchk"/>'/>
+    <input type="hidden" id="txtgridservicetypeid" name="txtgridservicetypeid" value='<s:property value="txtgridservicetypeid"/>'/>
+    <input type="hidden" id="txtgridscopeid" name="txtgridscopeid" value='<s:property value="txtgridscopeid"/>'/>
+
 </div>
 </form>
 
+<!-- Popups (UNCHANGED) -->
 <div id="customerDetailsWindow">
-   <div></div>
+    <div></div>
 </div>
+
 <div id="activitysearchwindow">
-	<div></div>
+    <div></div>
 </div>
+
 <div id="clientsearch1">
-   <div ></div>
+    <div></div>
 </div>
+
 <div id="sidesearchwndow">
-   <div ></div> 
+    <div></div>
 </div>
+
 <div id="lchargeinfowindow">
-   <div ></div>
+    <div></div>
 </div>
+
 <div id="echargeinfowindow">
-   <div ></div>
+    <div></div>
 </div>
+
 <div id="enquirywindow">
-   <div ></div>
+    <div></div>
 </div>
 
 <div id="servicetypewindow">
-   <div ></div>
+    <div></div>
 </div>
+
 <div id="scopetypewindow">
-   <div ></div>
+    <div></div>
 </div>
 
 <div id="sitewindow">
-   <div ></div>
+    <div></div>
 </div>
+
 <div id="unitsearchwindow">
-   <div ></div>
-   </div>
+    <div></div>
+</div>
+
 </div>
 </body>
 </html>

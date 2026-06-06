@@ -36,36 +36,178 @@
 		}
 
 	</script>
-<body bgcolor="#E0ECF8">
-<div id=search>
-<table width="100%" >
-  <tr >
-   <td>
-   <table>
-   <tr>
-    <td align="right"><label style="font:10px Tahoma;">Name</label></td>
-    <td align="left" width="70%"><input type="text" name="Cl_name" id="Cl_name"  style="height:120%;" value='<s:property value="Cl_name"/>'></td>
-    <td align="right"><label style="font:10px Tahoma;">MOB</label></td>
-    <td align="left"><input type="text" name="Cl_mob" id="Cl_mob" style="height:120%;" value='<s:property value="Cl_mob"/>'></td>
-    <td colspan="2" align="center"><input type="button" name="btnrasearch" id="btnrasearch" class="myButton" value="Search"  onclick="loadSearch();"></td>
-    <tr>
-    </table>
-    </td>
-  </tr>
-  
- 
+<style>
+/* =========================================================
+   MASTER SEARCH UI - PURE WHITE PANEL
+========================================================= */
 
-  <tr>
-    <td colspan="8" align="right">
-    
-    <div id="refreshdiv1">
-      
-   <jsp:include  page="searchClient.jsp"></jsp:include> 
-   
-   </div>
-    </td>
-  </tr>
-</table>
-  </div>
+body,
+html{
+    margin:0;
+    padding:0;
+    background:#ffffff !important;
+    font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
+}
+
+body[bgcolor]{
+    background:#ffffff !important;
+}
+
+#search{
+    background:#ffffff !important;
+    padding:10px;
+}
+
+/* Force jqx popup background white */
+
+.jqx-widget-content,
+.jqx-window-content,
+.jqx-fill-state-normal{
+    background:#ffffff !important;
+}
+
+/* Search Panel */
+
+.search-panel{
+    background:#ffffff !important;
+    border:1px solid #d6d6d6;
+    border-radius:4px;
+    padding:12px;
+    margin-bottom:12px;
+}
+
+/* Table Layout */
+
+.search-panel table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.search-panel td{
+    padding:6px;
+    vertical-align:middle;
+}
+
+/* Labels */
+
+.lbl-right{
+    text-align:right;
+    white-space:nowrap;
+    font-size:12px;
+    font-weight:500;
+    color:#333;
+    padding-right:8px;
+}
+
+/* Inputs */
+
+.search-panel input[type="text"]{
+    width:100%;
+    height:28px;
+    border:1px solid #cfcfcf;
+    border-radius:3px;
+    padding:2px 8px;
+    box-sizing:border-box;
+    background:#ffffff;
+    font-size:12px;
+}
+
+.search-panel input[type="text"]:focus{
+    border-color:#2563eb;
+    outline:none;
+}
+
+/* Grid */
+
+.grid-container{
+    background:#ffffff !important;
+    border:1px solid #cccccc;
+    border-radius:4px;
+    overflow:hidden;
+}
+</style>
+
+<body>
+
+<div id="search">
+
+    <!-- Search Panel -->
+
+    <div class="search-panel">
+
+        <table>
+
+            <colgroup>
+                <col width="8%">
+                <col width="42%">
+                <col width="8%">
+                <col width="25%">
+                <col width="17%">
+            </colgroup>
+
+            <tr>
+
+                <td class="lbl-right">
+                    Name
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="Cl_name"
+                           id="Cl_name"
+                           value='<s:property value="Cl_name"/>'>
+                </td>
+
+                <td class="lbl-right">
+                    MOB
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="Cl_mob"
+                           id="Cl_mob"
+                           value='<s:property value="Cl_mob"/>'>
+                </td>
+
+                <td align="center">
+
+                    <button type="button"
+                            id="btnrasearch"
+                            onclick="loadSearch();"
+                            style="
+                                width:110px;
+                                height:30px;
+                                background:#205fd3;
+                                color:#ffffff;
+                                border:1px solid #205fd3;
+                                border-radius:4px;
+                                font-size:12px;
+                                font-weight:600;
+                                cursor:pointer;">
+                        Search
+                    </button>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- Grid -->
+
+    <div class="grid-container">
+
+        <div id="refreshdiv1">
+
+            <jsp:include page="searchClient.jsp"></jsp:include>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>

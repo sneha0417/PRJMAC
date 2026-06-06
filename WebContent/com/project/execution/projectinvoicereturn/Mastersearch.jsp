@@ -38,45 +38,229 @@
 		}
 
 	</script>
-<body bgcolor="#E0ECF8">
-<div id=search>
-<table width="100%" >
-  <tr>
-   <td>                         
-   <table>
-   <tr>
-   <td align="right">Docno</td>
-    <td align="left" width="2%"><input type="text" name="msdocno" id="msdocno"  value='<s:property value="msdocno"/>'></td>
-    <td align="right" >Client</td>
-    <td align="left" width="55%" ><input type="text" name="Cl_names" id="Cl_names"  style="width:96.5%;" value='<s:property value="Cl_names"/>'></td>
-    <td align="right" width="12%" >Contract Type</td>
-      <td align="left" width="35%"><select  name="invtype" id="invtype" style="width:80%;"  value='<s:property value="invtype"/>' >
-  <option value="">----select----</option>
-  <option value="AMC">AMC</option>
-  <option value="SJOB">SJOB</option>
-   </select></td>
-      </tr>
-        <tr>
-        <td>Date </td>
-    <td align="left" ><div id="invdate" name="invdate"  value='<s:property value="invdate"/>'></div>
-    <td width="10%" align="right" >Invoice No</td><td ><input type="text" name="contno" id="contno" value='<s:property value="contno"/>'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-   <input type="button" name="invbtnrasearch" id="invbtnrasearch" class="myButton" value="Search"  onclick="invloadSearch1()"></td>
-    </tr>
-    </table>
-    </td>
-</tr>
+<style>
+/* =========================================================
+   MASTER SEARCH UI - PURE WHITE PANEL
+========================================================= */
 
-  <tr>
-    <td colspan="8" align="right">
-    
-    <div id="refreshdivmas">
-      
-   <jsp:include  page="subMastersearch.jsp"></jsp:include> 
-   
-   </div>
-    </td>
-  </tr>
-</table>
-  </div>
+body,
+html{
+    margin:0;
+    padding:0;
+    background:#ffffff !important;
+    font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
+}
+
+body[bgcolor]{
+    background:#ffffff !important;
+}
+
+#search{
+    background:#ffffff !important;
+    padding:10px;
+}
+
+/* Force jqx popup background white */
+
+.jqx-widget-content,
+.jqx-window-content,
+.jqx-fill-state-normal{
+    background:#ffffff !important;
+}
+
+/* Search Panel */
+
+.search-panel{
+    background:#ffffff !important;
+    border:1px solid #d6d6d6;
+    border-radius:4px;
+    padding:12px;
+    margin-bottom:12px;
+}
+
+/* Layout */
+
+.search-panel table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.search-panel td{
+    padding:6px;
+    vertical-align:middle;
+}
+
+/* Labels */
+
+.lbl-right{
+    text-align:right;
+    white-space:nowrap;
+    font-size:12px;
+    font-weight:500;
+    color:#333;
+    padding-right:8px;
+}
+
+/* Inputs */
+
+.search-panel input[type="text"],
+.search-panel select{
+    width:100%;
+    height:28px;
+    border:1px solid #cfcfcf;
+    border-radius:3px;
+    padding:2px 8px;
+    box-sizing:border-box;
+    background:#ffffff;
+    font-size:12px;
+}
+
+.search-panel input[type="text"]:focus,
+.search-panel select:focus{
+    border-color:#2563eb;
+    outline:none;
+}
+
+/* Grid */
+
+.grid-container{
+    background:#ffffff !important;
+    border:1px solid #cccccc;
+    border-radius:4px;
+    overflow:hidden;
+}
+</style>
+
+<body>
+
+<div id="search">
+
+    <!-- Search Panel -->
+
+    <div class="search-panel">
+
+        <table>
+
+            <colgroup>
+                <col width="8%">
+                <col width="12%">
+                <col width="8%">
+                <col width="28%">
+                <col width="12%">
+                <col width="18%">
+                <col width="14%">
+            </colgroup>
+
+            <!-- Row 1 -->
+
+            <tr>
+
+                <td class="lbl-right">
+                    Doc No
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="msdocno"
+                           id="msdocno"
+                           value='<s:property value="msdocno"/>'>
+                </td>
+
+                <td class="lbl-right">
+                    Client
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="Cl_names"
+                           id="Cl_names"
+                           value='<s:property value="Cl_names"/>'>
+                </td>
+
+                <td class="lbl-right">
+                    Contract Type
+                </td>
+
+                <td>
+                    <select name="invtype"
+                            id="invtype">
+                        <option value="">----select----</option>
+                        <option value="AMC">AMC</option>
+                        <option value="SJOB">SJOB</option>
+                    </select>
+                </td>
+
+                <td></td>
+
+            </tr>
+
+            <!-- Row 2 -->
+
+            <tr>
+
+                <td class="lbl-right">
+                    Date
+                </td>
+
+                <td>
+                    <div id="invdate"
+                         name="invdate"
+                         value='<s:property value="invdate"/>'>
+                    </div>
+                </td>
+
+                <td class="lbl-right">
+                    Invoice No
+                </td>
+
+                <td>
+                    <input type="text"
+                           name="contno"
+                           id="contno"
+                           value='<s:property value="contno"/>'>
+                </td>
+
+                <td colspan="2"></td>
+
+                <td align="center">
+
+                    <button type="button"
+                            id="invbtnrasearch"
+                            onclick="invloadSearch1();"
+                            style="
+                                width:110px;
+                                height:30px;
+                                background:#205fd3;
+                                color:#ffffff;
+                                border:1px solid #205fd3;
+                                border-radius:4px;
+                                font-size:12px;
+                                font-weight:600;
+                                cursor:pointer;">
+                        Search
+                    </button>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- Grid -->
+
+    <div class="grid-container">
+
+        <div id="refreshdivmas">
+
+            <jsp:include page="subMastersearch.jsp"></jsp:include>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>

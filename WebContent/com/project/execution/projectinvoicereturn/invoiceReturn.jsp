@@ -6,17 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GatewayERP(i)</title>
-<style>
-form label.error {
-color:red;
-  font-weight:bold;
 
-}
-.hidden-scrollbar {
-    overflow: auto;
-    height: 550px;
-}
-</style>
 <jsp:include page="../../../../includes.jsp"></jsp:include>
 <script type="text/javascript">
 
@@ -325,118 +315,390 @@ function setValues() {
 	 }
 	 
 </script>
+
+<style>
+body,
+input,
+select,
+textarea,
+button,
+.modern-ui{
+    font-family:Tahoma, Arial, sans-serif !important;
+}
+
+.hidden-scrollbar{
+    overflow:auto;
+    height:550px;
+    padding-right:5px;
+}
+
+.hidden-scrollbar::-webkit-scrollbar{
+    width:6px;
+}
+
+.hidden-scrollbar::-webkit-scrollbar-thumb{
+    background:#c5d3e0;
+    border-radius:3px;
+}
+
+form label.error{
+    color:red !important;
+    font-weight:bold;
+    font-size:11px;
+}
+
+.modern-ui{
+    color:#333;
+    font-size:11px;
+    padding:5px 15px;
+    box-sizing:border-box;
+    width:100%;
+}
+
+.modern-ui input[type="text"],
+.modern-ui select{
+    height:24px !important;
+    border:1px solid #b8c6d8;
+    border-radius:3px;
+    padding:2px 6px;
+    font-size:11px;
+    box-sizing:border-box;
+    background:#fff;
+    width:100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus{
+    border-color:#007bff;
+    outline:none;
+}
+
+.modern-ui input[readonly],
+.modern-ui input[type="text"]:disabled,
+.modern-ui select:disabled{
+    background:#f8f9fa !important;
+    color:#6b7280 !important;
+    border-color:#e5e7eb !important;
+}
+
+.modern-ui .field-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+}
+
+.modern-ui .lbl-right{
+    text-align:right;
+    color:#444;
+    font-size:11px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.modern-ui .middle-panel{
+    border:1px solid #c5d3e0;
+    padding:20px 10px 10px 10px;
+    background:#fff;
+    position:relative;
+    border-radius:4px;
+    margin-bottom:15px;
+    margin-top:12px;
+}
+
+.modern-ui .middle-panel-title{
+    position:absolute;
+    top:-12px;
+    left:10px;
+    background:#fff;
+    padding:0 8px;
+    color:#0056b3;
+    font-weight:bold;
+    font-size:13px;
+    border-left:3px solid #0056b3;
+}
+
+.grid-container{
+    border:1px solid #c5d3e0;
+    border-radius:4px;
+    background:#fff;
+    overflow:hidden;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+.l-btn-disabled,
+.ui-state-disabled{
+    background:#e2e8f0 !important;
+    color:#94a3b8 !important;
+    border:1px solid #cbd5e1 !important;
+    pointer-events:none !important;
+    cursor:not-allowed !important;
+    box-shadow:none !important;
+}
+.modern-ui .input-search-container{
+    position:relative;
+    display:flex;
+}
+
+.modern-ui .input-search-container input{
+    padding-right:25px !important;
+}
+
+.modern-ui .magnifier-icon{
+    position:absolute;
+    right:6px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    color:#64748b;
+    z-index:10;
+}
+
+.modern-ui .magnifier-icon:hover{
+    color:#2563eb;
+}
+</style>
 </head>
 
-<body onLoad="setValues();"><br/> 
-<div id="mainBG" class="homeContent" data-type="background"> 	
-<form id="frmprojectinvoicereturn" action="saveProjectinvoicereturn" method="post" autocomplete="off">
+<body onLoad="setValues();"><br/>
+
+<div id="mainBG" class="homeContent" data-type="background">
+
+<form id="frmprojectinvoicereturn"
+      action="saveProjectinvoicereturn"
+      method="post"
+      autocomplete="off">
+
 <jsp:include page="../../../../header.jsp" /><br>
-<div class='hidden-scrollbar'>
 
-<fieldset>
-<table width="100%">
-  <tr>
-    <td width="13%" align="right">Date</td>
-    <td width="16%"><div id="date" name="date" value='<s:property value="date"/>'></div></td>
-    <td align="right" width="8%" >Ref Type</td>
-    <td align="left" width="10%" ><select name="nireftype" id="nireftype" style="width:99%;"  value='<s:property value="nireftype"/>' >
-    <option value="PJIV" >PJIV</option></select>
-    <input type="hidden" name="hidnireftype" id="hidnireftype" value='<s:property value="hidnireftype"/>'></td>
-    <td align="left" width="15%" ><input type="text" name="rrefno" id="rrefno" placeholder="Press F3 To Search" style="width:95%;" value='<s:property value="rrefno"/>' onKeyDown="getrefnosearch(event);">
-    <input type="hidden" name="rreftrno" id="rreftrno" value='<s:property value="rreftrno"/>'></td>
-    <td width="7%" align="right">Ref No</td>
-    <td width="21%"><input type="text" name="refno" id="refno" value='<s:property value="refno"/>'></td>
-    <td width="7%" align="right">Doc No</td>
-    <td width="21%"><input type="text" name="docno" id="docno"  value='<s:property value="docno"/>'></td>
-  </tr>
-  <tr>
-    <td align="right">Contract Type</td>
-    <td><input type="text" name="cmbcontracttype" id="cmbcontracttype" onchange="refChange();" onload="refChange();" onblur="refChange();" value='<s:property value="cmbcontracttype"/>'>
-    <input type="hidden" name="cmbcontracttypeid" id="cmbcontracttypeid" value='<s:property value="cmbcontracttypeid"/>'></td>
-    <td align="right"><label id="contrno">Contract No</label></td>
-    <td colspan="5"><input type="text" name="txtrefdetails" id="txtrefdetails" value='<s:property value="txtrefdetails"/>'></td>
-    <td><input type="hidden" name="txtcontract" id="txtcontract"  value='<s:property value="txtcontract"/>'></td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td align="right">Client</td>
-    <td colspan="6"><input type="text" name="txtclient" id="txtclient"  value='<s:property value="txtclient"/>'>
-    <input type="text" name="txtclientdet" style="width:58.5%;" id="txtclientdet"  value='<s:property value="txtclientdet"/>'>
-    </td>
-    <td>&nbsp; <input type="hidden" name="txtprintwindowallowed" id="txtprintwindowallowed" value='<s:property value="txtprintwindowallowed"/>'></td>
-    <td>&nbsp;</td>
-  </tr>
-  <%-- <tr>
-    <td align="right">Site</td>
-    <td><input type="text" name="txtsite" id="txtsite" value='<s:property value="txtsite"/>'></td>
-    <td align="right">Status</td>
-    <td><select name="cmbstatus" id="cmbstatus">
-      <option value="">--Select--</option>
-      <option value="Completed">Completed</option>
-      <option value="Closed">Closed</option>
-      <option value="Pending">Pending</option>
-    </select></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr> --%>
-  <tr>
-    <td align="right">Description</td>
-    <td colspan="6"><input type="text" name="desc" style="width:75.5%;" id="desc" value='<s:property value="desc"/>'></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td align="right">Notes</td>
-    <td colspan="6"><input type="text" name="txtnotes" style="width:75.5%;" id="txtnotes" value='<s:property value="txtnotes"/>'></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-</table>
-</fieldset>
-    
-<fieldset><legend></legend>
-<div id="serdiv"><jsp:include page="serviceGrid.jsp"></jsp:include></div>
-</fieldset>
-  
-<fieldset style="border-color: #E0ECF8;">
-<div id="expdiv" hidden="true"><jsp:include page="expenseGrid.jsp"></jsp:include></div>
-</fieldset>
-     
-<input type="hidden" id="txtlegalamt" name="txtlegalamt"  value='<s:property value="txtlegalamt"/>'/>
-<input type="hidden" id="txtseramt" name="txtseramt"  value='<s:property value="txtseramt"/>'/>
-<input type="hidden" id="txtexptotal" name="txtexptotal"  value='<s:property value="txtexptotal"/>'/>
-<input type="hidden" id="txtnettotal" name="txtnettotal"  value='<s:property value="txtnettotal"/>'/>
-<input type="hidden" id="txtpjivnettotal" name="txtpjivnettotal"  value='<s:property value="txtpjivnettotal"/>'/>
-<input type="hidden" id="txtpjivnetlegalamt" name="txtpjivnetlegalamt"  value='<s:property value="txtpjivnetlegalamt"/>'/>
-<input type="hidden" id="txtpjivnetrettotal" name="txtpjivnetrettotal"  value='<s:property value="txtpjivnetrettotal"/>'/>
-<input type="hidden" id="txtpjivnetretlegalamt" name="txtpjivnetretlegalamt"  value='<s:property value="txtpjivnetretlegalamt"/>'/>
-<input type="hidden" id="mode" name="mode"  value='<s:property value="mode"/>'/>
-<input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
-<input type="hidden" id="deleted" name="deleted"  value='<s:property value="deleted"/>'/>
-<input type="hidden" id="clientid" name="clientid"  value='<s:property value="clientid"/>'/>
-<input type="hidden" id="costid" name="costid"  value='<s:property value="costid"/>'/>
-<input type="hidden" id="clacno" name="clacno"  value='<s:property value="clacno"/>'/>
-<input type="hidden" name="contypeval" id="contypeval" value='<s:property value="contypeval"/>'/>
-<input type="hidden" name="pdid" id="pdid" value='<s:property value="pdid"/>'>
-<input type="hidden" name="ptype" id="ptype" value='<s:property value="ptype"/>'>
-<input type="hidden" name="maintrno" id="maintrno" value='<s:property value="maintrno"/>'/>
-<input type="hidden" id="invgridlength" name="invgridlength" value='<s:property value="invgridlength"/>'/>
-<input type="hidden" id="expgridlength" name="expgridlength" value='<s:property value="expgridlength"/>'/>
+<div class="modern-ui hidden-scrollbar">
 
-<input type="hidden" name="inctax" id="inctax" value='<s:property value="inctax"/>'>   
+    <!-- General Information -->
+    <div class="middle-panel">
+        <span class="middle-panel-title">Project Invoice Return</span>
+
+        <div class="field-row">
+
+            <label class="lbl-right" style="width:90px;">Date</label>
+
+            <div style="width:130px;">
+                <div id="date"
+                     name="date"
+                     value='<s:property value="date"/>'></div>
+            </div>
+
+            <label class="lbl-right" style="width:70px;">Ref Type</label>
+
+            <select name="nireftype"
+                    id="nireftype"
+                    style="width:90px;"
+                    value='<s:property value="nireftype"/>'>
+                <option value="PJIV">PJIV</option>
+            </select>
+
+            <input type="hidden"
+                   name="hidnireftype"
+                   id="hidnireftype"
+                   value='<s:property value="hidnireftype"/>'>
+
+            <div class="input-search-container" style="width:140px;">
+
+    <input type="text"
+           name="rrefno"
+           id="rrefno"
+           placeholder="Press F3 To Search"
+           value='<s:property value="rrefno"/>'
+           onKeyDown="getrefnosearch(event);">
+
+    <svg class="magnifier-icon"
+         onclick="$('#rrefno').focus();"
+         width="14"
+         height="14"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2.5"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+
+    </svg>
+
+</div>
+
+<input type="hidden"
+       name="rreftrno"
+       id="rreftrno"
+       value='<s:property value="rreftrno"/>'>
+
+            <input type="hidden"
+                   name="rreftrno"
+                   id="rreftrno"
+                   value='<s:property value="rreftrno"/>'>
+
+            <label class="lbl-right" style="width:60px;">Ref No</label>
+
+            <input type="text"
+                   name="refno"
+                   id="refno"
+                   style="width:120px;"
+                   value='<s:property value="refno"/>'>
+
+            <label class="lbl-right" style="width:60px;">Doc No</label>
+
+            <input type="text"
+                   name="docno"
+                   id="docno"
+                   style="width:120px;"
+                   value='<s:property value="docno"/>'>
+
+        </div>
+
+        <div class="field-row">
+
+            <label class="lbl-right" style="width:90px;">Contract Type</label>
+
+            <input type="text"
+                   name="cmbcontracttype"
+                   id="cmbcontracttype"
+                   style="width:140px;"
+                   onchange="refChange();"
+                   onload="refChange();"
+                   onblur="refChange();"
+                   value='<s:property value="cmbcontracttype"/>'>
+
+            <input type="hidden"
+                   name="cmbcontracttypeid"
+                   id="cmbcontracttypeid"
+                   value='<s:property value="cmbcontracttypeid"/>'>
+
+            <label class="lbl-right" style="width:90px;">
+                <label id="contrno">Contract No</label>
+            </label>
+
+            <input type="text"
+                   name="txtrefdetails"
+                   id="txtrefdetails"
+                   style="flex:1;"
+                   value='<s:property value="txtrefdetails"/>'>
+
+            <input type="hidden"
+                   name="txtcontract"
+                   id="txtcontract"
+                   value='<s:property value="txtcontract"/>'>
+
+        </div>
+
+        <div class="field-row">
+
+            <label class="lbl-right" style="width:90px;">Client</label>
+
+            <input type="text"
+                   name="txtclient"
+                   id="txtclient"
+                   style="width:140px;"
+                   value='<s:property value="txtclient"/>'>
+
+            <input type="text"
+                   name="txtclientdet"
+                   id="txtclientdet"
+                   style="flex:1;"
+                   value='<s:property value="txtclientdet"/>'>
+
+            <input type="hidden"
+                   name="txtprintwindowallowed"
+                   id="txtprintwindowallowed"
+                   value='<s:property value="txtprintwindowallowed"/>'>
+
+        </div>
+
+        <div class="field-row">
+
+            <label class="lbl-right" style="width:90px;">Description</label>
+
+            <input type="text"
+                   name="desc"
+                   id="desc"
+                   style="flex:1;"
+                   value='<s:property value="desc"/>'>
+
+        </div>
+
+        <div class="field-row" style="margin-bottom:0;">
+
+            <label class="lbl-right" style="width:90px;">Notes</label>
+
+            <input type="text"
+                   name="txtnotes"
+                   id="txtnotes"
+                   style="flex:1;"
+                   value='<s:property value="txtnotes"/>'>
+
+        </div>
+
+    </div>
+
+    <!-- Service Grid -->
+    <div class="middle-panel">
+        <span class="middle-panel-title">Service Details</span>
+
+        <div id="serdiv" class="grid-container">
+            <jsp:include page="serviceGrid.jsp"></jsp:include>
+        </div>
+    </div>
+
+    <!-- Hidden Expense Grid -->
+    <div id="expdiv" hidden="true">
+        <jsp:include page="expenseGrid.jsp"></jsp:include>
+    </div>
+
+    <!-- Hidden Fields (UNCHANGED) -->
+
+    <input type="hidden" id="txtlegalamt" name="txtlegalamt" value='<s:property value="txtlegalamt"/>'/>
+    <input type="hidden" id="txtseramt" name="txtseramt" value='<s:property value="txtseramt"/>'/>
+    <input type="hidden" id="txtexptotal" name="txtexptotal" value='<s:property value="txtexptotal"/>'/>
+    <input type="hidden" id="txtnettotal" name="txtnettotal" value='<s:property value="txtnettotal"/>'/>
+    <input type="hidden" id="txtpjivnettotal" name="txtpjivnettotal" value='<s:property value="txtpjivnettotal"/>'/>
+    <input type="hidden" id="txtpjivnetlegalamt" name="txtpjivnetlegalamt" value='<s:property value="txtpjivnetlegalamt"/>'/>
+    <input type="hidden" id="txtpjivnetrettotal" name="txtpjivnetrettotal" value='<s:property value="txtpjivnetrettotal"/>'/>
+    <input type="hidden" id="txtpjivnetretlegalamt" name="txtpjivnetretlegalamt" value='<s:property value="txtpjivnetretlegalamt"/>'/>
+    <input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>'/>
+    <input type="hidden" id="msg" name="msg" value='<s:property value="msg"/>'/>
+    <input type="hidden" id="deleted" name="deleted" value='<s:property value="deleted"/>'/>
+    <input type="hidden" id="clientid" name="clientid" value='<s:property value="clientid"/>'/>
+    <input type="hidden" id="costid" name="costid" value='<s:property value="costid"/>'/>
+    <input type="hidden" id="clacno" name="clacno" value='<s:property value="clacno"/>'/>
+    <input type="hidden" name="contypeval" id="contypeval" value='<s:property value="contypeval"/>'/>
+    <input type="hidden" name="pdid" id="pdid" value='<s:property value="pdid"/>'>
+    <input type="hidden" name="ptype" id="ptype" value='<s:property value="ptype"/>'>
+    <input type="hidden" name="maintrno" id="maintrno" value='<s:property value="maintrno"/>'/>
+    <input type="hidden" id="invgridlength" name="invgridlength" value='<s:property value="invgridlength"/>'/>
+    <input type="hidden" id="expgridlength" name="expgridlength" value='<s:property value="expgridlength"/>'/>
+    <input type="hidden" name="inctax" id="inctax" value='<s:property value="inctax"/>'>
 
 </div>
 
 <div id="refnosearchwindow">
-	<div></div>
+    <div></div>
 </div>
+
 <div id="costCodeSearchWindow">
-	<div></div><div></div>
+    <div></div>
+    <div></div>
 </div>
+
 <div id="printWindow">
-	<div></div>
+    <div></div>
 </div>
+
 </form>
-</div>     
+
+</div>
+
 </body>
 </html>
