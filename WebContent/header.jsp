@@ -1705,10 +1705,6 @@ function setapprbrch(branchval){
                 <svg viewBox="0 0 20 20"><path d="M4 16H0V6h20v10h-4v4H4v-4zm2-4v6h8v-6H6zM4 0h12v5H4V0z"/></svg> Print
             </button>
             
-            <button type="button" class="action-btn" id="btnExcel" title="Export current Document to Excel" onclick="funExcelBtn()" hidden>
-                <svg viewBox="0 0 20 20"><path d="M15 4H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM9 18H5v-4h4v4zm0-6H5V8h4v4zm6 6h-4v-4h4v4zm0-6h-4V8h4v4z"/></svg> Excel
-            </button>
-
             <button type="button" class="action-btn" id="btnDelete" title="Delete current Document">
                 <svg viewBox="0 0 20 20"><path d="M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z"/></svg> Delete
             </button>
@@ -1729,18 +1725,8 @@ function setapprbrch(branchval){
                 <svg viewBox="0 0 20 20"><path d="M10 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm3-8a5 5 0 1 0-10 0v8a7 7 0 0 0 14 0V5h-2v9a5 5 0 0 1-10 0V6a3 3 0 1 1 6 0v7a1 1 0 0 1-2 0V6H7v7a3 3 0 0 0 6 0V6z"/></svg> Attach
             </button>
                             
-            <button type="button" class="action-btn" id="btnCosting" title="Costing" onclick="funCostingBtn()" hidden>
-                <svg viewBox="0 0 20 20"><path d="M10 2c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm1 11.93V15h-2v-1.07A4.004 4.004 0 0 1 5.92 11h2.09c.46 1.11 1.76 1.7 3 1.25 1.14-.42 1.4-1.92.35-2.5-2.73-1.53-5.36-1.57-5.36-4.25 0-1.58 1.18-2.9 2.92-3.41V1h2v1.07c1.47.28 2.65 1.34 2.94 2.93h-2.11c-.34-1-1.46-1.47-2.61-1.1-1.28.42-1.39 2.05-.23 2.68 2.89 1.58 5.48 1.76 5.48 4.34 0 1.62-1.21 2.86-2.4 3.01z"/></svg> Costing
-            </button>	
-                            
-            <button type="button" class="action-btn" id="btnGuideLine" title="Guideline" onclick="funGuideLineBtn()" hidden>
-                <svg viewBox="0 0 20 20"><path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm1 12H9v-2h2v2zm0-4H9V5h2v5z"/></svg> Guideline
-            </button>
-
-            <button type="button" class="action-btn" id="btnSendmail" title="Send Document to Client" onclick="funSendMail()" hidden>
-                <svg viewBox="0 0 20 20"><path d="M18 4H2C.9 4 0 4.9 0 6v8c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM2 6l8 5 8-5v1l-8 5-8-5V6z"/></svg> Sendmail
-            </button>
-                            
+             
+              
             <button type="button" class="action-btn" id="btnTerms" title="Terms and Conditions" onclick="funTermsCond()" hidden>
                 <svg viewBox="0 0 20 20"><path d="M15 2h-3v1a2 2 0 0 1-4 0V2H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-3.5 12.5L8 11l1.41-1.41 2.09 2.09 4.09-4.09L17 9l-5.5 5.5z"/></svg> Terms
             </button>
