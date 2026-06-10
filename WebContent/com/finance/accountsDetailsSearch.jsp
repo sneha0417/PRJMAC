@@ -1,5 +1,5 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<% String contextPath=request.getContextPath();%>
+<% String contextPath=request.getContextPath(); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,32 +7,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GatewayERP(i)</title>
+
 <link href="<%=contextPath%>/css/body.css" media="screen" rel="stylesheet" type="text/css" />
 
 <style>
 /* =========================================================
-   SCOPED UI: Pure White Panel (Strict Weight Control)
+   STRICTLY SCOPED UI (No Global Bleed)
 ========================================================= */
-body, html {
-    margin: 0;
-    padding: 0;
-    background-color: #ffffff !important;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-}
-
 .modern-ui {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
     font-size: 12px;
+    font-weight: bold !important; /* Forces this component to be bold */
     padding: 10px;
     box-sizing: border-box;
     width: 100%;
     background-color: #ffffff !important;
-    color: #333333 !important; /* Forced text color to guarantee visibility */
-}
-
-/* Strict weight enforcement for injected content */
-.modern-ui, .modern-ui table, .modern-ui td, .modern-ui input, .modern-ui select {
-    font-weight: 400 !important; 
-    color: #333333 !important; /* Forces all table text to be visible dark grey */
+    color: #333333 !important;
 }
 
 /* Master Input Styles */
@@ -43,10 +33,11 @@ body, html {
     border-radius: 3px;
     padding: 2px 6px;
     font-size: 12px; 
+    font-weight: bold !important; /* Makes the typed text inside inputs bold */
     font-family: inherit;
     box-sizing: border-box;
     background-color: #ffffff;
-    color: #333333 !important; /* Forces input text to be visible */
+    color: #333333 !important; 
     width: 100%;
 }
 
@@ -84,27 +75,26 @@ body, html {
     text-align: right; 
     color: #333333 !important; 
     font-size: 12px; 
-    font-weight: 600 !important;
+    font-weight: bold !important;
     white-space: nowrap; 
     padding-right: 5px;
 }
 
 /* =========================================================
    BULLETPROOF BUTTON UI: Dark Blue + Hover
-   Targeting ID #btnAccountSearch directly to override body.css
 ========================================================= */
 div#search.modern-ui input#btnAccountSearch.myButton {
     height: 24px !important; 
     padding: 0 24px !important;
-    background-color: #205fd3 !important; /* Solid Dark Blue */
+    background-color: #205fd3 !important; 
     background-image: none !important;
-    color: #ffffff !important; /* White text for button */
+    color: #ffffff !important; 
     border: none !important;
     border-radius: 4px !important; 
     cursor: pointer !important;
     font-family: Arial, sans-serif !important; 
     font-size: 12px !important;
-    font-weight: 600 !important;
+    font-weight: bold !important;
     line-height: 24px !important;
     transition: background-color 0.2s ease !important;
     width: 100% !important;
@@ -113,7 +103,7 @@ div#search.modern-ui input#btnAccountSearch.myButton {
 
 /* The Hover State */
 div#search.modern-ui input#btnAccountSearch.myButton:hover {
-    background-color: #124096 !important; /* Noticeably darker blue on hover */
+    background-color: #124096 !important; 
 }
 
 /* Grid Container */
