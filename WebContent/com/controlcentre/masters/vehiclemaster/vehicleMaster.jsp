@@ -11,41 +11,6 @@
 <%@page import="com.controlcentre.masters.vehiclemaster.leasecdw.*" %>
 <%ClsLeaseCDWDAO cdwdao=new ClsLeaseCDWDAO(); %>
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		// Initialize hidden states
-		$('#branchid').val(window.parent.branchid.value);
-		$('#leasecdwdiv').hide();
-		
-		var cdwstatus='<%=cdwdao.getActiveStatus()%>';
-		if(cdwstatus=="1"){
-			$('#leasecdwdiv').show();
-		} else {
-			$('#leasecdwdiv').hide();
-		}
-	});
-
-	// Active button highlight logic
-	document.addEventListener("DOMContentLoaded", function () {
-		const buttons = document.querySelectorAll(".myButton");
-
-		buttons.forEach(btn => {
-			btn.addEventListener("click", function () {
-				// Remove active from all buttons
-				buttons.forEach(b => b.classList.remove("active"));
-
-				// Add active to clicked button
-				this.classList.add("active");
-			});
-		});
-
-		// Auto-highlight first button on page load
-		if (buttons.length > 0) {
-			buttons[0].classList.add("active");
-		}
-	});
-</script>
-
 <style type="text/css">
 /* =========================================================
    SCOPED UI: Master Navigation Standard
@@ -156,6 +121,40 @@ body {
     display: block;
 }
 </style>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // 1. Backend Data Logic
+        try {
+            $('#branchid').val(window.parent.branchid.value);
+        } catch (e) {
+            console.warn("Could not fetch parent branchid.", e);
+        }
+
+        // REMOVED: The leasecdwdiv hide/show logic based on cdwstatus.
+        // Now, all buttons inside #leasecdwdiv will show by default!
+    });
+
+    // 2. Button Visual Logic
+    document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll(".myButton");
+
+        buttons.forEach(btn => {
+            btn.addEventListener("click", function () {
+                // Remove active from all buttons
+                buttons.forEach(b => b.classList.remove("active"));
+                
+                // Add active to the clicked button
+                this.classList.add("active");
+            });
+        });
+
+        // Auto-highlight the first button on page load
+        if (buttons.length > 0) {
+            buttons[0].classList.add("active");
+        }
+    });
+</script>
 </head>
 
 <body>
