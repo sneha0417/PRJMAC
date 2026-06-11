@@ -1,279 +1,303 @@
- <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<% String contextPath=request.getContextPath(); %>
 <!DOCTYPE html>
 <html>
 <head>
- 
-<% String contextPath=request.getContextPath();%>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GatewayERP(i)</title>
-<%--   <jsp:include page="../../../../includes.jsp"></jsp:include>   --%> 
+
+<link href="<%=contextPath%>/css/body.css" media="screen" rel="stylesheet" type="text/css" />
+
 <style>
- <link href="<%=contextPath%>/css/body.css" media="screen" rel="stylesheet" type="text/css" />
+/* =========================================================
+   STRICTLY SCOPED UI (No Global Bleed, Bold Retained)
+========================================================= */
+.modern-ui {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    font-size: 12px;
+    font-weight: bold !important; /* Forces this component to be bold */
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #ffffff !important;
+    color: #333333 !important; 
+}
+
+/* Strict weight enforcement for injected content */
+.modern-ui, .modern-ui table, .modern-ui td, .modern-ui input, .modern-ui select {
+    font-weight: bold !important; 
+    color: #333333 !important; 
+}
+
+/* Master Input Styles */
+.modern-ui input[type="text"],
+.modern-ui select {
+    height: 24px !important;
+    border: 1px solid #cccccc; 
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 12px; 
+    font-weight: bold !important; /* Makes the typed text inside inputs bold */
+    font-family: inherit;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #333333 !important; 
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+/* Panel Styling */
+.modern-ui .search-panel {
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 15px 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Table Alignment */
+.modern-ui table {
+    border-collapse: separate;
+    border-spacing: 5px 8px; 
+    width: 100%;
+    table-layout: fixed; 
+}
+
+.modern-ui td {
+    vertical-align: middle;
+}
+
+/* Side-aligned labels */
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #333333 !important; 
+    font-size: 12px; 
+    font-weight: bold !important;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* =========================================================
+   BULLETPROOF BUTTON UI: Standard (Blue) & Submit (Steel)
+========================================================= */
+/* Primary Search Button */
+div#search.modern-ui input.myButton {
+    height: 24px !important; 
+    padding: 0 15px !important;
+    background-color: #205fd3 !important; 
+    background-image: none !important;
+    color: #ffffff !important; 
+    border: none !important;
+    border-radius: 4px !important; 
+    cursor: pointer !important;
+    font-family: Arial, sans-serif !important; 
+    font-size: 12px !important;
+    font-weight: bold !important;
+    line-height: 24px !important;
+    transition: background-color 0.2s ease !important;
+    width: auto !important;
+    box-sizing: border-box !important;
+}
+
+div#search.modern-ui input.myButton:hover {
+    background-color: #124096 !important; 
+}
+
+/* Secondary Submit Button (Modernized from Legacy Gradient) */
+div#search.modern-ui input.myButtons {
+    height: 24px !important; 
+    padding: 0 15px !important;
+    background-color: #476e9e !important; /* Flat Steel Blue */
+    background-image: none !important;
+    color: #ffffff !important; 
+    border: none !important;
+    border-radius: 4px !important; 
+    cursor: pointer !important;
+    font-family: Arial, sans-serif !important; 
+    font-size: 12px !important;
+    font-weight: bold !important;
+    line-height: 24px !important;
+    transition: background-color 0.2s ease !important;
+    width: auto !important;
+    box-sizing: border-box !important;
+}
+
+div#search.modern-ui input.myButtons:hover {
+    background-color: #325075 !important; 
+}
+
+/* Grid Container */
+.modern-ui .grid-container {
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    min-height: 200px;
+}
 </style>
-<style>
-/* .myButtons {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #7d5d3b), color-stop(1, #634b30));
-	background:-moz-linear-gradient(top, #7d5d3b 5%, #634b30 100%);
-	background:-webkit-linear-gradient(top, #7d5d3b 5%, #634b30 100%);
-	background:-o-linear-gradient(top, #7d5d3b 5%, #634b30 100%);
-	background:-ms-linear-gradient(top, #7d5d3b 5%, #634b30 100%);
-	background:linear-gradient(to bottom, #7d5d3b 5%, #634b30 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d5d3b', endColorstr='#634b30',GradientType=0);
-	background-color:#7d5d3b;
-	-moz-border-radius:1px;
-	-webkit-border-radius:1px;
-	border-radius:1px;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:12px;
-	padding:3px 17px;
-	text-decoration:none;
+
+<script type="text/javascript">
+$(document).ready(function () { 
+    // Standardizing the jqxDateTimeInput to match the new 24px UI height
+    $("#datess").jqxDateTimeInput({ width: '100%', height: '24px', formatString: "dd.MM.yyyy", value: null }); 
+});   
+
+function loadSearchss() {
+    var docnoss = document.getElementById("docnoss").value || "";
+    var refnosss = document.getElementById("refnosss").value || "";
+    
+    // Safely pull from jqxDateTimeInput with a standard DOM fallback
+    var datess = "";
+    if ($('#datess').length && typeof $('#datess').jqxDateTimeInput === 'function') {
+        datess = $('#datess').jqxDateTimeInput('val') || "";
+    } else {
+        var dateEl = document.getElementById("datess");
+        datess = dateEl ? dateEl.value : "";
+    }
+
+    var aa = "yes";
+    getdatas(docnoss, refnosss, datess, aa);
 }
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #634b30), color-stop(1, #7d5d3b));
-	background:-moz-linear-gradient(top, #634b30 5%, #7d5d3b 100%);
-	background:-webkit-linear-gradient(top, #634b30 5%, #7d5d3b 100%);
-	background:-o-linear-gradient(top, #634b30 5%, #7d5d3b 100%);
-	background:-ms-linear-gradient(top, #634b30 5%, #7d5d3b 100%);
-	background:linear-gradient(to bottom, #634b30 5%, #7d5d3b 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#634b30', endColorstr='#7d5d3b',GradientType=0);
-	background-color:#634b30;
+
+function getdatas(docnoss, refnosss, datess, aa) {
+    // Safely pull values from parent container elements
+    var clientid = document.getElementById("clientid") ? document.getElementById("clientid").value : "";
+    var locaid = document.getElementById("locationid") ? document.getElementById("locationid").value : "";
+    var reftype = $('#cmbreftype').length ? $('#cmbreftype').val() : "";
+    var trans = $('#cmbmodeofpay').length ? $('#cmbmodeofpay').val() : "";
+    
+    var tranid = 0;
+    if (trans === 'cash') {
+        tranid = 1;
+    } else if (trans === 'credit') {
+        tranid = 2;
+    }
+
+    // Upgraded to robust URL encoding
+    $("#refsearch").load('subrefnosearch.jsp?docnoss=' + encodeURIComponent(docnoss) + 
+                         '&datess=' + encodeURIComponent(datess) + 
+                         '&refnosss=' + encodeURIComponent(refnosss) + 
+                         '&aa=' + encodeURIComponent(aa) + 
+                         '&clientid=' + encodeURIComponent(clientid) + 
+                         '&reftype=' + encodeURIComponent(reftype) + 
+                         '&tranid=' + tranid + 
+                         '&locaid=' + encodeURIComponent(locaid));
 }
-.myButtons:active {
-	position:relative;
-	top:1px;
-}
- */
- .myButtons {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #7892c2), color-stop(1, #476e9e));
-	background:-moz-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-webkit-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-o-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-ms-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7892c2', endColorstr='#476e9e',GradientType=0);
-	background-color:#7892c2;
-	border:1px solid #4e6096;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:12px;
-	padding:2px 7px;
-	text-decoration:none;
-}
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #476e9e), color-stop(1, #7892c2));
-	background:-moz-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-webkit-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-o-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-ms-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2',GradientType=0);
-	background-color:#476e9e;
-}
-.myButtons:active {
-	position:relative;
-	top:1px;
-}      
 
-        
+function searchdata() {
+    // Safety check to ensure the grid exists before calling methods
+    if (!$('#reqMastersearch').length) return;
+    
+    var rows = $('#reqMastersearch').jqxGrid('getrows');
+    if (!rows) return;
 
-</style>
-	<script type="text/javascript">
-
-	$(document).ready(function () { 
-	    
-		   $("#datess").jqxDateTimeInput({  width: '125px', height: '15px', formatString:"dd.MM.yyyy",value:null}); 
-		   
-	});   
-		   
-  	function loadSearchss() {
- 		
- 		var docnoss=document.getElementById("docnoss").value;
- 		 
- 		var datess=document.getElementById("datess").value;
- 		var refnosss=document.getElementById("refnosss").value;
- 		
- 		 
-
-		
-	var aa="yes";
-		getdatas(docnoss,refnosss,datess,aa);
- 
-
-	}
-	function getdatas(docnoss,refnosss,datess,aa){
-		
-		var clientid=document.getElementById("clientid").value;
-		var reftype=$("#cmbreftype").val();
-		
-		var trans=$("#cmbmodeofpay").val();
-		var tranid=0;
-		if(trans=='cash'){
-		
-			tranid=1;
-		}
-		else if(trans=='credit'){
-		
-			tranid=2;
-		}
-	
-			 $("#refsearch").load('subrefnosearch.jsp?docnoss='+docnoss+'&datess='+datess+'&refnosss='+refnosss+'&aa='+aa+'&clientid='+clientid+'&reftype='+reftype+'&tranid='+tranid+'&locaid='+document.getElementById("locationid").value);
-		
-
-		}  
-	
-	
-	function searchdata()
-	{
-		
-		  var rows = $('#reqMastersearch').jqxGrid('getrows');
-          var temp="";
-          var temp2="";
-          var aa=0;
-          for(var i=0 ; i < rows.length ; i++){
-      	    
-              if(rows[i].chk==true)
-           	   
-           	   {
-           	   
-           	  aa=1;
-           	   
-           	   }
-               	    
-               	   } 
+    var temp = "";
+    var temp2 = "";
+    var aa = 0;
+    
+    for (var i = 0; i < rows.length; i++) {
+        if (rows[i].chk == true) {
+            aa = 1;
+        }
+    } 
           
-          if(parseInt(aa)==0)
-        	  {
-        	  
-        	  document.getElementById("errormsg").innerText="Choose at least one request";
-        		 
-
-        		 return 0;
-        	  }
+    if (parseInt(aa) == 0) {
+        var errorEl = document.getElementById("errormsg");
+        if (errorEl) errorEl.innerText = "Choose at least one request";
+        return 0;
+    }
           
+    for (var i = 0; i < rows.length; i++) {
+        if (rows[i].chk == true) {
+            temp = temp + rows[i].voc_no + ",";
+            temp2 = temp2 + rows[i].doc_no + ",";
+        }
+    }
           
-          
-          
-           for(var i=0 ; i < rows.length ; i++){
-        	    
-       if(rows[i].chk==true)
-    	   
-    	   {
-    	   
-    	   temp=temp+rows[i].voc_no+",";
-    	   temp2=temp2+rows[i].doc_no+",";
-    	   
-    	   }
-        	    
-        	   }
-          
-           document.getElementById("refmasterdocno").value=temp2.replace(/,\s*$/, "");
+    var refMasterDoc = document.getElementById("refmasterdocno");
+    var rRefNo = document.getElementById("rrefno");
+    
+    if (refMasterDoc) refMasterDoc.value = temp2.replace(/,\s*$/, "");
+    if (rRefNo) rRefNo.value = temp.replace(/,\s*$/, "");
            
-           document.getElementById("rrefno").value=temp.replace(/,\s*$/, "");
-           
-		
-		 $('#refnosearchwindow').jqxWindow('close'); 
-		// importsearchcontent('importoption.jsp');	
-	       $.messager.confirm('Message', 'Do you want to Import?', function(r){
-	        	  
- 		       
-		        	if(r==false)
-		        	  {
-		        		
-		        		$("#prodsearchtype").val("1");
-		        		/*  document.getElementById("rrefno").value="";
-		        		 document.getElementById("reqmasterdocno").value=""; */
-		        		 
-		        		 $("#jqxInvoiceReturn").jqxGrid('clear');
-		 			    $("#jqxInvoiceReturn").jqxGrid('addrow', null, {});
-		        		return false; 
-		        	  }
-		        	else{
-				  	
-		        		$("#prodsearchtype").val("2");
-		        		
-		        		 var chk="req";
-		        		// $('#mode').val("A");
-		       		  var from="pro";
-		       		  var reftype=$("#cmbreftype").val();
-		       		//$("#hidload").val("1");
-		       		//$("#jqxInvoiceReturn").jqxGrid({ disabled: false});
-		       		  $("#invoiceDiv").load("invoiceReturnGrid.jsp?enqdoc="+ document.getElementById("refmasterdocno").value+"&chk="+chk+"&from="+from+"&cond=1&reftype="+reftype+'&locaid='+document.getElementById("locationid").value);	
-		       		
-		        		
-		        		
-		        	   }
-     });  
-		
-		
-	 
-		 
-           
-          
-	}
-	
-	
+    if ($('#refnosearchwindow').length) {
+        $('#refnosearchwindow').jqxWindow('close'); 
+    }
+    
+    $.messager.confirm('Message', 'Do you want to Import?', function(r) {
+        if (r == false) {
+            if ($("#prodsearchtype").length) $("#prodsearchtype").val("1");
+            if ($("#jqxInvoiceReturn").length) {
+                $("#jqxInvoiceReturn").jqxGrid('clear');
+                $("#jqxInvoiceReturn").jqxGrid('addrow', null, {});
+            }
+            return false; 
+        } else {
+            if ($("#prodsearchtype").length) $("#prodsearchtype").val("2");
+            
+            var chk = "req";
+            var from = "pro";
+            var reftype = $("#cmbreftype").length ? $("#cmbreftype").val() : "";
+            var refDocVal = document.getElementById("refmasterdocno") ? document.getElementById("refmasterdocno").value : "";
+            var locidVal = document.getElementById("locationid") ? document.getElementById("locationid").value : "";
+            
+            $("#invoiceDiv").load("invoiceReturnGrid.jsp?enqdoc=" + encodeURIComponent(refDocVal) + 
+                                  "&chk=" + encodeURIComponent(chk) + 
+                                  "&from=" + encodeURIComponent(from) + 
+                                  "&cond=1&reftype=" + encodeURIComponent(reftype) + 
+                                  '&locaid=' + encodeURIComponent(locidVal)); 
+        }
+    });  
+}
+</script>
+</head>
 
-	</script>
-<body bgcolor="#E0ECF8">
-<div id=search>
-<table width="100%" >
-  <tr >
-   <td>
- 
-    </td>
-  </tr>
-  <tr>
-  <td>
-    
-  <table width="100%" >
-  
-        <tr> 
-       
-            <td align="right" width="6%">Doc No</td>
-    <td align="left" width="20%"><input type="text" name="docnoss" id="docnoss"  style="width:90%;" value='<s:property value="docnoss"/>'></td>
-          <td align="right" width="6%">Date </td>
-    <td align="left" width="20%"><div id="datess" name="datess"  value='<s:property value="datess"/>'></div></td>  
-         <td align="right" width="6%">RefNo</td>
-    <td align="left" width="20%"><input type="text" name="refnosss" id="refnosss"  style="width:90%;" value='<s:property value="refnosss"/>'></td>
-    <td align="center" width="22%" ><input type="button" name="searchss" id="searchss" class="myButton" value="Search"  onclick="loadSearchss()">
-     <td align="right" width="22%" ><input type="button" name="searchs" id="searchs" class="myButtons" value="Submit"  onclick="searchdata()">
-     
-</td>
+<body>
+<div id="search" class="modern-ui">
 
- <%-- <tr>
- <td align="right" width="6%">Client </td>
- <td align="left" width="20%"><input type="text" name="clientname" id="clientname"  style="width:150%;" value='<s:property value="clientname"/>'></td>
- </tr> --%>
- 
+    <div class="search-panel">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <colgroup>
+                <col width="8%" /> <col width="17%" /> 
+                <col width="8%" /> <col width="17%" /> 
+                <col width="8%" /> <col width="17%" />
+                <col width="25%" />
+            </colgroup>
+            
+            <tr>
+                <td class="lbl-right">Doc No</td>
+                <td><input type="text" name="docnoss" id="docnoss" value='<s:property value="docnoss"/>'></td>
+                
+                <td class="lbl-right">Date</td>
+                <td><div id="datess" name="datess"></div></td>
+                
+                <td class="lbl-right">RefNo</td>
+                <td><input type="text" name="refnosss" id="refnosss" value='<s:property value="refnosss"/>'></td>
+                
+                <td align="right" valign="middle">
+                    <input type="button" name="searchss" id="searchss" class="myButton" value="Search" onclick="loadSearchss(); return false;" style="margin-right: 5px;">
+                    <input type="button" name="searchs" id="searchs" class="myButtons" value="Submit" onclick="searchdata(); return false;">
+                </td>
+            </tr>
+        </table>
+    </div>
 
-    </tr> 
+    <div class="grid-container">
+        <div id="refsearch">
+            <jsp:include page="subrefnosearch.jsp"></jsp:include> 
+        </div>
+    </div>
     
-    </table>
- 
-
-    
-    
-    
-  </td>
-
-  <tr>
-    <td colspan="8" align="right">
-    
-    <div id="refsearch">
-      
-   <jsp:include  page="subrefnosearch.jsp"></jsp:include> 
-   
-   </div>
-    </td>
-  </tr>
-</table>
-  </div>
+</div>
 </body>
 </html>

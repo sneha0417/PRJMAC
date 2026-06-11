@@ -12,24 +12,26 @@
 
 <style>
 /* =========================================================
-   SCOPED UI: Pure White Panel (Strict Weight Control)
+   STRICTLY SCOPED UI (No Global Bleed, Bold Retained)
 ========================================================= */
-body, html {
-    margin: 0;
-    padding: 0;
-    background-color: #ffffff !important;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-}
-
 .modern-ui {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
     font-size: 12px;
-    color: #333;
+    font-weight: bold !important; /* Forces this component to be bold */
     padding: 10px;
     box-sizing: border-box;
     width: 100%;
     background-color: #ffffff !important;
+    color: #333333 !important; 
 }
 
+/* Strict weight enforcement for injected content */
+.modern-ui, .modern-ui table, .modern-ui td, .modern-ui input, .modern-ui select {
+    font-weight: bold !important; 
+    color: #333333 !important; 
+}
+
+/* Master Input Styles */
 .modern-ui input[type="text"],
 .modern-ui select {
     height: 24px !important;
@@ -37,11 +39,21 @@ body, html {
     border-radius: 3px;
     padding: 2px 6px;
     font-size: 12px; 
+    font-weight: bold !important; /* Makes the typed text inside inputs bold */
+    font-family: inherit;
     box-sizing: border-box;
     background-color: #ffffff;
+    color: #333333 !important; 
     width: 100%;
 }
 
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+/* Panel Styling */
 .modern-ui .search-panel {
     background-color: #ffffff !important;
     border: 1px solid #cccccc;
@@ -49,8 +61,10 @@ body, html {
     padding: 15px 10px;
     margin-bottom: 15px;
     width: 100%;
+    box-sizing: border-box;
 }
 
+/* Table Alignment */
 .modern-ui table {
     border-collapse: separate;
     border-spacing: 10px 8px; 
@@ -59,7 +73,9 @@ body, html {
 
 .modern-ui .lbl-right { 
     text-align: right; 
-    font-weight: 600 !important;
+    color: #333333 !important; 
+    font-size: 12px; 
+    font-weight: bold !important;
     white-space: nowrap; 
 }
 
@@ -68,13 +84,17 @@ div#search.modern-ui input.myButton {
     height: 24px !important; 
     padding: 0 24px !important;
     background-color: #205fd3 !important;
+    background-image: none !important;
     color: #ffffff !important;
     border: none !important;
     border-radius: 4px !important; 
     cursor: pointer !important;
-    font-weight: 600 !important;
+    font-family: Arial, sans-serif !important; 
+    font-size: 12px !important;
+    font-weight: bold !important;
     width: auto !important;
     line-height: 24px !important;
+    transition: background-color 0.2s ease !important;
 }
 
 div#search.modern-ui input.myButton:hover {
@@ -82,6 +102,7 @@ div#search.modern-ui input.myButton:hover {
 }
 
 .modern-ui .grid-container {
+    background-color: #ffffff !important;
     border: 1px solid #cccccc;
     border-radius: 4px;
     overflow: hidden;
