@@ -1,104 +1,230 @@
- <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<% String contextPath=request.getContextPath(); %>
 <!DOCTYPE html>
 <html>
 <head>
- 
-<% String contextPath=request.getContextPath();%>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GatewayERP(i)</title>
- <%--   <jsp:include page="../../../../includes.jsp"></jsp:include>   --%>   
-<style>
+
 <link href="<%=contextPath%>/css/body.css" media="screen" rel="stylesheet" type="text/css" />
+
+<style>
+/* =========================================================
+   STRICTLY SCOPED UI (No Global Bleed, Bold Retained)
+========================================================= */
+.modern-ui {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    font-size: 12px;
+    font-weight: bold !important; /* Forces this component to be bold */
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #ffffff !important;
+    color: #333333 !important; 
+}
+
+/* Strict weight enforcement for injected content */
+.modern-ui, .modern-ui table, .modern-ui td, .modern-ui input, .modern-ui select {
+    font-weight: bold !important; 
+    color: #333333 !important; 
+}
+
+/* Master Input Styles */
+.modern-ui input[type="text"],
+.modern-ui select {
+    height: 24px !important;
+    border: 1px solid #cccccc; 
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 12px; 
+    font-weight: bold !important; /* Makes the typed text inside inputs bold */
+    font-family: inherit;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #333333 !important; 
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+/* Panel Styling */
+.modern-ui .search-panel {
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 15px 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Table Alignment */
+.modern-ui table {
+    border-collapse: separate;
+    border-spacing: 5px 8px; 
+    width: 100%;
+    table-layout: fixed; 
+}
+
+.modern-ui td {
+    vertical-align: middle;
+}
+
+/* Side-aligned labels */
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #333333 !important; 
+    font-size: 12px; 
+    font-weight: bold !important;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* =========================================================
+   BULLETPROOF BUTTON UI: Dark Blue + Hover
+========================================================= */
+div#search.modern-ui input#qotbtnrasearch.myButton {
+    height: 24px !important; 
+    padding: 0 24px !important;
+    background-color: #205fd3 !important; /* Solid Dark Blue */
+    background-image: none !important;
+    color: #ffffff !important; /* White text for button */
+    border: none !important;
+    border-radius: 4px !important; 
+    cursor: pointer !important;
+    font-family: Arial, sans-serif !important; 
+    font-size: 12px !important;
+    font-weight: bold !important;
+    line-height: 24px !important;
+    transition: background-color 0.2s ease !important;
+    width: auto !important;
+    box-sizing: border-box !important;
+}
+
+/* The Hover State */
+div#search.modern-ui input#qotbtnrasearch.myButton:hover {
+    background-color: #124096 !important; /* Noticeably darker blue on hover */
+}
+
+/* Grid Container */
+.modern-ui .grid-container {
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    min-height: 200px;
+}
 </style>
 
-	<script type="text/javascript">
-	$(document).ready(function () {
-	  $("#qotdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy",value:null}); 
-	}); 
+<script type="text/javascript">
+$(document).ready(function () {
+    // Standardizing the jqxDateTimeInput to match the new 24px UI height
+    $("#qotdate").jqxDateTimeInput({ width: '100%', height: '24px', formatString: "dd.MM.yyyy", value: null }); 
+}); 
 
- 	function qotloadSearch1() {
- 		
- 		var qotdate=document.getElementById("qotdate").value;
- 		 var Cl_namess=document.getElementById("Cl_names").value;
- 		var Cl_enqno=document.getElementById("Cl_enqno").value;
- 		var qottype=document.getElementById("qottype").value;
- 		var msdocno=document.getElementById("msdocno").value; 
- 		var Cl_names = Cl_namess.replace(/ /g, "%20");
- 		
- 		var Cl_mobnos=document.getElementById("Cl_mobnos").value; 
- 		
- 		
- 		var Cl_salper=document.getElementById("Cl_salper").value.replace(/ /g, "%20"); 
- 		
-	getdata1(Cl_names,msdocno,Cl_enqno,qotdate,qottype,Cl_mobnos,Cl_salper);
- 
-
-	}
-	function getdata1(Cl_names,msdocno,Cl_enqno,qotdate,qottype,Cl_mobnos,Cl_salper){
-		
-		var trans=$("#cmbmodeofpay").val();
-		var tranid=0;
-		if(trans=='cash'){
-		
-			tranid=1;
-		}
-		else if(trans=='credit'){
-		
-			tranid=2;
-		}
-		 $("#refreshdivmas").load('subMastersearch.jsp?Cl_names='+Cl_names+'&msdocno='+msdocno+'&Cl_enqno='+Cl_enqno+'&qotdate='+qotdate+'&qottype='+qottype+'&tranid='+tranid+"&Cl_mobnos="+Cl_mobnos+"&Cl_salper="+Cl_salper);
-		
-		}
-
-	</script>
-<body bgcolor="#E0ECF8">
-<div id=search>
-<table width="100%"  >
-  <tr>
-   <td>                         
-   <table width="100%"  >
-   <tr>
-   <td align="right"  width="8%">Doc No</td>
-    <td align="left" width="2%"><input type="text" name="msdocno" id="msdocno"  value='<s:property value="msdocno"/>'></td>
-    <td align="right" width="3%" >Name</td>
-    <td align="left" width="40%" ><input type="text" name="Cl_names" id="Cl_names"  style="width:96.5%;" value='<s:property value="Cl_names"/>'></td>
-    <td align="right"  width="8%" >Sales Person</td>
-      <td align="left" width="20%"><input type="text" name="Cl_salper" id="Cl_salper" value='<s:property value="Cl_salper"/>'>
-      
-      <input type="hidden" name="Cl_enqno" id="Cl_enqno" value='<s:property value="Cl_enqno"/>'>
-      </td>
-      </tr>
-        <tr>
-        <td align="right">Date </td>
-    <td align="left" ><div id="qotdate" name="qotdate"  value='<s:property value="qotdate"/>'></div>
-    <td width="4%"  align="right">&nbsp;</td><td colspan="3"><select  name="qottype"  hidden="true" id="qottype" style="width:30%;"  value='<s:property value="qottype"/>' >
-  <option value="">--select--</option>
-  <option value="DIR">DIR</option>
-  <option value="SOR">SOR</option>
-  <option value="DEL">DEL</option>
-   </select>&nbsp;&nbsp;&nbsp;&nbsp;MOB&nbsp;<input type="text" name="Cl_mobnos" id="Cl_mobnos" value='<s:property value="Cl_mobnos"/>'>
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-   <input type="button" name="qotbtnrasearch" id="qotbtnrasearch" class="myButton" value="Search"  onclick="qotloadSearch1()"></td>
-  
- 
-    <tr>
-    </table>
-    </td>
-</tr>
-
-  <tr>
-    <td colspan="8" align="right">
+function qotloadSearch1() {
+    var msdocno = document.getElementById("msdocno").value || "";
+    var Cl_names = document.getElementById("Cl_names").value || "";
+    var Cl_salper = document.getElementById("Cl_salper").value || "";
+    var Cl_enqno = document.getElementById("Cl_enqno").value || "";
+    var qottype = document.getElementById("qottype").value || "";
+    var Cl_mobnos = document.getElementById("Cl_mobnos").value || "";
     
-    <div id="refreshdivmas">
-      
-   <jsp:include  page="subMastersearch.jsp"></jsp:include> 
-   
-   </div>
-    </td>
-  </tr>
-</table>
-  </div>
+    // Safely pull from jqxDateTimeInput with a standard DOM fallback
+    var qotdate = "";
+    if ($('#qotdate').length && typeof $('#qotdate').jqxDateTimeInput === 'function') {
+        qotdate = $('#qotdate').jqxDateTimeInput('val') || "";
+    } else {
+        var dateEl = document.getElementById("qotdate");
+        qotdate = dateEl ? dateEl.value : "";
+    }
+
+    getdata1(Cl_names, msdocno, Cl_enqno, qotdate, qottype, Cl_mobnos, Cl_salper);
+}
+
+function getdata1(Cl_names, msdocno, Cl_enqno, qotdate, qottype, Cl_mobnos, Cl_salper) {
+    // Safely fetch mode of pay from parent container
+    var trans = $('#cmbmodeofpay').length ? $('#cmbmodeofpay').val() : "";
+    var tranid = 0;
+    
+    if (trans === 'cash') {
+        tranid = 1;
+    } else if (trans === 'credit') {
+        tranid = 2;
+    }
+    
+    // Upgraded to robust URL encoding instead of manual space replacement
+    $("#refreshdivmas").load('subMastersearch.jsp?Cl_names=' + encodeURIComponent(Cl_names) + 
+                             '&msdocno=' + encodeURIComponent(msdocno) + 
+                             '&Cl_enqno=' + encodeURIComponent(Cl_enqno) + 
+                             '&qotdate=' + encodeURIComponent(qotdate) + 
+                             '&qottype=' + encodeURIComponent(qottype) + 
+                             '&tranid=' + tranid + 
+                             '&Cl_mobnos=' + encodeURIComponent(Cl_mobnos) + 
+                             '&Cl_salper=' + encodeURIComponent(Cl_salper));
+}
+</script>
+</head>
+
+<body>
+<div id="search" class="modern-ui">
+
+    <div class="search-panel">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <colgroup>
+                <col width="10%" /> <col width="23%" /> 
+                <col width="8%" /> <col width="25%" /> 
+                <col width="12%" /> <col width="22%" />
+            </colgroup>
+            
+            <tr>
+                <td class="lbl-right">Doc No</td>
+                <td><input type="text" name="msdocno" id="msdocno" value='<s:property value="msdocno"/>'></td>
+                
+                <td class="lbl-right">Name</td>
+                <td><input type="text" name="Cl_names" id="Cl_names" value='<s:property value="Cl_names"/>'></td>
+                
+                <td class="lbl-right">Sales Person</td>
+                <td>
+                    <input type="text" name="Cl_salper" id="Cl_salper" value='<s:property value="Cl_salper"/>'>
+                    
+                    <input type="hidden" name="Cl_enqno" id="Cl_enqno" value='<s:property value="Cl_enqno"/>'>
+                    <select name="qottype" id="qottype" style="display: none;">
+                        <option value="">--select--</option>
+                        <option value="DIR" <s:if test="%{qottype == 'DIR'}">selected</s:if>>DIR</option>
+                        <option value="SOR" <s:if test="%{qottype == 'SOR'}">selected</s:if>>SOR</option>
+                        <option value="DEL" <s:if test="%{qottype == 'DEL'}">selected</s:if>>DEL</option>
+                    </select>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="lbl-right">Date</td>
+                <td><div id="qotdate" name="qotdate"></div></td>
+                
+                <td class="lbl-right">MOB</td>
+                <td><input type="text" name="Cl_mobnos" id="Cl_mobnos" value='<s:property value="Cl_mobnos"/>'></td>
+                
+                <td colspan="2" align="right" valign="middle">
+                    <input type="button" name="qotbtnrasearch" id="qotbtnrasearch" class="myButton" value="Search" onclick="qotloadSearch1(); return false;">
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="grid-container">
+        <div id="refreshdivmas">
+            <jsp:include page="subMastersearch.jsp"></jsp:include> 
+        </div>
+    </div>
+    
+</div>
 </body>
 </html>
