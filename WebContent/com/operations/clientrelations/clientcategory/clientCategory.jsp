@@ -199,6 +199,126 @@
   overflow: auto;
   height: 530px;
 }
+
+/* =========================================================
+   SCOPED UI: Modern Layout Adapted for Table Structure
+========================================================= */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 24px 0;
+    box-sizing: border-box;
+    overflow-y: auto !important;
+}
+
+#mainBG {
+    background: #fff;
+    border-radius: 16px;
+    padding: 15px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+#frmClientCategory input[type="text"],
+#frmClientCategory select { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    width: 100%;
+    outline: none;
+}
+
+#frmClientCategory input[type="text"]:focus,
+#frmClientCategory select:focus { 
+    border-color: #007bff; 
+}
+
+#frmClientCategory input[readonly],
+#frmClientCategory input:disabled,
+#frmClientCategory select:disabled { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
+}
+
+#frmClientCategory input[type="checkbox"] {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+fieldset {
+    border: 1px solid #c5d3e0; 
+    padding: 12px 10px 10px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+legend {
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    font-family: Arial, sans-serif;
+    border-left: 3px solid #0056b3;
+    line-height: normal; 
+    margin-left: -2px; 
+}
+
+#frmClientCategory table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px; 
+}
+
+#frmClientCategory td {
+    padding: 0 5px;
+    vertical-align: middle;
+    font-family: Arial, sans-serif; 
+    font-size: 12px; 
+    color: #333;
+}
+
+#frmClientCategory td[align="right"] {
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 10px;
+}
+
+form label.error {
+    color: red;
+    font-weight: bold;
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+}
+
+.hidden-scrollbar {
+    overflow-y: auto;
+    height: calc(100vh - 100px);
+    padding-right: 5px;
+}
+.hidden-scrollbar::-webkit-scrollbar { width: 6px; }
+.hidden-scrollbar::-webkit-scrollbar-thumb { background: #c5d3e0; border-radius: 3px; }
+
+#jqxCategorySearch1 {
+    border: 1px solid #c5d3e0;
+    border-radius: 4px;
+    overflow: hidden;
+}
 </style>
 			
 </head>
@@ -221,13 +341,12 @@
     <td width="20%"><input type="text" id="txtcategory" name="txtcategory" style="width:70%;" value='<s:property value="txtcategory"/>'></td>
     <td width="7%" align="right">Category Name</td>
     <td width="49%"><input type="text" id="txtcategoryname" name="txtcategoryname" style="width:37%;" value='<s:property value="txtcategoryname"/>'></td>
-  </tr>
-  <tr>
-    <td colspan="2" align="right">Account Group</td>
-  <td colspan="2"><select id="cmbaccountgroup" name="cmbaccountgroup"  style="width:83%;" value='<s:property value="cmbaccountgroup"/>'>
+  
+    <td  align="right">Account Group</td>
+  <td ><select id="cmbaccountgroup" name="cmbaccountgroup"  style="width:83%;" value='<s:property value="cmbaccountgroup"/>'>
       <option value="">--Select--</option></select>
        <input type="hidden" id="hidcmbaccountgroup" name="hidcmbaccountgroup" value='<s:property value="hidcmbaccountgroup"/>'/></td>
-  <td colspan="3"><input type="checkbox" id="chckapproval" name="chckapproval" value="" onchange="approval();" onclick="$(this).attr('value', this.checked ? 1 : 0)">Approval
+  <td ><input type="checkbox" id="chckapproval" name="chckapproval" value="" onchange="approval();" onclick="$(this).attr('value', this.checked ? 1 : 0)">Approval
                   <input type="hidden" id="hidchckapproval" name="hidchckapproval" value='<s:property value="hidchckapproval"/>'/></td>
   </tr>
   

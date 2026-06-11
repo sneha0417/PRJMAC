@@ -1022,24 +1022,6 @@ function Clearloc(){
 </script>
 
 <style>
-.hidden-scrollbar {
-  overflow: auto;
-  height: 530px;
-}
-.textbox {
-    border: 0;
-    height: 25px;
-    width: 20%;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    box-shadow: 1px 1px 0 0 #E0ECF8, 5px 5px 40px 2px #E0ECF8 inset;
-    -moz-box-shadow: 1px 1px 0 0 #E0ECF8, 5px 5px 40px 2px #E0ECF8 inset;
-    -webkit-box-shadow: 1px 1px 0 0 #E0ECF8, 5px 5px 40px 2px #E0ECF8 inset;
-    -webkit-background-clip: padding-box;
-    outline: 0;
-}
-
 body {
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
@@ -1063,6 +1045,7 @@ body {
 #frmstkadjust select,
 .textbox { 
     height: 24px !important; 
+    
     border: 1px solid #b8c6d8; 
     border-radius: 3px; 
     padding: 2px 6px;
@@ -1117,6 +1100,7 @@ legend {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0 8px; 
+    table-layout: fixed; 
 }
 
 #frmstkadjust td {
@@ -1194,6 +1178,7 @@ form label.error {
 <input type="text" name="gridtext" id="gridtext"  style="width:0%;height:0%;"  class="textbox"  value='<s:property value="gridtext"/>'  />   
  <input type="text" name="gridtext1" id="gridtext1"  style="width:0%;height:0%;"  class="textbox" value='<s:property value="gridtext1"/>' />
  <fieldset>
+ <legend>General Info</legend>
 <table width="100%" >
   <tr>
    
