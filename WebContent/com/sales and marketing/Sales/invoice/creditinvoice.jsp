@@ -9,145 +9,161 @@
 <title>GatewayERP(i)</title>
 <jsp:include page="../../../../includeso.jsp"></jsp:include>
 
-<style type="text/css">
-.classpass {
-    -webkit-text-security: disc;
-}
- #psearch {
- 
-background:#FAEBD7;
- 
-}
-
-.blink {
-  animation: blink-animation 2s steps(5, start) infinite;
-  -webkit-animation: blink-animation 2s steps(5, start) infinite;
-}
-@keyframes blink-animation {
-  to {
-    visibility: hidden;
-  }
-}
-@-webkit-keyframes blink-animation {
-  to {
-    visibility: hidden;
-  }
-}
-.btn {
-  background: #3498db;
-  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
-  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
-  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
-  background-image: -o-linear-gradient(top, #3498db, #2980b9);
-  background-image: linear-gradient(to bottom, #3498db, #2980b9);
-  -webkit-border-radius: 28;
-  -moz-border-radius: 28;
-  border-radius: 28px;
-  font-family: Arial;
-  color: #ffffff;
-  font-size: 10px;
-  padding: 4px 15px 6px 17px;
-  text-decoration: none;
+<style>
+/* Master UI - Scoped strictly to avoid breaking enterprise sidebars/headers */
+.modern-ui {
+    font-family: Arial, sans-serif; 
+    color: #333;
+    font-size: 12px; 
+    padding: 5px 15px;
+    box-sizing: border-box;
+    width: 100%;
 }
 
-.btn:hover {
-  background: #3cb0fd;
-  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-  text-decoration: none;
-  
-  
- 
+/* Master Input Heights - Forced to 24px */
+.modern-ui input[type="text"],
+.modern-ui input[type="password"],
+.modern-ui select { 
+    height: 24px !important; 
+    border: 1px solid #b8c6d8; 
+    border-radius: 3px; 
+    padding: 2px 6px;
+    font-size: 12px;
+    box-sizing: border-box; 
+    background-color: #fff; 
+    color: #333;
+    width: 100%;
 }
 
-
- #divname {
-     
-    background-color: #e2c791;
-    box-shadow: 10px 10px grey;
-     position:fixed;z-index:1000;right:30px;top:100px;  
-}
-.classpass {
-    -webkit-text-security: disc;
-}
- #psearch {
- 
-background:#FAEBD7;
- 
-}
-.btn {
-  background: #3498db;
-  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
-  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
-  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
-  background-image: -o-linear-gradient(top, #3498db, #2980b9);
-  background-image: linear-gradient(to bottom, #3498db, #2980b9);
-  -webkit-border-radius: 28;
-  -moz-border-radius: 28;
-  border-radius: 28px;
-  font-family: Arial;
-  color: #ffffff;
-  font-size: 10px;
-  padding: 4px 15px 6px 17px;
-  text-decoration: none;
+.modern-ui input[type="text"]:focus,
+.modern-ui input[type="password"]:focus,
+.modern-ui select:focus { 
+    border-color: #007bff; 
+    outline: none;
 }
 
-.btn:hover {
-  background: #3cb0fd;
-  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-  text-decoration: none;
-  
-  
- 
+.modern-ui input[readonly],
+.modern-ui input:disabled,
+.modern-ui select:disabled { 
+    background-color: #f8f9fa; 
+    color: #6b7280;
 }
 
+/* Layout Utilities */
+.modern-ui .field-row { 
+    display: flex;
+    align-items: center; 
+    gap: 8px;
+    margin-bottom: 10px; 
+    flex-wrap: wrap;
+}
 
- #divname {
-     
-    background-color: #e2c791;
-    box-shadow: 10px 10px grey;
-     position:fixed;z-index:1000;right:30px;top:100px;  
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #444;
+    font-size: 12px; 
+    font-weight: bold;
+    white-space: nowrap; 
+    padding-right: 5px;
 }
-.myButtons {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #7892c2), color-stop(1, #476e9e));
-	background:-moz-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-webkit-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-o-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:-ms-linear-gradient(top, #7892c2 5%, #476e9e 100%);
-	background:linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7892c2', endColorstr='#476e9e',GradientType=0);
-	background-color:#7892c2;
-	border:1px solid #4e6096;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:12px;
-	padding:2px 7px;
-	text-decoration:none;
-}
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #476e9e), color-stop(1, #7892c2));
-	background:-moz-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-webkit-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-o-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:-ms-linear-gradient(top, #476e9e 5%, #7892c2 100%);
-	background:linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2',GradientType=0);
-	background-color:#476e9e;
-}
-.myButtons:active {
-	position:relative;
-	top:1px;
-}      
 
+/* Middle Section Panels */
+.modern-ui .middle-panel {
+    border: 1px solid #c5d3e0; 
+    padding: 20px 10px 10px 10px; 
+    background: #ffffff; 
+    position: relative; 
+    border-radius: 4px; 
+    margin-bottom: 15px;
+    margin-top: 12px;
+}
+
+.modern-ui .middle-panel-title { 
+    position: absolute; 
+    top: -12px;
+    left: 10px; 
+    background: #ffffff; 
+    padding: 0 8px; 
+    color: #0056b3;
+    font-weight: bold; 
+    font-size: 14px; 
+    border-left: 3px solid #0056b3;
+    z-index: 2; 
+    line-height: normal; 
+}
+
+/* Custom UI Buttons */
+.modern-ui .myButton {
+    height: 24px !important;
+    line-height: 22px !important;
+    padding: 0 12px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+    text-shadow: none;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    border: none;
+    background: linear-gradient(135deg, #0b45a2 0%, #2563eb 100%);
+    color: #ffffff;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.modern-ui .myButton:hover { background: linear-gradient(135deg, #083a8a 0%, #1d4ed8 100%); }
+
+/* Disabled Button State Fix */
+.modern-ui .myButton:disabled,
+button:disabled,
+input[type="button"]:disabled,
+input[type="submit"]:disabled {
+    background: #e2e8f0 !important; 
+    color: #94a3b8 !important;      
+    border: 1px solid #cbd5e1 !important;
+    cursor: not-allowed !important; 
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+
+/* Disable the Print button coming from the header.jsp */
+input[value="Print"], 
+input[name="btnPrint"], 
+#btnPrint {
+    pointer-events: none !important; 
+    opacity: 0.5 !important;         
+    cursor: not-allowed !important;
+}
+
+/* Search Container for F3 inputs */
+.modern-ui .input-search-container {
+    position: relative;
+    display: flex;
+}
+.modern-ui .input-search-container input {
+    padding-right: 25px !important;
+}
+.modern-ui .magnifier-icon {
+    position: absolute;
+    right: 6px; 
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #64748b; 
+    z-index: 10;
+    transition: all 0.2s ease-in-out;
+}
+.modern-ui .magnifier-icon:hover { 
+    color: #2563eb; 
+    transform: translateY(-50%) scale(1.15);
+}
+/* Force override any global light blue backgrounds */
+body {
+    background-color: #f5f7fa !important; /* Neutral grey background */
+    background-image: none !important;    /* Kills any global gradients */
+}
 </style>
 
 
@@ -2524,473 +2540,376 @@ var frmdis=document.getElementById("dispers").value;
 
 </head>
 <body onload="setValues();getDefaultLocation();getVatConfig();getAlternativeConfig();">
-<div id="mainBG" class="homeContent" data-type="background" >
+<div id="mainBG" class="homeContent" data-type="background">
 <form id="frmSalesInvoice" action="saveSalesInvoicecr" method="post" autocomplete="off">
-<jsp:include page="../../../../header.jsp"></jsp:include>
-<jsp:include page="calculation.jsp"></jsp:include>
-<jsp:include page="multiqty.jsp"></jsp:include>
-<div  class='hidden-scrollbar'>
-<input type="text" name="gridtext" id="gridtext"  style="width:0%;height:0%;"  class="textbox"  value='<s:property value="gridtext"/>'  />   
- <input type="text" name="gridtext1" id="gridtext1"  style="width:0%;height:0%;"  class="textbox" value='<s:property value="gridtext1"/>' />
-<%-- <table width="100%" border="1">
-  <tr>
-    <td     align="right">Date</td>
-    <td  ><div id="date" name="date" value='<s:property value="date"/>'></div>
-    <input type="hidden" id="hiddate" name="hiddate" value='<s:property value="hiddate"/>'/></td>
-    <td   align="right">Ref. No.</td>
-    <td  ><input type="text" id="txtrefno" name="txtrefno" style="width:50%;" value='<s:property value="txtrefno"/>'/></td>
-    <td align="right">Mode of Pay</td>
-  <td><select id="cmbmodeofpay" name="cmbmodeofpay" style="width:51%;" value='<s:property value="cmbmodeofpay"/>'>
-      <option value="cash">CASH</option></select>
-      <input type="hidden" id="hidcmbmodeofpay" name="hidcmbmodeofpay" value='<s:property value="hidcmbmodeofpay"/>'/></td>
-  <td align="right">Location</td>
-  <td><input type="text" id="txtlocation" name="txtlocation" style="width:50%;" placeholder="Press F3 to Search" value='<s:property value="txtlocation"/>' onkeydown="getLocation(event);"/>
-      <input type="hidden" id="locationid" name="locationid" value='<s:property value="locationid"/>'/></td>
-    <td   align="right">Doc No.</td>
-    <td  ><input type="text" id="docno" name="docno" style="width:50%;" value='<s:property value="docno"/>' tabindex="-1"/></td>
-  </tr>
-  <tr>
-  <td align="right">Sales Person</td>
-  <td><input type="text" id="txtsalesperson" name="txtsalesperson" style="width:71%;" placeholder="Press F3 to Search" onKeyDown="getSalesPerson(event);" value='<s:property value="txtsalesperson"/>'>
-      <input type="hidden" id="salespersonid" name="salespersonid" value='<s:property value="salespersonid"/>'/></td>
-      
-      
-      <td align="right">User Name</td>
-  <td><input type="text" id="usernames" name="usernames" style="width:71%;"  value='<s:property value="usernames"/>'>
-      <input type="hidden" id="userids" name="userids" value='<s:property value="userids"/>'/></td>
-          <td align="right">Password</td>
-  <td><input type="password" id="pass_words" name="pass_words" style="width:71%;"  value='<s:property value="pass_words"/>'>
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <button type="button" class="icon" id="process" title="Process" onclick="funprocess();">
-							<img alt="process" src="<%=contextPath%>/icons/changeuser.png" width="18" height="18">
-						    </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-						    </td>  
-      
-  <td colspan="3" rowspan="2">
-					 &nbsp;&nbsp; <button type="button" class="icon" id="process" title="Process" onclick="funprocess();">
-							<img alt="process" src="<%=contextPath%>/icons/process2.png" width="18" height="18">
-						   </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-  </tr>
-</table>
- --%>
- 
- <table width="100%"  >
-  <tr>                              
-    <td width="8%"     align="right">Date</td>
-    <td width="11%"  ><div id="date" name="date" value='<s:property value="date"/>'></div>
-    <input type="hidden" id="hiddate" name="hiddate" value='<s:property value="hiddate"/>'/></td>
-    <td width="6%"   align="right">Ref. No.</td>
-    <td width="13%"  ><input type="text" id="txtrefno" name="txtrefno" style="width:90%;" value='<s:property value="txtrefno"/>'/></td>
-    <td width="7%" align="right">Mode of Pay</td>
-  <td width="16%"><select id="cmbmodeofpay" name="cmbmodeofpay" style="width:61%;" value='<s:property value="cmbmodeofpay"/>'>
-      <option value="credit">CREDIT</option></select>
-      <input type="hidden" id="hidcmbmodeofpay" name="hidcmbmodeofpay" value='<s:property value="hidcmbmodeofpay"/>'/></td>
-  <td width="6%" align="right">Location</td>
-  <td width="17%"><input type="text" id="txtlocation" name="txtlocation" style="width:95%;" placeholder="Press F3 to Search" value='<s:property value="txtlocation"/>' onkeydown="getLocation(event);"/>
-      <input type="hidden" id="locationid" name="locationid" value='<s:property value="locationid"/>'/></td>
-    <td width="5%"   align="right">Doc No.</td>
-    <td width="11%"  ><input type="text" id="docno" name="docno" style="width:80%;" value='<s:property value="docno"/>' tabindex="-1"/></td>
-  </tr>
- <%--  <tr>
-  <td   align="right">Sales Person</td>
-  <td><input type="text" id="txtsalesperson" name="txtsalesperson" style="width:100%;" placeholder="Press F3 to Search" onKeyDown="getSalesPerson(event);" value='<s:property value="txtsalesperson"/>'>
-      <input type="hidden" id="salespersonid" name="salespersonid" value='<s:property value="salespersonid"/>'/></td>
-      
-
-      <td align="right">User Name</td>   
-  <td><input type="text" id="user_namess" name="user_namess" style="width:90%;"   autocomplete="off" placeholder="Press F3 to Search" onKeyDown="getuser(event);" value='<s:property value="user_namess"/>'>
-      <input type="hidden" id="userids" name="userids" value='<s:property value="userids"/>'/>
-       <input type="hidden" id="userdocno" name="userdocno" value='<s:property value="userdocno"/>'/></td>
-          <td align="right">Password</td>
-  <td><input type="text" id="pass_wordss" name="pass_wordss" class="classpass" style="width:60%;"  autocomplete="off"  value='<s:property value="pass_wordss"/>'>
-   <button type="button" class="icon" id="process" title="Process" onclick="funckangeuser();">
-							<img alt="process" src="<%=contextPath%>/icons/changeuser.png" width="18" height="18">
-						    </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-						    </td>  
-      
-  <td colspan="4"  >
-					 &nbsp;&nbsp; <button type="button" class="icon" id="process" title="Process" onclick="funprocess();">
-							<img alt="process" src="<%=contextPath%>/icons/process2.png" width="18" height="18">
-						   </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-  </tr> --%>
-</table>
-<fieldset>
-<table width="100%"  >   
-  <tr>
-    <td width="7%" align="right">Customer</td>
-    <td width="14%"><input type="text" id="txtclient" name="txtclient" style="width:70%;" placeholder="Press F3 to Search" value='<s:property value="txtclient"/>' onKeyDown="getclinfo(event);"/></td>
-    <td colspan="3"><input type="text" id="txtclientdet" name="txtclientdet" style="width:48%;" value='<s:property value="txtclientdet"/>'   tabindex="-1"/>
-    &nbsp;&nbsp;&nbsp;&nbsp;MOB&nbsp;
-    <input type="text" id="txtclientmob" name="txtclientmob"  style="width:20%;" value='<s:property value="txtclientmob"/>'   tabindex="-1"/>
-    </td>
-  </tr>
-  <tr>
-    <td   align="right">Currency</td>
-     <td  ><input type="text" name="cmbcurr" id="cmbcurr"  value='<s:property value="cmbcurr"/>'>
-     <input type="hidden" id="hidcmbcurr" name="hidcmbcurr" value='<s:property value="hidcmbcurr"/>'/></td>
-    <td colspan="3"><input type="text" id="currate" name="currate" style="width:13%;" value='<s:property value="currate"/>'/>
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-     &nbsp;&nbsp;&nbsp;&nbsp;
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <label id="billname">Bill Type</label>&nbsp;<select id="cmbbilltype" name="cmbbilltype"  onchange="gettaxaccounts()"  style="width:13%;" value='<s:property value="cmbbilltype"/>'>
-      <option value="1">ST</option>
-      <option value="2">CST</option>
-      
-      </select>
-      <input type="hidden" id="hidcmbbilltype" name="hidcmbbilltype" value='<s:property value="hidcmbbilltype"/>'/>
-       <label id="vatype">Vat Type</label><select id="cmbvatype" name="cmbvatype" style="width:13%;" onchange="vatChange();" value='<s:property value="cmbvatype"/>'>
-       <option value="inclusive">Inclusive</option>
-       <option value="exclusive">Exclusive</option>
-       <option value="export">Export</option>
-       </select>
-      <input type="hidden" id="hidcmbvatype" name="hidcmbvatype" value='<s:property value="hidcmbvatype"/>'/>
-      
+    <jsp:include page="../../../../header.jsp"></jsp:include>
+    <jsp:include page="calculation.jsp"></jsp:include>
     
-    </td>
-  </tr>
-  <tr>
-    <td align="right">Ref. Type</td>
-    <td><select id="cmbreftype" name="cmbreftype" style="width:71%;" onchange="refChange();" value='<s:property value="cmbreftype"/>'>
-       <option value="DIR">DIR</option>
-       <option value="SOR">SOR</option>
-       <option value="DEL">DEL</option>
-       <!-- <option value="JOR">JOR</option> -->
-       </select>
-      <input type="hidden" id="hidcmbreftype" name="hidcmbreftype" value='<s:property value="hidcmbreftype"/>'/></td>
-     <td width="14%"><input type="text" id="rrefno" name="rrefno" style="width:100%;" placeholder="Press F3 to Search"  onKeyDown="getrefno(event);" value='<s:property value="rrefno"/>'/></td> 
-     <%-- <td>Sales Order
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="rrefno" name="rrefno" style="width:35%;"  placeholder="Press F3 to Search"  onKeyDown="getrefno(event);" value='<s:property value="rrefno"/>'/>
-     </td> --%>
-    <td width="5%" align="right">&nbsp;</td>
-    <td width="53%"> <select hidden="true" id="cmbprice" name="cmbprice" style="width:20%;" value='<s:property value="cmbprice"/>'>
-      <option value="1">Max Rate1</option>
-       <option value="2">Mid Rate2</option>
-         <option value="3">Min Rate3</option> </select>
-      <input type="hidden" id="hidcmbprice" name="hidcmbprice" value='<s:property value="hidcmbprice"/>'/></td>
-  </tr>
-  <tr>
-    <td align="right">Payment Due on</td>     
-    <td><div id="payDueDate" name="payDueDate" value='<s:property value="payDueDate"/>'></div>
-    <input type="hidden" id="hidpayDueDate" name="hidpayDueDate" value='<s:property value="hidpayDueDate"/>'/></td>
-    <td align="left" colspan="3">Del. Terms <input type="text" id="txtdelterms" name="txtdelterms" style="width:65%;" value='<s:property value="txtdelterms"/>'/></td>
-  </tr>
-  <tr>
-    <td align="right">Payment Terms</td>
-    <td colspan="4"><input type="text" id="txtpaymentterms" name="txtpaymentterms" style="width:75%;" value='<s:property value="txtpaymentterms"/>'/></td>
-  </tr>
-  <tr>
-    <td align="right">Description</td>
-    <td colspan="4"><input type="text" id="txtdescription" name="txtdescription" style="width:75%;" value='<s:property value="txtdescription"/>'/>
-    
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button class="myButton" type="button" id="btnvaluechange" name="btnvaluechange" onclick="funwarningopen();">Value Change</button>
-    
-    
-    </td>
-  </tr>
-</table>
-</fieldset><br/>
+    <div style="display:none;"><jsp:include page="multiqty.jsp"></jsp:include></div>
 
- 
-<table width="96%"  id="disitems"  > 
- <tr>
-  <td width="7%"   align="right">Sales Person</td>  
-  <td width="15%"><input type="text" id="txtsalesperson" name="txtsalesperson" style="width:100%;" placeholder="Press F3 to Search" onKeyDown="getSalesPerson(event);" value='<s:property value="txtsalesperson"/>'>
-      <input type="hidden" id="salespersonid" name="salespersonid" value='<s:property value="salespersonid"/>'/></td>
-      
+    <div class='modern-ui hidden-scrollbar'>
+        
+        <label><span id="stockmsg" style="position:absolute;z-index:1000;right:210px;top:15px;color:#003300;font-weight:bold;font-size: 14px;font-family: Times New Roman, Times, serif;"></span><span id="salelbl" style="position:absolute;z-index:1000;right:50px;top:15px;color:#FF335E;font-weight:bold;font-size: 14px;font-family: Times New Roman, Times, serif;"></span></label>
 
-      <td width="7%" align="right">User Name</td>   
-  <td width="16%"><input type="text" id="user_namess" name="user_namess" style="width:90%;"   autocomplete="off" placeholder="Press F3 to Search" onKeyDown="getuser(event);" value='<s:property value="user_namess"/>'>
-      <input type="hidden" id="userids" name="userids" value='<s:property value="userids"/>'/>
-       <input type="hidden" id="userdocno" name="userdocno" value='<s:property value="userdocno"/>'/></td>
-          <td width="6%" align="right">Password</td>
-  <td width="17%"><input type="text" id="pass_wordss" name="pass_wordss" class="classpass" style="width:60%;"  autocomplete="off"  value='<s:property value="pass_wordss"/>'>
-   <button type="button" class="icon" id="changeuser" title="changeuser" onclick="funckangeuser();">
-							<img alt="changeuser" src="<%=contextPath%>/icons/changeuser.png" width="18" height="18">
-						    </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-						    </td>  
-       <td width="5%" align="right">Percentage</td>
-       
-        <td width="15%">  <input type="text" id="dscper" name="dscper"  style="width:25%;"   value='<s:property value="dscper"/>'/></td>
-       
-  <td width="12%" colspan="4"  >
-					 &nbsp;&nbsp; <button type="button" class="icon" id="process" title="Process" onclick="funprocess();">
-							<img alt="process" src="<%=contextPath%>/icons/process2.png" width="18" height="18">
-						   </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-  </tr>
+        <div class="middle-panel">
+            <span class="middle-panel-title">General Info</span>
+            
+            <div class="field-row">
+                <label class="lbl-right" style="width:70px;">Date</label>
+                <div style="width: 120px;">
+                    <div id="date" name="date" value='<s:property value="date"/>'></div>
+                </div>
+                
+                <label class="lbl-right" style="width:60px;">Ref. No.</label>
+                <input type="text" id="txtrefno" name="txtrefno" style="width:120px;" value='<s:property value="txtrefno"/>'/>
+                
+                <label class="lbl-right" style="width:80px;">Mode of Pay</label>
+                <select id="cmbmodeofpay" name="cmbmodeofpay" style="width:120px;" value='<s:property value="cmbmodeofpay"/>'>
+                    <option value="credit">CREDIT</option>
+                </select>
 
-</table>
+                <label class="lbl-right" style="width:60px;">Location</label>
+                <div class="input-search-container" style="flex: 1; min-width: 150px;">
+                    <input type="text" id="txtlocation" name="txtlocation" placeholder="Press F3 to Search" value='<s:property value="txtlocation"/>' onkeydown="getLocation(event);"/>
+                    <svg class="magnifier-icon" onclick="getLocation(event);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
 
- <fieldset id="psearch">
- 
- <legend>Item Details</legend>
- 
-   <table width="100% " >   
-   <tr> 
-   <td align="center"> &nbsp;</td>
-   <td align="center">Product ID</td>
-   <td align="center" colspan="2">Product Name</td>
-   <td align="center" style="width:15%;" >Brand</td>
-   <td align="center">Unit</td>
-     
-   <td  width="6%" align="center">Qty</td>
-      <td align="center"> Unit price</td>
-   <td align="center">Total</td> 
-   
-   </tr>
-  <!--   onblur="funRoundAmt(this.value,this.id);" --> 
-    <tr><td align="center" ><input type="hidden" id="cleardata">&nbsp; <input type="button" id="setbtn"  class="btn" onclick="prosrch()" value="PS" ></td>
-    <td align="center"><div id="part"><jsp:include page="part.jsp"></jsp:include></div> </td>
- <td colspan="2" align="center"> <div id="pnames"><jsp:include page="name.jsp"></jsp:include></div> </td> 
- <td align="center" >   <input type="text" id="brand"   > <input type="hidden" id="collqty"    ></td>
-<td align="center"> <select    id="unit"   onchange="closes()"  >   </select>      </td>  
-  <input type="hidden" id="loads" class="myButtons" value="Load Data" >     
+                <label class="lbl-right" style="width:60px;">Doc No.</label>
+                <input type="text" id="docno" name="docno" style="width:120px;" value='<s:property value="docno"/>' tabindex="-1"/>
+            </div>
+        </div>
 
+        <div class="middle-panel">
+            <span class="middle-panel-title">Customer & Billing Details</span>
+            
+            <div class="field-row">
+                <label class="lbl-right" style="width:90px;">Customer</label>
+                <div class="input-search-container" style="width:200px;">
+                    <input type="text" id="txtclient" name="txtclient" placeholder="Press F3 to Search" value='<s:property value="txtclient"/>' onKeyDown="getclinfo(event);"/>
+                    <svg class="magnifier-icon" onclick="getclinfo(event);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
+                <input type="text" id="txtclientdet" name="txtclientdet" style="flex:1;" value='<s:property value="txtclientdet"/>' tabindex="-1"/>
+                
+                <label class="lbl-right" style="width:40px;">MOB</label>
+                <input type="text" id="txtclientmob" name="txtclientmob" style="width:120px;" value='<s:property value="txtclientmob"/>' tabindex="-1"/>
+            </div>
 
-<td width="6%" align="center">   <input type="text"   onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber1 (event);"  id="quantity" style="text-align: left;" onchange="vatSwitch();"  ></td>
-  <input type="hidden" id="focs"   onchange="vatSwitch();"   >
- 
-   <td align="center">   <input type="text"      id="uprice"   onkeypress="javascript:return isNumber1 (event);"  onchange="vatSwitch();"  style="text-align: right;"     style="text-align: right;"></td>
- 
- <td align="center">  <input type="text" id="totamt" tabindex="-1"      style="text-align: right;"   ></td>
- 
+            <div class="field-row">
+                <label class="lbl-right" style="width:90px;">Currency</label>
+                <input type="text" name="cmbcurr" id="cmbcurr" style="width:80px;" value='<s:property value="cmbcurr"/>'>
+                <input type="text" id="currate" name="currate" style="width:112px;" value='<s:property value="currate"/>'/>
+                
+                <label class="lbl-right" id="billname" style="width:80px; margin-left: auto;">Bill Type</label>
+                <select id="cmbbilltype" name="cmbbilltype" onchange="gettaxaccounts()" style="width:100px;" value='<s:property value="cmbbilltype"/>'>
+                    <option value="1">ST</option>
+                    <option value="2">CST</option>
+                </select>
 
- </tr>
- <tr>
+                <label class="lbl-right" id="vatype" style="width:70px;">Vat Type</label>
+                <select id="cmbvatype" name="cmbvatype" style="width:120px;" onchange="vatChange();" value='<s:property value="cmbvatype"/>'>
+                    <option value="inclusive">Inclusive</option>
+                    <option value="exclusive">Exclusive</option>
+                    <option value="export">Export</option>
+                </select>
+            </div>
 
+            <div class="field-row">
+                <label class="lbl-right" style="width:90px;">Ref. Type</label>
+                <select id="cmbreftype" name="cmbreftype" style="width:100px;" onchange="refChange();" value='<s:property value="cmbreftype"/>'>
+                    <option value="DIR">DIR</option>
+                    <option value="SOR">SOR</option>
+                    <option value="DEL">DEL</option>
+                </select>
+                
+                <div class="input-search-container" style="width:150px;">
+                    <input type="text" id="rrefno" name="rrefno" placeholder="Press F3 to Search" onKeyDown="getrefno(event);" value='<s:property value="rrefno"/>'/>
+                    <svg class="magnifier-icon" onclick="getrefno(event);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
+                
+                <select hidden="true" id="cmbprice" name="cmbprice" value='<s:property value="cmbprice"/>'>
+                    <option value="1">Max Rate1</option>
+                    <option value="2">Mid Rate2</option>
+                    <option value="3">Min Rate3</option>
+                </select>
+            </div>
 
-   <td align="center">Discount% </td>
-      <td align="center">Discount</td>  
- 
-     <td align="center">Net Total</td>  
- 
-<td align="center">Tax%</td>  
-<td align="center">Tax Amount</td>  
-  <td    align="center">Net Total</td>    
-    <td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>    
- </tr>
- <tr>
+            <div class="field-row">
+                <label class="lbl-right" style="width:90px;">Payment Due on</label>
+                <div style="width: 150px;">
+                    <div id="payDueDate" name="payDueDate" value='<s:property value="payDueDate"/>'></div>
+                </div>
+                
+                <label class="lbl-right" style="width:80px;">Del. Terms</label>
+                <input type="text" id="txtdelterms" name="txtdelterms" style="flex:1;" value='<s:property value="txtdelterms"/>'/>
+            </div>
 
- 
- 
- 
+            <div class="field-row">
+                <label class="lbl-right" style="width:90px;">Payment Terms</label>
+                <input type="text" id="txtpaymentterms" name="txtpaymentterms" style="flex:1;" value='<s:property value="txtpaymentterms"/>'/>
+            </div>
 
+            <div class="field-row" style="margin-bottom:0;">
+                <label class="lbl-right" style="width:90px;">Description</label>
+                <input type="text" id="txtdescription" name="txtdescription" style="flex:1;" value='<s:property value="txtdescription"/>'/>
+                <button class="myButton" type="button" id="btnvaluechange" name="btnvaluechange" onclick="funwarningopen();" style="margin-left: 10px;">Value Change</button>
+            </div>
+        </div>
 
-  <td align="center">   <input type="text" id="dispers"    onkeypress="javascript:return isNumber1 (event);"  onchange="vatSwitch();"  style="text-align: right;"  ></td>
-<td align="center">   <input type="text" id="dict"  onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber1 (event);"   onchange="vatSwitch();"    style="text-align: right;"  ></td>
- <td align="center">   <input type="text" id="amounts" tabindex="-1"     style="text-align: right;" ></td>
+        <div class="middle-panel">
+            <span class="middle-panel-title">Sales & User Authentication</span>
+            <div class="field-row" style="margin-bottom:0;">
+                <label class="lbl-right" style="width:80px;">Sales Person</label>
+                <div class="input-search-container" style="flex: 1;">
+                    <input type="text" id="txtsalesperson" name="txtsalesperson" placeholder="Press F3 to Search" onKeyDown="getSalesPerson(event);" value='<s:property value="txtsalesperson"/>'>
+                    <svg class="magnifier-icon" onclick="getSalesPerson(event);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
 
- 
+                <label class="lbl-right" style="width:80px;">User Name</label>
+                <div class="input-search-container" style="flex: 1;">
+                    <input type="text" id="user_namess" name="user_namess" autocomplete="off" placeholder="Press F3 to Search" onKeyDown="getuser(event);" value='<s:property value="user_namess"/>'>
+                    <svg class="magnifier-icon" onclick="getuser(event);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
 
- <td align="center"> <input type="text" id="taxpers"  tabindex="-1"      style="text-align: right;" ></td>  
- 
- <td align="center"> 
- <input type="text" id="taxamounts"   tabindex="-1"   onkeypress="javascript:return isNumber1 (event);"  style="text-align: right;" ></td>
-  <td align="center"> 
- <input type="text" id="taxamountstotal" tabindex="-1"    onkeypress="javascript:return isNumber1 (event);"  style="text-align: right;" ></td>  
-  <td align="center">
-     <input type="hidden" id="cleardata">
- &nbsp; <input type="button" id="setbtn"  class="btn" onclick="setgrid()" value="ADD" ></td>
- <td align="center"><input type="hidden" id="cleardata">&nbsp; <input type="button" id="setbtn1"  class="btn" onclick="detailstock()" value="SD" ></td>
- <td align="center"><input type="hidden" id="cleardata">&nbsp; <input type="button" id="setbtn2"  class="btn" onclick="alterprosrch()" value="Alternative Items" ></td>
- </tr>  
-   
-   </table> 
-   </fieldset> 
+                <label class="lbl-right" style="width:70px;">Password</label>
+                <input type="password" id="pass_wordss" name="pass_wordss" class="classpass" autocomplete="off" value='<s:property value="pass_wordss"/>' style="width: 100px;">
+                <button type="button" class="myButton" id="changeuser" title="changeuser" onclick="funckangeuser();" style="margin-left: 5px;">Change User</button>
 
+                <label class="lbl-right" style="width:70px;">Percentage</label>
+                <input type="text" id="dscper" name="dscper" value='<s:property value="dscper"/>' style="width: 60px;"/>
 
-<div id="invoiceDiv"><center><jsp:include page="invoiceGrid.jsp"></jsp:include></center></div>
+                <button type="button" class="myButton" id="process" title="Process" onclick="funprocess();" style="margin-left: 15px;">Process</button>
+            </div>
+        </div>
 
-<div id="hidegrid" hidden="true" ><center><jsp:include page="hidegrid.jsp"></jsp:include></center></div>
+        <div id="psearch" class="middle-panel">
+            <span class="middle-panel-title">Item Details</span>
+            
+            <div class="field-row" style="align-items: flex-end; margin-bottom: 10px;">
+                <div style="flex:1; min-width: 120px;">
+                    <label class="lbl-right" style="text-align:left; display:block; margin-bottom:4px; padding:0;">Product ID</label>
+                    <div id="part"><jsp:include page="part.jsp"></jsp:include></div>
+                </div>
+                
+                <div style="flex:2; min-width: 200px;">
+                    <label class="lbl-right" style="text-align:left; display:block; margin-bottom:4px; padding:0;">Product Name</label>
+                    <div id="pnames"><jsp:include page="name.jsp"></jsp:include></div>
+                </div>
+                
+                <div style="flex:1; min-width: 100px;">
+                    <label class="lbl-right" style="text-align:left; display:block; margin-bottom:4px; padding:0;">Brand</label>
+                    <input type="text" id="brand" style="width: 100%;" />
+                </div>
+                
+                <div style="flex:1; min-width: 80px;">
+                    <label class="lbl-right" style="text-align:left; display:block; margin-bottom:4px; padding:0;">Unit</label>
+                    <select id="unit" onchange="closes()" style="width: 100%;"></select>
+                </div>
+                
+                <div style="flex:1; min-width: 80px;">
+                    <label class="lbl-right" style="text-align:left; display:block; margin-bottom:4px; padding:0;">Qty</label>
+                    <input type="text" id="quantity" onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber1(event);" onchange="vatSwitch();" style="text-align: left; width: 100%;" />
+                </div>
+                
+                <div style="flex:1; min-width: 80px;">
+                    <label class="lbl-right" style="text-align:left; display:block; margin-bottom:4px; padding:0;">Unit Price</label>
+                    <input type="text" id="uprice" onkeypress="javascript:return isNumber1(event);" onchange="vatSwitch();" style="text-align: right; width: 100%;" />
+                </div>
+                
+                <div style="flex:1; min-width: 80px;">
+                    <label class="lbl-right" style="text-align:left; display:block; margin-bottom:4px; padding:0;">Total</label>
+                    <input type="text" id="totamt" tabindex="-1" style="text-align: right; width: 100%;" />
+                </div>
+            </div>
 
+            <div class="field-row" style="align-items: flex-end; margin-bottom: 0;">
+                <div style="flex:1;">
+                    <label class="lbl-right" style="text-align:left; display:block; margin-bottom:4px; padding:0;">Discount%</label>
+                    <input type="text" id="dispers" onkeypress="javascript:return isNumber1(event);" onchange="vatSwitch();" style="text-align: right; width: 100%;" />
+                </div>
+                <div style="flex:1;">
+                    <label class="lbl-right" style="text-align:left; display:block; margin-bottom:4px; padding:0;">Discount</label>
+                    <input type="text" id="dict" onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber1(event);" onchange="vatSwitch();" style="text-align: right; width: 100%;" />
+                </div>
+                <div style="flex:1;">
+                    <label class="lbl-right" style="text-align:left; display:block; margin-bottom:4px; padding:0;">Net Total</label>
+                    <input type="text" id="amounts" tabindex="-1" style="text-align: right; width: 100%;" />
+                </div>
+                <div style="flex:1;">
+                    <label class="lbl-right" style="text-align:left; display:block; margin-bottom:4px; padding:0;">Tax%</label>
+                    <input type="text" id="taxpers" tabindex="-1" style="text-align: right; width: 100%;" />
+                </div>
+                <div style="flex:1;">
+                    <label class="lbl-right" style="text-align:left; display:block; margin-bottom:4px; padding:0;">Tax Amount</label>
+                    <input type="text" id="taxamounts" tabindex="-1" onkeypress="javascript:return isNumber1(event);" style="text-align: right; width: 100%;" />
+                </div>
+                <div style="flex:1;">
+                    <label class="lbl-right" style="text-align:left; display:block; margin-bottom:4px; padding:0;">Net Total</label>
+                    <input type="text" id="taxamountstotal" tabindex="-1" onkeypress="javascript:return isNumber1(event);" style="text-align: right; width: 100%;" />
+                </div>
+                <div style="display: flex; gap: 5px; margin-left: 10px;">
+                    <input type="button" id="setbtn" class="myButton" onclick="prosrch()" value="PS">
+                    <input type="button" id="setbtn_add" class="myButton" onclick="setgrid()" value="ADD">
+                    <input type="button" id="setbtn1" class="myButton" onclick="detailstock()" value="SD">
+                    <input type="button" id="setbtn2" class="myButton" onclick="alterprosrch()" value="Alternative Items">
+                </div>
+            </div>
+        </div>
 
-<fieldset>
-   <legend>Summary</legend>  
-<table width="100%">
-<tr>
-<td align="right">Product</td><td><input type="text" name="txtproductamt" readonly="readonly" id="txtproductamt" value='<s:property value="txtproductamt"/>'    style="width:50%;text-align: right;"></td>
-<td align="right">Discount</td><td><input type="checkbox"  value="0" id="chkdiscount" name="chkdiscount" onchange="fundisable()"    onclick="$(this).attr('value', this.checked ? 1 : 0)" ></td>
-<td align="right">Discount %</td><td><input type="text" name="descPercentage" id="descPercentage" value='<s:property value="descPercentage"/>'   onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber (event);"  style="width:50%;text-align: right;"></td>
-    <td align="center"><button type="button" class="icon" id="btnCalculate" title="Calculate" onclick="funcalcu();">
-       <img alt="Calculate" src="<%=contextPath%>/icons/calculate_new.png">
-      </button> 
-      </td>
-<td align="right">Discount Value</td><td><input type="text" name="txtdiscount" id="txtdiscount" value='<s:property value="txtdiscount"/>' onblur="funvalcalcu();" onkeypress="javascript:return isNumber (event);"  style="width:51%;text-align: right;"></td>
+        <table width="100%" style="margin-bottom: 15px;"><tr><td><div id="invoiceDiv"><jsp:include page="invoiceGrid.jsp"></jsp:include></div></td></tr></table>
+        <table width="100%" hidden="true"><tr><td><div id="hidegrid"><jsp:include page="hidegrid.jsp"></jsp:include></div></td></tr></table>
 
-<td><input type="hidden" name="prddiscount" id="prddiscount" value='<s:property value="prddiscount"/>'   onkeypress="javascript:return isNumber (event);"  style="width:51%;text-align: right;"></td>
+        <div style="display: flex; gap: 15px; align-items: stretch;">
+            <div class="middle-panel" style="flex: 2; margin-bottom: 0;">
+                <span class="middle-panel-title">Summary</span>
+                <div class="field-row">
+                    <label class="lbl-right" style="width:70px;">Product</label><input type="text" name="txtproductamt" readonly="readonly" id="txtproductamt" value='<s:property value="txtproductamt"/>' style="width: 100px; text-align: right;">
+                    <label style="display:flex; align-items:center; gap:4px; margin-left: 10px;"><input type="checkbox" value="0" id="chkdiscount" name="chkdiscount" onchange="fundisable()" onclick="$(this).attr('value', this.checked ? 1 : 0)"> Discount</label>
+                    <label class="lbl-right" style="width:80px;">Discount %</label><input type="text" name="descPercentage" id="descPercentage" value='<s:property value="descPercentage"/>' onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber(event);" style="width: 60px; text-align: right;">
+                    <button type="button" class="myButton" id="btnCalculate" title="Calculate" onclick="funcalcu();" style="margin-left: 5px;">Calculate</button>
+                    <label class="lbl-right" style="width:90px;">Discount Value</label><input type="text" name="txtdiscount" id="txtdiscount" value='<s:property value="txtdiscount"/>' onblur="funvalcalcu();" onkeypress="javascript:return isNumber(event);" style="width: 100px; text-align: right;">
+                </div>
+                <div class="field-row" style="margin-bottom:0; justify-content: flex-end;">
+                    <label class="lbl-right" style="width:80px;">Round off</label><input type="text" name="roundOf" id="roundOf" value='<s:property value="roundOf"/>' onblur="roundvals();funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber1(event);" style="width: 100px; text-align: right;">
+                    <label class="lbl-right" style="width:80px;">Net Total</label><input type="text" name="txtnettotal" readonly="readonly" id="txtnettotal" value='<s:property value="txtnettotal"/>' onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber(event);" style="width: 100px; text-align: right; background: #e2e8f0; font-weight: bold;">
+                </div>
+            </div>
 
-<td align="right">Round of</td><td><input type="text" name="roundOf" id="roundOf" value='<s:property value="roundOf"/>' onblur="roundvals();funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber1 (event);"  style="width:51%;text-align: right;"></td>
-<td align="right">Net Total</td><td><input type="text" name="txtnettotal" readonly="readonly" id="txtnettotal" value='<s:property value="txtnettotal"/>'  onblur="funRoundAmt(this.value,this.id);" onkeypress="javascript:return isNumber (event);"  style="width:50%;text-align: right;"></td>
- 
-</tr>
+            <div id="taxsss" class="middle-panel" style="flex: 1.5; margin-bottom: 0;">
+                <span class="middle-panel-title">Tax Details</span>
+                <div class="field-row">
+                    <label class="lbl-right" style="width:70px;">Total Tax</label><input type="text" id="st" name="st" style="flex:1;" value='<s:property value="st"/>'>
+                    <button type="button" class="myButton" id="process1" title="Process1" onclick="funcalutax();" style="margin-left: 5px;">Process</button>
+                </div>
+                <div class="field-row">
+                    <label class="lbl-right" id="labeltax1" style="width:70px;"></label><input type="text" id="taxontax1" name="taxontax1" style="width: 60px;" value='<s:property value="taxontax1"/>'>
+                    <label class="lbl-right" id="labeltax2" style="width:60px;"></label><input type="text" id="taxontax2" name="taxontax2" style="width: 60px;" value='<s:property value="taxontax2"/>'>
+                    <label class="lbl-right" id="labeltax3" style="width:60px;"></label><input type="text" id="taxontax3" name="taxontax3" style="width: 60px;" value='<s:property value="taxontax3"/>'>
+                </div>
+                <div class="field-row" style="margin-bottom:0;">
+                    <label class="lbl-right" style="width:100px; margin-left: auto;">Net Tax Total</label>
+                    <input type="text" id="taxtotal" name="taxtotal" style="width:100px; text-align:right;" value='<s:property value="taxtotal"/>'>
+                </div>
+            </div>
+        </div>
 
+        <div style="display:flex; justify-content: flex-end; align-items: center; gap: 10px; margin: 15px 0; padding: 10px; background: #e2e8f0; border-radius: 4px; border: 1px solid #cbd5e1;">
+            <label class="lbl-right">Order Value :</label>
+            <input type="text" id="orderValue" readonly="readonly" tabindex="-1" name="orderValue" style="width:150px; text-align:right;" value='<s:property value="orderValue"/>'/>
+            <label style="font-weight:bold; color:red; font-size: 14px; margin-left: 20px;">Final Order Value:</label>
+            <div style="position:fixed; z-index:1000; right:320px; top:15px; font-weight:bold; color:red; font-size: 12px;"> 
+                <input type="text" id="orderValuefinal" name="orderValuefinal" style="width:120px; text-align:right; font-weight:bold; color:#000; background-color:#F2F4F4;" readonly tabindex="-1" value='<s:property value="orderValuefinal"/>'/>
+            </div>
+        </div>
 
-</table>
-</fieldset>
+        <div class="middle-panel" style="padding-bottom: 20px;">
+            <span class="middle-panel-title">Service</span>
+            <table width="100%"><tr><td><div id="servicegrid"><jsp:include page="servicegrid.jsp"></jsp:include></div></td></tr></table>
+        </div>
 
+        <div style="display: flex; gap: 15px; align-items: stretch;">
+            <div class="middle-panel" style="flex: 1; margin: 0;">
+                <span class="middle-panel-title">Shipping Address</span>
+                <div class="field-row">
+                    <label class="lbl-right" style="width:100px;">Name</label>
+                    <div class="input-search-container" style="flex: 1;">
+                        <input type="text" id="shipto" name="shipto" placeholder="Press F3 To Search" value='<s:property value="shipto"/>' onkeydown="getshipdetails(event)" style="width: 100%;">
+                        <svg class="magnifier-icon" onclick="getshipdetails(event);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </div>
+                </div>
+                <div class="field-row"><label class="lbl-right" style="width:100px;">Shipping Address</label><input type="text" id="shipaddress" name="shipaddress" style="flex:1;" value='<s:property value="shipaddress"/>'></div>
+                <div class="field-row"><label class="lbl-right" style="width:100px;">Contact Person</label><input type="text" id="contactperson" name="contactperson" style="flex:1;" value='<s:property value="contactperson"/>'></div>
+                <div class="field-row">
+                    <label class="lbl-right" style="width:100px;">Telephone</label><input type="text" id="shiptelephone" name="shiptelephone" style="flex:1;" value='<s:property value="shiptelephone"/>'>
+                    <label class="lbl-right" style="width:50px;">MOB</label><input type="text" id="shipmob" name="shipmob" style="flex:1;" value='<s:property value="shipmob"/>'>
+                </div>
+                <div class="field-row" style="margin-bottom:0;">
+                    <label class="lbl-right" style="width:100px;">Email</label><input type="text" id="shipemail" name="shipemail" style="flex:1;" value='<s:property value="shipemail"/>'>
+                    <label class="lbl-right" style="width:50px;">FAX</label><input type="text" id="shipfax" name="shipfax" style="flex:1;" value='<s:property value="shipfax"/>'>
+                </div>
+            </div>
+            
+            <div class="middle-panel" style="flex: 1; margin: 0; padding: 15px 5px 5px 5px;">
+                <span class="middle-panel-title">Shipping Details</span>
+                <table width="100%"><tr><td><div id="shipdetdiv"><jsp:include page="shipdetailsGrid.jsp"></jsp:include></div></td></tr></table>
+            </div>
+        </div>
 
-<fieldset>
-   <legend>Service</legend>
-       <div id="servicegrid" ><jsp:include page="servicegrid.jsp"></jsp:include></div>
-</fieldset>
+        <div class="middle-panel" style="padding-bottom: 20px;">
+            <span class="middle-panel-title">Terms and Conditions</span>
+            <table width="100%"><tr><td><div id="termsDiv"><jsp:include page="termsGrid.jsp"></jsp:include></div></td></tr></table>
+        </div>
 
+        <div style="display:none;">
+            <input type="text" name="gridtext" id="gridtext" value='<s:property value="gridtext"/>'/>   
+            <input type="text" name="gridtext1" id="gridtext1" value='<s:property value="gridtext1"/>'/>
+            <input type="hidden" id="hiddate" name="hiddate" value='<s:property value="hiddate"/>'/>
+            <input type="hidden" id="hidcmbmodeofpay" name="hidcmbmodeofpay" value='<s:property value="hidcmbmodeofpay"/>'/>
+            <input type="hidden" id="locationid" name="locationid" value='<s:property value="locationid"/>'/>
+            <input type="hidden" id="salespersonid" name="salespersonid" value='<s:property value="salespersonid"/>'/>
+            <input type="hidden" id="userids" name="userids" value='<s:property value="userids"/>'/>
+            <input type="hidden" id="userdocno" name="userdocno" value='<s:property value="userdocno"/>'/>
+            <input type="hidden" id="hidcmbcurr" name="hidcmbcurr" value='<s:property value="hidcmbcurr"/>'/>
+            <input type="hidden" id="hidcmbbilltype" name="hidcmbbilltype" value='<s:property value="hidcmbbilltype"/>'/>
+            <input type="hidden" id="hidcmbvatype" name="hidcmbvatype" value='<s:property value="hidcmbvatype"/>'/>
+            <input type="hidden" id="hidcmbreftype" name="hidcmbreftype" value='<s:property value="hidcmbreftype"/>'/>
+            <input type="hidden" id="hidcmbprice" name="hidcmbprice" value='<s:property value="hidcmbprice"/>'/>
+            <input type="hidden" id="hidpayDueDate" name="hidpayDueDate" value='<s:property value="hidpayDueDate"/>'/>
+            <input type="hidden" id="collqty" />
+            <input type="hidden" id="loads" class="myButtons" value="Load Data"> 
+            <input type="hidden" id="focs" onchange="vatSwitch();">
+            <input type="hidden" id="cleardata">
+            <input type="hidden" name="prddiscount" id="prddiscount" value='<s:property value="prddiscount"/>'>
+            <input type="hidden" id="clientcaid" name="clientcaid" value='<s:property value="clientcaid"/>'/>
+            <input type="hidden" id="clientcatname" name="clientcatname" value='<s:property value="clientcatname"/>'/>
+            <input type="hidden" id="clientpricegroup" name="clientpricegroup" value='<s:property value="clientpricegroup"/>'/>
+            <input type="hidden" id="salesmancatid" name="salesmancatid" value='<s:property value="salesmancatid"/>'/>
+            <input type="hidden" id="salesmanusgper" name="salesmanusgper" value='<s:property value="salesmanusgper"/>'/>
+            <input type="hidden" id="checkhidegrid" name="checkhidegrid" value='<s:property value="checkhidegrid"/>'/>
+            <input type="hidden" id="mode" name="mode" value='<s:property value="mode"/>'/>
+            <input type="hidden" id="clientid" name="clientid" value='<s:property value="clientid"/>'/>
+            <input type="hidden" id="deleted" name="deleted" value='<s:property value="deleted"/>'/>
+            <input type="hidden" id="nettotal" name="nettotal" value='<s:property value="nettotal"/>'/>
+            <input type="hidden" id="msg" name="msg" value='<s:property value="msg"/>'/>
+            <input type="hidden" id="masterdoc_no" name="masterdoc_no" value='<s:property value="masterdoc_no"/>'/>
+            <input type="hidden" id="refmasterdocno" name="refmasterdocno" value='<s:property value="refmasterdocno"/>'/>
+            <input type="hidden" id="gridlength" name="gridlength"/>
+            <input type="hidden" id="termsgridlength" name="termsgridlength" value='<s:property value="termsgridlength"/>'/>
+            <input type="hidden" id="servgridlen" name="servgridlen" value='<s:property value="servgridlen"/>'/>
+            <input type="hidden" id="prodsearchtype" name="prodsearchtype" value='<s:property value="prodsearchtype"/>'/>
+            <input type="hidden" id="editdata" name="editdata" value='<s:property value="editdata"/>'/>
+            <input type="hidden" id="hidpsrno" name="hidpsrno" value='<s:property value="hidpsrno"/>'/>
+            <input type="hidden" id="shipdocno" name="shipdocno" value='<s:property value="shipdocno"/>'/>
+            <input type="hidden" id="shipdatagridlenght" name="shipdatagridlenght" value='<s:property value="shipdatagridlenght"/>'/>
+            <input type="hidden" id="rowindexg" name="rowindexg" value='<s:property value="rowindexg"/>'/>
+            <input type="hidden" id="hidsellprice" name="hidsellprice" value='<s:property value="hidsellprice"/>'/>
+            <input type="hidden" id="fixaccount">
+            <input type="hidden" id="fixaccountdoc">
+            <input type="hidden" id="fixaccountname">
+            <input type="hidden" id="totalstock" name="totalstock" value='<s:property value="totalstock"/>'/>
+            <input type="hidden" id="productchk" name="productchk" value='<s:property value="productchk"/>'/>
+            <input type="hidden" id="clntacno" name="clntacno" value='<s:property value="clntacno"/>'/>
+            <input type="hidden" id="allowdiscount" name="allowdiscount" value='<s:property value="allowdiscount"/>'/>
+            <input type="hidden" id="temppsrno" >  
+            <input type="hidden" id="tempspecid" > 
+            <input type="hidden" id="tempunitdocno" > 
+            <input type="hidden" id="typeoftaken">
+            <input type="hidden" id="tax1per">
+            <input type="hidden" id="tax2per">
+            <input type="hidden" id="tax3per">
+        </div>
 
-<table width="100%">
-<tr>
-<td width="80%">&nbsp;<td><td width="10%" align="right"><label >Order Value :</label></td><td><input type="text" class="textbox" id="orderValue" readonly="readonly" tabindex="-1" name="orderValue" style="width:73%;" value='<s:property value="orderValue"/>'/></td>
-<td><div style="position:fixed;z-index:1000;right:320px;top:15px;font-weight:bold;color:red;font-size: 12PX "> <label  >Order Value:</label> 
-<input type="text" id="orderValuefinal" name="orderValuefinal" style="width:60%;float: right;text-align: right;
-font-weight:bold;color:#000000;
-background-color:#F2F4F4; " readonly tabindex="-1" value='<s:property value="orderValuefinal"/>'/></div></td>
-<tr>
-
-</table>
-
-<div id="taxsss">
-<fieldset> 
- <legend>Tax Details</legend> 
-<table width="100%">
-
-<tr>
-
-<td align="right">Total Tax</td><td align="left"><input type="text" id="st" name="st" style="width:50%;"   value='<s:property value="st"/>'  ></td>
-
-<td><button type="button" class="icon" id="process1" title="Process1" onclick="funcalutax();">
-							<img alt="process" src="<%=contextPath%>/icons/process2.png" width="18" height="18">
-						   </button></td>
-
-<td align="right"><label id="labeltax1"></label></td><td  align="left"><input type="text" id="taxontax1" name="taxontax1" style="width:50%;"   value='<s:property value="taxontax1"/>'  ></td>
-<td align="right"><label id="labeltax2"></label></td><td  align="left"><input type="text" id="taxontax2" name="taxontax2" style="width:50%;"   value='<s:property value="taxontax2"/>'  >
-<td align="right"><label id="labeltax3"></label></td><td  align="left"><input type="text" id="taxontax3" name="taxontax3" style="width:50%;"   value='<s:property value="taxontax3"/>'  >
- </td>
-
-<td  align="right">Net Tax Total</td><td  align="left"><input type="text" id="taxtotal" name="taxtotal" style="width:50%;"   value='<s:property value="taxtotal"/>'  ></td>
-
-</table>
-
-</fieldset>
-</div>
-<fieldset>
- <legend>Shipping Details</legend>
-<table width="100%"  >
-
-<tr>
-
-<td width="50%">
- <fieldset>
-<table  width="100%"   >   
-
-<tr><td align="right" width="15%">Name</td><td colspan="3"><input type="text" id="shipto" name="shipto" style="width:91%;" placeholder="Press F3 To Search"  value='<s:property value="shipto"/>' onkeydown="getshipdetails(event)" ></td></tr>
-<tr><td align="right">Shipping Address</td><td colspan="3"><input type="text" id="shipaddress" name="shipaddress"  style="width:91%;"  value='<s:property value="shipaddress"/>' ></td></tr>
-<tr><td align="right">Contact Person</td><td colspan="3"><input type="text" id="contactperson" name="contactperson"  style="width:91%;"    value='<s:property value="contactperson"/>' ></td></tr>
-<tr><td align="right">Telephone</td><td><input type="text" id="shiptelephone" name="shiptelephone"   style="width:90%;"   value='<s:property value="shiptelephone"/>' ></td>
-<td align="right">MOB</td><td><input type="text" id="shipmob" name="shipmob"  style="width:80%;"  value='<s:property value="shipmob"/>' ></td></tr>
-<tr><td align="right">Email</td><td><input type="text" id="shipemail" name="shipemail"   style="width:90%;"   value='<s:property value="shipemail"/>' ></td>
-<td align="right">FAX</td><td><input type="text" id="shipfax"  style="width:80%;"  name="shipfax" value='<s:property value="shipfax"/>' ></td>
-</tr>
-</table>
- </fieldset>
- </td>
-
- 
-<td width="50%"> 
- <fieldset>
-<div id="shipdetdiv"><jsp:include page="shipdetailsGrid.jsp"></jsp:include></div> 
-</fieldset>
-</td>
-
-</tr>
-</table>
- 
- 
- 
-</fieldset>
-<fieldset><legend>Terms and Conditions</legend>
-<table width="100%">
-  <tr><td>
-    <div id="termsDiv"><jsp:include page="termsGrid.jsp"></jsp:include></div><br/>
-  </td></tr>
-</table>
-</fieldset>
-                  
- 
-<input type="hidden" id="clientcaid" name="clientcaid"  value='<s:property value="clientcaid"/>'/>
-<input type="hidden" id="clientcatname" name="clientcatname"  value='<s:property value="clientcatname"/>'/>
-<input type="hidden" id="clientpricegroup" name="clientpricegroup"  value='<s:property value="clientpricegroup"/>'/>
-
-<input type="hidden" id="salesmancatid" name="salesmancatid"  value='<s:property value="salesmancatid"/>'/>          <!--    not use -->
-<input type="hidden" id="salesmanusgper" name="salesmanusgper"  value='<s:property value="salesmanusgper"/>'/>    <!--    not use -->
-
- <input type="hidden" id="checkhidegrid" name="checkhidegrid"  value='<s:property value="checkhidegrid"/>'/>
-
-
-<input type="hidden" id="mode" name="mode"  value='<s:property value="mode"/>'/>
-<input type="hidden" id="clientid" name="clientid" value='<s:property value="clientid"/>'/>
-<input type="hidden" id="deleted" name="deleted" value='<s:property value="deleted"/>'/>
-<input type="hidden" id="nettotal" name="nettotal"  value='<s:property value="nettotal"/>'/>
-<input type="hidden" id="msg" name="msg"  value='<s:property value="msg"/>'/>
-<input type="hidden" id="masterdoc_no" name="masterdoc_no"  value='<s:property value="masterdoc_no"/>'/>
-<input type="hidden" id="refmasterdocno" name="refmasterdocno"  value='<s:property value="refmasterdocno"/>'/>
-<input type="hidden" id="gridlength" name="gridlength"/>
-<input type="hidden" id="termsgridlength" name="termsgridlength" value='<s:property value="termsgridlength"/>'/>
-<input type="hidden" id="servgridlen" name="servgridlen"  value='<s:property value="servgridlen"/>'/>
-<input type="hidden" id="prodsearchtype" name="prodsearchtype" value='<s:property value="prodsearchtype"/>'/>
- <input type="hidden" id="editdata" name="editdata"  value='<s:property value="editdata"/>'/>
- <input type="hidden" id="hidpsrno" name="hidpsrno"  value='<s:property value="hidpsrno"/>'/>
- <input type="hidden" id="shipdocno" name="shipdocno"  value='<s:property value="shipdocno"/>'/>
-  <input type="hidden" id="shipdatagridlenght" name="shipdatagridlenght"  value='<s:property value="shipdatagridlenght"/>'/>
-  <input type="hidden" id="rowindexg" name="rowindexg"  value='<s:property value="rowindexg"/>'/>
-   <input type="hidden" id="hidsellprice" name="hidsellprice"  value='<s:property value="hidsellprice"/>'/>
-  <input type="hidden" id="fixaccount">
-<input type="hidden" id="fixaccountdoc">
-<input type="hidden" id="fixaccountname">
-      <input type="hidden" id="totalstock" name="totalstock"  value='<s:property value="totalstock"/>'/>
-  <input type="hidden" id="productchk" name="productchk"  value='<s:property value="productchk"/>'/>
-   <input type="hidden" id="clntacno" name="clntacno"  value='<s:property value="clntacno"/>'/>
-    <input type="hidden" id="allowdiscount" name="allowdiscount"  value='<s:property value="allowdiscount"/>'/>
-        <input type="hidden" id="temppsrno" >  
-        <input type="hidden" id="tempspecid" > 
- <input type="hidden" id="productchk" >  
-        <input type="hidden" id="tempunitdocno" > 
-  
-  <!-- <label id="stockmsg" name="stockmsg" class="blink" style="position:fixed;z-index:1000;right:310px;top:25px;color:#003300;font-weight:bold;font-size: 14px;font-family: Times New Roman, Times, serif;">  </label> -->
-  
-   <label ><span id="stockmsg" style="position:absolute;z-index:1000;right:210px;top:15px;color:#003300;font-weight:bold;font-size: 14px;font-family: Times New Roman, Times, serif;"></span><span id="salelbl" style="position:absolute;z-index:1000;right:50px;top:15px;color:#FF335E;font-weight:bold;font-size: 14px;font-family: Times New Roman, Times, serif;"></span>  </label>
- 
- <input type="hidden" id="typeoftaken"> <!-- valuebased -->
- <input type="hidden" id="tax1per"> <!-- first tax % -->
- <input type="hidden" id="tax2per"><!--  sec tax % -->
- <input type="hidden" id="tax3per"><!--  tird tax % -->
- 
- 
-</div>
+    </div>
 </form>
-	
-<div id="salespersonwindow">
-			<div></div>
-			<div></div>
-		</div>
-<div id="customerDetailsWindow">
-	<div></div>
-</div>
 
-<div id="sidesearchwndow">
-	<div></div>
-</div>  
-<div id="refnosearchwindow">
-	<div></div>
-</div>
-<div id="searchwndow">
-	<div></div>
-</div>
-<div id="locationwindow">
-	<div></div>
-</div>
-<div id="accountsearchwindow">
-			<div></div>
-		</div>	
-		 <div id="userwindow">
-	   <div ></div>
-	</div>
+<div id="salespersonwindow"><div></div><div></div></div>
+<div id="customerDetailsWindow"><div></div></div>
+<div id="sidesearchwndow"><div></div></div>  
+<div id="refnosearchwindow"><div></div></div>
+<div id="searchwndow"><div></div></div>
+<div id="locationwindow"><div></div></div>
+<div id="accountsearchwindow"><div></div></div>  
+<div id="userwindow"><div></div></div>
+
 </div>
 </body>
 </html>
