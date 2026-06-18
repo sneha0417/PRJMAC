@@ -196,49 +196,110 @@
 	
 
 	</script>
-<body bgcolor="#E0ECF8">
-<div id=search>
-<table width="100%" >
-  <tr >
-   <td>
- 
-    </td>
-  </tr>
-  <tr>
-  <td>
-    
-  <table width="100%" >
-  
-        <tr> 
-    
-    <td align="right"  width="50%" ><input type="button" name="searchss" id="searchss" class="myButton" value="Search"  onclick="loadSearchss()">
-     <td align="left"  width="50%" >&nbsp;&nbsp;<input type="button" name="searchs" id="searchs" class="myButtons" value="Submit"  onclick="searchdata()">
-     
-</td>
+<style>
+body,
+html{
+    margin:0;
+    padding:0;
+    background:#ffffff !important;
+    font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
+}
 
- 
+body[bgcolor]{
+    background:#ffffff !important;
+}
 
-    </tr> 
-    
-    </table>
- 
+#search{
+    background:#ffffff !important;
+    padding:10px;
+}
 
-    
-    
-    
-  </td>
+.search-panel{
+    background:#ffffff !important;
+    border:1px solid #d6d6d6;
+    border-radius:4px;
+    padding:15px;
+    margin-bottom:12px;
+}
 
-  <tr>
-    <td colspan="8" align="right">
-    
-    <div id="qtysearchdiv">
-      
-   <jsp:include  page="qtysubSearch.jsp"></jsp:include> 
-   
-   </div>
-    </td>
-  </tr>
-</table>
-  </div>
+.grid-container{
+    background:#ffffff !important;
+    border:1px solid #cccccc;
+    border-radius:4px;
+    overflow:hidden;
+}
+</style>
+
+<body>
+
+<div id="search">
+
+    <!-- Button Panel -->
+
+    <div class="search-panel">
+
+        <table width="100%" style="border-collapse:collapse;">
+            <tr>
+
+                <td align="right" width="50%">
+
+                    <button type="button"
+                            id="searchss"
+                            onclick="loadSearchss();"
+                            style="
+                                width:110px;
+                                height:30px;
+                                background:#205fd3;
+                                color:#ffffff;
+                                border:1px solid #205fd3;
+                                border-radius:4px;
+                                font-size:12px;
+                                font-weight:600;
+                                cursor:pointer;">
+                        Search
+                    </button>
+
+                </td>
+
+                <td align="left" width="50%">
+
+                    <button type="button"
+                            id="searchs"
+                            onclick="searchdata();"
+                            style="
+                                width:110px;
+                                height:30px;
+                                background:#16a34a;
+                                color:#ffffff;
+                                border:1px solid #16a34a;
+                                border-radius:4px;
+                                font-size:12px;
+                                font-weight:600;
+                                cursor:pointer;
+                                margin-left:10px;">
+                        Submit
+                    </button>
+
+                </td>
+
+            </tr>
+        </table>
+
+    </div>
+
+    <!-- Grid -->
+
+    <div class="grid-container">
+
+        <div id="qtysearchdiv">
+
+            <jsp:include page="qtysubSearch.jsp"></jsp:include>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>
