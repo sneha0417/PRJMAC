@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>GatewayERP(i) - Cash Receipt</title>
 <jsp:include page="../../../../includes.jsp"></jsp:include>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -319,259 +319,51 @@
 	 				 
 	    		return 1;
 		} 
-	  
-	  function setValues(){
-		  $('#jqxCashReceiptDate').jqxDateTimeInput({disabled: false});
-		  var date = $('#jqxCashReceiptDate').val();
-		  getCurrencyId(date);
-		  $('#jqxCashReceiptDate').jqxDateTimeInput({disabled: true});
-		  
-		  document.getElementById("cmbtotype").value=document.getElementById("hidcmbtotype").value;
-		  
-		  if($('#hidjqxCashReceiptDate').val()){
-				 $("#jqxCashReceiptDate").jqxDateTimeInput('val', $('#hidjqxCashReceiptDate').val());
-			  }
-		  
-		  if($('#hidmaindate').val()){
-				 $("#maindate").jqxDateTimeInput('val', $('#hidmaindate').val());
-			  }
-		  
-		  if($('#msg').val()!=""){
-			   $.messager.alert('Message',$('#msg').val());
-			  }
-		  
-		  	document.getElementById("formdet").innerText=$('#formdetail').val()+" ("+$('#formdetailcode').val().trim()+")";
-		  	funSetlabel();
-			
-			 var indexVal = document.getElementById("docno").value;
-			 if(indexVal>0){
-				 var check=1;
-	         	 $("#jqxCashReceiptGrid").load("cashReceiptGrid.jsp?txtcashpaydocno2="+indexVal+"&check="+check);
-			 }
-	         var indexVal1 = document.getElementById("txttodocno").value;
-	         var indexVal2 = document.getElementById("txttotrno").value;
-	         if(indexVal1>0){
-	         	 var check=1;
-	         	 $("#jqxApplyInvoicing1").load("applyCashReceiptInvoicingGrid.jsp?txttoaccid1="+indexVal1+"&txttotrno1="+indexVal2+"&check="+check); 
-	         }
-		}
-	  
-	  function getDrTotal(){
-		  var fromamount = $('#txtfrombaseamount').val();
-		  
-		  if(!isNaN(fromamount)){
-			  
-		  var dr=0.0,cr=0.0,dr1=0.0;
-  	      var rows = $('#jqxCashReceipt').jqxGrid('getrows');
-	      var rowlength= rows.length;
-	 		for(var i=0;i<=rowlength-1;i++) {
-	 		
-	 		  var value = rows[i].dr;
-	          var baseamount = rows[i].baseamount1;
-	          
-	          if(typeof(baseamount) != "undefined" && typeof(baseamount) != "NaN" && baseamount != ""){
-	         	  if(value==true){
-               	   if(!isNaN(baseamount)){
-               	      cr=cr+baseamount;
-               	   }else if(isNaN(baseamount)){
-                 		 baseamount=0.00;
-                 		 cr=cr+baseamount;
-                 	   }
-                  }
-                  else{
-               	   if(!isNaN(baseamount)){
-                    	 	dr=dr+baseamount;
-                  	   }else if(isNaN(baseamount)){
-                  		    baseamount=0.00;
-                  		 	dr=dr+baseamount;
-                  	   }
-                    }
-	 	       }
-	 		}
-	 		
-	 		if(!isNaN(fromamount)){
-               	dr1=parseFloat(dr) + parseFloat(fromamount);
-                funRoundAmt(dr1,"txtdrtotal");
-             }
-	      }
-		  else if(isNaN(fromamount)){
-			$('#txtdrtotal').val(0.00);
-			$('#txtfrombaseamount').val(0.00);			
-		}
-	  } 
-	  
-	  function getCrTotal(){
-		  var toamount = $('#txttobaseamount').val();
-		  if(!isNaN(toamount)){
-			  
-			    var dr=0.0,cr=0.0,cr1=0.0;
-        	    var rows = $('#jqxCashReceipt').jqxGrid('getrows');
-    	        var rowlength= rows.length;
-        		for(var i=0;i<=rowlength-1;i++) {
-        		
-        		var value = rows[i].dr;
-                var baseamount = rows[i].baseamount1;
-                
-                if(typeof(baseamount) != "undefined" && typeof(baseamount) != "NaN" && baseamount != ""){
-                	 if(value==true){
-                  	   if(!isNaN(baseamount)){
-                  	      cr=cr+baseamount;
-                  	   }else if(isNaN(baseamount)){
-                    		 baseamount=0.00;
-                    		 cr=cr+baseamount;
-                    	   }
-                     }
-                     else{
-                  	   if(!isNaN(baseamount)){
-                       	 	dr=dr+baseamount;
-                      	   }else if(isNaN(baseamount)){
-                      		    baseamount=0.00;
-                      		 	dr=dr+baseamount;
-                      	   }
-                       }
-        	       }
-        		}
-        		
-        		if(!isNaN(toamount)){
-                    cr1=parseFloat(cr) + parseFloat(toamount);
-                    funRoundAmt(cr1,"txtcrtotal");
-                    }
-		  }
-		  else if(isNaN(toamount)){
-		  	$('#txtcrtotal').val(0.00);
-		  	$('#txttoamount').val(0.00);
-		  }
-	  } 
-	  function getAmount(){
-		  var toamount = $('#txttoamount').val();
-		  if(!isNaN(toamount)){
-		  funRoundAmt(toamount,"txtapplyinvoiceamt");
-		  }
-		  else if(isNaN(toamount)){
-			  $('#txtapplyinvoiceamt').val(0.00);
-			  $('#txttoamount').val(0.00);
-			}
-	  }
-	  
-	  function getAcc(event){
-          var x= event.keyCode;
-          if(x==114){
-        	  var date = $('#jqxCashReceiptDate').jqxDateTimeInput('getDate');
-        	  $("#maindate").jqxDateTimeInput('val', date);
-        	  accountFromSearchContent(<%=contextPath+"/"%>+"com/finance/accountsDetailsSearch.jsp?date="+date);
-          }
-          else{
-           }
-          }
-	  
-	  function getAccType(event){
-          var x= event.keyCode;
-          if(x==114){
-        	  var date = $('#jqxCashReceiptDate').jqxDateTimeInput('getDate');
-        	  $("#maindate").jqxDateTimeInput('val', date);
-        	  accountToSearchContent(<%=contextPath+"/"%>+"com/finance/clientAccountDetailsSearch.jsp?atype="+$('#cmbtotype').val()+"&date="+date);
-          }
-          else{
-           }
-          }
-	  
-	  function funPrintBtn() {
-			
-			if (($("#mode").val() == "view") && $("#docno").val()!="") {
-		        var url=document.URL;
-		        var reurl=url.split("saveCashReceipt");
-		        $("#docno").prop("disabled", false);  
-		     
-		        $.messager.confirm('Confirm', 'Do you want to have header?', function(r){
-					if (r){
-						 var win= window.open(reurl[0]+"printCashReceipt?docno="+document.getElementById("docno").value+"&branch="+document.getElementById("brchName").value+"&header=1","_blank","top=150,left=250,Width=1020,Height=500,location=no,scrollbars=no,toolbar=yes");
-					     win.focus();
-					 }
-					else{
-						var win= window.open(reurl[0]+"printCashReceipt?docno="+document.getElementById("docno").value+"&branch="+document.getElementById("brchName").value+"&header=0","_blank","top=150,left=250,Width=1020,Height=500,location=no,scrollbars=no,toolbar=yes");
-					    win.focus();
-					}
-		        });
-		     }
-		    else {
-				$.messager.alert('Message','Select a Document....!','warning');
-				return;
-			}
-      }
-	  
-	  function clearClientInfo(){
-		  $("#txttodocno").val('');$("#txttoaccid").val('');$("#txttoaccname").val('');$("#txtapplyinvoiceapply").val(0.00);
-		  $("#jqxApplyCashReceiptInvoicing").jqxGrid('clear');
-		  $("#jqxApplyCashReceiptInvoicing").jqxGrid('addrow', null, {});
-		  var atype=$('#cmbtotype').val();
-      	  if(atype != "AR"){
-      		$("#jqxApplyCashReceiptInvoicing").jqxGrid({ disabled: true});
-      	   }else if(atype == "AR"){
-      		$("#jqxApplyCashReceiptInvoicing").jqxGrid({ disabled: false});
-      	   }
-	  }
-	  
-	  function datechange(){
-		  var date = $('#jqxCashReceiptDate').jqxDateTimeInput('getDate');
-		  var validdate=funDateInPeriod(date);
-		  if(parseInt(validdate)==0){
-			document.getElementById("errormsg").innerText="Transaction prior or after Account Period is not valid.";
-			return 0;	
-		  }
-		  $("#maindate").jqxDateTimeInput('val', date);
-	  }
-	  
 </script>
 
 <style>
-    /* --- 1. CORE VARIABLES (Cancer Platform Palette) --- */
+    /* --- 1. THE LIGHT, AIRY AESTHETIC --- */
     :root {
-        --bg-color: #F8FAFC; 
-        --white: #FFFFFF;
+        /* Premium Background */
+        --bg-color: #FFFFFF; 
         
-        /* The Exact Blue & Purple Gradient Palette */
-        --blue-primary: #2563EB;
-        --purple-primary: #7C3AED;
-        --gradient-primary: linear-gradient(135deg, var(--blue-primary), var(--purple-primary));
+        /* THE VISIBLE UNIFORM LIGHT GRADIENTRecipe */
+        /* Change these two variables to switch from Sky Blue to Light Green or Orange */
+        --card-gradient-start: #E0F2FE; /* Faint Sky Blue */
+        --card-gradient-end: #FFFFFF;
         
-        /* Typography */
+        --brand-blue: #0284C7; /* Solid blue for highlights/borders */
+        --gradient-primary: linear-gradient(135deg, var(--card-gradient-start), var(--card-gradient-end));
+        
+        /* Typo & Borders */
         --text-main: #1E293B; 
         --text-muted: #64748B;
-        --border-light: #E2E8F0;
+        --border-light: rgba(2, 132, 199, 0.15); /* Blue-tinted soft border */
         
-        /* Soft Shadows & Geometry */
-        --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        --shadow-hover: 0 20px 40px -8px rgba(37, 99, 235, 0.15); /* Satisfying lift shadow */
-        --radius-btn: 8px;
-        --radius-input: 8px;
-        --radius-card: 16px;
+        /* Interactivity Physics */
+        --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.03);
+        --shadow-hover: 0 20px 40px -10px rgba(2, 132, 199, 0.12);
+        --radius-btn: 12px;
+        --radius-input: 12px;
+        --radius-card: 20px;
 
-        /* Modernized JQX Variables */
-        --jqx-grid-row-height: 40px; 
-        --jqx-grid-column-height: 48px; 
+        /* Native JQX Grid Modernization */
+        --jqx-grid-row-height: 42px; 
+        --jqx-grid-column-height: 50px; 
         --jqx-grid-show-column-lines: 0; 
         --jqx-list-item-height: 36px;
         --jqx-grid-filter-menu-items-height: 36px;
         --jqx-dropdown-animation: transform;
-        --jqx-datetimeinput-dropdown-height: 300px;
-        --jqx-datetimeinput-dropdown-width: 300px;
-        --jqx-calendar-header-height: 48px;
-        --jqx-calendar-title-height: 48px;
-        --jqx-border-radius: 8px; 
-        --jqx-font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        --jqx-border-radius: 12px; 
+        --jqx-font-family: 'Plus Jakarta Sans', sans-serif;
         --jqx-font-size: 14px; 
-        --jqx-action-button-size: 28px;
     }
 
     body {
         margin: 0;
         padding: 0;
         background-color: var(--bg-color);
-        /* Subtle animated background gradient to give it life */
-        background: linear-gradient(-45deg, #F8FAFC, #EFF6FF, #F5F3FF, #FFFFFF);
-        background-size: 400% 400%;
-        animation: breathingBackground 15s ease infinite;
-        font-family: 'Inter', sans-serif;
+        font-family: 'Plus Jakarta Sans', sans-serif;
         color: var(--text-main);
         min-height: 100vh;
         overflow-y: auto !important;
@@ -579,155 +371,165 @@
         -webkit-font-smoothing: antialiased;
     }
 
-    /* --- JQXGrid Modernization Overrides --- */
-    .jqx-widget, .jqx-widget-content { font-family: 'Inter', sans-serif !important; font-size: 13px !important; color: #1E293B !important; border-color: #E2E8F0 !important; }
-    .jqx-widget-header { background: #F8FAFC !important; color: #475569 !important; font-weight: 700 !important; border-color: #E2E8F0 !important; }
-    .jqx-fill-state-hover { background: #F1F5F9 !important; border-color: #CBD5E1 !important; color: #2563EB !important; }
-    .jqx-fill-state-pressed { background: rgba(37, 99, 235, 0.05) !important; border-color: rgba(37, 99, 235, 0.3) !important; color: #2563EB !important; }
-    .jqx-input { border-radius: 8px !important; border: 1px solid #E2E8F0 !important; background: #FFFFFF !important; }
-    .jqx-input:focus { background: #FFFFFF !important; border-color: #2563EB !important; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important; }
+    /* --- JQXGrid Deep Light Theme Layer --- */
+    .jqx-widget, .jqx-widget-content { 
+        font-family: 'Plus Jakarta Sans', sans-serif !important; 
+        font-size: 13px !important; 
+        color: #1E293B !important; 
+        background: transparent !important; /* Let card gradient show through */
+        border-color: #E0F2FE !important; 
+    }
+    .jqx-widget-header { 
+        background: rgba(224, 242, 254, 0.5) !important; 
+        color: var(--brand-blue) !important; 
+        font-weight: 800 !important; 
+        border-color: #E0F2FE !important; 
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .jqx-fill-state-hover { 
+        background: rgba(2, 132, 199, 0.08) !important; 
+        border-color: #0284C7 !important; 
+        color: #0284C7 !important; 
+    }
+    .jqx-fill-state-pressed { 
+        background: rgba(2, 132, 199, 0.15) !important; 
+        border-color: #0284C7 !important; 
+        color: #0284C7 !important; 
+    }
+    .jqx-input { 
+        border-radius: var(--radius-input) !important; 
+        border: 1px solid #E0F2FE !important; 
+        background: #FFFFFF !important; 
+        color: #1E293B !important;
+    }
+    .jqx-input:focus { 
+        border-color: #0284C7 !important; 
+        box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15) !important; 
+    }
 
-    /* --- 2. FLY-IN AND ENTRANCE PHYSICS --- */
-    
-    /* Elegant Slide Down for Header */
-    @keyframes slideDownHeader {
-        from { opacity: 0; transform: translateY(-50px); }
+    /* --- 2. THE WOW ANIMATIONS --- */
+    @keyframes flyDownHeader {
+        from { opacity: 0; transform: translateY(-40px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes elasticRise {
+        from { opacity: 0; transform: translateY(50px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Fixed Slide Up for Cards (Animating Top instead of Transform to preserve hover functionality) */
-    @keyframes slideUpFade {
-        from { opacity: 0; top: 40px; }
-        to { opacity: 1; top: 0px; }
-    }
-
-    @keyframes breathingBackground {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-
-    /* Staggered card load-in */
-    .animate-slide-up {
-        position: relative;
+    /* Wrap cards to separate structural entry from hover physics */
+    .entrance-wrapper {
         opacity: 0;
-        animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        animation: elasticRise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-    .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.2s; }
-    .delay-3 { animation-delay: 0.3s; }
-    .delay-4 { animation-delay: 0.4s; }
+    .stagger-1 { animation-delay: 0.1s; }
+    .stagger-2 { animation-delay: 0.2s; }
+    .stagger-3 { animation-delay: 0.3s; }
+    .stagger-4 { animation-delay: 0.4s; }
 
-    /* --- 3. TARGETING & FIXING THE LEGACY HEADER (The Fly-in Target) --- */
+    /* --- 3. FIXING THE LEGACY HEADER --- */
     .legacy-header-wrapper {
-        background-color: var(--white);
-        padding: 16px 32px;
-        border-bottom: 1px solid var(--border-light);
-        box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        background-color: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        padding: 18px 40px;
+        border-bottom: 1px solid #E2E8F0;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
         margin-bottom: 32px;
         position: sticky;
         top: 0;
         z-index: 1000;
-        animation: slideDownHeader 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        animation: flyDownHeader 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* Turn the black header text into the requested gradient */
+    /* Force legacy title to be bold & modern */
     .legacy-header-wrapper h1, 
     .legacy-header-wrapper h2, 
     .legacy-header-wrapper h3,
     .legacy-header-wrapper font[size], 
     .legacy-header-wrapper strong,
     .legacy-header-wrapper b {
-        background: var(--gradient-primary) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        font-family: 'Inter', sans-serif !important;
+        color: var(--brand-blue) !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
         font-size: 26px !important;
         font-weight: 800 !important;
         letter-spacing: -0.02em !important;
         margin: 0 !important;
     }
 
-    /* Exclude inputs/dropdowns inside the header from the gradient */
-    .legacy-header-wrapper input, 
-    .legacy-header-wrapper select {
-        -webkit-text-fill-color: initial !important;
-        background: initial;
-    }
-
-    /* Modernize all legacy buttons inside the header */
+    /* Modernize Legacy Buttons */
     .legacy-header-wrapper button, 
     .legacy-header-wrapper input[type="button"], 
     .legacy-header-wrapper input[type="submit"],
     .legacy-header-wrapper .myButton {
-        font-family: 'Inter', sans-serif !important;
-        font-weight: 600 !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        font-weight: 700 !important;
         font-size: 13px !important;
-        padding: 8px 18px !important;
+        padding: 10px 22px !important;
         border-radius: var(--radius-btn) !important;
-        background: var(--white) !important;
-        color: var(--blue-primary) !important;
-        border: 1px solid rgba(37, 99, 235, 0.3) !important;
+        background: #FFFFFF !important;
+        color: var(--brand-blue) !important;
+        border: 1px solid #E0F2FE !important;
         cursor: pointer !important;
         transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         margin: 4px 6px !important; 
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03) !important;
     }
 
-    /* Hover animation for legacy buttons - Lifting up and glowing */
     .legacy-header-wrapper button:hover, 
-    .legacy-header-wrapper input[type="button"]:hover, 
-    .legacy-header-wrapper input[type="submit"]:hover,
     .legacy-header-wrapper .myButton:hover {
-        background: var(--gradient-primary) !important;
-        color: var(--white) !important;
+        background: var(--brand-blue) !important;
+        color: #FFFFFF !important;
         border-color: transparent !important;
-        transform: translateY(-3px) !important;
-        box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25) !important;
+        transform: translateY(-3px) scale(1.02) !important;
+        box-shadow: 0 10px 20px rgba(2, 132, 199, 0.2) !important;
     }
 
-    /* --- 4. MAIN WORKSPACE CONTAINER --- */
+    /* --- 4. FLUID WORKSPACE LAYOUT --- */
     .app-container {
-        max-width: 1500px;
+        max-width: 1600px;
         margin: 0 auto;
-        padding: 0 32px 40px 32px;
+        padding: 0 40px 50px 40px;
         display: flex;
         flex-direction: column;
-        gap: 24px;
+        gap: 32px;
     }
 
-    /* --- 5. GRID LAYOUTS --- */
     .grid { display: grid; gap: 24px; }
     .grid-2 { grid-template-columns: repeat(2, 1fr); }
     .grid-3 { grid-template-columns: repeat(3, 1fr); }
     .grid-4 { grid-template-columns: repeat(4, 1fr); }
     .grid-split { grid-template-columns: 1fr 1fr; gap: 32px; }
 
-    /* --- 6. MODERN CARDS WITH BUTTERY SMOOTH LIFT --- */
-    .ui-card {
-        background-color: var(--white);
-        border: 1px solid var(--border-light);
+    /* --- 5. THE UNIFORM LIGHT GRADIENT GLASS CARDS (Hover Lift) --- */
+    .glass-card {
+        /* Apply the uniform sky blue gradient infused into the panel */
+        background: var(--gradient-primary);
+        backdrop-filter: blur(20px); /* Heavy frosted glass effect */
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid #FFFFFF; /* Specular border for thickness */
         border-radius: var(--radius-card);
-        padding: 32px;
+        padding: 34px;
         box-shadow: var(--shadow-sm);
-        /* Critical: Use transition on transform to get the snappy lift */
-        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
     }
 
-    .ui-card:hover {
-        transform: translateY(-8px);
-        border-color: rgba(124, 58, 237, 0.2);
+    /* Crisp, snappy lift toward the user */
+    .glass-card:hover {
+        transform: translateY(-8px) scale(1.005);
         box-shadow: var(--shadow-hover);
+        border-color: rgba(255, 255, 255, 0.8);
     }
 
     .card-title {
         font-size: 18px;
         font-weight: 800;
         color: var(--text-main);
-        margin: 0 0 24px 0;
+        margin: 0 0 28px 0;
         display: flex;
         align-items: center;
         gap: 12px;
@@ -736,17 +538,17 @@
     .card-title::before {
         content: '';
         display: block;
-        width: 6px;
-        height: 20px;
-        background: var(--gradient-primary);
+        width: 8px;
+        height: 24px;
+        background: var(--brand-blue);
         border-radius: 4px;
     }
 
-    /* --- 7. IMMACULATE FORM CONTROLS & LABELS --- */
+    /* --- 6. LUMINOUS FORM CONTROLS --- */
     .form-group {
         display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: 8px;
     }
 
     .form-label {
@@ -760,79 +562,80 @@
 
     .form-control {
         width: 100%;
-        padding: 10px 14px;
-        background-color: #F8FAFC;
-        border: 1px solid var(--border-light);
+        padding: 12px 16px;
+        background-color: #FFFFFF;
+        border: 1px solid #E0F2FE;
         border-radius: var(--radius-input);
         font-family: inherit;
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 500;
         color: var(--text-main);
         box-sizing: border-box;
         transition: all 0.3s ease;
-        height: 42px;
+        height: 46px;
     }
 
     .form-control:hover:not([readonly]):not(:disabled) {
-        background-color: var(--white);
-        border-color: #CBD5E1;
+        border-color: #0284C7;
     }
 
-    /* Clean Blue focus ring */
+    /* Luminous blue focus ring */
     .form-control:focus {
         outline: none;
-        background-color: var(--white);
-        border-color: var(--blue-primary);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        background-color: #FFFFFF;
+        border-color: #0284C7;
+        box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.15);
     }
 
     .form-group:focus-within .form-label {
-        color: var(--blue-primary);
+        color: var(--brand-blue);
     }
 
+    /* Dashed status for read-only systemic inputs */
     .form-control[readonly], 
     .form-control[tabindex="-1"] {
-        background-color: #F1F5F9;
+        background-color: #F8FAFC;
         color: var(--text-muted);
         cursor: not-allowed;
-        border: 1px dashed #CBD5E1;
+        border: 1px dashed #E0F2FE;
     }
 
     .text-right { text-align: right !important; }
 
-    /* Button specific for the form area (Value Change) */
+    /* Button inside the form */
     .btn-form {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 0 20px;
-        height: 42px;
+        padding: 0 24px;
+        height: 46px;
         border-radius: var(--radius-btn);
         font-family: inherit;
-        font-weight: 600;
-        font-size: 13px;
+        font-weight: 700;
+        font-size: 14px;
         cursor: pointer;
-        transition: all 0.3s ease;
-        border: 1px solid rgba(37, 99, 235, 0.3);
-        background: var(--white);
-        color: var(--blue-primary);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        border: 1px solid #E0F2FE;
+        background: #FFFFFF;
+        color: var(--brand-blue);
         white-space: nowrap;
     }
 
     .btn-form:hover {
-        background: var(--gradient-primary);
-        color: var(--white);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
+        background: var(--brand-blue);
+        color: #FFFFFF;
+        border-color: transparent;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(2, 132, 199, 0.2);
     }
 
-    /* --- 8. DATA GRIDS & TOTALS --- */
+    /* --- 7. CYBER CONTAINER BOUNDARIES FOR GRIDS --- */
     .grid-container {
-        border: 1px solid var(--border-light);
+        border: 1px solid #E0F2FE;
         border-radius: var(--radius-input);
         overflow: hidden;
-        margin-bottom: 24px;
-        background: var(--white);
+        margin-bottom: 28px;
+        background: #FFFFFF;
         transition: box-shadow 0.3s ease;
     }
 
@@ -840,12 +643,13 @@
         box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
 
+    /* --- 8. TOTALS DISPLAY DECORATORS --- */
     .totals-area {
         display: flex;
         justify-content: flex-end;
         gap: 24px;
         padding-top: 24px;
-        border-top: 2px dashed var(--border-light);
+        border-top: 2px dashed rgba(2, 132, 199, 0.3);
         margin-top: 24px;
     }
 
@@ -853,7 +657,7 @@
         display: flex;
         align-items: center;
         gap: 16px;
-        width: 300px;
+        width: 320px;
     }
 
     .total-field .form-label {
@@ -862,283 +666,22 @@
         color: var(--text-main);
     }
 
+    /* High glow styling for numerical totals */
     .total-field .form-control {
-        font-weight: 800;
-        font-size: 16px;
-        color: var(--purple-primary);
-        border: 2px solid rgba(124, 58, 237, 0.2);
-        background-color: rgba(124, 58, 237, 0.03);
-        height: 48px;
+        font-weight: 900;
+        font-size: 18px;
+        color: var(--brand-blue);
+        border: 2px solid rgba(2, 132, 199, 0.3);
+        background-color: rgba(2, 132, 199, 0.03);
+        height: 54px;
+        box-shadow: inset 0 2px 6px rgba(2, 132, 199, 0.05);
     }
 
     .hidden-system { display: none !important; }
 
-    /* --- 9. RESPONSIVENESS --- */
     @media (max-width: 1200px) {
         .grid-split { grid-template-columns: 1fr; }
     }
-    @media (max-width: 900px) {
-        .grid-4, .grid-3 { grid-template-columns: repeat(2, 1fr); }
-    }
-    /* =========================
-   Gradient Heading
-========================= */
-
-#formdet{
-    font-size:22px;
-    font-weight:800;
-    display:block;
-    letter-spacing:-0.5px;
-
-    background:linear-gradient(
-        135deg,
-        #2563EB 0%,
-        #4F46E5 50%,
-        #7C3AED 100%
-    );
-
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-    color:transparent;
-
-    animation:titleFlyIn .9s cubic-bezier(.22,1,.36,1);
-}
-
-/* =========================
-   Labels
-========================= */
-
-#full label.branch,
-#full label.currency{
-    font-weight:700 !important;
-    font-size:14px;
-    color:#253858;
-
-    opacity:0;
-    animation:fadeUp .8s ease forwards;
-}
-
-#full label.currency{
-    animation-delay:.15s;
-}
-
-/* =========================
-   Dropdowns
-========================= */
-
-#full select#brchName,
-#full select#currency{
-    height:38px !important;
-    padding:4px 12px;
-    font-size:14px;
-    font-weight:600;
-
-    border:1px solid #d6dff1;
-    border-radius:10px;
-
-    background:#fff;
-
-    width:150px;
-    box-sizing:border-box;
-
-    transition:
-        transform .3s ease,
-        box-shadow .3s ease,
-        border-color .3s ease;
-
-    opacity:0;
-    animation:flyIn .8s cubic-bezier(.22,1,.36,1) forwards;
-
-    appearance:none;
-
-    background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'%3E%3Cpath fill='%23666' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-
-    background-repeat:no-repeat;
-    background-position:right 12px center;
-    background-size:14px;
-}
-
-#full select#currency{
-    animation-delay:.15s;
-}
-
-/* Hover */
-
-#full select#brchName:hover,
-#full select#currency:hover{
-    transform:translateY(-2px);
-
-    border-color:#4F46E5;
-
-    box-shadow:
-        0 10px 25px rgba(79,70,229,.15);
-}
-
-/* Focus */
-
-#full select#brchName:focus,
-#full select#currency:focus{
-    outline:none;
-
-    border-color:#4F46E5;
-
-    box-shadow:
-        0 0 0 4px rgba(124,58,237,.12),
-        0 10px 30px rgba(79,70,229,.18);
-
-    transform:translateY(-2px);
-}
-
-/* =========================
-   Keyframes
-========================= */
-
-@keyframes titleFlyIn{
-    from{
-        opacity:0;
-        transform:
-            translateY(-35px)
-            scale(.9);
-    }
-    to{
-        opacity:1;
-        transform:
-            translateY(0)
-            scale(1);
-    }
-}
-
-@keyframes flyIn{
-    from{
-        opacity:0;
-        transform:
-            translateY(25px)
-            scale(.95);
-    }
-    to{
-        opacity:1;
-        transform:
-            translateY(0)
-            scale(1);
-    }
-}
-
-@keyframes fadeUp{
-    from{
-        opacity:0;
-        transform:translateY(15px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-#full select#brchName:hover,
-#full select#currency:hover{
-    border-color:transparent;
-
-    background:
-        linear-gradient(#fff,#fff) padding-box,
-        linear-gradient(135deg,#2563EB,#7C3AED) border-box;
-
-    border:1px solid transparent;
-}
-
-/* Labels */
-
-html body #full label.branch,
-html body #full label.currency{
-    font-size:14px !important;
-    font-family:'Inter',sans-serif !important;
-    font-weight:700 !important;
-    color:#253858 !important;
-
-    letter-spacing:.3px !important;
-
-    opacity:0;
-    animation:fadeUp .8s ease forwards !important;
-}
-
-/* Dropdowns */
-
-html body #full select#brchName,
-html body #full select#currency{
-    height:38px !important;
-    min-width:150px !important;
-
-    padding:0 38px 0 12px !important;
-
-    font-size:14px !important;
-    font-family:'Inter',sans-serif !important;
-    font-weight:600 !important;
-
-    border:1px solid #d6dff1 !important;
-    border-radius:10px !important;
-
-    background:#ffffff !important;
-
-    appearance:none !important;
-    -webkit-appearance:none !important;
-    -moz-appearance:none !important;
-
-    box-shadow:
-        0 2px 8px rgba(0,0,0,.06) !important;
-
-    transition:all .35s ease !important;
-
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%234F46E5' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") !important;
-
-    background-repeat:no-repeat !important;
-    background-position:right 12px center !important;
-    background-size:16px !important;
-
-    opacity:1 !important;
-}
-
-/* Hover */
-
-html body #full select#brchName:hover,
-html body #full select#currency:hover{
-
-    transform:translateY(-2px) !important;
-
-    border-color:#7C3AED !important;
-
-    box-shadow:
-        0 8px 25px rgba(124,58,237,.18) !important;
-}
-
-/* Focus */
-
-html body #full select#brchName:focus,
-html body #full select#currency:focus{
-
-    outline:none !important;
-
-    border-color:#4F46E5 !important;
-
-    box-shadow:
-        0 0 0 4px rgba(79,70,229,.15),
-        0 10px 25px rgba(79,70,229,.15) !important;
-
-    transform:translateY(-2px) !important;
-}
-
-/* Animations */
-
-@keyframes fadeUp{
-    from{
-        opacity:0;
-        transform:translateY(15px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
 </style>
 
 </head>
@@ -1152,39 +695,41 @@ html body #full select#currency:focus{
 
     <form id="frmCashReceipt" action="saveCashReceipt" method="post" autocomplete="off">
         
-        <div class="ui-card animate-slide-up delay-1">
-            <h3 class="card-title">Document Details</h3>
-            <div class="grid grid-4">
-                <div class="form-group">
-                    <label class="form-label">Receipt Date</label>
-                    <div id="jqxCashReceiptDate" name="jqxCashReceiptDate" onchange="datechange();" onblur="datechange();" value='<s:property value="jqxCashReceiptDate"/>'></div>
-                    <input type="hidden" id="hidjqxCashReceiptDate" name="hidjqxCashReceiptDate" value='<s:property value="hidjqxCashReceiptDate"/>'/>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Reference No.</label>
-                    <input type="text" class="form-control" id="txtrefno" name="txtrefno" value='<s:property value="txtrefno"/>'/>
-                </div>
-                
-                <div class="form-group" style="grid-column: span 2;">
-                    <label class="form-label">Document No.</label>
-                    <div style="display: flex; gap: 12px;">
-                        <input type="text" class="form-control" id="docno" name="txtcashreceiptdocno" value='<s:property value="txtcashreceiptdocno"/>' tabindex="-1" style="flex: 1;"/>
-                        <button class="btn-form" type="button" id="btnvaluechange" name="btnvaluechange" onclick="funwarningopen();">Value Change</button>
+        <div class="entrance-wrapper stagger-1">
+            <div class="glass-card">
+                <h3 class="card-title">Document Details</h3>
+                <div class="grid grid-4">
+                    <div class="form-group">
+                        <label class="form-label">Receipt Date</label>
+                        <div id="jqxCashReceiptDate" name="jqxCashReceiptDate" onchange="datechange();" onblur="datechange();" value='<s:property value="jqxCashReceiptDate"/>'></div>
+                        <input type="hidden" id="hidjqxCashReceiptDate" name="hidjqxCashReceiptDate" value='<s:property value="hidjqxCashReceiptDate"/>'/>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Reference No.</label>
+                        <input type="text" class="form-control" id="txtrefno" name="txtrefno" value='<s:property value="txtrefno"/>'/>
+                    </div>
+                    
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label class="form-label">Document No.</label>
+                        <div style="display: flex; gap: 16px;">
+                            <input type="text" class="form-control" id="docno" name="txtcashreceiptdocno" value='<s:property value="txtcashreceiptdocno"/>' tabindex="-1" style="flex: 1;"/>
+                            <button class="btn-form" type="button" id="btnvaluechange" name="btnvaluechange" onclick="funwarningopen();">Value Change</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="grid grid-split">
+        <div class="grid grid-split entrance-wrapper stagger-2">
             
-            <div class="ui-card animate-slide-up delay-2">
+            <div class="glass-card">
                 <h3 class="card-title">Cash Details</h3>
                 
                 <div class="grid grid-2" style="margin-bottom: 24px;">
                     <div class="form-group">
                         <label class="form-label">Cash Account</label>
-                        <input type="text" class="form-control" id="txtfromaccid" name="txtfromaccid" placeholder="Press F3 to Search" value='<s:property value="txtfromaccid"/>' onkeydown="getAcc(event);"/>
+                        <input type="text" class="form-control" id="txtfromaccid" name="txtfromaccid" placeholder="[F3] Search" value='<s:property value="txtfromaccid"/>' onkeydown="getAcc(event);"/>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Account Name</label>
@@ -1225,7 +770,7 @@ html body #full select#currency:focus{
                 </div>
             </div>
 
-            <div class="ui-card animate-slide-up delay-2">
+            <div class="glass-card">
                 <h3 class="card-title">Payment Source</h3>
                 
                 <div class="grid grid-3" style="margin-bottom: 24px;">
@@ -1239,7 +784,7 @@ html body #full select#currency:focus{
                     </div>
                     <div class="form-group">
                         <label class="form-label">Account ID</label>
-                        <input type="text" class="form-control" id="txttoaccid" name="txttoaccid" placeholder="Press F3 to Search" value='<s:property value="txttoaccid"/>' onkeydown="getAccType(event);"/>
+                        <input type="text" class="form-control" id="txttoaccid" name="txttoaccid" placeholder="[F3] Search" value='<s:property value="txttoaccid"/>' onkeydown="getAccType(event);"/>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Account Name</label>
@@ -1279,45 +824,49 @@ html body #full select#currency:focus{
 
         </div>
 
-        <div class="ui-card animate-slide-up delay-3">
-            <h3 class="card-title">Apply Invoices</h3>
-            
-            <div class="grid-container" id="jqxApplyInvoicing1">
-                <jsp:include page="applyCashReceiptInvoicingGrid.jsp"></jsp:include>
-            </div>
-            
-            <div class="grid grid-3">
-                <div class="form-group">
-                    <label class="form-label">Allocation Amount</label>
-                    <input type="text" class="form-control text-right" id="txtapplyinvoiceamt" name="txtapplyinvoiceamt" value='<s:property value="txtapplyinvoiceamt"/>'/>
-                    <input type="hidden" id="txtvalidation" name="txtvalidation" value='<s:property value="txtvalidation"/>'/>
+        <div class="entrance-wrapper stagger-3">
+            <div class="glass-card">
+                <h3 class="card-title">Apply Invoices</h3>
+                
+                <div class="grid-container" id="jqxApplyInvoicing1">
+                    <jsp:include page="applyCashReceiptInvoicingGrid.jsp"></jsp:include>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Total Applied</label>
-                    <input type="text" class="form-control text-right" id="txtapplyinvoiceapply" name="txtapplyinvoiceapply" value='<s:property value="txtapplyinvoiceapply"/>' tabindex="-1"/>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Remaining Balance</label>
-                    <input type="text" class="form-control text-right" id="txtapplyinvoicebalance" name="txtapplyinvoicebalance" value='<s:property value="txtapplyinvoicebalance"/>' tabindex="-1"/>
+                
+                <div class="grid grid-3">
+                    <div class="form-group">
+                        <label class="form-label">Allocation Amount</label>
+                        <input type="text" class="form-control text-right" id="txtapplyinvoiceamt" name="txtapplyinvoiceamt" value='<s:property value="txtapplyinvoiceamt"/>'/>
+                        <input type="hidden" id="txtvalidation" name="txtvalidation" value='<s:property value="txtvalidation"/>'/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Total Applied</label>
+                        <input type="text" class="form-control text-right" id="txtapplyinvoiceapply" name="txtapplyinvoiceapply" value='<s:property value="txtapplyinvoiceapply"/>' tabindex="-1"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Remaining Balance</label>
+                        <input type="text" class="form-control text-right" id="txtapplyinvoicebalance" name="txtapplyinvoicebalance" value='<s:property value="txtapplyinvoicebalance"/>' tabindex="-1"/>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="ui-card animate-slide-up delay-4">
-            <h3 class="card-title">Receipt Lines</h3>
-            
-            <div class="grid-container" id="jqxCashReceiptGrid">
-                <jsp:include page="cashReceiptGrid.jsp"></jsp:include>
-            </div>
-            
-            <div class="totals-area">
-                <div class="total-field">
-                    <label class="form-label">Debit Total (Dr.)</label>
-                    <input type="text" class="form-control text-right" id="txtdrtotal" name="txtdrtotal" value='<s:property value="txtdrtotal"/>'/>
+        <div class="entrance-wrapper stagger-4">
+            <div class="glass-card">
+                <h3 class="card-title">Receipt Lines</h3>
+                
+                <div class="grid-container" id="jqxCashReceiptGrid">
+                    <jsp:include page="cashReceiptGrid.jsp"></jsp:include>
                 </div>
-                <div class="total-field">
-                    <label class="form-label">Credit Total (Cr.)</label>
-                    <input type="text" class="form-control text-right" id="txtcrtotal" name="txtcrtotal" value='<s:property value="txtcrtotal"/>' tabindex="-1"/>
+                
+                <div class="totals-area">
+                    <div class="total-field">
+                        <label class="form-label">Debit Total (Dr.)</label>
+                        <input type="text" class="form-control text-right" id="txtdrtotal" name="txtdrtotal" value='<s:property value="txtdrtotal"/>'/>
+                    </div>
+                    <div class="total-field">
+                        <label class="form-label">Credit Total (Cr.)</label>
+                        <input type="text" class="form-control text-right" id="txtcrtotal" name="txtcrtotal" value='<s:property value="txtcrtotal"/>' tabindex="-1"/>
+                    </div>
                 </div>
             </div>
         </div>
