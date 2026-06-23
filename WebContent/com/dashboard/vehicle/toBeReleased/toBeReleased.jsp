@@ -435,6 +435,18 @@ input:disabled, select:disabled, textarea:disabled,
     flex: 100%;
 }
 </style>
+<style>
+#dashreleasetime{
+    width:70px !important;
+    min-width:70px !important;
+}
+
+#dashreleasetime .jqx-widget,
+#dashreleasetime .jqx-input,
+#dashreleasetime .jqx-datetimeinput{
+    width:70px !important;
+}
+</style>
 </head>
 <body onload="getBranch();setValues();">
 <form id="frmReleaseDashBoard" action="saveReleaseDashBoard" method="post" autocomplete="off">

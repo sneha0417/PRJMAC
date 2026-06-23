@@ -6,130 +6,173 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>GatewayERP(i)</title>
+<title>GatewayERP(i) | Bank Receipt</title>
 <jsp:include page="../../../../includes.jsp"></jsp:include>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 /* =========================================================
-   SCOPED UI: Modern Layout (Matches Client Master & Cash Receipts)
+   PREMIUM ROYAL BLUE THEME (Matches Login & Dashboard UI)
 ========================================================= */
+:root {
+    --bg-page: #EEF4FF;
+    --navy-blue: #12355B;
+    --royal-blue: #2563EB;
+    --sky-blue: #60A5FA;
+    --white: #FFFFFF;
+    --text-dark: #1E293B;
+    --text-muted: #64748B;
+    --border-color: #E2E8F0;
+    --input-bg: #F8FAFC;
+    
+    --font-family: 'Inter', sans-serif;
+    --shadow-sm: 0 2px 4px rgba(10, 35, 66, 0.05);
+    --shadow-md: 0 4px 10px rgba(10, 35, 66, 0.08);
+    --shadow-card: 0 10px 25px rgba(10, 35, 66, 0.1);
+}
+
 body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
-    color: #222;
+    background-color: var(--bg-page);
+    font-family: var(--font-family);
+    color: var(--text-dark);
     margin: 0;
-    padding: 24px 0;
+    padding: 20px;
     box-sizing: border-box;
     overflow-y: auto !important;
 }
 
 #mainBG {
-    background: #fff;
-    border-radius: 16px;
-    padding: 15px;
+    background: var(--white);
+    border-radius: 20px;
+    padding: 25px 30px;
     max-width: 100%;
     margin: 0 auto;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-color);
 }
 
 .modern-ui {
-    font-family: Arial, sans-serif; 
-    color: #333;
-    font-size: 12px; 
-    padding: 5px 15px;
-    box-sizing: border-box;
+    font-family: var(--font-family); 
+    color: var(--text-dark);
+    font-size: 13px; 
     width: 100%;
 }
 
-/* Master Input Heights - Forced to 24px */
+/* Master Input Heights & Styling */
 .modern-ui input[type="text"],
 .modern-ui select { 
-    height: 24px !important; 
-    border: 1px solid #b8c6d8; 
-    border-radius: 3px; 
-    padding: 2px 6px;
-    font-size: 12px;
+    height: 32px !important; 
+    border: 1px solid var(--border-color); 
+    border-radius: 6px; 
+    padding: 0 10px;
+    font-family: var(--font-family);
+    font-size: 13px;
     box-sizing: border-box; 
-    background-color: #fff; 
-    color: #333;
+    background-color: var(--input-bg); 
+    color: var(--text-dark);
     width: 100%;
+    transition: all 0.2s ease;
+}
+
+select.form-control, .modern-ui select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748B'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 1.2em;
+    padding-right: 25px;
 }
 
 .modern-ui input[type="text"]:focus,
 .modern-ui select:focus { 
-    border-color: #007bff; 
+    border-color: var(--royal-blue); 
     outline: none;
+    background-color: var(--white);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .modern-ui input[readonly],
 .modern-ui input:disabled,
 .modern-ui select:disabled { 
-    background-color: #f8f9fa; 
-    color: #6b7280;
+    background-color: #F1F5F9; 
+    color: #94A3B8;
+    cursor: not-allowed;
+    border-color: #E2E8F0;
 }
 
 /* Layout Utilities */
 .modern-ui .field-row { 
     display: flex;
     align-items: center; 
-    gap: 8px;
-    margin-bottom: 10px; 
+    gap: 12px;
+    margin-bottom: 15px; 
     flex-wrap: wrap;
 }
 
 .modern-ui .lbl-right { 
     text-align: right; 
-    color: #444;
-    font-size: 12px; 
-    font-weight: bold;
+    color: var(--navy-blue);
+    font-size: 13px; 
+    font-weight: 600;
     white-space: nowrap; 
     padding-right: 5px;
 }
 
-/* FIXED: Middle Section Panels */
+/* Middle Section Panels - Clean Card Look */
 .modern-ui .middle-panel {
-    border: 1px solid #c5d3e0; 
-    padding: 20px 10px 10px 10px; 
-    background: #ffffff; 
+    border: 1px solid var(--border-color); 
+    padding: 25px 20px 15px 20px; 
+    background: var(--white); 
     position: relative; 
-    border-radius: 4px; 
-    margin-bottom: 15px;
-    margin-top: 12px;
+    border-radius: 12px; 
+    margin-bottom: 20px;
+    margin-top: 15px;
+    box-shadow: var(--shadow-sm);
 }
 
 .modern-ui .middle-panel-title { 
     position: absolute; 
     top: -12px;
-    left: 10px; 
-    background: #ffffff; 
-    padding: 0 8px; 
-    color: #0056b3;
-    font-weight: bold; 
-    font-size: 14px; 
-    border-left: 3px solid #0056b3;
+    left: 15px; 
+    background: var(--white); 
+    padding: 0 10px; 
+    color: var(--royal-blue);
+    font-weight: 700; 
+    font-size: 13px; 
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     z-index: 2; 
-    line-height: normal; 
 }
 
-/* Custom UI Buttons matching 24px height */
+/* Custom Action Buttons */
 .modern-ui .myButton {
-    height: 24px !important;
-    line-height: 22px !important;
-    padding: 0 12px;
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    font-weight: bold;
-    border-radius: 3px;
+    height: 32px !important;
+    padding: 0 16px;
+    font-family: var(--font-family);
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 50px; /* Pill shape matching login */
     cursor: pointer;
-    text-shadow: none;
-    transition: all 0.2s;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
     border: none;
-    background: linear-gradient(135deg, #0b45a2 0%, #2563eb 100%);
-    color: #ffffff;
+    background: var(--royal-blue);
+    color: var(--white);
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.modern-ui .myButton:hover { background: linear-gradient(135deg, #083a8a 0%, #1d4ed8 100%); }
+.modern-ui .myButton:hover { 
+    background: var(--navy-blue); 
+    transform: translateY(-1px);
+    box-shadow: 0 6px 10px rgba(18, 53, 91, 0.3);
+}
 
 /* Search Icon Wrapper */
 .modern-ui .input-search-container {
@@ -137,82 +180,100 @@ body {
     display: flex;
 }
 .modern-ui .input-search-container input {
-    padding-right: 25px !important;
+    padding-right: 30px !important;
 }
 .modern-ui .magnifier-icon {
     position: absolute;
-    right: 6px; 
+    right: 8px; 
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    color: #64748b; 
+    color: var(--sky-blue); 
     z-index: 10;
+    transition: color 0.2s;
 }
-.modern-ui .magnifier-icon:hover { color: #2563eb; }
+.modern-ui .magnifier-icon:hover { color: var(--royal-blue); }
+
+/* Custom Checkbox */
+.modern-ui input[type="checkbox"] {
+    accent-color: var(--royal-blue);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
 
 /* Grid Wrappers */
 .modern-ui .grid-container {
-    border: 1px solid #c5d3e0;
-    border-radius: 4px;
-    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--white);
     overflow: hidden;
 }
 
 /* Validation Label */
-.modern-ui .val-error { color: red; font-size: 11px; font-weight:bold; }
+.modern-ui .val-error { color: #EF4444; font-size: 12px; font-weight:600; }
+
+/* Overriding jqxDateTimeInput to fit modern style */
+.jqx-widget-content {
+    font-family: var(--font-family) !important;
+    border-color: var(--border-color) !important;
+    border-radius: 6px !important;
+}
 
 /* Scrollbar Logic */
 .hidden-scrollbar {
     overflow-y: auto;
-    height: calc(100vh - 150px);
-    padding-right: 5px;
+    height: calc(100vh - 120px);
+    padding-right: 8px;
 }
 .hidden-scrollbar::-webkit-scrollbar { width: 6px; }
-.hidden-scrollbar::-webkit-scrollbar-thumb { background: #c5d3e0; border-radius: 3px; }
+.hidden-scrollbar::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+.hidden-scrollbar::-webkit-scrollbar-track { background: transparent; }
 </style>
 
 <script type="text/javascript">
 	$(document).ready(function() {
 		 $("#btnvaluechange").hide();
 		
-		 $("#jqxBankReceiptDate").jqxDateTimeInput({ width: '120px', height: 24, formatString:"dd.MM.yyyy", theme: 'energyblue'});
-		 $("#jqxChequeDate").jqxDateTimeInput({ width: '110px', height: 24, formatString:"dd.MM.yyyy", theme: 'energyblue'});
-		 $("#maindate").jqxDateTimeInput({ width: '120px', height: 24, formatString:"dd.MM.yyyy"});
+		 $("#jqxBankReceiptDate").jqxDateTimeInput({ width: '120px', height: 32, formatString:"dd.MM.yyyy", theme: 'energyblue'});
+		 $("#jqxChequeDate").jqxDateTimeInput({ width: '110px', height: 32, formatString:"dd.MM.yyyy", theme: 'energyblue'});
+		 $("#maindate").jqxDateTimeInput({ width: '120px', height: 32, formatString:"dd.MM.yyyy"});
 
-         /* Force internal alignment AFTER render for modern 24px UI */
+         /* Force internal alignment AFTER render for modern UI */
          setTimeout(function () {
              $("#jqxBankReceiptDate, #jqxChequeDate, #maindate").find("input").css({
                  "margin-top": "0px",
-                 "line-height": "24px",
-                 "font-size": "12px", 
-                 "font-family": "Arial, sans-serif", 
-                 "padding": "0 6px", 
-                 "box-sizing":"border-box"
+                 "line-height": "32px",
+                 "font-size": "13px", 
+                 "font-family": "Inter, sans-serif", 
+                 "padding": "0 10px", 
+                 "box-sizing":"border-box",
+                 "background-color": "#F8FAFC"
              });
              $("#jqxBankReceiptDate, #jqxChequeDate, #maindate").find(".jqx-action-button").css({
                  "top": "0px",
-                 "height": "24px"
+                 "height": "32px"
              });
          }, 0);
-		 
+		 
 		 $('#accountDetailsToWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Accounts Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
 		 $('#accountDetailsToWindow').jqxWindow('close');  
-		 
+		 
 		 $('#accountDetailsFromWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Accounts Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
 		 $('#accountDetailsFromWindow').jqxWindow('close');
-		 
+		 
 		 $('#bankReceiptGridWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Accounts Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
 		 $('#bankReceiptGridWindow').jqxWindow('close');
-		 
+		 
 		 $('#costTypeSearchGridWindow').jqxWindow({width: '25%', height: '58%',  maxHeight: '70%' ,maxWidth: '25%' , title: 'Cost Type Search',position: { x: 420, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
- 		 $('#costTypeSearchGridWindow').jqxWindow('close');
- 		 
- 		 $('#costCodeSearchWindow').jqxWindow({width: '25%', height: '58%',  maxHeight: '70%' ,maxWidth: '25%' , title: 'Cost Code Search',position: { x: 420, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
+		 $('#costTypeSearchGridWindow').jqxWindow('close');
+		 
+		 $('#costCodeSearchWindow').jqxWindow({width: '25%', height: '58%',  maxHeight: '70%' ,maxWidth: '25%' , title: 'Cost Code Search',position: { x: 420, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
 		 $('#costCodeSearchWindow').jqxWindow('close');
-		 
+		 
 		 $('#printWindow').jqxWindow({width: '51%', height: '28%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Print',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
 		 $('#printWindow').jqxWindow('close');
-		 
+		 
 		 $('#jqxBankReceiptDate').on('change', function (event) {
 				 var bankreceiptdate = $('#jqxBankReceiptDate').jqxDateTimeInput('getDate');
 				 var validdate=funDateInPeriod(bankreceiptdate);
@@ -221,13 +282,13 @@ body {
 					return 0;	
 				 }
 		 });
-			 
+			 
 		$('#txtfromaccid').dblclick(function(){
 			  var date = $('#jqxBankReceiptDate').jqxDateTimeInput('getDate');
           	  $("#maindate").jqxDateTimeInput('val', date);
 			  accountFromSearchContent(<%=contextPath+"/"%>+"com/finance/accountsDetailsSearch.jsp?date="+date);
 		});
-		 
+		 
 		$('#txttoaccid').dblclick(function(){
 			  var date = $('#jqxBankReceiptDate').jqxDateTimeInput('getDate');
           	  $("#maindate").jqxDateTimeInput('val', date);
@@ -332,8 +393,8 @@ body {
 		    getCurrencyId(date);
 			
 			if ($("#mode").val() == "E") {
- 		    	$("#btnvaluechange").show();
- 		    	$('#frmBankReceipt input').attr('readonly', true );
+		    	$("#btnvaluechange").show();
+		    	$('#frmBankReceipt input').attr('readonly', true );
 		        $('#frmBankReceipt select').attr('disabled', true);
 			    $('#chckpdc').attr('disabled', true);
 		        $('#jqxChequeDate').jqxDateTimeInput({disabled: true});
@@ -438,9 +499,9 @@ body {
 	    	document.getElementById("errormsg").innerText="";
 	    		
 	    /* Validation Ends*/
-	    
+	     
 	    $('#jqxChequeDate').jqxDateTimeInput({disabled: false});
-	    
+	     
 	    	/* Bank Receipt Grid  Saving*/
 	 		  var rows = $("#jqxBankReceipt").jqxGrid('getrows');
 	 		  var length=0;
@@ -773,7 +834,7 @@ body {
 <div class='modern-ui hidden-scrollbar'>
 
     <div class="middle-panel">
-        <span class="middle-panel-title">General Info</span>
+        <span class="middle-panel-title"><i class="fa-solid fa-circle-info" style="margin-right: 5px;"></i> General Info</span>
         <div class="field-row" style="margin-bottom:0;">
             <label class="lbl-right" style="width:80px;">Date</label>
             <div style="width: 125px;">
@@ -787,19 +848,21 @@ body {
             <label class="lbl-right" style="width:80px; margin-left:auto;">Doc No.</label>
             <input type="text" id="docno" name="txtbankreceiptdocno" value='<s:property value="txtbankreceiptdocno"/>' tabindex="-1" style="width:120px;" readonly />
             
-            <button class="myButton" type="button" id="btnvaluechange" name="btnvaluechange" onclick="funwarningopen();">Value Change</button>
+            <button class="myButton" type="button" id="btnvaluechange" name="btnvaluechange" onclick="funwarningopen();" style="margin-left: 15px;">
+                <i class="fa-solid fa-pen-to-square" style="margin-right: 6px;"></i> Value Change
+            </button>
         </div>
     </div>
 
-    <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+    <div style="display: flex; gap: 20px; margin-bottom: 20px;">
         <div class="middle-panel" style="flex: 1; margin-bottom: 0;">
-            <span class="middle-panel-title">Bank</span>
+            <span class="middle-panel-title"><i class="fa-solid fa-building-columns" style="margin-right: 5px;"></i> Bank</span>
             
             <div class="field-row">
                 <label class="lbl-right" style="width:100px;">Bank Account</label>
                 <div class="input-search-container" style="width: 120px;">
                     <input type="text" id="txtfromaccid" name="txtfromaccid" placeholder="Press F3" value='<s:property value="txtfromaccid"/>' onkeydown="getAcc(event);" />
-                    <svg class="magnifier-icon" onclick="var d=$('#jqxBankReceiptDate').jqxDateTimeInput('getDate'); $('#maindate').jqxDateTimeInput('val', d); accountFromSearchContent('<%=contextPath%>/com/finance/accountsDetailsSearch.jsp?date='+d);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <i class="fa-solid fa-magnifying-glass magnifier-icon" onclick="var d=$('#jqxBankReceiptDate').jqxDateTimeInput('getDate'); $('#maindate').jqxDateTimeInput('val', d); accountFromSearchContent('<%=contextPath%>/com/finance/accountsDetailsSearch.jsp?date='+d);"></i>
                 </div>
                 <input type="text" id="txtfromaccname" name="txtfromaccname" value='<s:property value="txtfromaccname"/>' style="flex:1;" tabindex="-1" readonly />
                 <input type="hidden" id="txtfromdocno" name="txtfromdocno" value='<s:property value="txtfromdocno"/>' />
@@ -819,16 +882,16 @@ body {
 
             <div class="field-row">
                 <label class="lbl-right" style="width:100px; display:flex; align-items:center; justify-content:flex-end;">
-                    <input type="checkbox" id="chckpdc" name="chckpdc" onclick="funCheck();funPDCDate($('#hidchckpdc').val(),$('#jqxBankReceiptDate').jqxDateTimeInput('getDate'),$('#jqxChequeDate').jqxDateTimeInput('getDate'));" style="margin: 0 5px 0 0;"> PDC
+                    <input type="checkbox" id="chckpdc" name="chckpdc" onclick="funCheck();funPDCDate($('#hidchckpdc').val(),$('#jqxBankReceiptDate').jqxDateTimeInput('getDate'),$('#jqxChequeDate').jqxDateTimeInput('getDate'));" style="margin: 0 8px 0 0;"> PDC
                 </label>
                 <input type="hidden" id="hidchckpdc" name="hidchckpdc" value='<s:property value="hidchckpdc"/>'/>
                 <input type="hidden" id="txtpdcacno" name="txtpdcacno" value='<s:property value="txtpdcacno"/>'/>
 
                 <label class="lbl-right" style="width:75px; margin-left:auto;">Cheque No.</label>
-                <input type="text" id="txtchequeno" name="txtchequeno" style="width:100px;" value='<s:property value="txtchequeno"/>' />
+                <input type="text" id="txtchequeno" name="txtchequeno" style="width:120px;" value='<s:property value="txtchequeno"/>' />
 
                 <label class="lbl-right" style="width:80px; margin-left:auto;">Cheque Date</label>
-                <div style="width: 110px;">
+                <div style="width: 120px;">
                     <div id="jqxChequeDate" name="jqxChequeDate" onchange="funPDCDate($('#hidchckpdc').val(),$('#jqxBankReceiptDate').jqxDateTimeInput('getDate'),$('#jqxChequeDate').jqxDateTimeInput('getDate'));" value='<s:property value="jqxChequeDate"/>'></div>
                     <input type="hidden" id="hidjqxChequeDate" name="hidjqxChequeDate" value='<s:property value="hidjqxChequeDate"/>'/>
                 </div>
@@ -836,7 +899,7 @@ body {
             
             <div class="field-row">
                 <label class="lbl-right" style="width:100px;">Amount</label>
-                <input type="text" id="txtfromamount" name="txtfromamount" style="width:120px; text-align:right;" value='<s:property value="txtfromamount"/>' onblur="funRoundAmt(this.value,this.id);getBaseAmountFrom();getDrTotal();" />
+                <input type="text" id="txtfromamount" name="txtfromamount" style="width:120px; text-align:right; font-weight: bold; color: var(--royal-blue);" value='<s:property value="txtfromamount"/>' onblur="funRoundAmt(this.value,this.id);getBaseAmountFrom();getDrTotal();" />
                 
                 <label class="lbl-right" style="width:80px; margin-left:auto;">Base Amount</label>
                 <input type="text" id="txtfrombaseamount" name="txtfrombaseamount" style="width:120px; text-align:right;" value='<s:property value="txtfrombaseamount"/>' tabindex="-1" readonly />
@@ -849,7 +912,7 @@ body {
         </div>
 
         <div class="middle-panel" style="flex: 1; margin-bottom: 0;">
-            <span class="middle-panel-title">Payment From</span>
+            <span class="middle-panel-title"><i class="fa-solid fa-money-bill-transfer" style="margin-right: 5px;"></i> Payment From</span>
             
             <div class="field-row">
                 <label class="lbl-right" style="width:80px;">Type</label>
@@ -861,7 +924,7 @@ body {
                 
                 <div class="input-search-container" style="width: 120px; margin-left: 10px;">
                     <input type="text" id="txttoaccid" name="txttoaccid" placeholder="Press F3" value='<s:property value="txttoaccid"/>' onkeydown="getAccType(event);" />
-                    <svg class="magnifier-icon" onclick="var d=$('#jqxBankReceiptDate').jqxDateTimeInput('getDate'); $('#maindate').jqxDateTimeInput('val', d); accountToSearchContent('<%=contextPath%>/com/finance/clientAccountDetailsSearch.jsp?atype='+$('#cmbtotype').val()+'&date='+d);" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <i class="fa-solid fa-magnifying-glass magnifier-icon" onclick="var d=$('#jqxBankReceiptDate').jqxDateTimeInput('getDate'); $('#maindate').jqxDateTimeInput('val', d); accountToSearchContent('<%=contextPath%>/com/finance/clientAccountDetailsSearch.jsp?atype='+$('#cmbtotype').val()+'&date='+d);"></i>
                 </div>
                 <input type="text" id="txttoaccname" name="txttoaccname" value='<s:property value="txttoaccname"/>' style="flex:1;" tabindex="-1" readonly />
                 <input type="hidden" id="txttodocno" name="txttodocno" value='<s:property value="txttodocno"/>' />
@@ -883,7 +946,7 @@ body {
             
             <div class="field-row" style="margin-bottom:0;">
                 <label class="lbl-right" style="width:80px;">Amount</label>
-                <input type="text" id="txttoamount" name="txttoamount" style="width:120px; text-align:right;" value='<s:property value="txttoamount"/>' onblur="funRoundAmt(this.value,this.id);getBaseAmountTo();getCrTotal();getAmount();" onfocus="this.oldvalue = this.value;" onchange="funPaymentAmount(this);this.oldvalue = this.value;" />
+                <input type="text" id="txttoamount" name="txttoamount" style="width:120px; text-align:right; font-weight: bold; color: var(--royal-blue);" value='<s:property value="txttoamount"/>' onblur="funRoundAmt(this.value,this.id);getBaseAmountTo();getCrTotal();getAmount();" onfocus="this.oldvalue = this.value;" onchange="funPaymentAmount(this);this.oldvalue = this.value;" />
                 
                 <label class="lbl-right" style="width:80px; margin-left:auto;">Base Amount</label>
                 <input type="text" id="txttobaseamount" name="txttobaseamount" style="width:120px; text-align:right;" value='<s:property value="txttobaseamount"/>' tabindex="-1" readonly />
@@ -892,36 +955,36 @@ body {
     </div>
 
     <div class="middle-panel">
-        <span class="middle-panel-title">Apply Invoices</span>
+        <span class="middle-panel-title"><i class="fa-solid fa-file-invoice" style="margin-right: 5px;"></i> Apply Invoices</span>
         <div id="bankApplyInvoicing1" class="grid-container">
             <jsp:include page="applyBankReceiptInvoicingGrid.jsp"></jsp:include>
         </div>
         
         <div class="field-row" style="margin-top: 15px; justify-content: flex-end; margin-bottom:0;">
             <label class="lbl-right" style="width:60px;">Amount</label>
-            <input type="text" id="txtapplyinvoiceamt" name="txtapplyinvoiceamt" style="width:100px; text-align:right;" value='<s:property value="txtapplyinvoiceamt"/>' readonly />
+            <input type="text" id="txtapplyinvoiceamt" name="txtapplyinvoiceamt" style="width:120px; text-align:right; font-weight: bold;" value='<s:property value="txtapplyinvoiceamt"/>' readonly />
             <input type="hidden" id="txtvalidation" name="txtvalidation" value='<s:property value="txtvalidation"/>' />
             
             <label class="lbl-right" style="width:60px; margin-left:15px;">Applied</label>
-            <input type="text" id="txtapplyinvoiceapply" name="txtapplyinvoiceapply" style="width:100px; text-align:right;" value='<s:property value="txtapplyinvoiceapply"/>' tabindex="-1" readonly />
+            <input type="text" id="txtapplyinvoiceapply" name="txtapplyinvoiceapply" style="width:120px; text-align:right; color: #059669; font-weight: bold;" value='<s:property value="txtapplyinvoiceapply"/>' tabindex="-1" readonly />
             
             <label class="lbl-right" style="width:60px; margin-left:15px;">Balance</label>
-            <input type="text" id="txtapplyinvoicebalance" name="txtapplyinvoicebalance" style="width:100px; text-align:right;" value='<s:property value="txtapplyinvoicebalance"/>' tabindex="-1" readonly />
+            <input type="text" id="txtapplyinvoicebalance" name="txtapplyinvoicebalance" style="width:120px; text-align:right; color: #DC2626; font-weight: bold;" value='<s:property value="txtapplyinvoicebalance"/>' tabindex="-1" readonly />
         </div>
     </div>
 
     <div class="middle-panel">
-        <span class="middle-panel-title">Receipt Allocation</span>
+        <span class="middle-panel-title"><i class="fa-solid fa-list-check" style="margin-right: 5px;"></i> Receipt Allocation</span>
         <div id="jqxBankReceiptGrid" class="grid-container">
             <jsp:include page="bankReceiptGrid.jsp"></jsp:include>
         </div>
         
         <div class="field-row" style="margin-top: 15px; justify-content: flex-end; margin-bottom:0;">
             <label class="lbl-right" style="width:60px;">Dr. Total</label>
-            <input type="text" id="txtdrtotal" name="txtdrtotal" style="width:100px; text-align:right;" value='<s:property value="txtdrtotal"/>' readonly />
+            <input type="text" id="txtdrtotal" name="txtdrtotal" style="width:120px; text-align:right; font-weight: bold; background-color: #F1F5F9;" value='<s:property value="txtdrtotal"/>' readonly />
             
             <label class="lbl-right" style="width:60px; margin-left:15px;">Cr. Total</label>
-            <input type="text" id="txtcrtotal" name="txtcrtotal" style="width:100px; text-align:right;" value='<s:property value="txtcrtotal"/>' tabindex="-1" readonly />
+            <input type="text" id="txtcrtotal" name="txtcrtotal" style="width:120px; text-align:right; font-weight: bold; background-color: #F1F5F9;" value='<s:property value="txtcrtotal"/>' tabindex="-1" readonly />
         </div>
     </div>
 

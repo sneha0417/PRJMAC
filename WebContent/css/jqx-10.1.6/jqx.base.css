@@ -1,81 +1,36 @@
 :root {
-    /* --- Modernized Spacing & Heights --- */
-    --jqx-grid-row-height: 40px; /* Increased from 20px for modern readability */
-    --jqx-grid-column-height: 48px; /* Taller, cleaner header */
-    --jqx-grid-show-column-lines: 0; /* Hides vertical lines for a clean SaaS look */
-    --jqx-list-item-height: 36px;
-    --jqx-grid-filter-menu-items-height: 36px;
+    --jqx-grid-row-height: 20px;
+    --jqx-grid-column-height: 24px;
+    --jqx-grid-show-column-lines: 1;
+    --jqx-list-item-height: -1;
+    --jqx-grid-filter-menu-items-height: 30px;
     --jqx-dropdown-animation: transform;
-    --jqx-datetimeinput-dropdown-height: 300px;
-    --jqx-datetimeinput-dropdown-width: 300px;
-    --jqx-calendar-header-height: 48px;
-    --jqx-calendar-title-height: 48px;
-
-    /* --- Modern Typography & Geometry --- */
-    --jqx-border-radius: 10px; /* Matches the new input fields */
-    --jqx-font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    --jqx-font-size: 14px; /* Increased from 12px */
-    --jqx-action-button-size: 28px;
-
-    /* --- Icons Preserved --- */
-    --jqx-icon-calendar: '\e829';
-    --jqx-icon-filter: '\f0b0';
-    --jqx-icon-menu: '\f0c9';
-    --jqx-icon-check: '\e908';
-    --jqx-icon-first-page: '\e900';
-    --jqx-icon-arrow-down: '\e901';
-    --jqx-icon-arrow-left: '\e902';
-    --jqx-icon-arrow-right: '\e903';
-    --jqx-icon-arrow-up: '\e904';
-    --jqx-icon-arrow-down-filled: '\e812';
-    --jqx-icon-arrow-left-filled: '\e816';
-    --jqx-icon-arrow-right-filled: '\e81e';
-    --jqx-icon-arrow-up-filled: '\e815';
-    --jqx-icon-visibility: '\e90d';
-    --jqx-icon-visibility-off: '\e90e';
-    --jqx-icon-last-page: '\e905';
-    --jqx-icon-close: '\e80d';
-    --jqx-icon-search: '\e828';
-}
-
-/* --- Force JQX Grids to match the Modern Theme --- */
-.jqx-widget, .jqx-widget-content {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 14px !important;
-    color: #1E293B !important;
-    border-color: #E2E8F0 !important;
-}
-
-.jqx-widget-header {
-    background: #F8FAFC !important;
-    color: #475569 !important;
-    font-weight: 700 !important;
-    border-color: #E2E8F0 !important;
-}
-
-/* Modern Hover & Selection States */
-.jqx-fill-state-hover {
-    background: #F1F5F9 !important;
-    border-color: #CBD5E1 !important;
-    color: #2563EB !important;
-}
-
-.jqx-fill-state-pressed {
-    background: rgba(37, 99, 235, 0.05) !important;
-    border-color: rgba(37, 99, 235, 0.3) !important;
-    color: #2563EB !important;
-}
-
-/* Fix Calendar/Dropdown Inputs */
-.jqx-input {
-    border-radius: 10px !important;
-    border: 1px solid #E2E8F0 !important;
-    background: #F8FAFC !important;
-}
-.jqx-input:focus {
-    background: #FFFFFF !important;
-    border-color: #2563EB !important;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+    --jqx-datetimeinput-dropdown-height: 280px;
+    --jqx-datetimeinput-dropdown-width: 280px;
+    --jqx-calendar-header-height: 40px;
+    --jqx-calendar-title-height: 49px;
+    --jqx-icon-calendar: '\e829'; /* Code of calendar icon */
+    --jqx-icon-filter: '\f0b0'; /* Code of filter icon */
+    --jqx-icon-menu: '\f0c9'; /* Code of menu icon */
+    --jqx-icon-check: '\e908'; /* Code of check icon */
+    --jqx-icon-first-page: '\e900'; /* Code of first page icon */
+    --jqx-icon-arrow-down: '\e901'; /* Code of down arrow icon */
+    --jqx-icon-arrow-left: '\e902'; /* Code of left arrow icon */
+    --jqx-icon-arrow-right: '\e903'; /* Code of right arrow icon */
+    --jqx-icon-arrow-up: '\e904'; /* Code of up arrow icon */
+    --jqx-icon-arrow-down-filled: '\e812'; /* Code of filled down arrow icon */
+    --jqx-icon-arrow-left-filled: '\e816'; /* Code of filled left arrow icon */
+    --jqx-icon-arrow-right-filled: '\e81e'; /* Code of filled right arrow icon */
+    --jqx-icon-arrow-up-filled: '\e815'; /* Code of filled up arrow icon */
+    --jqx-icon-visibility: '\e90d'; /* Code of visibility icon */
+    --jqx-icon-visibility-off: '\e90e'; /* Code of visibility off icon */
+    --jqx-icon-last-page: '\e905'; /* Code of last page icon */
+    --jqx-icon-close: '\e80d'; /* Code of close icon */
+    --jqx-icon-search: '\e828'; /* Code of search icon */
+    --jqx-border-radius: 4px;
+    --jqx-font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --jqx-font-size: 12px;
+    --jqx-action-button-size: 25px;
 }
 
 /*Rounded Corners*/
