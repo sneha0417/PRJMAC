@@ -1,9 +1,8 @@
-
 <jsp:include page="../../../../includes.jsp"></jsp:include>    
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%
 	String contextPath=request.getContextPath();
- %>
+%>
 <!DOCTYPE html>
 <html>
 
@@ -13,106 +12,66 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GatewayERP(i)</title>
 <link href="../../../../css/dashboard.css" media="screen" rel="stylesheet" type="text/css" />  
-<%-- <script type="text/javascript" src="../../js/dashboard.js"></script> --%> 
 
 <style type="text/css">
- 
-.myButtons {
-	-moz-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	-webkit-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	
-	font-size:8pt;
-	
-	padding:3px 17px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
-}
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
-}
-.myButtons:active {
-	position:relative;
-	top:1px;
-}
-
-.bicon {
-    background-color: #ECF8E0;
-	width: 1em;
-	height: 1em;
-	border: none;
-}
-
-</style>
-<style>
-/* ===== GLOBAL RESET & STRICT FONT ENFORCER ===== */
-html, body, table, td, th, input, select, textarea, button, span, div, label {
+/* ===== MASTER LAYOUT COMPLIANT WITH REFERENCE UI ===== */
+body, html, #mainBG, .hidden-scrollbar {
+    height: 100%;
     margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif !important;
+    overflow: hidden;
 }
 
-body {
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
     background-color: #f4f7f9;
 }
 
-/* ===== THE NUCLEAR FIX: FIXED SIDEBAR ===== */
-/* This detaches the sidebar from the table and locks it strictly to your monitor's viewport */
-.fixed-sidebar-container {
-    position: fixed; 
-    top: 0;                   
-    bottom: 0; /* Locks to the exact bottom of the browser, ignoring table height */
-    left: 0;
-    width: 310px; 
-    overflow-y: auto; /* Guarantees a scrollbar */
+/* Sidebar Wrapper Layout */
+.sidebar-filters {
+    width: 330px;
+    flex: 0 0 330px;
     background: #fff;
     border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     box-shadow: 2px 0 8px rgba(0,0,0,.05);
-    z-index: 9999; /* Ensures it floats above everything */
+    z-index: 2;
 }
 
-.fixed-sidebar-container::-webkit-scrollbar {
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 20px 25px;
+}
+
+/* Sidebar Custom Scrollbar */
+.sidebar-scroll-content::-webkit-scrollbar {
     width: 6px;
 }
-.fixed-sidebar-container::-webkit-scrollbar-track {
+.sidebar-scroll-content::-webkit-scrollbar-track {
     background: transparent;
 }
-.fixed-sidebar-container::-webkit-scrollbar-thumb {
+.sidebar-scroll-content::-webkit-scrollbar-thumb {
     background-color: #cbd5e1;
     border-radius: 10px;
 }
 
-.sidebar-content-padding {
-    padding: 15px;
-    padding-bottom: 100px; /* MASSIVE padding ensures you can scroll way past the bottom buttons */
-}
-
-/* Cards */
+/* UI Cards Panels */
 .filter-card {
     background: #f8fafc;
     border: 1px solid #e3e8ee;
     border-radius: 12px;
-    padding: 15px 12px;
-    margin-bottom: 15px;
+    padding: 15px;
+    margin-bottom: 12px;
 }
 
 /* Specific styling for the Action Cards (View/Add) */
@@ -126,39 +85,41 @@ body {
     border-bottom: 1px solid #e3e8ee;
     padding-bottom: 5px;
 }
+
 .action-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     justify-content: center;
 }
-.action-grid .btn-submit {
+
+.action-grid button {
     flex: 1;
     min-width: 45%; 
 }
+
 .action-grid .btn-full {
     flex: 100%;
 }
 
-/* Tables */
+/* Layout Form Filter Grids */
 .release-filter-table {
     width: 100%;
-    border-spacing: 0 12px; 
+    border-spacing: 0 10px; 
 }
 
-/* WIDENED LABELS */
 .release-filter-table .label-cell {
     text-align: right;
     padding-right: 12px;
-    font-size: 11.5px; 
+    font-size: 12px; 
     color: #4e5e71;
     font-weight: 600;
-    width: 110px; 
+    width: 90px;
     white-space: nowrap; 
     line-height: 1.2;
 }
 
-/* ===== UNIFORM INPUTS ===== */
+/* ===== ENFORCED UNIFORM 24px GRID INPUTS ELEMENTS ===== */
 input[type="text"], select,
 .release-filter-table input[type="text"],
 .release-filter-table select {
@@ -168,8 +129,8 @@ input[type="text"], select,
     border: 1px solid #ccd6e0 !important;
     border-radius: 4px;
     font-size: 12px;
-    background-color: #ffffff !important; 
-    box-shadow: none !important; 
+    background-color: #ffffff !important;
+    box-shadow: none !important;
     box-sizing: border-box;
     color: #333;
     outline: none;
@@ -179,39 +140,29 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-textarea, .release-filter-table textarea {
-    width: 100%;
-    padding: 4px 8px;
-    border: 1px solid #ccd6e0;
-    border-radius: 4px;
-    font-size: 12px;
-    background-color: #ffffff;
-    box-sizing: border-box;
-    color: #333;
-    font-family: inherit;
-    resize: none;
-}
-
-input[readonly], select[readonly], textarea[readonly],
-input:disabled, select:disabled, textarea:disabled,
+/* Readonly fields styling setup */
+input[readonly], select[readonly],
+input:disabled, select:disabled,
 .release-filter-table input[readonly] {
-    background-color: #f8fafc !important; 
+    background-color: #f3f6f9 !important; 
     color: #555;
     cursor: default;
 }
 
-/* ===== SEARCH INFRASTRUCTURE ===== */
+/* Search Box Wrapper Controls */
 .search-input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
     width: 100%;
 }
+
 .search-input-wrapper input[type="text"] {
     width: 100%;
     padding-right: 26px; 
     cursor: pointer;
 }
+
 .search-icon {
     position: absolute;
     right: 6px;
@@ -224,7 +175,7 @@ input:disabled, select:disabled, textarea:disabled,
     opacity: 0.8;
 }
 
-/* Sleek Clear Button */
+/* Cleaner Clear Control Component */
 .btn-clear-inline {
     background: transparent;
     border: none;
@@ -240,305 +191,273 @@ input:disabled, select:disabled, textarea:disabled,
 }
 .btn-clear-inline:hover svg {
     opacity: 1;
-    stroke: #dc2626; 
+    stroke: #dc2626;
 }
 
+/* Form Layout Container Blocks for JQX widgets */
 .release-filter-table div[id^="fromdate"],
 .release-filter-table div[id^="todate"] {
     width: 100%;
 }
 
-/* ===== BUTTONS ===== */
-.btn-submit {
-    width: 100%;
-    height: 30px;
-    padding: 0 12px;
-    background: #2563eb;
-    color: #fff;
+/* ===== REQUIRED VISUAL BLUE BUTTON SCALING DEFINITIONS ===== */
+.btn-primary {
+    height: 28px;
+    background-color: #1e6bf2; /* Exact specific blue matching image */
     border: none;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: 600;
+    border-radius: 8px;        /* Corner styling parameters */
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
     cursor: pointer;
-    line-height: 30px;
-}
-.btn-submit:hover {
-    background: #1d4ed8;
-}
-.btn-secondary {
-    background: #64748b;
-}
-.btn-secondary:hover {
-    background: #475569;
-}
-.btn-primary-action {
-    background: #059669; 
-}
-.btn-primary-action:hover {
-    background: #047857;
-}
-.release-actions {
+    transition: background-color 0.2s ease, transform 0.1s ease;
     display: flex;
-    gap: 10px;
+    align-items: center;
     justify-content: center;
-    margin-top: 20px;
+    padding: 0 10px;
+}
+
+.btn-primary:hover {
+    background-color: #1656c7;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+    background-color: #9abaf5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secondary {
+    background-color: #64748b;
+}
+
+.btn-secondary:hover {
+    background-color: #475569;
+}
+
+/* Flexible Right Workspace Panel */
+.main-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow: auto;
+    background: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
 }
 </style>
-<script type="text/javascript">
 
+<script type="text/javascript">
 $(document).ready(function () {
-	
-	
-	 
-	  $("body").prepend('<div id="overlay" class="ui-widget-overlay" style="z-index: 1; display: none;"></div>');
-	     $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:180px;right:550px;'><img src='../../../../icons/31load.gif'/></div>");
-		
-	     $('#clientsearch1').jqxWindow({ width: '50%', height: '55%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Client Search' , position: { x: 250, y: 120 }, keyboardCloseKey: 27});
-		  $('#clientsearch1').jqxWindow('close');
-		  
-		     
-		     $("#fromdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-			 $("#todate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-			 var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-			 var onemounth=new Date(new Date(fromdates).setMonth(fromdates.getMonth()-1)); 
-			    
-		     $('#fromdate').jqxDateTimeInput('setDate', new Date(onemounth));
-			 $('#todate').on('change', function (event) {
-					
-				   var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-				 
-				 	 
-				   if(fromdates<todates){
-					   
-					   $.messager.alert('Message','To Date Less Than From Date  ','warning');   
-					 
-				   return false;
-				  }   
-			 });
-	 
-	 
-     $('#txtclient').dblclick(function(){
-		   
-    	 $('#clientsearch1').jqxWindow('open');
-    	 clientSearchContent('clientINgridsearch.jsp?', $('#clientsearch1')); 
-		   		
-		 });
-     	  
+    $("body").prepend('<div id="overlay" class="ui-widget-overlay" style="z-index: 1; display: none;"></div>');
+    $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:180px;right:550px;'><img src='../../../../icons/31load.gif'/></div>");
+    
+    $('#clientsearch1').jqxWindow({ width: '50%', height: '55%', maxHeight: '85%', maxWidth: '80%', title: 'Client Search', position: { x: 250, y: 120 }, keyboardCloseKey: 27});
+    $('#clientsearch1').jqxWindow('close');
+          
+    // 24px UI Height enforcement criteria
+    $("#fromdate").jqxDateTimeInput({ width: '100%', height: '24px', formatString:"dd.MM.yyyy"});
+    $("#todate").jqxDateTimeInput({ width: '100%', height: '24px', formatString:"dd.MM.yyyy"});
+    
+    var fromdates = new Date($('#fromdate').jqxDateTimeInput('getDate'));
+    var onemounth = new Date(new Date(fromdates).setMonth(fromdates.getMonth()-1)); 
+        
+    $('#fromdate').jqxDateTimeInput('setDate', new Date(onemounth));
+    
+    $('#todate').on('change', function (event) {
+        var fromdates = new Date($('#fromdate').jqxDateTimeInput('getDate'));
+        var todates = new Date($('#todate').jqxDateTimeInput('getDate')); 
+        
+        if(fromdates > todates){
+            $.messager.alert('Message','To Date Less Than From Date ','warning');   
+            return false;
+        }   
+    });
+     
+    $('#txtclient').dblclick(function(){
+        $('#clientsearch1').jqxWindow('open');
+        clientSearchContent('clientINgridsearch.jsp?', $('#clientsearch1')); 
+    });
 });
 
-
 function getclinfo(event){
-	 var x= event.keyCode;
-	 if(x==114){
-	  $('#clientsearch1').jqxWindow('open');
-	 clientSearchContent('clientINgridsearch.jsp?', $('#clientsearch1'));    }
-	 else{
-		 }
-	 } 
-     function clientSearchContent(url) {
-           
-               $.get(url).done(function (data) {
-  
-	           $('#clientsearch1').jqxWindow('setContent', data);
-
-    	}); 
-         	}
-
-     function funExportBtn(){
-			
-		JSONToCSVCon(enqlistexcel,'Estimation Followup',true);
-    	 
+    var x = event.keyCode;
+    if(x == 114){
+        $('#clientsearch1').jqxWindow('open');
+        clientSearchContent('clientINgridsearch.jsp?', $('#clientsearch1'));    
     }
-     
-    
-    
+} 
 
-function funreload()
-{
+function clientSearchContent(url) {
+    $.get(url).done(function (data) {
+        $('#clientsearch1').jqxWindow('setContent', data);
+    }); 
+}
 
-     var id=1;
-  
-    if(id>0){
-    	
-    	gridload(id);
+function funExportBtn(){
+    JSONToCSVCon(enqlistexcel,'Estimation Followup',true);
+}
+
+function funreload() {
+    var id = 1;
+    if(id > 0){
+        gridload(id);
     }
+}
+    
+function gridload(id){
+    var clientid = $('#clientid').val();
+    var fromdate = $('#fromdate').val();
+    var todate = $('#todate').val();
+    var barchval = document.getElementById("cmbbranch").value;
+    
+    $("#estfollowupgrid").jqxGrid('clear'); 
+    $("#overlay, #PleaseWait").show();
+    $("#estfollowupdiv").load("estimationFollowupGrid.jsp?barchval="+barchval+"&fromdate="+fromdate+"&todate="+todate+"&clientid="+clientid+"&id="+id);
+}
+       
+function funClear(){
+    $("#estfollowupgrid").jqxGrid('clear'); 
+    document.getElementById("txtclient").value="";
+    document.getElementById("clientid").value="0";
+    $("#txtclient").attr("placeholder", "press F3 for Search");
+}
+
+function disablebtn() {
+    $('#btnenquiry').attr("disabled",true);
+    $('#btnsurvey').attr("disabled",true);
+    $('#btnservicereport').attr("disabled",true);
+    $('#btnqotation').attr("disabled",true);
+    $('#btnestimation').attr("disabled",true);
+    $('#txtuser').attr("disabled",true);
+    $('#btnsave').attr("disabled",true);
+}
+
+function btnsurvey() {
+    var surdocno = document.getElementById("surveydocno").value;
+    var path1 = "com/project/execution/surveyDetails/surveydet.jsp";
+    var url = document.URL;
+    var reurl = url.split("com");
+
+    window.parent.formName.value = "Survey Details";
+    window.parent.formCode.value = "SUR";
+    var detName = "Survey Details";
+    var path = path1+"?modes=view&surdocno="+surdocno;
+    
+    top.addTab( detName,reurl[0]+""+path);
+}
+
+function btnservicereport() {
+    var reportdocno = document.getElementById("reportdocno").value;
+    var url = document.URL;
+    var reurl = url.split("com/");
+    window.parent.formName.value = "Service Report";
+    window.parent.formCode.value = "SRVE";
+    var detName = "Service Report";
+    var path1 = 'com/project/execution/serviceReport/serviceReport.jsp';
+    var path = path1+"?modes=view&reportdocno="+reportdocno;
+    
+    top.addTab( detName,reurl[0]+""+path);
+}
+
+function btnenquiry() {
+    var enqdocno = document.getElementById("enqdocno").value;
+    var brch = document.getElementById("brhid1").value;
+    var path1 = "com/operations/marketing/enquirynew/enquiry.jsp";
+    var url = document.URL;
+    var reurl = url.split("com");
+
+    window.parent.formName.value = "Enquiry";
+    window.parent.formCode.value = "ENQ";
+    var detName = "Enquiry";
+    var path = path1+"?modes=view&enqdocno="+enqdocno+"&brhid="+brch;
+    
+    top.addTab( detName,reurl[0]+""+path);
+}
+
+function btnestimation() {
+    var client = document.getElementById("client").value;
+    var cldocno = document.getElementById("cldocno").value;
+    var ref_type = document.getElementById("refdtype").value;
+    var refdocno = document.getElementById("enqdocno").value;
+    var reftrno = document.getElementById("reftrno").value;
+    var address = document.getElementById("address").value; 
+    var surtrno = document.getElementById("surtrno").value; 
+    
+    var path1 = "com/project/execution/estimationnew/estimation.jsp";
+    var url = document.URL;
+    var reurl = url.split("com");
+
+    window.parent.formName.value = "Estimation";
+    window.parent.formCode.value = "JEST";
+    var detName = "Estimation";
+    var mode = "A";
+    var path = path1+"?mod="+mode+"&client="+client.replace(/\s/g,"%20").replace('#','%23').replace('&','%26')+"&cldocno="+cldocno+"&ref_type="+ref_type
+      +"&refdocno="+refdocno+"&reftrno="+reftrno+"&address="+address.replace(/\s/g,"%20").replace('#','%23').replace('&','%26')+"&surtrno="+surtrno;
      
-	}
-	
-		
+    top.addTab( detName,reurl[0]+""+path);
+}
 
-	 function gridload(id){
-		 
-		 var clientid=$('#clientid').val();
-		 
-		 var fromdate=$('#fromdate').val();
-		 var todate=$('#todate').val();
-		 var barchval = document.getElementById("cmbbranch").value;
-	
-		 
-		 $("#estfollowupgrid").jqxGrid('clear'); 
-			
-		 $("#overlay, #PleaseWait").show();
-			 $("#estfollowupdiv").load("estimationFollowupGrid.jsp?barchval="+barchval+"&fromdate="+fromdate+"&todate="+todate+"&clientid="+clientid+"&id="+id);
-		
-		 
-	 }
-	 
-	 
-	   
-	   function funClear(){
-			$("#estfollowupgrid").jqxGrid('clear'); 
-			
-			
-		   document.getElementById("txtclient").value="";
-		   document.getElementById("clientid").value="0";
-		   $("#txtclient").attr("placeholder", "press F3 for Search");
-		   
-		 
-		   
-	   }
-	function disablebtn()
-	{
-		 $('#btnenquiry').attr("disabled",true);
-		 $('#btnsurvey').attr("disabled",true);
-		 $('#btnservicereport').attr("disabled",true);
-		 $('#btnqotation').attr("disabled",true);
-		 $('#btnestimation').attr("disabled",true);
-		 $('#txtuser').attr("disabled",true);
-		 $('#btnsave').attr("disabled",true);
-	}
-	function btnsurvey()
-	{
-		var surdocno=document.getElementById("surveydocno").value;
-	
-		var path1="com/project/execution/surveyDetails/surveydet.jsp";
-		 var name="Survey Details";
-			 var url=document.URL;
-			var reurl=url.split("com");
+function btnqotation() {
+    var client = document.getElementById("client").value;
+    var cldocno = document.getElementById("cldocno").value;
+    var ref_type = document.getElementById("refdtype").value;
+    var refdocno = document.getElementById("enqdocno").value;
+    var reftrno = document.getElementById("reftrno").value;
+    var address = document.getElementById("address").value;
+    
+    var pertel = document.getElementById("pertel").value;
+    var per_mob = document.getElementById("per_mob").value;
+    var mail1 = document.getElementById("mail1").value;
+    var salname = document.getElementById("salname").value;
+    var salid = document.getElementById("salid").value;
+    var contrtype = document.getElementById("contrtype").value;
+    
+    var surtrno = document.getElementById("surtrno").value;
+    var esttrno = document.getElementById("esttrno").value;
+    var cpersonid = document.getElementById("txtcpersonid").value;
+    var cperson = document.getElementById("txtcperson").value;
+    var cpersondet = document.getElementById("txtcpersondet").value;
+    var sjobtype = document.getElementById("txtsjobtype").value;
+    var clienttaxper = document.getElementById("txtclienttaxper").value;
+        
+    var path1 = "com/project/execution/quotationnew/quotation.jsp";
+    var url = document.URL;
+    var reurl = url.split("com");
 
-		  window.parent.formName.value="Survey Details";
-		  window.parent.formCode.value="SUR";
-		  var detName="Survey Details";
-		  
-		  var path= path1+"?modes=view&surdocno="+surdocno;
-		 
-		   top.addTab( detName,reurl[0]+""+path);
-	}
-	function btnservicereport()
-	{
-		var reportdocno=document.getElementById("reportdocno").value;
-		var url=document.URL;
-		var reurl=url.split("com/");
-		window.parent.formName.value="Service Report";
-		window.parent.formCode.value="SRVE";
-		var detName= "Service Report";
-		 var path1='com/project/execution/serviceReport/serviceReport.jsp';
-		  
-		  var path= path1+"?modes=view&reportdocno="+reportdocno;
-		 
-		   top.addTab( detName,reurl[0]+""+path);
-	}
-	function btnenquiry()
-	{
-		var enqdocno=document.getElementById("enqdocno").value;
-		var brch=document.getElementById("brhid1").value;
-		 var path1="com/operations/marketing/enquirynew/enquiry.jsp";
-			 var name="Enquiry";
-			 var url=document.URL;
-			var reurl=url.split("com");
-
-		  window.parent.formName.value="Enquiry";
-		  window.parent.formCode.value="ENQ";
-		  var detName="Enquiry";
-		  
-		  var path= path1+"?modes=view&enqdocno="+enqdocno+"&brhid="+brch;
-		 
-		   top.addTab( detName,reurl[0]+""+path);
-	}
-	function btnestimation()
-	{
-		var client=document.getElementById("client").value;
-		var cldocno=document.getElementById("cldocno").value;
-		var ref_type=document.getElementById("refdtype").value;
-		var refdocno=document.getElementById("enqdocno").value;
-		var reftrno=document.getElementById("reftrno").value;
-		var address=document.getElementById("address").value; 
-		var surtrno=document.getElementById("surtrno").value; 
-		
-		 var path1="com/project/execution/estimationnew/estimation.jsp";
-			 var name="Estimation";
-			 var url=document.URL;
-			var reurl=url.split("com");
-
-		  window.parent.formName.value="Estimation";
-		  window.parent.formCode.value="JEST";
-		  var detName="Estimation";
-		  var mode="A";
-		  var path= path1+"?mod="+mode+"&client="+client.replace("/\s/g","%20").replace('#','%23').replace('&','%26')+"&cldocno="+cldocno+"&ref_type="+ref_type
-		  +"&refdocno="+refdocno+"&reftrno="+reftrno+"&address="+address.replace("/\s/g","%20").replace('#','%23').replace('&','%26')+"&surtrno="+surtrno;
-		 
-		   top.addTab( detName,reurl[0]+""+path);
-	}
-	function btnqotation()
-	{
-
-		var client=document.getElementById("client").value;
-		var cldocno=document.getElementById("cldocno").value;
-		var ref_type=document.getElementById("refdtype").value;
-		var refdocno=document.getElementById("enqdocno").value;
-		var reftrno=document.getElementById("reftrno").value;
-		var address=document.getElementById("address").value;
-		
-		var pertel=document.getElementById("pertel").value;
-		var per_mob=document.getElementById("per_mob").value;
-		var mail1=document.getElementById("mail1").value;
-		var salname=document.getElementById("salname").value;
-		var salid=document.getElementById("salid").value;
-		var contrtype=document.getElementById("contrtype").value;
-		
-		var surtrno=document.getElementById("surtrno").value;
-		var esttrno=document.getElementById("esttrno").value;
-		var cpersonid=document.getElementById("txtcpersonid").value;
-		var cperson=document.getElementById("txtcperson").value;
-		var cpersondet=document.getElementById("txtcpersondet").value;
-		var sjobtype=document.getElementById("txtsjobtype").value;
-		var clienttaxper=document.getElementById("txtclienttaxper").value;
-			
-		 var path1="com/project/execution/quotationnew/quotation.jsp";
-			 var name="Quotation";
-			 var url=document.URL;
-			var reurl=url.split("com");
-
-		  window.parent.formName.value="Quotation";
-		  window.parent.formCode.value="SQOT";
-		  var detName="Quotation";
-		  var mode="A";
-		  var path= path1+"?mod="+mode+"&client="+client.replace("/\s/g","%20").replace('#','%23').replace('&','%26')+"&cldocno="+cldocno+"&ref_type="+ref_type
-				  +"&refdocno="+refdocno+"&reftrno="+reftrno+"&address="+address.replace("/\s/g","%20").replace('#','%23').replace('&','%26')+"&pertel="+pertel+"&per_mob="+per_mob
-				  +"&mail1="+mail1.replace("/\s/g","%20").replace('#','%23').replace('&','%26')+"&salname="+salname.replace("/\s/g","%20").replace('#','%23').replace('&','%26')
-				  +"&salid="+salid+"&contrtype="+contrtype+"&surtrno="+surtrno+"&esttrno="+esttrno+"&cpersonid="+cpersonid+"&cperson="+cperson.replace("/\s/g","%20").replace('#','%23').replace('&','%26')
-				  +"&cpersondet="+cpersondet.replace("/\s/g","%20").replace('#','%23').replace('&','%26')+"&sjobtype="+sjobtype+"&clienttaxper="+clienttaxper;
-		 
-		   top.addTab( detName,reurl[0]+""+path);
-	}
+    window.parent.formName.value = "Quotation";
+    window.parent.formCode.value = "SQOT";
+    var detName = "Quotation";
+    var mode = "A";
+    var path = path1+"?mod="+mode+"&client="+client.replace(/\s/g,"%20").replace('#','%23').replace('&','%26')+"&cldocno="+cldocno+"&ref_type="+ref_type
+              +"&refdocno="+refdocno+"&reftrno="+reftrno+"&address="+address.replace(/\s/g,"%20").replace('#','%23').replace('&','%26')+"&pertel="+pertel+"&per_mob="+per_mob
+              +"&mail1="+mail1.replace(/\s/g,"%20").replace('#','%23').replace('&','%26')+"&salname="+salname.replace(/\s/g,"%20").replace('#','%23').replace('&','%26')
+              +"&salid="+salid+"&contrtype="+contrtype+"&surtrno="+surtrno+"&esttrno="+esttrno+"&cpersonid="+cpersonid+"&cperson="+cperson.replace(/\s/g,"%20").replace('#','%23').replace('&','%26')
+              +"&cpersondet="+cpersondet.replace(/\s/g,"%20").replace('#','%23').replace('&','%26')+"&sjobtype="+sjobtype+"&clienttaxper="+clienttaxper;
+     
+    top.addTab( detName,reurl[0]+""+path);
+}
 </script>
 </head>
+
 <body onload="getBranch();disablebtn();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
 
-<table width="100%" cellspacing="0" cellpadding="0">
-<tr>
+<div class="master-container">
 
-<td width="310" style="width: 310px; min-width: 310px; padding: 0;">
-    
-    <div class="fixed-sidebar-container">
-        <div class="sidebar-content-padding">
-            
-            <div class="filter-card">
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px; margin-bottom: 0;">
                 <jsp:include page="../../heading.jsp"></jsp:include>
             </div>
+        </div>
 
+        <div class="sidebar-scroll-content">
+            
             <div class="filter-card">
                 <table class="release-filter-table">
                     <tr>
@@ -565,8 +484,8 @@ function funreload()
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" align="center">
-                            <label id="test" class="branch" style="font-weight: bold; color: #2563eb; font-size: 11px; display: block; min-height: 14px; margin: 4px 0;"></label>
+                        <td colspan="2" align="center" style="display: none;">
+                            <label id="test" class="branch"></label>
                         </td>
                     </tr>
                 </table>
@@ -575,17 +494,17 @@ function funreload()
             <div class="filter-card">
                 <div class="card-header">View</div>
                 <div class="action-grid">
-                    <button type="button" id="btnenquiry" name="btnenquiry" class="btn-submit btn-secondary" onclick="btnenquiry();">Enquiry</button>
-                    <button type="button" id="btnsurvey" name="btnsurvey" class="btn-submit btn-secondary" onclick="btnsurvey();">Survey</button>
-                    <button type="button" id="btnservicereport" name="btnservicereport" class="btn-submit btn-secondary btn-full" onclick="btnservicereport();">Service Report</button>
+                    <button type="button" id="btnenquiry" name="btnenquiry" class="btn-primary btn-secondary" onclick="btnenquiry();">Enquiry</button>
+                    <button type="button" id="btnsurvey" name="btnsurvey" class="btn-primary btn-secondary" onclick="btnsurvey();">Survey</button>
+                    <button type="button" id="btnservicereport" name="btnservicereport" class="btn-primary btn-secondary btn-full" onclick="btnservicereport();">Service Report</button>
                 </div>
             </div>
 
             <div class="filter-card">
                 <div class="card-header">Add</div>
                 <div class="action-grid">
-                    <button type="button" id="btnestimation" name="btnestimation" class="btn-submit btn-primary-action" onclick="btnestimation();">Estimation</button>
-                    <button type="button" id="btnqotation" name="btnqotation" class="btn-submit btn-primary-action" onclick="btnqotation();">Quotation</button>
+                    <button type="button" id="btnestimation" name="btnestimation" class="btn-primary" onclick="btnestimation();">Estimation</button>
+                    <button type="button" id="btnqotation" name="btnqotation" class="btn-primary" onclick="btnqotation();">Quotation</button>
                 </div>
             </div>
 
@@ -617,29 +536,16 @@ function funreload()
         </div>
     </div>
 
-</td>
+    <div class="main-content-area">
+        <div id="estfollowupdiv">
+            <jsp:include page="estimationFollowupGrid.jsp"></jsp:include> 
+        </div>
+    </div>
 
-<td style="vertical-align: top; padding: 15px; background: #fff;">
-    <table width="100%">
-        <tr>
-            <td>
-                <div id="estfollowupdiv">
-                    <jsp:include page="estimationFollowupGrid.jsp"></jsp:include> 
-                </div>
-            </td>
-        </tr>
-    </table>
-</td>
-
-</tr>
-</table>
-
-<div id="clientsearch1">
-   <div></div>
-</div> 
-<div id="userinfowindow">
-   <div></div>
 </div>
+
+<div id="clientsearch1"><div></div></div> 
+<div id="userinfowindow"><div></div></div>
 
 </div>
 </div>
