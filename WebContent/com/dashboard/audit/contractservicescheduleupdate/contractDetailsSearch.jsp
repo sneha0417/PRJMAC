@@ -1,5 +1,5 @@
- <%@ taglib prefix="s" uri="/struts-tags" %>
- <% String contextPath=request.getContextPath(); %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<% String contextPath=request.getContextPath(); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,18 +9,126 @@
 <link href="<%=contextPath%>/css/body.css" media="screen" rel="stylesheet" type="text/css" />
 <title>GatewayERP(i)</title>
 
-<style type="text/css">
-#search {
-    background-color: #E0ECF8;
+<%
+String contracttype = request.getParameter("contracttype")==null?"0":request.getParameter("contracttype");
+String cldocno = request.getParameter("cldocno")==null?"0":request.getParameter("cldocno"); 
+%>
+
+<style>
+/* =========================================================
+   SCOPED UI: Pure White Panel (Strict Weight Control)
+========================================================= */
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+.modern-ui {
+    font-size: 12px;
+    color: #333;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #ffffff !important;
+}
+
+/* Strict weight enforcement for injected content */
+.modern-ui, .modern-ui table, .modern-ui td, .modern-ui input, .modern-ui select, .modern-ui button {
+    font-weight: 400 !important; 
+}
+
+/* Master Input Styles */
+.modern-ui input[type="text"],
+.modern-ui select {
+    height: 24px !important;
+    border: 1px solid #cccccc; 
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 12px; 
+    font-family: inherit;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #333;
+    width: 100%;
+}
+
+.modern-ui input[type="text"]:focus,
+.modern-ui select:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+/* Panel Styling */
+.modern-ui .search-panel {
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 15px 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Table Alignment */
+.modern-ui table {
+    border-collapse: separate;
+    border-spacing: 5px 8px; 
+    width: 100%;
+    table-layout: fixed; 
+}
+
+.modern-ui td {
+    vertical-align: middle;
+}
+
+.modern-ui .lbl-right { 
+    text-align: right; 
+    color: #333;
+    font-size: 12px; 
+    font-weight: 600 !important;
+    white-space: nowrap; 
+    padding-right: 5px;
+}
+
+/* =========================================================
+   BULLETPROOF BUTTON UI: Dark Blue + Hover
+========================================================= */
+.modern-ui .myButton {
+    height: 24px !important; 
+    padding: 0 24px !important;
+    background-color: #205fd3 !important; 
+    background-image: none !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 4px !important; 
+    cursor: pointer !important;
+    font-family: Arial, sans-serif !important; 
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    line-height: 24px !important;
+    transition: background-color 0.2s ease !important;
+    width: auto !important;
+    min-width: 110px;
+    box-sizing: border-box !important;
+}
+
+.modern-ui .myButton:hover {
+    background-color: #124096 !important; 
+}
+
+/* Grid Container */
+.modern-ui .grid-container {
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+    min-height: 250px;
 }
 </style>
- <%
 
- String contracttype = request.getParameter("contracttype")==null?"0":request.getParameter("contracttype");
- String cldocno = request.getParameter("cldocno")==null?"0":request.getParameter("cldocno"); 
-
- 
- %>
 <script type="text/javascript">
 	$(document).ready(function () {}); 
 
@@ -38,173 +146,23 @@
 	function getdata(contractType,cldocno,contractno,refno){
 		 $("#refreshcontractdiv").load('contractDetailsSearchGrid.jsp?contracttype='+contractType+'&cldocno='+cldocno+'&contractno='+contractno.replace(/ /g, "%20")+'&refno='+refno);
 	}
-
-	</script>
-<style>
-/* =========================================================
-   MASTER SEARCH UI - PURE WHITE PANEL
-========================================================= */
-
-body,
-html{
-    margin:0;
-    padding:0;
-    background:#ffffff !important;
-    font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
-}
-
-#search{
-    background:#ffffff !important;
-    padding:10px;
-    font-size:12px;
-    color:#333;
-}
-
-/* Search Panel */
-
-.search-panel{
-    background:#ffffff !important;
-    border:1px solid #d6d6d6;
-    border-radius:4px;
-    padding:12px;
-    margin-bottom:12px;
-}
-
-/* Layout */
-
-.search-panel table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-.search-panel td{
-    padding:6px;
-    vertical-align:middle;
-}
-
-/* Labels */
-
-.lbl-right{
-    text-align:right;
-    white-space:nowrap;
-    font-size:12px;
-    font-weight:500;
-    color:#333;
-    padding-right:8px;
-}
-
-/* Inputs */
-
-.search-panel input[type=text]{
-    width:100%;
-    height:26px !important;
-    border:1px solid #cfcfcf;
-    border-radius:3px;
-    padding:2px 8px;
-    box-sizing:border-box;
-    background:#ffffff;
-    font-size:12px;
-}
-
-.search-panel input[type=text]:focus{
-    border-color:#2563eb;
-    outline:none;
-}
-
-/* Search Button */
-
-.myButton{
-    width:110px !important;
-    height:30px !important;
-    background:#205fd3 !important;
-    background-image:none !important;
-    color:#ffffff !important;
-    border:1px solid #205fd3 !important;
-    border-radius:4px !important;
-    font-size:12px !important;
-    font-weight:600 !important;
-    text-shadow:none !important;
-    box-shadow:none !important;
-    opacity:1 !important;
-    cursor:pointer;
-}
-
-.myButton:hover{
-    background:#184fb4 !important;
-    color:#ffffff !important;
-}
-
-/* Grid */
-
-.grid-container{
-    background:#ffffff !important;
-    border:1px solid #cccccc;
-    border-radius:4px;
-    overflow:hidden;
-    min-height:250px;
-}
-/* FORCE BUTTON STYLE */
-
-input.myButton,
-button.myButton,
-.myButton {
-
-    min-width:110px !important;
-    width:110px !important;
-    height:30px !important;
-
-    background:#205fd3 !important;
-    background-image:none !important;
-
-    color:#ffffff !important;
-    font-size:12px !important;
-    font-weight:600 !important;
-    font-family:'Segoe UI',Tahoma,sans-serif !important;
-
-    border:1px solid #205fd3 !important;
-    border-radius:4px !important;
-
-    text-shadow:none !important;
-    box-shadow:none !important;
-
-    opacity:1 !important;
-    visibility:visible !important;
-
-    cursor:pointer !important;
-}
-
-input.myButton:hover,
-button.myButton:hover,
-.myButton:hover {
-
-    background:#184fb4 !important;
-    background-image:none !important;
-    color:#ffffff !important;
-}
-</style>
+</script>
+</head>
 
 <body>
 
-<div id="search">
-
-    <!-- Search Panel -->
+<div id="search" class="modern-ui">
 
     <div class="search-panel">
-
-        <table>
-
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <colgroup>
-                <col width="12%">
-                <col width="55%">
-                <col width="33%">
+                <col width="15%">
+                <col width="50%">
+                <col width="35%">
             </colgroup>
 
             <tr>
-
-                <td class="lbl-right">
-                    Contract No.
-                </td>
-
+                <td class="lbl-right">Contract No.</td>
                 <td>
                     <input type="text"
                            name="txtcontractsno"
@@ -212,42 +170,21 @@ button.myButton:hover,
                            value='<s:property value="txtcontractsno"/>'>
                 </td>
 
-                <td align="left">
-
-             <button type="button"
-        id="btnsearch"
-        onclick="loadContractSearch();"
-        style="
-            width:110px;
-            height:30px;
-            background:#205fd3;
-            color:#ffffff;
-            border:1px solid #205fd3;
-            border-radius:4px;
-            font-size:12px;
-            font-weight:600;
-            cursor:pointer;">
-    Search
-</button>
-
+                <td align="left" valign="middle" style="padding-left: 10px;">
+                    <input type="button" 
+                           id="btnsearch" 
+                           class="myButton" 
+                           onclick="loadContractSearch();" 
+                           value="Search">
                 </td>
-
             </tr>
-
         </table>
-
     </div>
 
-    <!-- Grid -->
-
     <div class="grid-container">
-
         <div id="refreshcontractdiv">
-
             <jsp:include page="contractDetailsSearchGrid.jsp"></jsp:include>
-
         </div>
-
     </div>
 
 </div>

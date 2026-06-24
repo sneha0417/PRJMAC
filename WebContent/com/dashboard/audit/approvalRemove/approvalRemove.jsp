@@ -1,4 +1,3 @@
-
 <jsp:include page="../../../../includes.jsp"></jsp:include>     
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <% String contextPath=request.getContextPath();%>
@@ -11,386 +10,98 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GatewayERP(i)</title>
 <link href="../../../../css/dashboard.css" media="screen" rel="stylesheet" type="text/css" />  
-<%-- <script type="text/javascript" src="../../js/dashboard.js"></script> --%>
 <script type="text/javascript" src="<%=contextPath%>/js/ajaxfileupload.js"></script>
 
- 
-<script type="text/javascript">
-
-$(document).ready(function () {
-	
-	   
-	   $('#docwindow').jqxWindow({ width: '20%', height: '60%',  maxHeight: '62%' ,maxWidth: '60%' , title: 'DocNo Search' ,position: { x: 250, y: 120 }, keyboardCloseKey: 27});
-	   $('#docwindow').jqxWindow('close');
-	   $('#dtypewindow').jqxWindow({ width: '20%', height: '60%',  maxHeight: '62%' ,maxWidth: '60%' , title: 'DocType Search' ,position: { x: 250, y: 120 }, keyboardCloseKey: 27});
-	   $('#dtypewindow').jqxWindow('close');
-	   $("body").prepend('<div id="overlay" class="ui-widget-overlay" style="z-index: 1; display: none;"></div>');
-	     $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:180px;right:550px;'><img src='../../../../icons/31load.gif'/></div>");
-	   
-	   
-	   
-	   $('#doctype').dblclick(function(){
-	  	    $('#dtypewindow').jqxWindow('open');
-	   
-	  	  dtypeSearchContent('dtypesearch.jsp?', $('#dtypewindow')); 
-       }); 
-	   
-	 $("#fromdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-	 $("#todate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-	 var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-	 var onemounth=new Date(new Date(fromdates).setMonth(fromdates.getMonth()-1)); 
-	    
-     $('#fromdate').jqxDateTimeInput('setDate', new Date(onemounth));
-	 $('#todate').on('change', function (event) {
-			
-		   var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-		 
-		  // out date
-		 	 var todates=new Date($('#todate').jqxDateTimeInput('getDate')); //del date
-		 	 
-		   if(fromdates>todates){
-			   
-			   $.messager.alert('Message','To Date Less Than From Date  ','warning');   
-			 
-		   return false;
-		  }   
-	 });
-});
-function funExportBtn(){
-	   $("#detailsgrid").jqxGrid('exportdata', 'xls', 'Rental List');
-	 }
-function getdtype(event){
-	 var x= event.keyCode;
-	 if(x==114){
-	  $('#dtypewindow').jqxWindow('open');
-	dtypeSearchContent('dtypesearch.jsp?', $('#dtypewindow'));    }
-	 else{
-		 }
-	 } 
-function dtypeSearchContent(url) {
-	 //alert(url);
-		 $.get(url).done(function (data) {
-			 
-			 $('#dtypewindow').jqxWindow('open');
-		$('#dtypewindow').jqxWindow('setContent', data);
-
-	}); 
-	} 
-function getdocno(event){
-	
-	var dtype=$("#doctype").val();
-	if(dtype==""){
-		$.messager.alert('Message','Select a Document Type To Continue  ','warning');
-		return 0;
-	}
-	
-	
-	 var x= event.keyCode;
-	 if(x==114){
-	  $('#docwindow').jqxWindow('open');
-	docnoSearchContent('docsearch.jsp?dtype='+dtype, $('#docwindow'));    }
-	 else{
-		 }
-	 } 
-function docnoSearchContent(url) {
-	 //alert(url);
-		 $.get(url).done(function (data) {
-			 
-			 $('#docwindow').jqxWindow('open');
-		$('#docwindow').jqxWindow('setContent', data);
-
-	}); 
-	}  
-function funreload(event)
-{
-
-	  var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-		 
-	  // out date
-	 	 var todates=new Date($('#todate').jqxDateTimeInput('getDate')); //del date
-	 	 
-	   if(fromdates>todates){
-		   
-		   $.messager.alert('Message','To Date Less Than From Date  ','warning');   
-		 
-	   return false;
-	  } 
-	   else
-		   {
-	 var barchval = document.getElementById("brhid").value;
-     var fromdate= $("#fromdate").val();
-	 var todate= $("#todate").val(); 
-	   $("#overlay, #PleaseWait").show();
-	  $("#detlist").load("detailsGrid.jsp?barchval="+barchval+"&fromdate="+fromdate+"&todate="+todate+"&doc_no="+document.getElementById("doc_no").value+"&dtype="+$("#doctype").val());
-	
-		   }
-	}
-
-
-
-
-function  funcleardata()
-{
-	
-	document.getElementById("doc_no").value="";
-	document.getElementById("doctype").value="";
-	document.getElementById("brhid").value="";
-	document.getElementById("reason").value="";
-	
-	 if (document.getElementById("doc_no").value == "") {
-			
-		 
-	        $('#doc_no').attr('placeholder', 'Press F3 TO Search'); 
-	    }
-	 if (document.getElementById("doctype").value == "") {
-			
-		 
-	        $('#doctype').attr('placeholder', 'Press F3 TO Search'); 
-	    }
-	 if (document.getElementById("brhid").value == "") {
-			
-		 
-	        $('#brhid').attr('placeholder', 'Press F3 TO Search'); 
-	    }
-	
-	}
-	
-	
-function saveApprremove()  
-{  
-
-	if($("#doc_no").val()=="" || $("#doctype").val()=="" || $("#brhid").val()==""){
-		
-		 $.messager.alert('Message','Select an Approval to Remove  ','warning');
-		
-		//alert('Select an Approval to Remove');
-		
-		return 0;
-		
-	}
-/*  var reftypid=document.getElementById("reftypid").value; */     
-	/* alert("===docno==="+$("#hidocno").val()+"===&dtype="+$("#hidtype").val()+"&userid===="+$("#hiuserid").val()+"==&brchid="+$("#hibrchid").val()+"===&desc="+$("#txtdesc").val()); */
-    $.ajaxFileUpload  
-    (  
-        {  
-            url:'removeApprove.action?docno='+$("#doc_no").val()+'&dtype='+$("#doctype").val()+'&brchid='+$("#brhid").val()+'&reason='+$("#reason").val(),
-            secureuri:false,//false  
-            fileElementId:'file',//id  <input type="file" id="file" name="file" />  
-            dataType: 'String',// json  
-            success: function (data, status)  //  
-            {  
-                //alert(data.message);//jsonmessage,messagestruts2
-           	
-         //       $('#refreshdiv').load();
-                <%-- var data='<%= com.common.ClsAttach.reload(docNo) %>';
-                alert("============="+data); --%>
-               if(status=='success'){
-              	 
-            		  $("#detlist").load("detailsGrid.jsp?barchval="+$("#brhid").val()+"&fromdate="+$("#fromdate").val()+"&todate="+$("#todate").val()+"&doc_no="+$("#doc_no").val()+"&dtype="+$("#doctype").val());
-            	   
-            	   
-                   $.messager.show({title:'Message',msg:'Approval Removed Successfully',showType:'show',
-                      style:{left:15,right:'',top:document.body.scrollTop+document.documentElement.scrollTop,bottom:''}
-                  }); 
-                }
-               
-                if(typeof(data.error) != 'undefined')  
-                {  
-                    if(data.error != '')  
-                    {  
-                        //$.messager.alert('Message',data.error);
-                        $.messager.show({title:'Message',msg: data.error,showType:'show',
-                            style:{left:'',right:27,top:document.body.scrollTop+document.documentElement.scrollTop,bottom:''}
-                        }); 
-                    }else  
-                    {  
-                        //$.messager.alert('Message',data.message);
-                        $.messager.show({title:'Message',msg: data.message,showType:'show',
-	                            style:{left:'',right:27,top:document.body.scrollTop+document.documentElement.scrollTop,bottom:''}
-	                        }); 
-                    }  
-                }  
-            },  
-            error: function (data, status, e)//  
-            {  
-                //alert(e);  
-                $.messager.alert('Message',e);
-            }  
-        }  
-    )  
-    return false;  
-}
-
-	
-
-
-</script>
-<style>
-.myButtons {
-	-moz-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	-webkit-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	
-	font-size:8pt;
-	
-	padding:3px 17px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
-}
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
-}
-.myButtons:active {
-	position:relative;
-	top:1px;
-}
-
-</style>
-
-<style>
-/* ===== GLOBAL RESET ===== */
-html, body {
+<style type="text/css">
+/* ===== MASTER LAYOUT COMPLIANT WITH REFERENCE UI ===== */
+body, html, #mainBG, .hidden-scrollbar {
     height: 100%;
     margin: 0;
-    padding: 0;
-    overflow: hidden; /* Prevents the whole page from double-scrolling */
+    overflow: hidden;
+}
+
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
     background-color: #f4f7f9;
-    font-family: Tahoma, Arial, sans-serif; /* Safe native fonts */
 }
 
-#mainBG, .hidden-scrollbar {
-    height: 100%;
-}
-
-table, td, th, input, select, textarea, button, span, div, label, p {
-    font-family: inherit; /* Allows your app's native fonts to cascade properly */
-}
-
-/* ===== THE FIXED SIDEBAR ===== */
-.fixed-sidebar-container {
-    position: fixed; 
-    top: 0;                   
-    bottom: 0; 
-    left: 0;
-    width: 310px; 
-    overflow-y: auto; 
+/* Sidebar Wrapper Layout */
+.sidebar-filters {
+    width: 330px;
+    flex: 0 0 330px;
     background: #fff;
     border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     box-shadow: 2px 0 8px rgba(0,0,0,.05);
-    z-index: 10; /* POPUP FIX: Search windows will float over this */
+    z-index: 2;
 }
 
-.fixed-sidebar-container::-webkit-scrollbar {
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 20px 25px;
+}
+
+/* Sidebar Custom Scrollbar */
+.sidebar-scroll-content::-webkit-scrollbar {
     width: 6px;
 }
-.fixed-sidebar-container::-webkit-scrollbar-track {
+.sidebar-scroll-content::-webkit-scrollbar-track {
     background: transparent;
 }
-.fixed-sidebar-container::-webkit-scrollbar-thumb {
+.sidebar-scroll-content::-webkit-scrollbar-thumb {
     background-color: #cbd5e1;
     border-radius: 10px;
 }
 
-.sidebar-content-padding {
-    padding: 15px;
-    padding-bottom: 100px; 
-}
-
-/* ===== INDEPENDENT SCROLLABLE RIGHT COLUMN ===== */
-.scrollable-column {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    overflow-y: auto;
-}
-.scrollable-column::-webkit-scrollbar {
-    width: 8px;
-}
-.scrollable-column::-webkit-scrollbar-track {
-    background: #f0f4f8;
-}
-.scrollable-column::-webkit-scrollbar-thumb {
-    background-color: #cbd5e1;
-    border-radius: 10px;
-}
-
-/* SCROLL FIX: Added a dedicated padding class for the right side */
-.main-content-padding {
-    padding: 15px;
-    padding-bottom: 150px; /* Massive safe buffer to guarantee bottom scrolling */
-}
-
-/* ===== CARDS & HEADERS ===== */
+/* UI Cards Panels */
 .filter-card {
     background: #f8fafc;
     border: 1px solid #e3e8ee;
     border-radius: 12px;
-    padding: 15px 12px;
-    margin-bottom: 15px;
+    padding: 15px;
+    margin-bottom: 12px;
 }
 
-/* ===== TABLES & ROW SPACING ===== */
+/* Layout Form Filter Grids */
 .release-filter-table {
     width: 100%;
-    border-spacing: 0; 
+    border-spacing: 0 10px; 
 }
 
-/* Forces a tighter, balanced vertical gap between rows */
-.release-filter-table td {
-    padding-bottom: 8px !important; 
-    vertical-align: middle;
-}
-
-/* Removes the padding from the very last row */
-.release-filter-table tr:last-child td {
-    padding-bottom: 0 !important;
-}
-
-/* WIDENED LABELS */
 .release-filter-table .label-cell {
     text-align: right;
     padding-right: 12px;
     font-size: 12px; 
     color: #4e5e71;
     font-weight: 600;
-    width: 70px; 
+    width: 90px;
     white-space: nowrap; 
     line-height: 1.2;
 }
 
-/* ===== UNIFORM INPUTS & SPACIOUS HEIGHT ===== */
+/* ===== ENFORCED UNIFORM 24px GRID INPUTS ELEMENTS ===== */
 input[type="text"], select,
 .release-filter-table input[type="text"],
 .release-filter-table select {
     width: 100%;
-    height: 28px; /* SPACIOUS FIX: 28px height */
+    height: 24px;
     padding: 2px 8px;
     border: 1px solid #ccd6e0 !important;
     border-radius: 4px;
     font-size: 12px;
-    background-color: #ffffff !important; 
-    box-shadow: none !important; 
+    background-color: #ffffff !important;
+    box-shadow: none !important;
     box-sizing: border-box;
     color: #333;
     outline: none;
@@ -400,55 +111,44 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
+/* Specific styling for Textarea */
 textarea, .release-filter-table textarea {
     width: 100%;
     padding: 6px 8px;
-    border: 1px solid #ccd6e0;
+    border: 1px solid #ccd6e0 !important;
     border-radius: 4px;
     font-size: 12px;
-    background-color: #ffffff;
+    background-color: #ffffff !important;
     box-sizing: border-box;
     color: #333;
     resize: none;
+    outline: none;
 }
 
-/* ===== STRICT DISABLED & READONLY STYLING (THE REAL FIX) ===== */
-input:disabled, select:disabled, textarea:disabled,
+/* Readonly fields styling setup */
 input[readonly]:not([readonly="false"]), 
-select[readonly]:not([readonly="false"]), 
-textarea[readonly]:not([readonly="false"]) {
-    background-color: #e2e8f0 !important; 
-    color: #64748b !important; 
-    cursor: not-allowed !important; 
-    border-color: #cbd5e1 !important;
-    opacity: 1 !important;
+select[readonly]:not([readonly="false"]),
+input:disabled, select:disabled,
+.release-filter-table input[readonly] {
+    background-color: #f3f6f9 !important; 
+    color: #555;
+    cursor: default;
 }
 
-input:not(:disabled):not([readonly]), 
-input[readonly="false"], input[disabled="false"],
-select:not(:disabled):not([readonly]), 
-select[readonly="false"], select[disabled="false"],
-textarea:not(:disabled):not([readonly]),
-textarea[readonly="false"], textarea[disabled="false"] {
-    cursor: auto !important; 
-    background-color: #ffffff !important; 
-}
-
-/* ===== SEARCH INFRASTRUCTURE (No Clear Button) ===== */
+/* Search Box Wrapper Controls */
 .search-input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
     width: 100%;
 }
+
 .search-input-wrapper input[type="text"] {
     width: 100%;
     padding-right: 26px; 
+    cursor: pointer;
 }
-.search-input-wrapper input[type="text"]:not(:disabled):not([readonly]),
-.search-input-wrapper input[type="text"][readonly="false"] {
-    cursor: pointer !important; 
-}
+
 .search-icon {
     position: absolute;
     right: 6px;
@@ -461,81 +161,258 @@ textarea[readonly="false"], textarea[disabled="false"] {
     opacity: 0.8;
 }
 
-/* jqx date containers */
+/* Form Layout Container Blocks for JQX widgets */
 .release-filter-table div[id^="fromdate"],
 .release-filter-table div[id^="todate"] {
     width: 100%;
 }
 
-/* ===== BUTTONS ===== */
-.btn-submit {
-    width: 100%;
-    height: 30px;
-    padding: 0 12px;
-    background: #2563eb;
-    color: #fff;
+/* ===== REQUIRED VISUAL BLUE BUTTON SCALING DEFINITIONS ===== */
+.btn-primary {
+    height: 28px;
+    background-color: #1e6bf2;
     border: none;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: 600;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
     cursor: pointer;
-    line-height: 30px;
-    margin-top: 5px;
-}
-.btn-submit:hover {
-    background: #1d4ed8;
-}
-.btn-secondary {
-    background: #64748b;
-}
-.btn-secondary:hover {
-    background: #475569;
-}
-.btn-danger {
-    background: #dc2626;
-}
-.btn-danger:hover {
-    background: #b91c1c;
-}
-.release-actions {
+    transition: background-color 0.2s ease, transform 0.1s ease;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: #1656c7;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+    background-color: #9abaf5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secondary {
+    background-color: #64748b;
+}
+
+.btn-secondary:hover {
+    background-color: #475569;
+}
+
+.btn-danger {
+    background-color: #dc2626;
+}
+
+.btn-danger:hover {
+    background-color: #b91c1c;
+}
+
+.action-grid {
+    display: flex;
+    flex-wrap: wrap;
     gap: 8px;
     justify-content: center;
     margin-top: 15px;
 }
-.release-actions .btn-submit {
+
+.action-grid button {
     flex: 1;
+    min-width: 45%; 
 }
 
-/* ===== SEARCH FIELD OVERRIDE: Keep search fields white and clickable even if readonly ===== */
-.search-input-wrapper input[type="text"][readonly],
-.search-input-wrapper input[type="text"][readonly="readonly"] {
-    background-color: #ffffff !important; 
-    color: #333 !important;
-    cursor: pointer !important; /* Shows the pointer finger to indicate it's clickable */
-    border-color: #ccd6e0 !important;
+/* Flexible Right Workspace Panel */
+.main-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow: auto;
+    background: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* Grid Cards */
+.grid-card {
+    background: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
 </style>
-<script>
+
+<script type="text/javascript">
+$(document).ready(function () {
+	
+	   $('#docwindow').jqxWindow({ width: '20%', height: '60%',  maxHeight: '62%' ,maxWidth: '60%' , title: 'DocNo Search' ,position: { x: 250, y: 120 }, keyboardCloseKey: 27});
+	   $('#docwindow').jqxWindow('close');
+	   $('#dtypewindow').jqxWindow({ width: '20%', height: '60%',  maxHeight: '62%' ,maxWidth: '60%' , title: 'DocType Search' ,position: { x: 250, y: 120 }, keyboardCloseKey: 27});
+	   $('#dtypewindow').jqxWindow('close');
+	   
+       $("body").prepend('<div id="overlay" class="ui-widget-overlay" style="z-index: 1; display: none;"></div>');
+	   $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:180px;right:550px;'><img src='../../../../icons/31load.gif'/></div>");
+	   
+	   $('#doctype').dblclick(function(){
+	  	  $('#dtypewindow').jqxWindow('open');
+	  	  dtypeSearchContent('dtypesearch.jsp?', $('#dtypewindow')); 
+       }); 
+	   
+       // Enforced 24px JQX Criteria
+	   $("#fromdate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+	   $("#todate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+	   
+       var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
+	   var onemounth=new Date(new Date(fromdates).setMonth(fromdates.getMonth()-1)); 
+	    
+       $('#fromdate').jqxDateTimeInput('setDate', new Date(onemounth));
+	   $('#todate').on('change', function (event) {
+		   var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
+		 	 var todates=new Date($('#todate').jqxDateTimeInput('getDate')); //del date
+		 	 
+		   if(fromdates>todates){
+			   $.messager.alert('Message','To Date Less Than From Date  ','warning');   
+		       return false;
+		  }   
+	   });
+});
+
+function funExportBtn(){
+	$("#detailsgrid").jqxGrid('exportdata', 'xls', 'Rental List');
+}
+
+function getdtype(event){
+	 var x= event.keyCode;
+	 if(x==114){
+	     $('#dtypewindow').jqxWindow('open');
+	     dtypeSearchContent('dtypesearch.jsp?', $('#dtypewindow'));    
+     }
+} 
+
+function dtypeSearchContent(url) {
+    $.get(url).done(function (data) {
+        $('#dtypewindow').jqxWindow('open');
+        $('#dtypewindow').jqxWindow('setContent', data);
+	}); 
+} 
+
+function getdocno(event){
+	var dtype=$("#doctype").val();
+	if(dtype==""){
+		$.messager.alert('Message','Select a Document Type To Continue  ','warning');
+		return 0;
+	}
+	
+	var x= event.keyCode;
+	if(x==114){
+	    $('#docwindow').jqxWindow('open');
+	    docnoSearchContent('docsearch.jsp?dtype='+dtype, $('#docwindow'));    
+    }
+} 
+
+function docnoSearchContent(url) {
+    $.get(url).done(function (data) {
+        $('#docwindow').jqxWindow('open');
+        $('#docwindow').jqxWindow('setContent', data);
+	}); 
+}  
+
+function funreload(event) {
+	var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
+	var todates=new Date($('#todate').jqxDateTimeInput('getDate')); //del date
+		 	 
+	if(fromdates>todates){
+		$.messager.alert('Message','To Date Less Than From Date  ','warning');   
+	    return false;
+	} else {
+	    var barchval = document.getElementById("brhid").value;
+        var fromdate= $("#fromdate").val();
+	    var todate= $("#todate").val(); 
+	    $("#overlay, #PleaseWait").show();
+	    $("#detlist").load("detailsGrid.jsp?barchval="+barchval+"&fromdate="+fromdate+"&todate="+todate+"&doc_no="+document.getElementById("doc_no").value+"&dtype="+$("#doctype").val());
+	}
+}
+
+function funcleardata() {
+	document.getElementById("doc_no").value="";
+	document.getElementById("doctype").value="";
+	document.getElementById("brhid").value="";
+	document.getElementById("reason").value="";
+	
+	if (document.getElementById("doc_no").value == "") {
+	    $('#doc_no').attr('placeholder', 'Press F3 TO Search'); 
+	}
+	if (document.getElementById("doctype").value == "") {
+	    $('#doctype').attr('placeholder', 'Press F3 TO Search'); 
+	}
+	if (document.getElementById("brhid").value == "") {
+	    $('#brhid').attr('placeholder', 'Press F3 TO Search'); 
+	}
+}
+	
+function saveApprremove() {  
+	if($("#doc_no").val()=="" || $("#doctype").val()=="" || $("#brhid").val()==""){
+		 $.messager.alert('Message','Select an Approval to Remove  ','warning');
+		 return 0;
+	}
+
+    $.ajaxFileUpload({  
+        url:'removeApprove.action?docno='+$("#doc_no").val()+'&dtype='+$("#doctype").val()+'&brchid='+$("#brhid").val()+'&reason='+$("#reason").val(),
+        secureuri:false,//false  
+        fileElementId:'file',//id  <input type="file" id="file" name="file" />  
+        dataType: 'String',// json  
+        success: function (data, status) {  
+           if(status=='success'){
+          	   $("#detlist").load("detailsGrid.jsp?barchval="+$("#brhid").val()+"&fromdate="+$("#fromdate").val()+"&todate="+$("#todate").val()+"&doc_no="+$("#doc_no").val()+"&dtype="+$("#doctype").val());
+               $.messager.show({title:'Message',msg:'Approval Removed Successfully',showType:'show',
+                  style:{left:15,right:'',top:document.body.scrollTop+document.documentElement.scrollTop,bottom:''}
+              }); 
+            }
+           
+            if(typeof(data.error) != 'undefined') {  
+                if(data.error != '') {  
+                    $.messager.show({title:'Message',msg: data.error,showType:'show',
+                        style:{left:'',right:27,top:document.body.scrollTop+document.documentElement.scrollTop,bottom:''}
+                    }); 
+                } else {  
+                    $.messager.show({title:'Message',msg: data.message,showType:'show',
+                        style:{left:'',right:27,top:document.body.scrollTop+document.documentElement.scrollTop,bottom:''}
+                    }); 
+                }  
+            }  
+        },  
+        error: function (data, status, e) {  
+            $.messager.alert('Message',e);
+        }  
+    });  
+    return false;  
+}
 
 </script>
 </head>
+
 <body onload="getBranch();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
 
-<table width="100%" cellspacing="0" cellpadding="0" style="height: 100%;">
-<tr>
+<div class="master-container">
 
-<td width="310" style="width: 310px; min-width: 310px; padding: 0;">
-    
-    <div class="fixed-sidebar-container">
-        <div class="sidebar-content-padding">
-            
-            <div class="filter-card">
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px; margin-bottom: 0;">
                 <jsp:include page="../../heading.jsp"></jsp:include>
             </div>
+        </div>
 
+        <div class="sidebar-scroll-content">
+            
             <div class="filter-card">
                 <table class="release-filter-table">
                     <tr>
@@ -572,14 +449,14 @@ textarea[readonly="false"], textarea[disabled="false"] {
                     <tr>
                         <td class="label-cell">Reason</td>
                         <td>
-                            <textarea name="reason" id="reason" style="height: 90px;"><s:property value="reason"/></textarea>
+                            <textarea name="reason" id="reason" style="height: 60px;"><s:property value="reason"/></textarea>
                         </td>
                     </tr>
                 </table>
 
-                <div class="release-actions">
-                    <button type="button" class="btn-submit btn-secondary" name="clear" id="clear" onclick="funcleardata()">Clear</button>
-                    <button type="button" class="btn-submit btn-danger" name="Remove" id="remove" onclick="saveApprremove()">Remove Approval</button>
+                <div class="action-grid">
+                    <button type="button" class="btn-primary btn-secondary" name="clear" id="clear" onclick="funcleardata()">Clear</button>
+                    <button type="button" class="btn-primary btn-danger" name="Remove" id="remove" onclick="saveApprremove()">Remove Approval</button>
                 </div>
             </div>
 
@@ -592,32 +469,15 @@ textarea[readonly="false"], textarea[disabled="false"] {
         </div>
     </div>
 
-</td>
-
-<td style="vertical-align: top; padding: 0; background: #fff; height: 100%;">
-    
-    <div style="position: relative; height: 100%; width: 100%;">
-        
-        <div class="scrollable-column">
-            <div class="main-content-padding">
-                <table width="100%">
-                    <tr>
-                        <td>
-                            <div id="detlist">
-                                <jsp:include page="detailsGrid.jsp"></jsp:include>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+    <div class="main-content-area">
+        <div class="grid-card">
+            <div id="detlist">
+                <jsp:include page="detailsGrid.jsp"></jsp:include>
             </div>
         </div>
-        
     </div>
 
-</td>
-
-</tr>
-</table>
+</div>
 
 <div id="clientwindow"><div></div></div>
 <div id="fleetwindow"><div></div></div>
@@ -629,4 +489,3 @@ textarea[readonly="false"], textarea[disabled="false"] {
 </div>
 </body>
 </html>
-	 

@@ -1,4 +1,4 @@
- <link href="../../../../css/dashboard.css" media="screen" rel="stylesheet" type="text/css" />   
+<link href="../../../../css/dashboard.css" media="screen" rel="stylesheet" type="text/css" />   
 <jsp:include page="../../../../includes.jsp"></jsp:include>    
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
@@ -8,171 +8,102 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GatewayERP(i)</title>
-<%-- <script type="text/javascript" src="../../js/dashboard.js"></script> --%> 
+
 <style type="text/css">
-.myButtons {
-	display: inline-block;
-	margin-right:4px;
-	margin-left:4px; 
-  margin-bottom: 0;
-  font-weight: normal;
-  line-height: 1.3;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-      touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  background-image: none;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  color: #fff;
-  background-color: grey;
-}
-.myButtons:hover {
-	  color: #fff;
-  background-color: #31b0d5;
-  
-}
-.myButtons:active {
-  color: #fff;
-  background-color: #31b0d5;
-  
-}
-.myButtons:focus {
-  color: #fff;
-  background-color: grey;
-}
-</style>
-<style>
-/* ===== GLOBAL RESET ===== */
-html, body, form {
+/* ===== MASTER LAYOUT COMPLIANT WITH REFERENCE UI ===== */
+body, html, #mainBG, .hidden-scrollbar {
     height: 100%;
     margin: 0;
-    padding: 0;
-    overflow: hidden; /* Prevents the whole page from double-scrolling */
-    background-color: #f4f7f9;
-    font-family: Tahoma, Arial, sans-serif; /* Safe native fonts */
+    overflow: hidden;
 }
 
-#mainBG, .hidden-scrollbar {
+form {
     height: 100%;
+    margin: 0;
 }
 
-table, td, th, input, select, textarea, button, span, div, label, p {
-    font-family: inherit; /* Allows your app's native fonts to cascade properly */
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background-color: #f4f7f9;
 }
 
-/* ===== THE FIXED SIDEBAR ===== */
-.fixed-sidebar-container {
-    position: fixed; 
-    top: 0;                   
-    bottom: 0; 
-    left: 0;
-    width: 310px; 
-    overflow-y: auto; 
+/* Sidebar Wrapper Layout */
+.sidebar-filters {
+    width: 330px;
+    flex: 0 0 330px;
     background: #fff;
     border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     box-shadow: 2px 0 8px rgba(0,0,0,.05);
-    z-index: 10; /* POPUP FIX: Search windows will float over this */
+    z-index: 2;
 }
 
-.fixed-sidebar-container::-webkit-scrollbar {
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 20px 25px;
+}
+
+/* Sidebar Custom Scrollbar */
+.sidebar-scroll-content::-webkit-scrollbar {
     width: 6px;
 }
-.fixed-sidebar-container::-webkit-scrollbar-track {
+.sidebar-scroll-content::-webkit-scrollbar-track {
     background: transparent;
 }
-.fixed-sidebar-container::-webkit-scrollbar-thumb {
+.sidebar-scroll-content::-webkit-scrollbar-thumb {
     background-color: #cbd5e1;
     border-radius: 10px;
 }
 
-.sidebar-content-padding {
-    padding: 15px;
-    padding-bottom: 100px; 
-}
-
-/* ===== INDEPENDENT SCROLLABLE RIGHT COLUMN ===== */
-.scrollable-column {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    overflow-y: auto;
-}
-.scrollable-column::-webkit-scrollbar {
-    width: 8px;
-}
-.scrollable-column::-webkit-scrollbar-track {
-    background: #f0f4f8;
-}
-.scrollable-column::-webkit-scrollbar-thumb {
-    background-color: #cbd5e1;
-    border-radius: 10px;
-}
-
-/* SCROLL FIX: Added a dedicated padding class for the right side */
-.main-content-padding {
-    padding: 15px;
-    padding-bottom: 150px; /* Massive safe buffer to guarantee bottom scrolling */
-}
-
-/* ===== CARDS & HEADERS ===== */
+/* UI Cards Panels */
 .filter-card {
     background: #f8fafc;
     border: 1px solid #e3e8ee;
     border-radius: 12px;
-    padding: 15px 12px;
-    margin-bottom: 15px;
+    padding: 15px;
+    margin-bottom: 12px;
 }
 
-/* ===== TABLES & ROW SPACING ===== */
+/* Layout Form Filter Grids */
 .release-filter-table {
     width: 100%;
-    border-spacing: 0; 
+    border-spacing: 0 10px; 
 }
 
-/* Forces a tighter, balanced vertical gap between rows */
-.release-filter-table td {
-    padding-bottom: 8px !important; 
-    vertical-align: middle;
-}
-
-/* Removes the padding from the very last row */
-.release-filter-table tr:last-child td {
-    padding-bottom: 0 !important;
-}
-
-/* WIDENED LABELS */
 .release-filter-table .label-cell {
     text-align: right;
     padding-right: 12px;
     font-size: 12px; 
     color: #4e5e71;
     font-weight: 600;
-    width: 80px; 
+    width: 90px;
     white-space: nowrap; 
     line-height: 1.2;
 }
 
-/* ===== UNIFORM INPUTS & SPACIOUS HEIGHT ===== */
+/* ===== ENFORCED UNIFORM 24px GRID INPUTS ELEMENTS ===== */
 input[type="text"], select,
 .release-filter-table input[type="text"],
 .release-filter-table select {
     width: 100%;
-    height: 28px; /* SPACIOUS FIX: 28px height */
+    height: 24px;
     padding: 2px 8px;
     border: 1px solid #ccd6e0 !important;
     border-radius: 4px;
     font-size: 12px;
-    background-color: #ffffff !important; 
-    box-shadow: none !important; 
+    background-color: #ffffff !important;
+    box-shadow: none !important;
     box-sizing: border-box;
     color: #333;
     outline: none;
@@ -182,47 +113,28 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-/* ===== STRICT DISABLED & READONLY STYLING (THE REAL FIX) ===== */
-input:disabled, select:disabled, textarea:disabled,
+/* Readonly fields styling setup */
 input[readonly]:not([readonly="false"]), 
-select[readonly]:not([readonly="false"]), 
-textarea[readonly]:not([readonly="false"]) {
-    background-color: #e2e8f0 !important; 
-    color: #64748b !important; 
-    cursor: not-allowed !important; 
-    border-color: #cbd5e1 !important;
-    opacity: 1 !important;
+select[readonly]:not([readonly="false"]),
+input:disabled, select:disabled,
+.release-filter-table input[readonly] {
+    background-color: #f3f6f9 !important; 
+    color: #555;
+    cursor: default;
 }
 
-input:not(:disabled):not([readonly]), 
-input[readonly="false"], input[disabled="false"],
-select:not(:disabled):not([readonly]), 
-select[readonly="false"], select[disabled="false"],
-textarea:not(:disabled):not([readonly]),
-textarea[readonly="false"], textarea[disabled="false"] {
-    cursor: auto !important; 
-    background-color: #ffffff !important; 
-}
-
-/* ===== SEARCH INFRASTRUCTURE (No Clear Button) ===== */
+/* Search Box Wrapper Controls */
 .search-input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
     width: 100%;
 }
+
 .search-input-wrapper input[type="text"] {
     width: 100%;
     padding-right: 26px; 
-}
-
-/* ===== SEARCH FIELD OVERRIDE: Keep search fields white and clickable ===== */
-.search-input-wrapper input[type="text"][readonly],
-.search-input-wrapper input[type="text"][readonly="readonly"] {
-    background-color: #ffffff !important; 
-    color: #333 !important;
-    cursor: pointer !important; 
-    border-color: #ccd6e0 !important;
+    cursor: pointer;
 }
 
 .search-icon {
@@ -237,44 +149,83 @@ textarea[readonly="false"], textarea[disabled="false"] {
     opacity: 0.8;
 }
 
-/* jqx date containers */
+/* Form Layout Container Blocks for JQX widgets */
 .release-filter-table div[id^="fromdate"],
 .release-filter-table div[id^="todate"] {
     width: 100%;
 }
 
-/* ===== BUTTONS ===== */
-.btn-submit {
-    width: 100%;
-    height: 30px;
-    padding: 0 12px;
-    background: #2563eb;
-    color: #fff;
+/* ===== REQUIRED VISUAL BLUE BUTTON SCALING DEFINITIONS ===== */
+.btn-primary {
+    height: 28px;
+    background-color: #1e6bf2;
     border: none;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: 600;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
     cursor: pointer;
-    line-height: 30px;
-    margin-top: 5px;
-}
-.btn-submit:hover {
-    background: #1d4ed8;
-}
-.btn-secondary {
-    background: #64748b;
-}
-.btn-secondary:hover {
-    background: #475569;
-}
-.release-actions {
+    transition: background-color 0.2s ease, transform 0.1s ease;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: #1656c7;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+    background-color: #9abaf5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secondary {
+    background-color: #64748b;
+}
+
+.btn-secondary:hover {
+    background-color: #475569;
+}
+
+.action-grid {
+    display: flex;
+    flex-wrap: wrap;
     gap: 8px;
     justify-content: center;
     margin-top: 15px;
 }
-.release-actions .btn-submit {
+
+.action-grid button {
     flex: 1;
+    min-width: 45%; 
+}
+
+/* Flexible Right Workspace Panel */
+.main-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow: auto;
+    background: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* Grid Cards */
+.grid-card {
+    background: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
 </style>
 <script type="text/javascript">
@@ -286,117 +237,113 @@ $(document).ready(function () {
 				//$("#vehiclelist").jqxGrid('exportdata', 'xls', 'vehiclelist');
 			});
 	   $("body").prepend('<div id="overlay" class="ui-widget-overlay" style="z-index: 1; display: none;"></div>');
-	     $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:200px;right:750px;'><img src='../../../../icons/31load.gif'/></div>");
-	$('#vehdetaildiv').hide();
-	 $("#fromdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-	 $("#todate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-	 $('#userwindow').jqxWindow({ width: '20%', height: '60%',  maxHeight: '62%' ,maxWidth: '60%' , title: 'User Search' , theme: 'energyblue', position: { x: 250, y: 120 }, keyboardCloseKey: 27});
-	 $('#userwindow').jqxWindow('close');
-	 $('#formwindow').jqxWindow({ width: '20%', height: '60%',  maxHeight: '62%' ,maxWidth: '60%' , title: 'Form Search' , theme: 'energyblue', position: { x: 250, y: 120 }, keyboardCloseKey: 27});
-	 $('#formwindow').jqxWindow('close');
-	   var curfromdate=$('#fromdate').jqxDateTimeInput('getDate');
+	   $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:200px;right:750px;'><img src='../../../../icons/31load.gif'/></div>");
+	   $('#vehdetaildiv').hide();
+       
+       // Enforced 24px JQX Criteria
+	   $("#fromdate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+	   $("#todate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+	   
+       $('#userwindow').jqxWindow({ width: '20%', height: '60%',  maxHeight: '62%' ,maxWidth: '60%' , title: 'User Search' , theme: 'energyblue', position: { x: 250, y: 120 }, keyboardCloseKey: 27});
+	   $('#userwindow').jqxWindow('close');
+	   $('#formwindow').jqxWindow({ width: '20%', height: '60%',  maxHeight: '62%' ,maxWidth: '60%' , title: 'Form Search' , theme: 'energyblue', position: { x: 250, y: 120 }, keyboardCloseKey: 27});
+	   $('#formwindow').jqxWindow('close');
+	   
+       var curfromdate=$('#fromdate').jqxDateTimeInput('getDate');
        var onemonthbackdate=new Date(curfromdate.setMonth(curfromdate.getMonth()-1));
        $('#fromdate').jqxDateTimeInput('setDate', onemonthbackdate); 
    
        $('#user').dblclick(function(){
  		  userSearchContent('userSearchGrid.jsp');
- 		});
+ 	   });
        $('#form').dblclick(function(){
   		  formSearchContent('formSearchGrid.jsp');
-  		});
+  	   });
 
 });
+
 function getUser(event){
     var x= event.keyCode;
     if(x==114){
     	userSearchContent('userSearchGrid.jsp');
     }
-    else{}
-    }
+}
+
 function getForm(event){
     var x= event.keyCode;
     if(x==114){
     	formSearchContent('formSearchGrid.jsp');
     }
-    else{}
-    }
+}
     
 function userSearchContent(url) {
     $('#userwindow').jqxWindow('open');
 	$.get(url).done(function (data) {
-	$('#userwindow').jqxWindow('setContent', data);
-	$('#userwindow').jqxWindow('bringToFront');
-}); 
+	    $('#userwindow').jqxWindow('setContent', data);
+	    $('#userwindow').jqxWindow('bringToFront');
+    }); 
 }
 
 function formSearchContent(url) {
     $('#formwindow').jqxWindow('open');
 	$.get(url).done(function (data) {
-	$('#formwindow').jqxWindow('setContent', data);
-	$('#formwindow').jqxWindow('bringToFront');
-}); 
+	    $('#formwindow').jqxWindow('setContent', data);
+	    $('#formwindow').jqxWindow('bringToFront');
+    }); 
 }
 
-function funreload(event)
-{
+function funreload(event) {
 	if(document.getElementById("cmbbranch").value==""){
 		$.messager.alert('Warning','Please Select Branch');
 		return false;
 	}
 	var dateval=funDateInPeriod($('#todate').jqxDateTimeInput('getDate'));
-	//alert(dateval);
 	if(dateval==1){
 		 var branch=document.getElementById("cmbbranch").value;
 	     var fromdate=$('#fromdate').jqxDateTimeInput('val');
 	     var todate=$('#todate').jqxDateTimeInput('val');
 	  	 var hidform=document.getElementById("hidform").value;
 	  	 var hiduser=document.getElementById("hiduser").value;
-	    	 $("#overlay, #PleaseWait").show();
-	    	 $("#logdiv").load("datalogGrid.jsp?branch="+branch+"&fromdate="+fromdate+"&todate="+todate+"&id=1&hidform="+hidform+"&hiduser="+hiduser);   	 
+         
+         $("#overlay, #PleaseWait").show();
+         $("#logdiv").load("datalogGrid.jsp?branch="+branch+"&fromdate="+fromdate+"&todate="+todate+"&id=1&hidform="+hidform+"&hiduser="+hiduser);   	 
 	}
-	}
+}
 	
-
-	function setValues(){
-
-		 if($('#msg').val()!=""){
-   		   $.messager.alert('Message',$('#msg').val());
-		   $("#overlay, #PleaseWait").hide();
-   		  }
-		
-		 
-	}
-
+function setValues(){
+    if($('#msg').val()!=""){
+        $.messager.alert('Message',$('#msg').val());
+        $("#overlay, #PleaseWait").hide();
+    }
+}
 	
-	function funClearData(){
-		$('input[type=text],[type=hidden]').val('');
-		$('#fromdate').jqxDateTimeInput('setDate',new Date());
-		$('#todate').jqxDateTimeInput('setDate',new Date());
-		var curfromdate=$('#fromdate').jqxDateTimeInput('getDate');
-	       var onemonthbackdate=new Date(curfromdate.setMonth(curfromdate.getMonth()-1));
-	       $('#fromdate').jqxDateTimeInput('setDate', onemonthbackdate); 	
-	}
-
+function funClearData(){
+    $('input[type=text],[type=hidden]').val('');
+    $('#fromdate').jqxDateTimeInput('setDate',new Date());
+    $('#todate').jqxDateTimeInput('setDate',new Date());
+    var curfromdate=$('#fromdate').jqxDateTimeInput('getDate');
+    var onemonthbackdate=new Date(curfromdate.setMonth(curfromdate.getMonth()-1));
+    $('#fromdate').jqxDateTimeInput('setDate', onemonthbackdate); 	
+}
 
 </script>
 </head>
 <body onload="getBranch();setValues();">
-<form id="frmCostUpdate" method="post" action="saveCostUpdate" style="height: 100%; margin: 0;">
+<form id="frmCostUpdate" method="post" action="saveCostUpdate">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
 
-<table width="100%" cellspacing="0" cellpadding="0" style="height: 100%;">
-<tr>
+<div class="master-container">
 
-<td width="310" style="width: 310px; min-width: 310px; padding: 0;">
-    
-    <div class="fixed-sidebar-container">
-        <div class="sidebar-content-padding">
-            
-            <div class="filter-card">
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px; margin-bottom: 0;">
                 <jsp:include page="../../heading.jsp"></jsp:include>
             </div>
+        </div>
 
+        <div class="sidebar-scroll-content">
+            
             <div class="filter-card">
                 <table class="release-filter-table">
                     <tr>
@@ -411,7 +358,7 @@ function funreload(event)
                         <td class="label-cell">Form Name</td>
                         <td>
                             <div class="search-input-wrapper">
-                                <input type="text" name="form" id="form" placeholder="Double click to search" readonly="readonly">
+                                <input type="text" name="form" id="form" placeholder="Double click to search" readonly="readonly" onkeydown="getForm(event);">
                                 <div class="search-icon"></div>
                             </div>
                         </td>
@@ -420,15 +367,15 @@ function funreload(event)
                         <td class="label-cell">User</td>
                         <td>
                             <div class="search-input-wrapper">
-                                <input type="text" name="user" id="user" placeholder="Double click to search" readonly="readonly">
+                                <input type="text" name="user" id="user" placeholder="Double click to search" readonly="readonly" onkeydown="getUser(event);">
                                 <div class="search-icon"></div>
                             </div>
                         </td>
                     </tr>
                 </table>
 
-                <div class="release-actions">
-                    <button type="button" class="btn-submit btn-secondary" name="btnclear" id="btnclear" onclick="funClearData();">Clear</button>
+                <div class="action-grid">
+                    <button type="button" class="btn-primary btn-secondary" name="btnclear" id="btnclear" onclick="funClearData();">Clear</button>
                 </div>
             </div>
 
@@ -440,34 +387,14 @@ function funreload(event)
         </div>
     </div>
 
-</td>
-
-<td style="vertical-align: top; padding: 0; background: #fff; height: 100%;">
-    
-    <div style="position: relative; height: 100%; width: 100%;">
-        
-        <div class="scrollable-column">
-            <div class="main-content-padding">
-                <table width="100%">
-                    <tr>
-                        <td>
-                            <div id="logdiv">
-                                <jsp:include page="datalogGrid.jsp"></jsp:include>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+    <div class="main-content-area">
+        <div class="grid-card">
+            <div id="logdiv">
+                <jsp:include page="datalogGrid.jsp"></jsp:include>
             </div>
         </div>
-        
     </div>
 
-</td>
-
-</tr>
-</table>
-
-</div>
 </div>
 
 <div id="userwindow">
@@ -477,6 +404,8 @@ function funreload(event)
     <div></div><div></div>
 </div>
 
+</div>
+</div>
 </form>
 </body>
 </html>
