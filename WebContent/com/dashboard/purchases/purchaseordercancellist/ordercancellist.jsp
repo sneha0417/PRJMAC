@@ -139,6 +139,28 @@ select:disabled {
     padding: 15px;
     box-sizing: border-box;
 }
+/* Universal rule: Targets ANY div whose ID contains the word "time" */
+div[id*="time"] {
+    width: 50px !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
+}
+
+/* Universal rule: Targets ANY div whose ID contains the word "date" */
+div[id*="date"] {
+    width: 100px !important;
+    min-width: 100px !important;
+    max-width: 100px !important;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    /* Apply the massive bottom padding from your working code */
+    padding: 15px 20px 120px; 
+    min-height: 0;
+    box-sizing: border-box;
+}
 </style>
 
 <script type="text/javascript">
