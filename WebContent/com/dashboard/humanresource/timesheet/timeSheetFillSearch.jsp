@@ -9,6 +9,116 @@
 <link href="<%=contextPath%>/css/body.css" media="screen" rel="stylesheet" type="text/css" />
 <title>GatewayERP(i)</title>
 
+<style>
+body,
+html {
+    margin: 0;
+    padding: 0;
+    background: #ffffff !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#search {
+    background: #ffffff !important;
+    padding: 10px;
+}
+
+#search > table {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    border-collapse: separate;
+    border-spacing: 6px 8px;
+    padding: 12px;
+}
+
+#search td {
+    font-size: 12px !important;
+    color: #333;
+    vertical-align: middle;
+}
+
+#search input[type="text"] {
+    height: 24px !important;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 12px;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+#search input[type="text"]:focus {
+    border-color: #2563eb;
+    outline: none;
+}
+
+#search fieldset {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background: #fafafa;
+    padding: 8px;
+}
+
+#search legend {
+    font-size: 12px !important;
+    font-weight: 600;
+    color: #333;
+    padding: 0 6px;
+}
+
+#search input[type="checkbox"] {
+    transform: scale(1.05);
+    margin-right: 4px;
+}
+
+#search .myButton,
+#search button.myButton,
+#search button {
+    height: 26px !important;
+    min-width: 80px;
+    background: #205fd3 !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    cursor: pointer;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    transition: background-color .2s ease;
+}
+
+#search .myButton:hover,
+#search button.myButton:hover,
+#search button:hover {
+    background: #124096 !important;
+}
+
+#refsearch {
+    margin-top: 8px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #ffffff;
+    min-height: 250px;
+}
+
+/* F3 Search Fields */
+#txtselectedempids,
+#txtselectedcosttypename,
+#txtselectedcostid {
+    background: #f8fafc;
+    cursor: pointer;
+}
+
+/* jqx controls wrapper */
+.jqx-widget,
+.jqx-widget-content,
+.jqx-input {
+    font-size: 12px !important;
+}
+</style>
+
 <script type="text/javascript">
 
 	$(document).ready(function () { 

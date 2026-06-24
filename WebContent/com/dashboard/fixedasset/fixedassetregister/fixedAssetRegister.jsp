@@ -8,43 +8,172 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GatewayERP(i)</title>
 <link href="../../../../css/dashboard.css" media="screen" rel="stylesheet" type="text/css" />  
+
 <style type="text/css">
+/* ===== MASTER LAYOUT ===== */
+body, html, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background-color: #f4f7f9;
+}
+
+/* Sidebar */
+.sidebar-filters {
+    width: 330px;
+    flex: 0 0 330px;
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 2;
+}
+
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 20px 25px;
+}
+
+/* Cards */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Tables */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 90px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;
+    padding: 2px 8px;
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+}
+
+/* Readonly / disabled look */
+input[readonly],
+input:disabled {
+    background-color: #f3f6f9 !important;
+    color: #555;
+}
+
+/* jqx date/time containers */
+.release-filter-table div[id^="fromdate"],
+.release-filter-table div[id^="todate"] {
+    width: 100%;
+}
+
+/* Radio Buttons Group */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px 0;
+}
+.radio-row {
+    display: flex;
+    gap: 15px;
+}
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #333;
+    margin: 0;
+    cursor: pointer;
+}
+.radio-group input[type="radio"] {
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Report Type legend */
+.section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #4e5e71;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+/* Action buttons row */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+}
+
 .myButtons {
-	-moz-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	-webkit-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	
-	font-size:8pt;
-	
-	padding:3px 17px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
+    flex: 1;
+    height: 28px;
+    padding: 0 10px;
+    border: 1px solid #566963;
+    border-radius: 4px;
+    background: linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: inset 0px -1px 3px 0px #91b8b3;
+    text-shadow: 0px -1px 0px #2b665e;
+    transition: background 0.15s;
 }
 .myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
+    background: linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
 }
 .myButtons:active {
-	position:relative;
-	top:1px;
+    position: relative;
+    top: 1px;
+}
+
+/* Main Content Area */
+.main-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow: auto;
+    background: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
 }
 </style>
 
@@ -92,35 +221,28 @@
 	    
 	    CSV += ReportTitle + '\r\n\n';
 
-	    //This condition will generate the Label/Header
 	    if (ShowLabel) {
 	        var row = "";
 	        
-	        //This loop will extract the label from 1st index of on array
 	        for (var index in arrData[0]) {
 	            
-	            //Now convert each value to string and comma-seprated
 	            row += index + ',';
 	        }
 
 	        row = row.slice(0, -1);
 	        
-	        //append Label row with line break
 	        CSV += row + '\r\n';
 	    }
 	    
-	    //1st loop is to extract each row
 	    for (var i = 0; i < arrData.length; i++) {
 	        var row = "";
 	        
-	        //2nd loop will extract each column and convert it in string comma-seprated
 	        for (var index in arrData[i]) {
 	            row += '"' + arrData[i][index] + '",';
 	        }
 
 	        row.slice(0, row.length - 1);
 	        
-	        //add a line break after each row
 	        CSV += row + '\r\n';
 	    }
 
@@ -129,28 +251,17 @@
 	        return;
 	    }   
 	    
-	    //Generate a file name
 	    var fileName = "";
-	    //this will remove the blank-spaces from the title and replace it with an underscore
 	    fileName += ReportTitle.replace(/ /g,"_");   
 	    
-	    //Initialize file format you want csv or xls
 	    var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
 	    
-	    // Now the little tricky part.
-	    // you can use either>> window.open(uri);
-	    // but this will not work in some browsers
-	    // or you will not get the correct file extension    
-	    
-	    //this trick will generate a temp <a /> tag
 	    var link = document.createElement("a");    
 	    link.href = uri;
 	    
-	    //set the visibility hidden so it will not effect on your web-layout
 	    link.style = "visibility:hidden";
 	    link.download = fileName + ".csv";
 	    
-	    //this part will append the anchor tag and remove it after automatic click
 	    document.body.appendChild(link);
 	    link.click();
 	    document.body.removeChild(link);
@@ -262,71 +373,90 @@
 					return;
 				}
      }
-	  
-
 </script>
 </head>
 <body onload="getBranch();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	 <tr>
-	 <td align="right"><label class="branch">From</label></td>
-     <td align="left"><div id="fromdate" name="fromdate" value='<s:property value="fromdate"/>'></div></td></tr> 
-	<tr>
-	<td align="right"><label class="branch">To</label></td>
-    <td align="left"><div id="todate" name="todate" value='<s:property value="todate"/>'></div></td>
-	</tr>  
-	<tr><td colspan="2">&nbsp;</td></tr> 
-	<tr><td align="right"><label class="branch">Asset</label></td>
-	<td align="left"><input type="text" id="txtasset" name="txtasset" style="width:60%;height:20px;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtasset"/>' onkeydown="getAsset(event);"/></td></tr>
-	<tr><td align="right"><label class="branch">Group</label></td>
-	<td align="left"><input type="text" id="txtgroup" name="txtgroup" style="width:60%;height:20px;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtgroup"/>' onkeydown="getGroup(event);"/>
-		             <input type="hidden" id="txtgroupno" name="txtgroupno" style="width:60%;height:20px;" value='<s:property value="txtgroupno"/>'/></td></tr> 
-	<tr><td colspan="2">
-	  <fieldset><legend><b><label class="branch">Report Type</label></b></legend>
-	   <table width="100%">
-       <tr>
-       <td width="48%" align="center"><input type="radio" id="rdall" name="rdo" value="rdall"><label for="rdall" class="branch">All</label></td>
-       <td width="52%" align="center"><input type="radio" id="rdsold" name="rdo" value="rdsold"><label for="rdsold" class="branch">Sold</label></td>
-       </tr>
-       <tr>
-       <td colspan="2" align="center"><input type="radio" id="rdadditions" name="rdo" value="rdadditions"><label for="rdadditions" class="branch">Additions</label></td>
-       </tr>
-       </table>
-	  </fieldset>
-	</td></tr> 
-	<tr><td colspan="2">&nbsp;</td></tr> 
-	<tr><td align="center"><input type="button" class="myButtons" name="clear" id="clear"  value="Clear" onclick="funClearInfo();"></td><td align="right"><input type="button" class="myButton" name="btnPrint" id="btnPrint"  value="Print" onclick="funPrint();"></td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr> 
-	<tr><td colspan="2">&nbsp;</td></tr>
-	</table>
-	</fieldset>
-</td>
-<td width="80%">
-	<table width="100%">
-		<tr>
-			 <td><div id="assetDiv"><jsp:include page="fixedAssetRegisterGrid.jsp"></jsp:include></div></td>
-		</tr>
-	</table>
-</tr>
-</table>
+
+<div class="master-container">
+
+    <!-- ===== SIDEBAR ===== -->
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px;">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+        </div>
+
+        <div class="sidebar-scroll-content">
+
+            <!-- Date + Asset + Group filters -->
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">From</td>
+                        <td><div id="fromdate" name="fromdate" value='<s:property value="fromdate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">To</td>
+                        <td><div id="todate" name="todate" value='<s:property value="todate"/>'></div></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Asset</td>
+                        <td><input type="text" id="txtasset" name="txtasset" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtasset"/>' onkeydown="getAsset(event);"/></td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Group</td>
+                        <td>
+                            <input type="text" id="txtgroup" name="txtgroup" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtgroup"/>' onkeydown="getGroup(event);"/>
+                            <input type="hidden" id="txtgroupno" name="txtgroupno" value='<s:property value="txtgroupno"/>'/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Report Type -->
+            <div class="filter-card">
+                <div class="section-label">Report Type</div>
+                <div class="radio-group">
+                    <div class="radio-row">
+                        <label><input type="radio" id="rdall" name="rdo" value="rdall"> All</label>
+                        <label><input type="radio" id="rdsold" name="rdo" value="rdsold"> Sold</label>
+                    </div>
+                    <div class="radio-row">
+                        <label><input type="radio" id="rdadditions" name="rdo" value="rdadditions"> Additions</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="filter-card" style="padding: 10px;">
+                <div class="action-buttons">
+                    <input type="button" class="myButtons" name="clear" id="clear" value="Clear" onclick="funClearInfo();">
+                    <input type="button" class="myButtons" name="btnPrint" id="btnPrint" value="Print" onclick="funPrint();">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="main-content-area">
+        <div id="assetDiv">
+            <jsp:include page="fixedAssetRegisterGrid.jsp"></jsp:include>
+        </div>
+    </div>
+
 </div>
 
 <div id="assetDetailsWindow">
-	<div></div><div></div>
+    <div></div><div></div>
 </div>
 <div id="groupDetailsWindow">
-	<div></div><div></div>
+    <div></div><div></div>
+</div>
+
 </div>
 </div>
 </body>
