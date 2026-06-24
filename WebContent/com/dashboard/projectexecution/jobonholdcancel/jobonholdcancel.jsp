@@ -172,6 +172,21 @@ textarea:disabled {
     display: flex;
     flex-direction: column;
 }
+/* Universal rule: Targets ANY div whose ID contains the word "time" */
+div[id*="time"] {
+    width: 50px !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
+}
+
+/* Universal rule: Targets ANY div whose ID contains the word "date" */
+div[id*="date"] {
+    width: 100px !important;
+    min-width: 100px !important;
+    max-width: 100px !important;
+}
+
+
 </style>
 
 <script type="text/javascript">

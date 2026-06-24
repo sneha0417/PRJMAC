@@ -197,6 +197,15 @@ input:disabled {
     flex-direction: column;
     gap: 15px;
 }
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    /* Apply the massive bottom padding from your working code */
+    padding: 15px 20px 120px; 
+    min-height: 0;
+    box-sizing: border-box;
+}
 </style>
 
 <script type="text/javascript">
