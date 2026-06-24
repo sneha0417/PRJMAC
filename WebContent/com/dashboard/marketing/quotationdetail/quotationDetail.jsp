@@ -5,6 +5,7 @@
 %>
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta charset="UTF-8">
@@ -14,23 +15,27 @@
 
 <style type="text/css">
 /* ===== MASTER LAYOUT COMPLIANT WITH REFERENCE UI ===== */
-body, html, #mainBG, .hidden-scrollbar {
+body, html {
     height: 100%;
     margin: 0;
-    overflow: hidden;
+    padding: 0;
+    overflow: hidden; /* Prevents the whole page from double-scrolling */
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif !important;
+    background-color: #f4f7f9;
 }
 
-form {
+#mainBG, .hidden-scrollbar {
     height: 100%;
-    margin: 0;
+}
+
+table, td, th, input, select, textarea, button, span, div, label {
+    font-family: inherit !important;
 }
 
 .master-container {
     display: flex;
     width: 100%;
     height: 100vh;
-    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
-    background-color: #f4f7f9;
 }
 
 /* Sidebar Wrapper Layout */
@@ -54,7 +59,7 @@ form {
 .sidebar-scroll-content {
     flex: 1;
     overflow-y: auto;
-    padding: 15px 20px 25px;
+    padding: 15px 20px 80px; /* Safe space at bottom */
 }
 
 /* Sidebar Custom Scrollbar */
@@ -69,15 +74,34 @@ form {
     border-radius: 10px;
 }
 
+/* Right Content Area */
+.main-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    background: #f4f7f9;
+    padding: 15px;
+    box-sizing: border-box;
+}
+.main-content-area::-webkit-scrollbar {
+    width: 8px;
+}
+.main-content-area::-webkit-scrollbar-track {
+    background: #f0f4f8;
+}
+.main-content-area::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
+
 /* UI Cards Panels */
 .filter-card {
     background: #f8fafc;
     border: 1px solid #e3e8ee;
     border-radius: 12px;
     padding: 15px;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
-
 .grid-card {
     background: #fff;
     border: 1px solid #e1e8ed;
@@ -86,16 +110,15 @@ form {
     margin-bottom: 15px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
-
 .card-header {
-    font-size: 11px; 
+    font-size: 12px; 
     font-weight: 600; 
     color: #4e5e71; 
-    margin-bottom: 10px; 
+    margin-bottom: 12px; 
     text-transform: uppercase; 
     letter-spacing: 0.5px;
     border-bottom: 1px solid #e3e8ee;
-    padding-bottom: 5px;
+    padding-bottom: 8px;
 }
 
 /* Layout Form Filter Grids */
@@ -107,10 +130,10 @@ form {
 .release-filter-table .label-cell {
     text-align: right;
     padding-right: 12px;
-    font-size: 12px; 
+    font-size: 11.5px; 
     color: #4e5e71;
     font-weight: 600;
-    width: 90px;
+    width: 110px;
     white-space: nowrap; 
     line-height: 1.2;
 }
@@ -118,7 +141,8 @@ form {
 /* ===== ENFORCED UNIFORM 24px GRID INPUTS ELEMENTS ===== */
 input[type="text"], select,
 .release-filter-table input[type="text"],
-.release-filter-table select {
+.release-filter-table select,
+.summary-bar input[type="text"] {
     width: 100%;
     height: 24px;
     padding: 2px 8px;
@@ -136,22 +160,7 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-/* Specific styling for Textarea & Checkbox */
-textarea, .release-filter-table textarea {
-    width: 100%;
-    padding: 6px 8px;
-    border: 1px solid #ccd6e0 !important;
-    border-radius: 4px;
-    font-size: 12px;
-    background-color: #ffffff !important;
-    box-sizing: border-box;
-    color: #333;
-    resize: none;
-    outline: none;
-}
-
-.release-filter-table input[type="checkbox"],
-.checkbox-center-row input[type="checkbox"] {
+.release-filter-table input[type="checkbox"] {
     width: auto;
     height: auto;
     margin: 0;
@@ -159,19 +168,16 @@ textarea, .release-filter-table textarea {
     cursor: pointer;
 }
 
-.checkbox-center-row {
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    gap: 6px; 
-    margin: 5px 0;
-}
-
-.checkbox-center-row label {
-    font-size: 11.5px;
-    font-weight: 600;
-    color: #4e5e71;
-    cursor: pointer;
+textarea, .release-filter-table textarea {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    resize: none;
 }
 
 /* Readonly fields styling setup */
@@ -209,7 +215,7 @@ input:disabled, select:disabled, textarea:disabled,
     opacity: 0.8;
 }
 
-/* Native SVG Icon Buttons */
+/* Cleaner Clear Control Component */
 .btn-icon-inline {
     background: transparent;
     border: none;
@@ -220,12 +226,28 @@ input:disabled, select:disabled, textarea:disabled,
     justify-content: center;
 }
 .btn-icon-inline svg {
-    opacity: 0.7;
+    opacity: 0.6;
     transition: opacity 0.2s;
 }
 .btn-icon-inline:hover svg {
     opacity: 1;
-    stroke: #2563eb; 
+    stroke: #2563eb;
+}
+
+/* Checkbox Centered Layout */
+.checkbox-center-row {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 6px; 
+    margin: 5px 0 10px 0;
+}
+.checkbox-center-row label {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #4e5e71;
+    cursor: pointer;
+    margin: 0;
 }
 
 /* Form Layout Container Blocks for JQX widgets */
@@ -255,10 +277,11 @@ input:disabled, select:disabled, textarea:disabled,
 
 /* ===== REQUIRED VISUAL BLUE BUTTON SCALING DEFINITIONS ===== */
 .btn-primary {
+    width: 100%;
     height: 28px;
-    background-color: #1e6bf2;
+    background-color: #1e6bf2; /* Exact specific blue matching image */
     border: none;
-    border-radius: 8px;
+    border-radius: 8px;        /* Corner styling parameters */
     color: #ffffff;
     font-size: 12px;
     font-weight: 700;
@@ -268,7 +291,6 @@ input:disabled, select:disabled, textarea:disabled,
     align-items: center;
     justify-content: center;
     padding: 0 10px;
-    width: 100%;
 }
 
 .btn-primary:hover {
@@ -296,572 +318,540 @@ input:disabled, select:disabled, textarea:disabled,
 .release-actions {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     margin-top: 15px;
-}
-
-/* Flexible Right Workspace Panel */
-.main-content-area {
-    flex: 1;
-    height: 100vh;
-    overflow: auto;
-    background: #ffffff;
-    padding: 15px;
-    box-sizing: border-box;
 }
 </style>
 <script type="text/javascript">
 
-	$(document).ready(function () {
-		 $('#siteGridID').jqxGrid('clear');
-         
-         // Enforced 24px JQX Criteria
-         $("#fromdate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
-         $("#todate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
-         $("#quotdate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy", value: null});
-	    	  
-		 $('#quotwindow').jqxWindow({ width: '45%', height: '58%',  maxHeight: '90%' ,maxWidth: '80%' ,title: 'Quotation Search' , position: { x: 200, y: 120 }, keyboardCloseKey: 27});
-		 $('#quotwindow').jqxWindow('close') ; 
-		 $('#sidesearchwndow').jqxWindow({  width: '45%', height: '80%',  maxHeight: '90%' ,maxWidth: '80%' ,title: 'Search ' , position: { x: 725, y: 0 }, keyboardCloseKey: 27});
-		 $('#sidesearchwndow').jqxWindow('close'); 
-		 $('#servicetypewindow').jqxWindow({ width: '25%', height: '70%',  maxHeight: '85%' ,maxWidth: '80%' ,title: ' Service Type Search' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
-		 $('#servicetypewindow').jqxWindow('close');
-		 $('#unitsearchwindow').jqxWindow({ width :'25%',height:'58%',maxHeight:'70%',maxWidth:'45%',title:'Unit Search',position:{	x : 420,y : 87},theme : 'energyblue',showCloseButton : true,keyboardCloseKey : 27 });
-		 $('#unitsearchwindow').jqxWindow('close');
-		 $('#sertypefowindow').jqxWindow({ width: '30%', height: '65%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Service Type' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
-		 $('#sertypefowindow').jqxWindow('close');
-		 $('#siteinfowindow').jqxWindow({ width: '25%', height: '65%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Site Search' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
-		 $('#siteinfowindow').jqxWindow('close');
-		 $('#clientsearch1').jqxWindow({ width: '50%', height: '55%',  maxHeight: '85%' ,maxWidth: '80%' ,title: 'Client Search' , position: { x: 250, y: 120 }, keyboardCloseKey: 27});
-		 $('#clientsearch1').jqxWindow('close');
-		 $('#sitewindow').jqxWindow({ width: '25%', height: '60%',  maxHeight: '60%' ,maxWidth: '80%' ,title: ' Site Search' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
-		 $('#sitewindow').jqxWindow('close');
-		 $('#sidesearchwndowqot').jqxWindow({ width: '45%', height: '80%',  maxHeight: '90%' ,maxWidth: '80%' ,title: 'Search ' , position: { x: 725, y: 0 }, keyboardCloseKey: 27});
-		 $('#sidesearchwndowqot').jqxWindow('close');
-		 $('#areainfowindow').jqxWindow({ width: '25%', height: '70%',  maxHeight: '85%' ,maxWidth: '80%' ,title: ' Area Search' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
-		 $('#areainfowindow').jqxWindow('close');
-		 $('#scopesearchwindow').jqxWindow({ width: '25%', height: '60%',  maxHeight: '60%' ,maxWidth: '80%' ,title: ' Scope Search' , position: { x: 250, y: 60 }, keyboardCloseKey: 27});
-		 $('#scopesearchwindow').jqxWindow('close');
-			  
-		 var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-		 var onemounth=new Date(new Date(fromdates).setMonth(fromdates.getMonth()-1)); 
-	     $('#fromdate').jqxDateTimeInput('setDate', new Date(onemounth));
-		       
-	     $('#todate').on('change', function (event) {
-			var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-			var todates=new Date($('#todate').jqxDateTimeInput('getDate')); 
-			if(fromdates>todates){
-				$.messager.alert('Message','To Date Less Than From Date  ','warning');   
-				return false;
-			}   
-		 });
-	          
-		 $('#txtclient').dblclick(function(){
-		    $('#clientsearch1').jqxWindow('open');
-		    clientSearchContent('clientINgridsearch.jsp?', $('#clientsearch1')); 
-		 });
-		  	 
-		 $('#qutname').dblclick(function(){
-			if(document.getElementById("cmbbranch").value=="" || document.getElementById("cmbbranch").value=='a'){
-				$.messager.alert('Warning','Please Select Branch');
-				return false;
-			}
-				  	   
-			var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-			var todates=new Date($('#todate').jqxDateTimeInput('getDate')); //del date
-			if(fromdates>todates){
-			   	$.messager.alert('Message','To Date Less Than From Date  ','warning');   
-			   	return false;
-			}
-			var fromdate= $("#fromdate").val();
-			var todate= $("#todate").val();
-			$('#quotwindow').jqxWindow('open');
-			$('#quotwindow').jqxWindow('focus');
-			getQuotationGrid(fromdate,todate);
-		 });  
-		 
-		 $('#qutno').dblclick(function(){
-			if(document.getElementById("cmbbranch").value=="" || document.getElementById("cmbbranch").value=='a'){
-				$.messager.alert('Warning','Please Select Branch');
-				return false;
-			}
-				  	   
-			var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-			var todates=new Date($('#todate').jqxDateTimeInput('getDate')); //del date
-			if(fromdates>todates){
-			   	$.messager.alert('Message','To Date Less Than From Date  ','warning');   
-			   	return false;
-			}
-			var fromdate= $("#fromdate").val();
-			var todate= $("#todate").val();
-			$('#quotwindow').jqxWindow('open');
-			$('#quotwindow').jqxWindow('focus');
-			getQuotationGrid(fromdate,todate);
-		 }); 
+$(document).ready(function () {
+    $('#siteGridID').jqxGrid('clear');
+    
+    // 24px JQX Date constraints applied globally
+    $("#fromdate").jqxDateTimeInput({ width: '100%', height: '24px', formatString:"dd.MM.yyyy"});
+    $("#todate").jqxDateTimeInput({ width: '100%', height: '24px', formatString:"dd.MM.yyyy"});
+    $("#quotdate").jqxDateTimeInput({ width: '100%', height: '24px', formatString:"dd.MM.yyyy", value: null});
+    
+    $('#quotwindow').jqxWindow({ width: '45%', height: '58%', maxHeight: '90%', maxWidth: '80%', title: 'Quotation Search', position: { x: 200, y: 120 }, keyboardCloseKey: 27});
+    $('#quotwindow').jqxWindow('close'); 
+    $('#sidesearchwndow').jqxWindow({ width: '45%', height: '80%', maxHeight: '90%', maxWidth: '80%', title: 'Search ', position: { x: 725, y: 0 }, keyboardCloseKey: 27});
+    $('#sidesearchwndow').jqxWindow('close'); 
+    $('#servicetypewindow').jqxWindow({ width: '25%', height: '70%', maxHeight: '85%', maxWidth: '80%', title: ' Service Type Search', position: { x: 250, y: 60 }, keyboardCloseKey: 27});
+    $('#servicetypewindow').jqxWindow('close');
+    $('#unitsearchwindow').jqxWindow({ width :'25%', height:'58%', maxHeight:'70%', maxWidth:'45%', title:'Unit Search', position:{ x : 420, y : 87}, theme : 'energyblue', showCloseButton : true, keyboardCloseKey : 27 });
+    $('#unitsearchwindow').jqxWindow('close');
+    $('#sertypefowindow').jqxWindow({ width: '30%', height: '65%', maxHeight: '85%', maxWidth: '80%', title: 'Service Type', position: { x: 250, y: 60 }, keyboardCloseKey: 27});
+    $('#sertypefowindow').jqxWindow('close');
+    $('#siteinfowindow').jqxWindow({ width: '25%', height: '65%', maxHeight: '85%', maxWidth: '80%', title: 'Site Search', position: { x: 250, y: 60 }, keyboardCloseKey: 27});
+    $('#siteinfowindow').jqxWindow('close');
+    $('#clientsearch1').jqxWindow({ width: '50%', height: '55%', maxHeight: '85%', maxWidth: '80%', title: 'Client Search', position: { x: 250, y: 120 }, keyboardCloseKey: 27});
+    $('#clientsearch1').jqxWindow('close');
+    $('#sitewindow').jqxWindow({ width: '25%', height: '60%', maxHeight: '60%', maxWidth: '80%', title: ' Site Search', position: { x: 250, y: 60 }, keyboardCloseKey: 27});
+    $('#sitewindow').jqxWindow('close');
+    $('#sidesearchwndowqot').jqxWindow({ width: '45%', height: '80%', maxHeight: '90%', maxWidth: '80%', title: 'Search ', position: { x: 725, y: 0 }, keyboardCloseKey: 27});
+    $('#sidesearchwndowqot').jqxWindow('close');
+    $('#areainfowindow').jqxWindow({ width: '25%', height: '70%', maxHeight: '85%', maxWidth: '80%', title: ' Area Search', position: { x: 250, y: 60 }, keyboardCloseKey: 27});
+    $('#areainfowindow').jqxWindow('close');
+    $('#scopesearchwindow').jqxWindow({ width: '25%', height: '60%', maxHeight: '60%', maxWidth: '80%', title: ' Scope Search', position: { x: 250, y: 60 }, keyboardCloseKey: 27});
+    $('#scopesearchwindow').jqxWindow('close');
+    
+    var fromdates = new Date($('#fromdate').jqxDateTimeInput('getDate'));
+    var onemounth = new Date(new Date(fromdates).setMonth(fromdates.getMonth()-1)); 
+    $('#fromdate').jqxDateTimeInput('setDate', new Date(onemounth));
+     
+    $('#todate').on('change', function (event) {
+        var fromdates = new Date($('#fromdate').jqxDateTimeInput('getDate'));
+        var todates = new Date($('#todate').jqxDateTimeInput('getDate')); 
+        if(fromdates > todates){
+            $.messager.alert('Message','To Date Less Than From Date ','warning');   
+            return false;
+        }   
+    });
+    
+    $('#txtclient').dblclick(function(){
+        $('#clientsearch1').jqxWindow('open');
+        clientSearchContent('clientINgridsearch.jsp?', $('#clientsearch1')); 
+    });
+   
+    $('#qutname').dblclick(function(){
+        if(document.getElementById("cmbbranch").value == "" || document.getElementById("cmbbranch").value == 'a'){
+            $.messager.alert('Warning','Please Select Branch');
+            return false;
+        }
+        var fromdates = new Date($('#fromdate').jqxDateTimeInput('getDate'));
+        var todates = new Date($('#todate').jqxDateTimeInput('getDate'));
+        if(fromdates > todates){
+            $.messager.alert('Message','To Date Less Than From Date ','warning');   
+            return false;
+        }
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        $('#quotwindow').jqxWindow('open');
+        $('#quotwindow').jqxWindow('focus');
+        getQuotationGrid(fromdate,todate);
+    });  
 
-		 $('#btnsave').attr('disabled',true); 
-		 $('#quotdate').jqxDateTimeInput({disabled: true});
-	});
-	
-	function scopeSearchContent(url) {
-		$('#scopesearchwindow').jqxWindow('open');
-		$.get(url).done(function(data) {
-			$('#scopesearchwindow').jqxWindow('setContent', data);
-			$('#scopesearchwindow').jqxWindow('bringToFront');
-		});
-	}
-  
-  function getScopeGroup() {
-		var x = new XMLHttpRequest();
-		x.onreadystatechange = function() {
-			if (x.readyState == 4 && x.status == 200) {
-				var items = x.responseText;
-				items = items.split('####');
-				var scopeGroupItems = items[0].split(",");
-				var scopeGroupIdItems = items[1].split(",");
-				var optionsscopegroup = '<option value="">--Select--</option>';
-				for (var i = 0; i < scopeGroupItems.length; i++) {
-					optionsscopegroup += '<option value="' + scopeGroupIdItems[i] + '">'
-							+ scopeGroupItems[i] + '</option>';
-				}
-				$("select#cmbscopegroup").html(optionsscopegroup);
-				if ($('#hidcmbscopegroup').val() != null) {
-					$('#cmbscopegroup').val($('#hidcmbscopegroup').val());
-				}
-			} else {
-			}
-		}
-		x.open("GET", "getScopeGroup.jsp?contrmode="+$('#txtcontrmode').val(), true);
-		x.send();
-	}
-  
-  function getScopeGroupAdvanced() {
-		var x = new XMLHttpRequest();
-		x.onreadystatechange = function() {
-			if (x.readyState == 4 && x.status == 200) {
-				var items = x.responseText;
-				items = items.split('####');
-				var scopeGroupItems = items[0].split(",");
-				var scopeGroupIdItems = items[1].split(",");
-				var optionsscopegroup = '<option value="">--Select--</option>';
-				for (var i = 0; i < scopeGroupItems.length; i++) {
-					optionsscopegroup += '<option value="' + scopeGroupIdItems[i] + '">'
-							+ scopeGroupItems[i] + '</option>';
-				}
-				$("select#cmbscopegroupchange").html(optionsscopegroup);
-				if ($('#hidcmbscopegroupchange').val() != null) {
-					$('#cmbscopegroupchange').val($('#hidcmbscopegroupchange').val());
-				}
-				$('#cmbscopegroupchange').attr('disabled', true );
-				$('#btnProcess').attr('disabled', true );
-			} else {
-			}
-		}
-		x.open("GET", "getScopeGroupAdvanced.jsp?contrmode="+$('#txtcontrmode').val(), true);
-		x.send();
-	}
-  
-  function getPreSalesScopeAllowed(){
-		var x = new XMLHttpRequest();
-		x.onreadystatechange = function() {
-			if (x.readyState == 4 && x.status == 200) {
-				var items = x.responseText;
-			    $('#presalesscopeallowed').val(items);
-			    
-			  if(parseInt(items)==1){
-					$('#cmbscopegroupchange').show(); 
-					$('#btnProcess').show();
-					document.getElementById("lblscopegroup").style.display = 'inline-block';
-        			$('#qutDetSubGrid').jqxGrid('showcolumn', 'scope');
-					$('#qutDetSubGrid').jqxGrid('showcolumn', 'scopeamount');
-					$('#qutDetGrid').jqxGrid('showcolumn', 'scope');
-					$('#qutDetGrid').jqxGrid('showcolumn', 'scopeamount');
-					$('#qutDetSubGrid').jqxGrid('setcolumnproperty', 'desc1', 'width', '14%');
-					$('#qutDetSubGrid').jqxGrid('setcolumnproperty', 'proname', 'width', '10%');
-					$('#qutDetGrid').jqxGrid('setcolumnproperty', 'desc1', 'width', '14%');
-					$('#qutDetGrid').jqxGrid('setcolumnproperty', 'proname', 'width', '11%');
-			    } else {
-			    	$('#cmbscopegroupchange').hide();
-			    	$('#btnProcess').hide();
-			    	document.getElementById("lblscopegroup").style.display = 'none';
-			    	$('#qutDetSubGrid').jqxGrid('hidecolumn', 'scope');
-					$('#qutDetSubGrid').jqxGrid('hidecolumn', 'scopeamount');
-					$('#qutDetGrid').jqxGrid('hidecolumn', 'scope');
-					$('#qutDetGrid').jqxGrid('hidecolumn', 'scopeamount');
-					$('#qutDetSubGrid').jqxGrid('setcolumnproperty', 'desc1', 'width', '23%');
-					$('#qutDetSubGrid').jqxGrid('setcolumnproperty', 'proname', 'width', '15%');
-					$('#qutDetGrid').jqxGrid('setcolumnproperty', 'desc1', 'width', '23%');
-					$('#qutDetGrid').jqxGrid('setcolumnproperty', 'proname', 'width', '16%');
-			    }
-		}
-		}
-		x.open("GET", "getPreSalesScopeAllowed.jsp", true);
-		x.send();
-	}
-  
-  	function funscopegroupchange(){
-  		$('#cmbscopegroup').val($('#cmbscopegroupchange').val());
-  	}
-  	
-  	function funProcessBtn(){
-  		if($('#quttrno').val().trim()==""){
-				$.messager.alert('Message','Select a Quotation.','warning');
-	     		return 0;
-		}
-  		if($('#cmbscopegroupchange').val().trim()==""){
-  				$.messager.alert('Message','Select a Scope Group.','warning');
-		     	return 0;
-  		}
-  		
-  		$('#txtscopegroupchanged').val('1');
-  		if($('#reftype').val()=="ENQ"){
-  				$("#loadsubgriddata").load("estimationGrid.jsp?docno="+$("#quttrno").val()+"&scopegroupid="+$("#cmbscopegroupchange").val()+"&scopegroupchanged="+$("#txtscopegroupchanged").val()+"&check=1");
-  		}
-  	}
+    $('#qutno').dblclick(function(){
+        if(document.getElementById("cmbbranch").value == "" || document.getElementById("cmbbranch").value == 'a'){
+            $.messager.alert('Warning','Please Select Branch');
+            return false;
+        }
+        var fromdates = new Date($('#fromdate').jqxDateTimeInput('getDate'));
+        var todates = new Date($('#todate').jqxDateTimeInput('getDate'));
+        if(fromdates > todates){
+            $.messager.alert('Message','To Date Less Than From Date ','warning');   
+            return false;
+        }
+        var fromdate = $("#fromdate").val();
+        var todate = $("#todate").val();
+        $('#quotwindow').jqxWindow('open');
+        $('#quotwindow').jqxWindow('focus');
+        getQuotationGrid(fromdate,todate);
+    }); 
+    
+    $('#btnsave').attr('disabled',true); 
+    $('#quotdate').jqxDateTimeInput({disabled: true});
+});
 
-	 function setValues(){
-		 getPreSalesScopeAllowed();getScopeGroup();getScopeGroupAdvanced();
-		 
-		 if($('#hidquotdate').val()!=""){
-			 $("#quotdate").jqxDateTimeInput('val', $('#hidquotdate').val());
-			 $('#quotdate').jqxDateTimeInput({disabled: false});
-		  }
-		var qutno=document.getElementById("quttrno").value;
-		
-		if(qutno>0){
-			 if($('#reftype').val()=="ENQ"){
-					$("#loadsubgriddata").load("estimationGrid.jsp?docno="+qutno+"&check=1");
-			 }
-			 $("#loadgriddata").load("quotationGrid.jsp?docno="+qutno+"&revision="+$('#revision').val()+"&check=1");
-			 $("#loadsitegriddata").load("siteGrid.jsp?docno="+qutno+"&check=1");
-		}
-		
-		if($('#msg').val()!=""){
-			 $.messager.alert('Message',$('#msg').val());
-		}
-	}
+function scopeSearchContent(url) {
+    $('#scopesearchwindow').jqxWindow('open');
+    $.get(url).done(function(data) {
+        $('#scopesearchwindow').jqxWindow('setContent', data);
+        $('#scopesearchwindow').jqxWindow('bringToFront');
+    });
+}
 
-	function getQuotation(event){
-			if(document.getElementById("cmbbranch").value=="" || document.getElementById("cmbbranch").value=='a'){
-				$.messager.alert('Warning','Please Select Branch');
-				return false;
-			}
-		  var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-		  var todates=new Date($('#todate').jqxDateTimeInput('getDate')); //del date
-		  if(fromdates>todates){
-			   $.messager.alert('Message','To Date Less Than From Date  ','warning');   
-		   	   return false;
-		  }
-		  var fromdate= $("#fromdate").val();
-		  var todate= $("#todate").val();
-		  var x= event.keyCode;
-	 	  if(x==114){
-		 	getQuotationGrid(fromdate,todate);
-	 	  }
-	}
+function getScopeGroup() {
+    var x = new XMLHttpRequest();
+    x.onreadystatechange = function() {
+        if (x.readyState == 4 && x.status == 200) {
+            var items = x.responseText;
+            items = items.split('####');
+            var scopeGroupItems = items[0].split(",");
+            var scopeGroupIdItems = items[1].split(",");
+            var optionsscopegroup = '<option value="">--Select--</option>';
+            for (var i = 0; i < scopeGroupItems.length; i++) {
+                optionsscopegroup += '<option value="' + scopeGroupIdItems[i] + '">' + scopeGroupItems[i] + '</option>';
+            }
+            $("select#cmbscopegroup").html(optionsscopegroup);
+            if ($('#hidcmbscopegroup').val() != null) {
+                $('#cmbscopegroup').val($('#hidcmbscopegroup').val());
+            }
+        }
+    }
+    x.open("GET", "getScopeGroup.jsp?contrmode="+$('#txtcontrmode').val(), true);
+    x.send();
+}
 
+function getScopeGroupAdvanced() {
+    var x = new XMLHttpRequest();
+    x.onreadystatechange = function() {
+        if (x.readyState == 4 && x.status == 200) {
+            var items = x.responseText;
+            items = items.split('####');
+            var scopeGroupItems = items[0].split(",");
+            var scopeGroupIdItems = items[1].split(",");
+            var optionsscopegroup = '<option value="">--Select--</option>';
+            for (var i = 0; i < scopeGroupItems.length; i++) {
+                optionsscopegroup += '<option value="' + scopeGroupIdItems[i] + '">' + scopeGroupItems[i] + '</option>';
+            }
+            $("select#cmbscopegroupchange").html(optionsscopegroup);
+            if ($('#hidcmbscopegroupchange').val() != null) {
+                $('#cmbscopegroupchange').val($('#hidcmbscopegroupchange').val());
+            }
+            $('#cmbscopegroupchange').attr('disabled', true );
+            $('#btnProcess').attr('disabled', true );
+        }
+    }
+    x.open("GET", "getScopeGroupAdvanced.jsp?contrmode="+$('#txtcontrmode').val(), true);
+    x.send();
+}
+
+function getPreSalesScopeAllowed(){
+    var x = new XMLHttpRequest();
+    x.onreadystatechange = function() {
+        if (x.readyState == 4 && x.status == 200) {
+            var items = x.responseText;
+            $('#presalesscopeallowed').val(items);
+            
+            if(parseInt(items) == 1){
+                $('#cmbscopegroupchange').show(); 
+                $('#btnProcess').show();
+                document.getElementById("lblscopegroup").style.display = 'inline-block';
+                $('#qutDetSubGrid').jqxGrid('showcolumn', 'scope');
+                $('#qutDetSubGrid').jqxGrid('showcolumn', 'scopeamount');
+                $('#qutDetGrid').jqxGrid('showcolumn', 'scope');
+                $('#qutDetGrid').jqxGrid('showcolumn', 'scopeamount');
+                $('#qutDetSubGrid').jqxGrid('setcolumnproperty', 'desc1', 'width', '14%');
+                $('#qutDetSubGrid').jqxGrid('setcolumnproperty', 'proname', 'width', '10%');
+                $('#qutDetGrid').jqxGrid('setcolumnproperty', 'desc1', 'width', '14%');
+                $('#qutDetGrid').jqxGrid('setcolumnproperty', 'proname', 'width', '11%');
+            } else {
+                $('#cmbscopegroupchange').hide();
+                $('#btnProcess').hide();
+                document.getElementById("lblscopegroup").style.display = 'none';
+                $('#qutDetSubGrid').jqxGrid('hidecolumn', 'scope');
+                $('#qutDetSubGrid').jqxGrid('hidecolumn', 'scopeamount');
+                $('#qutDetGrid').jqxGrid('hidecolumn', 'scope');
+                $('#qutDetGrid').jqxGrid('hidecolumn', 'scopeamount');
+                $('#qutDetSubGrid').jqxGrid('setcolumnproperty', 'desc1', 'width', '23%');
+                $('#qutDetSubGrid').jqxGrid('setcolumnproperty', 'proname', 'width', '15%');
+                $('#qutDetGrid').jqxGrid('setcolumnproperty', 'desc1', 'width', '23%');
+                $('#qutDetGrid').jqxGrid('setcolumnproperty', 'proname', 'width', '16%');
+            }
+        }
+    }
+    x.open("GET", "getPreSalesScopeAllowed.jsp", true);
+    x.send();
+}
+
+function funscopegroupchange(){
+    $('#cmbscopegroup').val($('#cmbscopegroupchange').val());
+}
+
+function funProcessBtn(){
+    if($('#quttrno').val().trim() == ""){
+        $.messager.alert('Message','Select a Quotation.','warning');
+        return 0;
+    }
+    if($('#cmbscopegroupchange').val().trim() == ""){
+        $.messager.alert('Message','Select a Scope Group.','warning');
+        return 0;
+    }
+    
+    $('#txtscopegroupchanged').val('1');
+    if($('#reftype').val() == "ENQ"){
+        $("#loadsubgriddata").load("estimationGrid.jsp?docno="+$("#quttrno").val()+"&scopegroupid="+$("#cmbscopegroupchange").val()+"&scopegroupchanged="+$("#txtscopegroupchanged").val()+"&check=1");
+    }
+}
+
+function setValues(){
+    getPreSalesScopeAllowed(); getScopeGroup(); getScopeGroupAdvanced();
+    
+    if($('#hidquotdate').val() != ""){
+        $("#quotdate").jqxDateTimeInput('val', $('#hidquotdate').val());
+        $('#quotdate').jqxDateTimeInput({disabled: false});
+    }
+    var qutno = document.getElementById("quttrno").value;
+    
+    if(qutno > 0){
+        if($('#reftype').val() == "ENQ"){
+            $("#loadsubgriddata").load("estimationGrid.jsp?docno="+qutno+"&check=1");
+        }
+        $("#loadgriddata").load("quotationGrid.jsp?docno="+qutno+"&revision="+$('#revision').val()+"&check=1");
+        $("#loadsitegriddata").load("siteGrid.jsp?docno="+qutno+"&check=1");
+    }
+    
+    if($('#msg').val() != ""){
+        $.messager.alert('Message',$('#msg').val());
+    }
+}
+
+function getQuotation(event){
+    if(document.getElementById("cmbbranch").value == "" || document.getElementById("cmbbranch").value == 'a'){
+        $.messager.alert('Warning','Please Select Branch');
+        return false;
+    }
+    var fromdates = new Date($('#fromdate').jqxDateTimeInput('getDate'));
+    var todates = new Date($('#todate').jqxDateTimeInput('getDate'));
+    if(fromdates > todates){
+        $.messager.alert('Message','To Date Less Than From Date ','warning');   
+        return false;
+    }
+    var fromdate = $("#fromdate").val();
+    var todate = $("#todate").val();
+    var x = event.keyCode;
+    if(x == 114){
+        getQuotationGrid(fromdate,todate);
+    }
+}
+
+/* Branch dynamically appends options via backend infrastructure */
 function getQuotationGrid(fromdate,todate){  
-	  var cmbbranch= $("#cmbbranch").val();
- 	  $('#quotwindow').jqxWindow('open');
- 	  quotationSearchContent('quotationSearchOuter.jsp?fromdate='+fromdate+'&todate='+todate+'&brhid='+cmbbranch);  
+    var cmbbranch = $("#cmbbranch").val();
+    $('#quotwindow').jqxWindow('open');
+    quotationSearchContent('quotationSearchOuter.jsp?fromdate='+fromdate+'&todate='+todate+'&brhid='+cmbbranch);  
 }
- 	 
+
 function getservicetype(rowBoundIndex){
-	  $('#servicetypewindow').jqxWindow('open');
-      serviceSearchContent('servicesearch.jsp?rowBoundIndex='+rowBoundIndex);
+    $('#servicetypewindow').jqxWindow('open');
+    serviceSearchContent('servicesearch.jsp?rowBoundIndex='+rowBoundIndex);
 }
- 	 
+
 function serviceSearchContent(url) {
-	 $.get(url).done(function (data) {
-	     $('#servicetypewindow').jqxWindow('setContent', data);
-	 }); 
+    $.get(url).done(function (data) {
+        $('#servicetypewindow').jqxWindow('setContent', data);
+    }); 
 }
+
 function quotationSearchContent(url) {
-	 $.get(url).done(function (data) {
-		$('#quotwindow').jqxWindow('setContent', data);
-	}); 
+    $.get(url).done(function (data) {
+        $('#quotwindow').jqxWindow('setContent', data);
+    }); 
 } 
-	
+
 function productSearchContent(url) {
- 	 $.get(url).done(function (data) {
- 		 $('#sidesearchwndow').jqxWindow('open');
- 		 $('#sidesearchwndow').jqxWindow('setContent', data);
- 	 }); 
+    $.get(url).done(function (data) {
+        $('#sidesearchwndow').jqxWindow('open');
+        $('#sidesearchwndow').jqxWindow('setContent', data);
+    }); 
 } 
- 
+
 function getserType(rowBoundIndex){
-	 $('#sertypefowindow').jqxWindow('open');
-     serTypeSearchContent('servicetypesearch.jsp?rowBoundIndex='+rowBoundIndex);
+    $('#sertypefowindow').jqxWindow('open');
+    serTypeSearchContent('servicetypesearch.jsp?rowBoundIndex='+rowBoundIndex);
 }
-	 
+
 function serTypeSearchContent(url) {
-	 $.get(url).done(function (data) {
-	     $('#sertypefowindow').jqxWindow('setContent', data);
-	 }); 
+    $.get(url).done(function (data) {
+        $('#sertypefowindow').jqxWindow('setContent', data);
+    }); 
 }
-	 
+
 function productSearchContentqot(url) {
- 	 $.get(url).done(function (data) {
- 		 $('#sidesearchwndowqot').jqxWindow('open');
- 		 $('#sidesearchwndowqot').jqxWindow('setContent', data);
- 	}); 
+    $.get(url).done(function (data) {
+        $('#sidesearchwndowqot').jqxWindow('open');
+        $('#sidesearchwndowqot').jqxWindow('setContent', data);
+    }); 
 } 
 
 function getsite(rowBoundIndex){
-	$('#siteinfowindow').jqxWindow('open');
+    $('#siteinfowindow').jqxWindow('open');
     siteSearchContent('servicesitesearch.jsp?rowBoundIndex='+rowBoundIndex+'&hidtrno='+$('#quttrno').val());
 }
- 
+
 function getareas(rowBoundIndex){
-	$('#areainfowindow').jqxWindow('open');
+    $('#areainfowindow').jqxWindow('open');
     areaSearchContent('area.jsp?rowBoundIndex='+rowBoundIndex);
 }
- 	 
+
 function siteSearchContent(url) {
-	 $.get(url).done(function (data) {
-	     $('#siteinfowindow').jqxWindow('setContent', data);
-	 }); 
+    $.get(url).done(function (data) {
+        $('#siteinfowindow').jqxWindow('setContent', data);
+    }); 
 } 
-		
+
+/* Helper targets for processing grid details context data */
 function areaSearchContent(url) {
-	 $.get(url).done(function (data) {
-	     $('#areainfowindow').jqxWindow('setContent', data);
-	 }); 
+    $.get(url).done(function (data) {
+        $('#areainfowindow').jqxWindow('setContent', data);
+    }); 
 }
- 	 
+
 function unitSearchContent(url) {
-	$('#unitsearchwindow').jqxWindow('open');
-	$.get(url).done(function(data) {
-		$('#unitsearchwindow').jqxWindow('setContent', data);
-		$('#unitsearchwindow').jqxWindow('bringToFront');
-	});
-}
- 
-function funExportBtn(){
+    $('#unitsearchwindow').jqxWindow('open');
+    $.get(url).done(function(data) {
+        $('#unitsearchwindow').jqxWindow('setContent', data);
+        $('#unitsearchwindow').jqxWindow('bringToFront');
+    });
 }
 
 function getClient(event){
-	 var x= event.keyCode;
-	 if(x==114){
-	     $('#clientsearch1').jqxWindow('open');
-	     clientSearchContent('clientINgridsearch.jsp?', $('#clientsearch1'));    
-	 }
+    var x = event.keyCode;
+    if(x == 114){
+        $('#clientsearch1').jqxWindow('open');
+        clientSearchContent('clientINgridsearch.jsp?', $('#clientsearch1'));    
+    }
 } 
 
 function clientSearchContent(url) {
     $.get(url).done(function (data) {
-	     $('#clientsearch1').jqxWindow('setContent', data);
-   	}); 
+        $('#clientsearch1').jqxWindow('setContent', data);
+    }); 
 }
 
 function getsiteEst(rowBoundIndex,reftrno,id){
-	 $('#sitewindow').jqxWindow('open');
-	 var reftype=$('#reftype').val();
-	 siteSearchContentEst("sitesearch.jsp?rowBoundIndex="+rowBoundIndex+"&reftrno="+reftrno+"&id="+id+"&reftype="+reftype);
+    $('#sitewindow').jqxWindow('open');
+    var reftype = $('#reftype').val();
+    siteSearchContentEst("sitesearch.jsp?rowBoundIndex="+rowBoundIndex+"&reftrno="+reftrno+"&id="+id+"&reftype="+reftype);
 }
-	     	 
+
 function siteSearchContentEst(url) {
-	 $.get(url).done(function (data) {
-	     $('#sitewindow').jqxWindow('setContent', data);
-	 }); 
+    $.get(url).done(function (data) {
+        $('#sitewindow').jqxWindow('setContent', data);
+    }); 
 }
+
+function funreload(event) {
+    var trno = $("#quttrno").val();
+    var brhid = $("#cmbbranch").val();
+    if(trno == ""){
+        $.messager.alert('Message','Select Quotation','warning');
+        return 0;
+    }
+    $("#overlay, #PleaseWait").show();
+    if($('#reftype').val() == "ENQ" || $('#reftype').val() == "SRVE"){
+        $("#loadsubgriddata").load("estimationGrid.jsp?docno="+trno+"&check=1");
+    } 
+    $("#loadgriddata").load("quotationGrid.jsp?docno="+trno+"&revision="+$('#revision').val()+"&check=1"+"&brhid="+brhid);
+    $("#loadsitegriddata").load("siteGrid.jsp?docno="+trno+"&check=1"+"&brhid="+brhid);
     
-function funreload(event)
-{
-	var  trno=$("#quttrno").val();
-	var  brhid=$("#cmbbranch").val();
-	if(trno==""){
-		$.messager.alert('Message','Select Quotation','warning');
-		return 0;
-	}
-	 $("#overlay, #PleaseWait").show();
-	 if($('#reftype').val()=="ENQ" || $('#reftype').val()=="SRVE"){
-			$("#loadsubgriddata").load("estimationGrid.jsp?docno="+trno+"&check=1");
-	 } 
-	 
-	 $("#loadgriddata").load("quotationGrid.jsp?docno="+trno+"&revision="+$('#revision').val()+"&check=1"+"&brhid="+brhid);
-	 $("#loadsitegriddata").load("siteGrid.jsp?docno="+trno+"&check=1"+"&brhid="+brhid);
-	 
-	 if(parseInt($('#cmbscopegroup').val())==1){
-   	  	$('#cmbscopegroupchange').attr('disabled', false );
-   	  	$('#btnProcess').attr('disabled', false );
-     }
+    if(parseInt($('#cmbscopegroup').val()) == 1){
+        $('#cmbscopegroupchange').attr('disabled', false );
+        $('#btnProcess').attr('disabled', false );
+    }
 }
 
 function saveEst(revmsg){
-	$('#btnval').val("SE");
-	var rows1 = $("#qutDetSubGrid").jqxGrid('getrows');
-  	var reftype=$("#reftype").val();
-	var srno=0; 
-	var actid=0,val=0,estgridlen=0;
-  	for(var i=0 ; i < rows1.length ; i++){
-  		var chk1 = rows1[i].desc1;
-  		var chk2 = rows1[i].prodoc;
-  		if((typeof(chk1)!="undefined" && typeof(chk1)!="NaN" && chk1!="") || (typeof(prodoc)!="undefined" && typeof(prodoc)!="NaN" && prodoc!="")){  
-  			newTextBox = $(document.createElement("input"))
-		       .attr("type", "dil")
-		       .attr("id", "mate"+i)
-		       .attr("name", "mate"+i)
-		       .attr("hidden", "true"); 
-	 
-		    if(reftype=="DIR"){  
-     		    srno=srno+1;
-     	    }else{
-     		    srno=rows1[i].sitesrno;
-     	    }
-		    newTextBox.val(rows1[i].desc1+" :: "+rows1[i].prodoc+" :: "+rows1[i].psrno+" :: "+rows1[i].unitdocno+" :: "+rows1[i].qty+" :: "+rows1[i].amount+" :: "+rows1[i].total+" :: "+rows1[i].margin+" :: "+rows1[i].nettotal+" :: "+actid+" :: "+rows1[i].site+" :: "+rows1[i].stypeid+" :: "+srno+" :: "+rows1[i].marginper+" :: "+rows1[i].scopeid+" :: "+rows1[i].scopeamount+" :: "+rows1[i].stdprice+" :: "+rows1[i].lbrchg+" :: "+rows1[i].scopestdcost+" :: " );
-		    newTextBox.appendTo('form'); 
-		    val++;
-		    estgridlen++;
-  		} 
-  	}	
-  	$('#estimationgrdlen').val(estgridlen);  
-  	if(val==0){
-  		$.messager.alert('Message','There is no data to update!!!','warning');     
-	    return false;
-  	}
-  	$.messager.confirm('Message', revmsg+'<br><b>Do you want to save changes?<b>', function(r){  
-			if(r==false) {
-				return false; 
-			} else {
-				$('#frmqtDetails').submit();    
-			    return 1;
-			}
-	}); 
+    $('#btnval').val("SE");
+    var rows1 = $("#qutDetSubGrid").jqxGrid('getrows');
+    var reftype = $("#reftype").val();
+    var srno = 0; 
+    var actid = 0, val = 0, estgridlen = 0;
+    
+    for(var i=0 ; i < rows1.length ; i++){
+        var chk1 = rows1[i].desc1;
+        var chk2 = rows1[i].prodoc;
+        if((typeof(chk1)!="undefined" && typeof(chk1)!="NaN" && chk1!="") || (typeof(prodoc)!="undefined" && typeof(prodoc)!="NaN" && prodoc!="")){  
+            newTextBox = $(document.createElement("input")).attr("type", "dil").attr("id", "mate"+i).attr("name", "mate"+i).attr("hidden", "true"); 
+            if(reftype == "DIR"){  
+                srno = srno+1;
+            } else {
+                srno = rows1[i].sitesrno;
+            }
+            newTextBox.val(rows1[i].desc1+" :: "+rows1[i].prodoc+" :: "+rows1[i].psrno+" :: "+rows1[i].unitdocno+" :: "+rows1[i].qty+" :: "+rows1[i].amount+" :: "+rows1[i].total+" :: "+rows1[i].margin+" :: "+rows1[i].nettotal+" :: "+actid+" :: "+rows1[i].site+" :: "+rows1[i].stypeid+" :: "+srno+" :: "+rows1[i].marginper+" :: "+rows1[i].scopeid+" :: "+rows1[i].scopeamount+" :: "+rows1[i].stdprice+" :: "+rows1[i].lbrchg+" :: "+rows1[i].scopestdcost+" :: " );
+            newTextBox.appendTo('form'); 
+            val++;
+            estgridlen++;
+        } 
+    }	
+    $('#estimationgrdlen').val(estgridlen);  
+    if(val == 0){
+        $.messager.alert('Message','There is no data to update!!!','warning');     
+        return false;
+    }
+    $.messager.confirm('Message', revmsg+'<br><b>Do you want to save changes?<b>', function(r){  
+        if(r == false) {
+            return false; 
+        } else {
+            $('#frmqtDetails').submit();    
+            return 1;
+        }
+    }); 
 }
 
 function saveQot(revmsg){ 
-	$('#btnval').val("SQ");
-	var qut_nettotal=$('#qutnettotal').val();
-	var estimation_total=$('#estimationtotal').val();
-	if($('#reftype').val()=="ENQ"){
-		if(qut_nettotal<estimation_total){
-			$.messager.alert('Message','Amount Mismatch ','warning');   
-		    return false;
-		}
-	}
-	
-  	var rows1 = $("#qutDetGrid").jqxGrid('getrows');
-  	var val=0,quotgridlen=0;
-  	for(var i=0 ; i < rows1.length ; i++){
-		var chk1 = rows1[i].stypeid; 
-		if(typeof(chk1)!="undefined" && typeof(chk1)!="NaN" && chk1!="" && chk1!="0"){
-			newTextBox = $(document.createElement("input"))
-			       .attr("type", "dil")
-			       .attr("id", "service"+i)
-			       .attr("name", "service"+i)
-			       .attr("hidden", "true"); 
-			    
-			newTextBox.val(rows1[i].stypeid+" :: "+rows1[i].proname+" :: "+rows1[i].qty+" :: "+rows1[i].amount+" :: "+rows1[i].total+" :: "+rows1[i].desc1+" :: "+rows1[i].siteid+" :: "+rows1[i].unitid+" :: "+rows1[i].psrno+" :: "+rows1[i].scopeid+" :: "+rows1[i].scopeamount+" :: "+rows1[i].stdprice+" :: "+rows1[i].lbrchg+" :: "+rows1[i].scopestdcost+" :: ");
-			newTextBox.appendTo('form');
-			quotgridlen++;
-			val++;
-		}
-	}  
-  	$('#qutgridlen').val(quotgridlen);  
-  	 
-  	var rows2 = $("#siteGridID").jqxGrid('getrows');
-	$('#sitegridlen').val(rows2.length);
-	for(var i=0 ; i < rows2.length ; i++){
-		newTextBox = $(document.createElement("input"))
-		       .attr("type", "dil")
-		       .attr("id", "site"+i)
-		       .attr("name", "site"+i)
-		       .attr("hidden", "true"); 
-		    
-		newTextBox.val(rows2[i].site+" :: "+rows2[i].areaid+" :: "+rows2[i].rowno+" :: ");
-		newTextBox.appendTo('form');
-	}
-	  	
-  	if(val==0){
-  		$.messager.alert('Message','There is no data to update!!!','warning');           
-	    return false;  
-  	}
-  	$.messager.confirm('Message', revmsg+'<br><b>Do you want to save changes?<b>', function(r){  
-		if(r==false) {
-			return false; 
-		} else {
-			$('#frmqtDetails').submit();
-		    return 1;
-		}
+    $('#btnval').val("SQ");
+    var qut_nettotal = $('#qutnettotal').val();
+    var estimation_total = $('#estimationtotal').val();
+    if($('#reftype').val() == "ENQ"){
+        if(qut_nettotal < estimation_total){
+            $.messager.alert('Message','Amount Mismatch ','warning');   
+            return false;
+        }
+    }
+    
+    var rows1 = $("#qutDetGrid").jqxGrid('getrows');
+    var val = 0, quotgridlen = 0;
+    for(var i=0 ; i < rows1.length ; i++){
+        var chk1 = rows1[i].stypeid; 
+        if(typeof(chk1)!="undefined" && typeof(chk1)!="NaN" && chk1!="" && chk1!="0"){
+            newTextBox = $(document.createElement("input")).attr("type", "dil").attr("id", "service"+i).attr("name", "service"+i).attr("hidden", "true"); 
+            newTextBox.val(rows1[i].stypeid+" :: "+rows1[i].proname+" :: "+rows1[i].qty+" :: "+rows1[i].amount+" :: "+rows1[i].total+" :: "+rows1[i].desc1+" :: "+rows1[i].siteid+" :: "+rows1[i].unitid+" :: "+rows1[i].psrno+" :: "+rows1[i].scopeid+" :: "+rows1[i].scopeamount+" :: "+rows1[i].stdprice+" :: "+rows1[i].lbrchg+" :: "+rows1[i].scopestdcost+" :: ");
+            newTextBox.appendTo('form');
+            quotgridlen++;
+            val++;
+        }
+    }  
+    $('#qutgridlen').val(quotgridlen);  
+    
+    var rows2 = $("#siteGridID").jqxGrid('getrows');
+    $('#sitegridlen').val(rows2.length);
+    for(var i=0 ; i < rows2.length ; i++){
+        newTextBox = $(document.createElement("input")).attr("type", "dil").attr("id", "site"+i).attr("name", "site"+i).attr("hidden", "true"); 
+        newTextBox.val(rows2[i].site+" :: "+rows2[i].areaid+" :: "+rows2[i].rowno+" :: ");
+        newTextBox.appendTo('form');
+    }
+    
+    if(val == 0){
+        $.messager.alert('Message','There is no data to update!!!','warning');           
+        return false;  
+    }
+    $.messager.confirm('Message', revmsg+'<br><b>Do you want to save changes?<b>', function(r){  
+        if(r == false) {
+            return false; 
+        } else {
+            $('#frmqtDetails').submit();
+            return 1;
+        }
     }); 
 }
-function saveReQot()
-{
-	var  brhid=$("#cmbbranch").val();
-	var enqno=document.getElementById("enqno").value;
-	var reftype=$('#reftype').val(); 
-	
-	var rows1 = $("#qutDetGrid").jqxGrid('getrows');
-	  var val=0;
-	  for(var i=0 ; i < rows1.length ; i++){  
-			var chk1 = rows1[i].stypeid; 
-			if(typeof(chk1)!="undefined" && typeof(chk1)!="NaN" && chk1!="" && chk1!="0"){
-			   val++;
-			}
-	  }  
-	  if(val==0){
-	  		$.messager.alert('Message','Please submit before reloading quotation!!!','warning');                  
-		    return false;  
-	  }
-	  
-	 $("#qutDetGrid").jqxGrid('clear');
-	 $("#loadgriddata").load("quotationGrid.jsp?enqno="+enqno+"&reftype="+reftype+"&load=2"+"&check=1"+"&brhid="+brhid);
+
+function saveReQot() {
+    var brhid = $("#cmbbranch").val();
+    var enqno = document.getElementById("enqno").value;
+    var reftype = $('#reftype').val(); 
+    
+    var rows1 = $("#qutDetGrid").jqxGrid('getrows');
+    var val = 0;
+    for(var i=0 ; i < rows1.length ; i++){  
+        var chk1 = rows1[i].stypeid; 
+        if(typeof(chk1)!="undefined" && typeof(chk1)!="NaN" && chk1!="" && chk1!="0"){
+            val++;
+        }
+    }  
+    if(val == 0){
+        $.messager.alert('Message','Please submit before reloading quotation!!!','warning');                  
+        return false;  
+    }
+      
+    $("#qutDetGrid").jqxGrid('clear');
+    $("#loadgriddata").load("quotationGrid.jsp?enqno="+enqno+"&reftype="+reftype+"&load=2"+"&check=1"+"&brhid="+brhid);
 }
 
 function fundisamt(){
-	var  Total=parseFloat(document.getElementById('qutnettotal').value);
-	var  disamt=parseFloat(document.getElementById('txtdiscount').value);
-	var netval=parseFloat(Total)-parseFloat(disamt);
-	funRoundAmt(netval,"txtnettotal");    
+    var Total = parseFloat(document.getElementById('qutnettotal').value);
+    var disamt = parseFloat(document.getElementById('txtdiscount').value);
+    var netval = parseFloat(Total) - parseFloat(disamt);
+    funRoundAmt(netval,"txtnettotal");    
 }
-	
-function disablebtn(){
+
+function disablebtn() {
+    // Disabled functions retained from original code block
 }
 
 function funchkrev(){
-	if(document.getElementById("chkrev").checked){
-		document.getElementById("hidchkrev").value = 1;
-	} else{
-		document.getElementById("hidchkrev").value = 0;
-	}
+    if(document.getElementById("chkrev").checked){
+        document.getElementById("hidchkrev").value = 1;
+    } else {
+        document.getElementById("hidchkrev").value = 0;
+    }
 }
 
 function funchkestrev(){    
-	if(document.getElementById("chkestrev").checked){
-		document.getElementById("hidchkestrev").value = 1;        
-	} else{
-		document.getElementById("hidchkestrev").value = 0;
-	}
+    if(document.getElementById("chkestrev").checked){
+        document.getElementById("hidchkestrev").value = 1;        
+    } else {
+        document.getElementById("hidchkestrev").value = 0;
+    }
 }
-	
+
 function revisionvalidation(value){
-	var revmsg="";
-	var x = new XMLHttpRequest();
-	x.onreadystatechange = function(){
-		if(x.readyState == 4 && x.status == 200){
-			var items = x.responseText.split('####');
-			if(value=="Save Estimation"){
-				if(document.getElementById("chkestrev").checked){
-					revmsg="Quotation revision no is "+items[1]+"<br>Estimation revising to "+(parseInt(items[0])+1);
-					saveEst(revmsg);
-				}else{
-					saveEst(revmsg);
-				}
-			}else if(value=="Save Quotation"){
-				if(document.getElementById("chkrev").checked){
-					revmsg="Estimation revision no is "+items[0]+"<br> Quotation revising to "+(parseInt(items[1])+1);
-					saveQot(revmsg);
-				}else{
-					saveQot(revmsg);  
-				}
-			}else{}
-		}else{}
-	}
-	x.open("GET","getRevisions.jsp?trno="+$('#quttrno').val());   
-	x.send();   
+    var revmsg = "";
+    var x = new XMLHttpRequest();
+    x.onreadystatechange = function(){
+        if(x.readyState == 4 && x.status == 200){
+            var items = x.responseText.split('####');
+            if(value == "Save Estimation"){
+                if(document.getElementById("chkestrev").checked){
+                    revmsg = "Quotation revision no is "+items[1]+"<br>Estimation revising to "+(parseInt(items[0])+1);
+                    saveEst(revmsg);
+                } else {
+                    saveEst(revmsg);
+                }
+            } else if(value == "Save Quotation"){
+                if(document.getElementById("chkrev").checked){
+                    revmsg = "Estimation revision no is "+items[0]+"<br> Quotation revising to "+(parseInt(items[1])+1);
+                    saveQot(revmsg);
+                } else {
+                    saveQot(revmsg);  
+                }
+            }
+        }
+    }
+    x.open("GET","getRevisions.jsp?trno="+$('#quttrno').val());   
+    x.send();   
 }   
-	
 </script>
 </head>
 
@@ -883,6 +873,14 @@ function revisionvalidation(value){
             
             <div class="filter-card">
                 <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">Branch</td>
+                        <td>
+                            <select id="cmbbranch" name="cmbbranch" onchange="funreload(event);">
+                                <option value="">--Select Branch--</option>
+                            </select>
+                        </td>
+                    </tr>
                     <tr>
                         <td class="label-cell">From</td>
                         <td><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div></td>
@@ -937,8 +935,8 @@ function revisionvalidation(value){
                     <input type="hidden" id="hidchkestrev" name="hidchkestrev" value='<s:property value="hidchkestrev"/>'/>
                 </div>
                 
-                <div class="release-actions">
-                    <button type="button" id="btnsaveest" name="btnsaveest" class="btn-primary btn-secondary" onclick="revisionvalidation(this.innerHTML);">Save Estimation</button>
+                <div class="release-actions" style="margin-top: 5px;">
+                    <button type="button" id="btnsaveest" name="btnsaveest" class="btn-primary" onclick="revisionvalidation(this.innerHTML);">Save Estimation</button>
                 </div>
             </div>
 
@@ -977,7 +975,7 @@ function revisionvalidation(value){
                     <input type="hidden" id="hidchkrev" name="hidchkrev" value='<s:property value="hidchkrev"/>'/>
                 </div>
 
-                <div class="release-actions">
+                <div class="release-actions" style="margin-top: 5px;">
                     <button type="button" id="btnsavereqot" name="btnsavereqot" class="btn-primary btn-secondary" onclick="saveReQot();">Reload Quotation</button>
                     <button type="button" id="btnsaveqot" name="btnsaveqot" class="btn-primary" onclick="revisionvalidation(this.innerHTML);">Save Quotation</button>
                 </div>

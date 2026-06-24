@@ -9,53 +9,286 @@
 <title>GatewayERP(i)</title>
 <link href="../../../../css/dashboard.css" media="screen" rel="stylesheet" type="text/css" />  
 
+<style type="text/css">
+/* ===== MASTER LAYOUT COMPLIANT WITH REFERENCE UI ===== */
+body, html, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background-color: #f4f7f9;
+}
+
+/* Sidebar Wrapper Layout */
+.sidebar-filters {
+    width: 330px;
+    flex: 0 0 330px;
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 2;
+}
+
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 20px 25px;
+}
+
+/* Sidebar Custom Scrollbar */
+.sidebar-scroll-content::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar-scroll-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.sidebar-scroll-content::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
+
+/* UI Cards Panels */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Layout Form Filter Grids */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 10px; 
+}
+
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px; 
+    color: #4e5e71;
+    font-weight: 600;
+    width: 90px;
+    white-space: nowrap; 
+    line-height: 1.2;
+}
+
+/* ===== ENFORCED UNIFORM 24px GRID INPUTS ELEMENTS ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;
+    padding: 2px 8px;
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff !important;
+    box-shadow: none !important;
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/* Specific styling for Textarea & Checkbox */
+textarea, .release-filter-table textarea {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px;
+    font-size: 12px;
+    background-color: #ffffff !important;
+    box-sizing: border-box;
+    color: #333;
+    resize: none;
+    outline: none;
+}
+
+.release-filter-table input[type="checkbox"] {
+    width: auto;
+    height: auto;
+    margin: 0;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.checkbox-center-row {
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
+    margin-bottom: 4px;
+}
+
+.checkbox-center-row label {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #4e5e71;
+    cursor: pointer;
+}
+
+/* Readonly fields styling setup */
+input[readonly]:not([readonly="false"]), 
+select[readonly]:not([readonly="false"]),
+input:disabled, select:disabled, textarea:disabled,
+.release-filter-table input[readonly] {
+    background-color: #f3f6f9 !important; 
+    color: #555;
+    cursor: default;
+}
+
+/* Search Box Wrapper Controls */
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.search-input-wrapper input[type="text"] {
+    width: 100%;
+    padding-right: 26px; 
+    cursor: pointer;
+}
+
+.search-icon {
+    position: absolute;
+    right: 6px;
+    width: 12px;
+    height: 12px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    pointer-events: none; 
+    opacity: 0.8;
+}
+
+/* Form Layout Container Blocks for JQX widgets */
+.release-filter-table div[id^="fromdate"],
+.release-filter-table div[id^="todate"],
+.release-filter-table div[id^="followupdate"],
+.release-filter-table div[id^="date"] {
+    width: 100%;
+}
+
+/* ===== REQUIRED VISUAL BLUE BUTTON SCALING DEFINITIONS ===== */
+.btn-primary {
+    height: 28px;
+    background-color: #1e6bf2;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: #1656c7;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+    background-color: #9abaf5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.action-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.action-grid button {
+    flex: 1;
+    min-width: 45%; 
+}
+
+/* Flexible Right Workspace Panel */
+.main-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow: auto;
+    background: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* Grid Cards */
+.grid-card {
+    background: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+</style>
+
 <script type="text/javascript">
 
 	$(document).ready(function () {
-		
-		
-		 $("#date").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-		 
-		   $("#followupdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-		   
-		   $("#fromdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-			 $("#todate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
+		 // Enforced 24px JQX Criteria
+		 $("#date").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+		 $("#followupdate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+		 $("#fromdate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+		 $("#todate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
 			
-			 var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-			 var onemounth=new Date(new Date(fromdates).setMonth(fromdates.getMonth()-1)); 
+		 var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
+		 var onemounth=new Date(new Date(fromdates).setMonth(fromdates.getMonth()-1)); 
 			  
-		     $('#fromdate').jqxDateTimeInput('setDate', new Date(onemounth));
-		     $('#todate').on('change', function (event) {
-					
-				   var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-				 lead
-				  // out date
-				 	 var todates=new Date($('#todate').jqxDateTimeInput('getDate')); //del date
-				 	 
-				   if(fromdates>todates){
-					   
-					   $.messager.alert('Message','To Date Less Than From Date  ','warning');   
-					 
-				   return false;
-				  }})
+		 $('#fromdate').jqxDateTimeInput('setDate', new Date(onemounth));
+		 $('#todate').on('change', function (event) {
+			   var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
+			   var todates=new Date($('#todate').jqxDateTimeInput('getDate')); //del date
+			   if(fromdates>todates){
+				   $.messager.alert('Message','To Date Less Than From Date  ','warning');   
+			       return false;
+			  }
+		 });
 		   
 		 $("body").prepend('<div id="overlay" class="ui-widget-overlay" style="z-index: 1; display: none;"></div>');
 	     $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:180px;right:550px;'><img src='../../../../icons/31load.gif'/></div>");
 
 	     $('#salesmanwindow').jqxWindow({ width: '25%', height: '60%',  maxHeight: '62%' ,maxWidth: '60%' , title: 'Salesman Search'  , theme: 'energyblue', position: { x: 250, y: 120 }, keyboardCloseKey: 27});
-		   $('#salesmanwindow').jqxWindow('close');
+		 $('#salesmanwindow').jqxWindow('close');
 	     
-		   
-		   $('#txtsalesman').dblclick(function(){
-		  	    $('#salesmanwindow').jqxWindow('open');
-		   
-		  	//  salesmanSearchContent('salesmansearch.jsp');
-		  	  salesmanSearchContent('salesmanMasterSearch.jsp?', $('#salesmanwindow'));
+		 $('#txtsalesman').dblclick(function(){
+		  	 $('#salesmanwindow').jqxWindow('open');
+		  	 salesmanSearchContent('salesmanMasterSearch.jsp?', $('#salesmanwindow'));
 	     });
 	 
-		   getCategory();
+		 getCategory();
 	});
-	
 	
 	function getProcess() {
 		var x = new XMLHttpRequest();
@@ -79,33 +312,7 @@
 		x.send();
 	}
 	
-	/* function getPriority() {
-		var x = new XMLHttpRequest();
-		x.onreadystatechange = function() {
-			if (x.readyState == 4 && x.status == 200) {
-				var items = x.responseText;
-				items = items.split('####');
-				
-				var srno  = items[0].split(",");
-				var process = items[1].split(",");
-				var optionsbranch = '<option value="" selected>-- Select -- </option>';
-				for (var i = 0; i < process.length; i++) {
-					optionsbranch += '<option  value="' + srno[i].trim()+'">'
-					+ process[i] + '</option>';
-				}
-				$("select#cmbpriority").html(optionsbranch);
-				
-			} else {}
-		}
-		x.open("GET","getPriority.jsp", true);
-		x.send();
-	} */
-	
-	
-  
-	
 	function disable(){
-		 
 		 $('#cmbcategory').attr("disabled",true);
 		 $('#date').jqxDateTimeInput({ disabled: true});
 		 $('#cmbprocess').attr("disabled",true);
@@ -116,9 +323,7 @@
 		 $("#amcfollowupGrid").jqxGrid('clear');
 		 $("#amcfollowupGrid").jqxGrid("addrow", null, {}); 
 		 $("#amcfollowupGrid").jqxGrid({ disabled: true}); 
-		
 	}
-	
 	
 	function funreload(event){
 		disable();
@@ -133,7 +338,6 @@
 	}
 	
 	function funUpdate(event){     
-		
 		 var rdocno=$('#txtrdocno').val();
 		 var date =  $('#date').val();
 		 var remarks = $('#txtremarks').val();
@@ -146,36 +350,30 @@
 		 var pstatus=$("#cmbpriority").val();
 		 var cmbcat=$("#cmbcategory").val();
 		 var salid=$("#txtsalid").val();
-		if(proid==''){
+		 if(proid==''){
 			 $.messager.alert('Message','Choose a Process.','warning');
 			 return 0;
 		 }
-if(proid==3 && pstatus=="")
-		{
-	 $.messager.alert('Message','Choose a Status.','warning');
-	 return 0;
+        if(proid==3 && pstatus=="") {
+	         $.messager.alert('Message','Choose a Status.','warning');
+	         return 0;
 		}
-if(proid==4 && cmbcat=="")
-{
-$.messager.alert('Message','Choose a Category.','warning');
-return 0;
-}
-if(proid==5 && salid=="")
-{
-$.messager.alert('Message','Select a Salesman.','warning');
-return 0;
-}
-if(remarks==''){
+        if(proid==4 && cmbcat=="") {
+            $.messager.alert('Message','Choose a Category.','warning');
+            return 0;
+        }
+        if(proid==5 && salid=="") {
+            $.messager.alert('Message','Select a Salesman.','warning');
+            return 0;
+        }
+        if(remarks==''){
 			 $.messager.alert('Message','Please Enter Remarks.','warning');   
 			 return 0;
 		 }
 		 $.messager.confirm('Message', 'Do you want to save changes?', function(r){
-		     	if(r==false)
-		     	  {
+		     	if(r==false) {
 		     		return false; 
-		     	  }
-		     	else{
-		     		
+		     	} else{
 		     		saveGridData(rdocno,date,remarks,proid,priorityid,branchid,userid,clientacid,catid,salid);	
 		     	}
 		});
@@ -185,7 +383,6 @@ if(remarks==''){
 		 if(document.getElementById("chckfollowup").checked){
 			 document.getElementById("hidchckfollowup").value = 1; 
 			 $('#cmbprocess').attr("disabled",false);
-			/*  $('#cmbpriority').attr("disable",false); */
 			 $('#followupdate').jqxDateTimeInput({ disabled: false});
 			 $('#fromdate').jqxDateTimeInput({ disabled: true});
 			 $('#todate').jqxDateTimeInput({ disabled: true});
@@ -199,66 +396,54 @@ if(remarks==''){
 	 }
 		
 	function getsalesman(event){
-
 		var x= event.keyCode;
-	 	 if(x==114){
+	 	if(x==114){
 	 		 $('#salesmanwindow').jqxWindow('open');
-	 		// changeContent('salesmansearch.jsp');  
 	 		 salesmanSearchContent('salesmanMasterSearch.jsp?', $('#salesmanwindow'));
-	    	 }
-	 	 else{
-	 		 
-	 		 }
-	 	 }
+	    }
+	}
+
 	function salesmanSearchContent(url) {
 		 $.get(url).done(function (data) {
-		$('#salesmanwindow').jqxWindow('setContent', data);
-	           	}); 
-	 	}
-	function saveGridData(rdocno,date,remarks,proid,priorityid,branchid,userid,clientacid,catid,salid){
+		    $('#salesmanwindow').jqxWindow('setContent', data);
+	    }); 
+	}
 
+	function saveGridData(rdocno,date,remarks,proid,priorityid,branchid,userid,clientacid,catid,salid){
 		var x=new XMLHttpRequest();
 		x.onreadystatechange=function(){
 		if (x.readyState==4 && x.status==200){
-	     			
 				var items=x.responseText;
-				if(parseInt(items)=="1")  
-				{	
+				if(parseInt(items)=="1") {	
 				 $('#cmbprocess').val('');
-				$('#date').val(new Date());
-				$('#txtbrchid').val('');
-				$('#txtremarks').val('');
-				$('#txtrdocno').val('');
-				$('#txtcldocno').val('');
-				$('#txtuserid').val('');
-				$('#txtsalid').val('');
-				$('#cmbpriority').val(''); 
-				$('#txtsalesman').val('');
+				 $('#date').val(new Date());
+				 $('#txtbrchid').val('');
+				 $('#txtremarks').val('');
+				 $('#txtrdocno').val('');
+				 $('#txtcldocno').val('');
+				 $('#txtuserid').val('');
+				 $('#txtsalid').val('');
+				 $('#cmbpriority').val(''); 
+				 $('#txtsalesman').val('');
+				 $('#cmbcategory').val('');
+				 $('#hidcmbcategory').val('');
+				 $('#hidcmbacgroup').val(''); 
+				 $("#hidcatid").val('');
 				
-				$('#cmbcategory').val('');
-				$('#hidcmbcategory').val('');
-				$('#hidcmbacgroup').val(''); 
-				$("#hidcatid").val('');
-				
-				
-				$.messager.alert('Message', '  Record Successfully Updated ');
-				funreload(event); 
-				disable();
+				 $.messager.alert('Message', '  Record Successfully Updated ');
+				 funreload(event); 
+				 disable();
 				}
-				else
-				{
-				$.messager.alert('Message', '  Not Updated  ');
+				else {
+				 $.messager.alert('Message', '  Not Updated  ');
 				}
-				}
+			}
 		}
-    x.open("GET","saveData.jsp?trdocno="+rdocno+"&fldate="+date+"&remark="+remarks+"&bibpid="+proid+"&leadstatus="+priorityid+"&brchid="+branchid+"&userid="+userid+"&clientacid="+clientacid+"&catid="+catid+"&salid="+salid,true);			
-	x.send();
-			
+        x.open("GET","saveData.jsp?trdocno="+rdocno+"&fldate="+date+"&remark="+remarks+"&bibpid="+proid+"&leadstatus="+priorityid+"&brchid="+branchid+"&userid="+userid+"&clientacid="+clientacid+"&catid="+catid+"&salid="+salid,true);			
+	    x.send();
 	}
 	
-	function funtxtenable(value)
-	{
-		
+	function funtxtenable(value) {
 		if(value=="3"){
 			$('#cmbpriority').attr("disabled",false);
 			$('#cmbcategory').attr("disabled",true);
@@ -274,46 +459,34 @@ if(remarks==''){
 			 $('#cmbpriority').attr("disabled",true);
 			 $('#txtsalesman').attr("disabled",false);
 		}
-		
 	}
 	
-	
-	
 	function funExportBtn(){
-	    
+	}
 
-		//JSONToCSVCon(amcrenewalexcel, 'AMC Renewal Followup', true);
-		   }
 	  function getsalesmanonload(){
-			
 			var x=new XMLHttpRequest();
 			x.onreadystatechange=function(){
-			if (x.readyState==4 && x.status==200)
-				{
+			if (x.readyState==4 && x.status==200) {
 				 	var res= x.responseText;
-					 var ressplt=res.split("::");
-					 var salname=ressplt[0].trim();
-					 var salid=ressplt[1].trim();
+					var ressplt=res.split("::");
+					var salname=ressplt[0].trim();
+					var salid=ressplt[1].trim();
 				 	if(salid>0){
 				 		document.getElementById("txtsalesman").value=salname;
 				 		document.getElementById("txtsalid").value=salid;
-						  }
 					}
-			       else
-				  {}
+			    }
 		     }
-		      x.open("GET",'salesmanonload.jsp',true);
+		     x.open("GET",'salesmanonload.jsp',true);
 		     x.send();
-		    
-		   }
-	  
+	   }
 	  
 	  function getSalesman() {
 			var x = new XMLHttpRequest();
 			x.onreadystatechange = function() {
 				if (x.readyState == 4 && x.status == 200) {
 					var items = x.responseText;
-				//alert(items);
 					items = items.trim().split('####');
 					var salIdItems  = items[0].split(",");
 					var salItems = items[1].split(",");
@@ -322,16 +495,14 @@ if(remarks==''){
 					var userid='<%=session.getAttribute("USERID").toString()%>';
 					var first=salIdItems[0].trim();
 					var frstsalusrlink=salusrlink[0].trim();
-					/* if(userid!=first){
-						optionssal += '<option value="" selected>--Select--</option>';
-					} */
+
 					for (var i = 0; i < salItems.length; i++) {
 						optionssal += '<option value="' + salIdItems[i].trim() + '">'
 								      + salItems[i] + '</option>';
 						
 					}
 					if(userid!=frstsalusrlink){
-					optionssal += '<option value="a">All</option>';
+					    optionssal += '<option value="a">All</option>';
 					}
 					$("select#cmbsalesman").html(optionssal);
 					 if ($('#hidcmbsalesman').val() != null) {
@@ -343,27 +514,20 @@ if(remarks==''){
 					 else{
 						 $('#cmbsalesman').val("a");
 					 }
-				} else {
-					//alert("Error");
 				}
 			}
 			x.open("GET",'salesmanonload.jsp', true);
 			x.send();
 		}
+
 	  function getCategoryAccountGroup(a) {
-			
 			var x = new XMLHttpRequest();
 			x.onreadystatechange = function() {
 				if (x.readyState == 4 && x.status == 200) {
 					var items = x.responseText.trim();
 					var dat=items.split("###");
-					
 				    $('#hidcmbacgroup').val(dat[0]);
 				    $('#hidcatid').val(dat[1]);
-					/* if ($('#hidcmbacgroup').val() != "") {
-						$('#cmbacgroup').val($('#hidcmbacgroup').val());
-					} */
-				} else {
 				}
 			}
 			x.open("GET", "getCategoryAccountGroup.jsp?category="+a, true);
@@ -371,7 +535,6 @@ if(remarks==''){
 		} 
 	  
 	  function getCategory() {
-			 
 			var x = new XMLHttpRequest();
 			x.onreadystatechange = function() {
 				if (x.readyState == 4 && x.status == 200) {
@@ -385,10 +548,7 @@ if(remarks==''){
 								+ categoryItems[i] + '</option>';
 					}
 					$("select#cmbcategory").html(optionscategory);
-					
-				} else {
 				}
-				//alert("=========="+$('#hidcmbcategory').val());
 				if ($('#hidcmbcategory').val() != null) {
 					$('#cmbcategory').val($('#hidcmbcategory').val());
 				}
@@ -397,247 +557,24 @@ if(remarks==''){
 			x.send();
 		}
 
-		
 </script>
-
-<style>
-/* ===== GLOBAL RESET ===== */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* Prevents the whole page from double-scrolling */
-    background-color: #f4f7f9;
-    font-family: Tahoma, Arial, sans-serif; /* Safe native fonts */
-}
-
-#mainBG, .hidden-scrollbar {
-    height: 100%;
-}
-
-table, td, th, input, select, textarea, button, span, div, label, p {
-    font-family: inherit; /* Allows your app's native fonts to cascade properly */
-}
-
-/* ===== THE FIXED SIDEBAR ===== */
-.fixed-sidebar-container {
-    position: fixed; 
-    top: 0;                   
-    bottom: 0; 
-    left: 0;
-    width: 310px; 
-    overflow-y: auto; 
-    background: #fff;
-    border-right: 1px solid #e1e8ed;
-    box-shadow: 2px 0 8px rgba(0,0,0,.05);
-    z-index: 10; /* POPUP FIX: Search windows will float over this */
-}
-
-.fixed-sidebar-container::-webkit-scrollbar {
-    width: 6px;
-}
-.fixed-sidebar-container::-webkit-scrollbar-track {
-    background: transparent;
-}
-.fixed-sidebar-container::-webkit-scrollbar-thumb {
-    background-color: #cbd5e1;
-    border-radius: 10px;
-}
-
-.sidebar-content-padding {
-    padding: 15px;
-    padding-bottom: 100px; 
-}
-
-/* ===== INDEPENDENT SCROLLABLE RIGHT COLUMN ===== */
-.scrollable-column {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    overflow-y: auto;
-}
-.scrollable-column::-webkit-scrollbar {
-    width: 8px;
-}
-.scrollable-column::-webkit-scrollbar-track {
-    background: #f0f4f8;
-}
-.scrollable-column::-webkit-scrollbar-thumb {
-    background-color: #cbd5e1;
-    border-radius: 10px;
-}
-
-/* ===== CARDS & HEADERS ===== */
-.filter-card {
-    background: #f8fafc;
-    border: 1px solid #e3e8ee;
-    border-radius: 12px;
-    padding: 15px 12px;
-    margin-bottom: 15px;
-}
-
-.card-header {
-    font-size: 13px; 
-    font-weight: 700; 
-    color: #334155; 
-    margin-bottom: 10px; 
-    border-bottom: 1px solid #e3e8ee;
-    padding-bottom: 6px;
-}
-
-/* ===== TABLES & LABELS ===== */
-/* Forces a tighter, balanced vertical gap between rows */
-.release-filter-table td {
-    padding-bottom: 8px !important; /* Dialed down from 15px */
-    vertical-align: middle;
-}
-
-/* Removes the padding from the very last row */
-.release-filter-table tr:last-child td {
-    padding-bottom: 0 !important;
-}
-
-.release-filter-table .label-cell {
-    text-align: right;
-    padding-right: 12px;
-    font-size: 12px; 
-    color: #4e5e71;
-    font-weight: 600;
-    width: 100px; 
-    white-space: nowrap; 
-    line-height: 1.2;
-}
-
-/* ===== UNIFORM INPUTS ===== */
-input[type="text"], select,
-.release-filter-table input[type="text"],
-.release-filter-table select {
-    width: 100%;
-    height: 28px; /* INCREASED from 24px so the text isn't squished */
-    padding: 2px 8px;
-    border: 1px solid #ccd6e0 !important;
-    border-radius: 4px;
-    font-size: 12px;
-    background-color: #ffffff !important; 
-    box-shadow: none !important; 
-    box-sizing: border-box;
-    color: #333;
-    outline: none;
-}
-
-input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
-}
-
-.release-filter-table input[type="checkbox"] {
-    width: auto;
-    height: auto;
-    margin: 0;
-    vertical-align: middle;
-    cursor: pointer;
-}
-
-textarea, .release-filter-table textarea {
-    width: 100%;
-    padding: 6px 8px;
-    border: 1px solid #ccd6e0;
-    border-radius: 4px;
-    font-size: 12px;
-    background-color: #ffffff;
-    box-sizing: border-box;
-    color: #333;
-    resize: none;
-}
-
-/* ===== STRICT DISABLED & READONLY STYLING ===== */
-input[readonly], select[readonly], textarea[readonly],
-input:disabled, select:disabled, textarea:disabled,
-input[disabled="true"], select[disabled="true"], textarea[disabled="true"] {
-    background-color: #e2e8f0 !important; /* A darker, very obvious grey */
-    color: #64748b !important; /* Faded text */
-    cursor: not-allowed !important; /* Forces the red circle/slash 'locked' icon */
-    border-color: #cbd5e1 !important;
-    opacity: 1 !important; /* Prevents Safari/Chrome from washing out the color */
-}
-
-/* ===== SEARCH INFRASTRUCTURE (No Clear Button) ===== */
-.search-input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-}
-.search-input-wrapper input[type="text"] {
-    width: 100%;
-    padding-right: 26px; 
-    cursor: pointer;
-}
-.search-icon {
-    position: absolute;
-    right: 6px;
-    width: 12px;
-    height: 12px;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
-    background-size: cover;
-    background-repeat: no-repeat;
-    pointer-events: none; 
-    opacity: 0.8;
-}
-
-/* jqx date containers */
-.release-filter-table div[id^="fromdate"],
-.release-filter-table div[id^="todate"],
-.release-filter-table div[id^="followupdate"],
-.release-filter-table div[id^="date"] {
-    width: 100%;
-}
-
-/* ===== BUTTONS ===== */
-.btn-submit {
-    width: 100%;
-    height: 30px;
-    padding: 0 12px;
-    background: #2563eb;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    line-height: 30px;
-    margin-top: 5px;
-}
-.btn-submit:hover {
-    background: #1d4ed8;
-}
-.release-actions {
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;
-}
-</style>
 </head>
+
 <body onload="getBranch();getProcess();disable();followupcheck();getSalesman();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
 
-<table width="100%" cellspacing="0" cellpadding="0" style="height: 100%;">
-<tr>
+<div class="master-container">
 
-<!-- Spacer Cell: Keeps the layout from collapsing -->
-<td width="310" style="width: 310px; min-width: 310px; padding: 0;">
-    
-    <!-- THE FIXED SIDEBAR -->
-    <div class="fixed-sidebar-container">
-        <div class="sidebar-content-padding">
-            
-            <div class="filter-card">
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px; margin-bottom: 0;">
                 <jsp:include page="../../heading.jsp"></jsp:include>
             </div>
+        </div>
 
-            <!-- Primary Filters Card -->
+        <div class="sidebar-scroll-content">
+            
             <div class="filter-card">
                 <table class="release-filter-table">
                     <tr>
@@ -651,9 +588,9 @@ input[disabled="true"], select[disabled="true"], textarea[disabled="true"] {
                     <tr>
                         <td class="label-cell"></td>
                         <td>
-                            <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 2px;">
+                            <div class="checkbox-center-row">
                                 <input type="checkbox" id="chckfollowup" name="chckfollowup" value="" onchange="followupcheck();" onclick="$(this).attr('value', this.checked ? 1 : 0)" /> 
-                                <label for="chckfollowup" style="font-size: 11.5px; font-weight: 600; color: #4e5e71; cursor: pointer;">Enable FollowUp</label>
+                                <label for="chckfollowup">Enable FollowUp</label>
                             </div>
                         </td>
                     </tr>
@@ -672,7 +609,6 @@ input[disabled="true"], select[disabled="true"], textarea[disabled="true"] {
                 </table>
             </div>
 
-            <!-- Detail Filters Card -->
             <div class="filter-card">
                 <table class="release-filter-table">
                     <tr>
@@ -719,12 +655,11 @@ input[disabled="true"], select[disabled="true"], textarea[disabled="true"] {
                     </tr>
                 </table>
 
-                <div class="release-actions">
-                    <button type="button" class="btn-submit" id="btnupdate" name="btnupdate" onclick="funUpdate(event);">Update</button>
+                <div class="action-grid">
+                    <button type="button" class="btn-primary" id="btnupdate" name="btnupdate" onclick="funUpdate(event);">Update</button>
                 </div>
             </div>
 
-            <!-- All Hidden Fields -->
             <input type="hidden" id="hidchckfollowup" name="hidchckfollowup" value='<s:property value="hidchckfollowup"/>'/>
             <input type="hidden" id="hidcmbsalesman" name="hidcmbsalesman" value='<s:property value="hidcmbsalesman"/>'/>
             <input type="hidden" id="hidcmbcategory" name="hidcmbcategory" value='<s:property value="hidcmbcategory"/>'/>
@@ -740,38 +675,22 @@ input[disabled="true"], select[disabled="true"], textarea[disabled="true"] {
         </div>
     </div>
 
-</td>
-
-<!-- Main Grid Cell (Content Area) -->
-<td style="height: 100%; vertical-align: top; position: relative; padding: 0; background: #fff;">
-    <!-- Independent Right Side Scroller -->
-    <div class="scrollable-column">
-        <div style="padding: 15px;">
-            <table width="100%">
-                <tr>
-                    <td>
-                        <div id="leadFollowupDiv">
-                            <jsp:include page="leadMngmtFollowupGrid.jsp"></jsp:include>
-                        </div>
-                        <br/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div id="detailDiv">
-                            <jsp:include page="leadMngmtDetailGrid.jsp"></jsp:include>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+    <div class="main-content-area">
+        <div class="grid-card">
+            <div id="leadFollowupDiv">
+                <jsp:include page="leadMngmtFollowupGrid.jsp"></jsp:include>
+            </div>
+        </div>
+        
+        <div class="grid-card">
+            <div id="detailDiv">
+                <jsp:include page="leadMngmtDetailGrid.jsp"></jsp:include>
+            </div>
         </div>
     </div>
-</td>
 
-</tr>
-</table>
+</div>
 
-<!-- Modal Containers -->
 <div id="salesmanwindow">
     <div></div>
 </div>

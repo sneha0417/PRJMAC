@@ -11,197 +11,144 @@
 <link href="../../../../css/dashboard.css" media="screen" rel="stylesheet" type="text/css" />  
 <script type="text/javascript" src="<%=contextPath%>/js/ajaxfileupload.js"></script>
 <script type="text/javascript" src="<%=contextPath%>/js/resample.js"></script>
+
 <style type="text/css">
-
-.myButtons {
-	-moz-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	-webkit-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-size:8pt;
-	padding:3px 17px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
-}
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
-}
-.myButtons:active {
-	position:relative;
-	top:1px;
-}
-
-</style>
-<style>
-/* ===== GLOBAL RESET ===== */
-html, body {
+/* ===== MASTER LAYOUT COMPLIANT WITH REFERENCE UI ===== */
+body, html, #mainBG, .hidden-scrollbar {
+    height: 100%;
     margin: 0;
-    padding: 0;
+    overflow: hidden;
+}
+
+form {
+    height: 100%;
+    margin: 0;
+}
+
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
     background-color: #f4f7f9;
-    font-family: Tahoma, Arial, sans-serif; 
 }
 
-table, td, th, input, select, textarea, button, span, div, label, p {
-    font-family: inherit; 
-}
-
-/* ===== TRUE FIXED SIDEBAR (IMMUNE TO ERP STYLES) ===== */
-.sidebar-column {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 310px !important;
-
-    height: 100vh !important;
-    max-height: 100vh !important;
-
-    overflow-y: scroll !important;
-    overflow-x: hidden !important;
-
+/* Sidebar Wrapper Layout */
+.sidebar-filters {
+    width: 330px;
+    flex: 0 0 330px;
     background: #fff;
     border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     box-shadow: 2px 0 8px rgba(0,0,0,.05);
-    z-index: 9999;
-    box-sizing: border-box;
+    z-index: 2;
 }
 
-.sidebar-column::-webkit-scrollbar { width: 6px; }
-.sidebar-column::-webkit-scrollbar-track { background: transparent; }
-.sidebar-column::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
-
-.sidebar-content-padding {
-    padding: 15px;
-    padding-bottom: 300px !important;
-    min-height: max-content;
-    box-sizing: border-box;
-}
-/* ===== MAIN CONTENT AREA ===== */
-.main-column {
-    margin-left: 310px !important; /* Pushes content exactly past the fixed sidebar */
-    padding: 15px;
-    background: #fff;
-    min-height: 100vh;
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
 }
 
-/* ===== CARDS & HEADERS ===== */
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 20px 25px;
+}
+
+/* Sidebar Custom Scrollbar */
+.sidebar-scroll-content::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar-scroll-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.sidebar-scroll-content::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
+
+/* UI Cards Panels */
 .filter-card {
     background: #f8fafc;
     border: 1px solid #e3e8ee;
     border-radius: 12px;
-    padding: 15px 12px;
-    margin-bottom: 15px;
+    padding: 15px;
+    margin-bottom: 12px;
 }
 
 .card-header {
-    font-size: 13px; 
-    font-weight: 700; 
-    color: #334155; 
-    margin-bottom: 15px; 
+    font-size: 11px; 
+    font-weight: 600; 
+    color: #4e5e71; 
+    margin-bottom: 10px; 
+    text-transform: uppercase; 
+    letter-spacing: 0.5px;
     border-bottom: 1px solid #e3e8ee;
-    padding-bottom: 6px;
+    padding-bottom: 5px;
 }
 
-/* ===== TABLES & ROW SPACING ===== */
+/* Layout Form Filter Grids */
 .release-filter-table {
     width: 100%;
-    border-spacing: 0; 
+    border-spacing: 0 10px; 
 }
 
-.release-filter-table td {
-    padding-bottom: 4px !important; /* Tighter spacing */
-    vertical-align: middle;
-}
-
-.release-filter-table tr:last-child td {
-    padding-bottom: 0 !important;
-}
-
-/* WIDENED LABELS */
 .release-filter-table .label-cell {
     text-align: right;
     padding-right: 12px;
     font-size: 12px; 
     color: #4e5e71;
     font-weight: 600;
-    width: 95px; 
+    width: 90px;
     white-space: nowrap; 
     line-height: 1.2;
 }
 
-/* ===== UNIFORM INPUTS ===== */
+/* ===== ENFORCED UNIFORM 24px GRID INPUTS ELEMENTS ===== */
 input[type="text"], select,
 .release-filter-table input[type="text"],
 .release-filter-table select {
     width: 100%;
-    height: 28px; 
+    height: 24px;
     padding: 2px 8px;
     border: 1px solid #ccd6e0 !important;
     border-radius: 4px;
     font-size: 12px;
-    background-color: #ffffff !important; 
-    box-shadow: none !important; 
+    background-color: #ffffff !important;
+    box-shadow: none !important;
     box-sizing: border-box;
     color: #333;
     outline: none;
 }
 
-/* ===== STRICT DISABLED & READONLY STYLING ===== */
-input:disabled, select:disabled, textarea:disabled,
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/* Readonly fields styling setup */
 input[readonly]:not([readonly="false"]), 
-select[readonly]:not([readonly="false"]), 
-textarea[readonly]:not([readonly="false"]) {
-    background-color: #e2e8f0 !important; 
-    color: #64748b !important; 
-    cursor: not-allowed !important; 
-    border-color: #cbd5e1 !important;
-    opacity: 1 !important;
+select[readonly]:not([readonly="false"]),
+input:disabled, select:disabled,
+.release-filter-table input[readonly] {
+    background-color: #f3f6f9 !important; 
+    color: #555;
+    cursor: default;
 }
 
-input:not(:disabled):not([readonly]), 
-input[readonly="false"], input[disabled="false"],
-select:not(:disabled):not([readonly]), 
-select[readonly="false"], select[disabled="false"],
-textarea:not(:disabled):not([readonly]),
-textarea[readonly="false"], textarea[disabled="false"] {
-    cursor: auto !important; 
-    background-color: #ffffff !important; 
-}
-
-/* ===== SEARCH INFRASTRUCTURE ===== */
+/* Search Box Wrapper Controls */
 .search-input-wrapper {
     position: relative;
     display: flex;
     align-items: center;
     width: 100%;
 }
+
 .search-input-wrapper input[type="text"] {
     width: 100%;
     padding-right: 26px; 
-}
-.search-input-wrapper input[type="text"][readonly],
-.search-input-wrapper input[type="text"][readonly="readonly"] {
-    background-color: #ffffff !important; 
-    color: #333 !important;
-    cursor: pointer !important; 
-    border-color: #ccd6e0 !important;
+    cursor: pointer;
 }
 
 .search-icon {
@@ -216,7 +163,7 @@ textarea[readonly="false"], textarea[disabled="false"] {
     opacity: 0.8;
 }
 
-/* jqx date containers */
+/* Form Layout Container Blocks for JQX widgets */
 .release-filter-table div[id^="fromdate"],
 .release-filter-table div[id^="todate"],
 .release-filter-table div[id^="serdate"],
@@ -225,47 +172,88 @@ textarea[readonly="false"], textarea[disabled="false"] {
     width: 100%;
 }
 
-/* ===== BUTTONS ===== */
-.btn-submit {
-    width: 100%;
-    height: 30px;
-    padding: 0 12px;
-    background: #2563eb;
-    color: #fff;
+/* ===== REQUIRED VISUAL BLUE BUTTON SCALING DEFINITIONS ===== */
+.btn-primary {
+    height: 28px;
+    background-color: #1e6bf2;
     border: none;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: 600;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
     cursor: pointer;
-    line-height: 30px;
-    margin-top: 5px;
-}
-.btn-submit:hover { background: #1d4ed8; }
-.btn-secondary { background: #64748b; }
-.btn-secondary:hover { background: #475569; }
-.release-actions {
+    transition: background-color 0.2s ease, transform 0.1s ease;
     display: flex;
-    gap: 8px;
+    align-items: center;
     justify-content: center;
-    margin-top: 15px;
-}
-.release-actions .btn-submit {
-    flex: 1;
+    padding: 0 10px;
+    width: 100%;
 }
 
-#mainBG,
-.homeContent {
-    overflow: visible !important;
+.btn-primary:hover {
+    background-color: #1656c7;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+    background-color: #9abaf5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secondary {
+    background-color: #64748b;
+}
+
+.btn-secondary:hover {
+    background-color: #475569;
+}
+
+.action-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.action-grid button {
+    flex: 1;
+    min-width: 45%; 
+}
+
+/* Flexible Right Workspace Panel */
+.main-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow: auto;
+    background: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* Grid Cards */
+.grid-card {
+    background: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
 </style>
 <script type="text/javascript">
 
 	$(document).ready(function () {
-		 $("#fromdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-		 $("#todate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-		 $("#serdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy", value: null, enableBrowserBoundsDetection: true});
-		 $("#stdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-		 $("#enddate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
+         // Enforced 24px JQX Criteria
+		 $("#fromdate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+		 $("#todate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+		 $("#serdate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy", value: null, enableBrowserBoundsDetection: true});
+		 $("#stdate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
+		 $("#enddate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
 		 
 		 $("body").prepend('<div id="overlay" class="ui-widget-overlay" style="z-index: 1; display: none;"></div>');
 	     $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:180px;right:550px;'><img src='../../../../icons/31load.gif'/></div>");
@@ -282,10 +270,8 @@ textarea[readonly="false"], textarea[disabled="false"] {
 	     $('#fromdate ').jqxDateTimeInput('setDate', new Date(oneyearbackdate));
 		 
 	     $('#todate').on('change', function (event) {
-				
 			   var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
 			   var todates=new Date($('#todate').jqxDateTimeInput('getDate')); 
-			 	// alert(fromdates+"=="+todates);
 			   if(fromdates>todates){
 				   $.messager.alert('Message','To Date Less Than From Date  ','warning');   
 			   	   return false;
@@ -313,17 +299,17 @@ textarea[readonly="false"], textarea[disabled="false"] {
 	function accountsSearchContent(url) {
 	    $('#accountDetailsWindow').jqxWindow('open');
 		$.get(url).done(function (data) {
-		$('#accountDetailsWindow').jqxWindow('setContent', data);
-		$('#accountDetailsWindow').jqxWindow('bringToFront');
-	}); 
+		    $('#accountDetailsWindow').jqxWindow('setContent', data);
+		    $('#accountDetailsWindow').jqxWindow('bringToFront');
+	    }); 
 	}
 	
 	function contractSearchContent(url) {
 	    $('#contractDetailsWindow').jqxWindow('open');
 		$.get(url).done(function (data) {
-		$('#contractDetailsWindow').jqxWindow('setContent', data);
-		$('#contractDetailsWindow').jqxWindow('bringToFront');
-	}); 
+		    $('#contractDetailsWindow').jqxWindow('setContent', data);
+		    $('#contractDetailsWindow').jqxWindow('bringToFront');
+	    }); 
 	}
 	
 	function isNumber(evt) {
@@ -337,7 +323,7 @@ textarea[readonly="false"], textarea[disabled="false"] {
     }
 	
 	function funExportBtn(){
-			JSONToCSVCon(dataExcelExport, 'ContractServiceScheduleUpdate', true);
+		JSONToCSVCon(dataExcelExport, 'ContractServiceScheduleUpdate', true);
 	} 
 	
 	function getClientAccount(event){
@@ -345,8 +331,7 @@ textarea[readonly="false"], textarea[disabled="false"] {
         if(x==114){
         	accountsSearchContent('clientAccountDetailsSearch.jsp');
         }
-        else{}
-        }
+    }
 	
 	function getContract(event){
         var x= event.keyCode;
@@ -357,11 +342,9 @@ textarea[readonly="false"], textarea[disabled="false"] {
 			 }
 			 contractSearchContent('contractDetailsSearch.jsp?contracttype='+$('#cmbcontracttype').val());
         }
-        else{}
-        }
+    }
 	
 	function funreload(event){
-		
 		 var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
 		 var todates=new Date($('#todate').jqxDateTimeInput('getDate')); 
 		 	 
@@ -382,12 +365,10 @@ textarea[readonly="false"], textarea[disabled="false"] {
 		 disable();
 		 
 		 $("#overlay, #PleaseWait").show();
-		 
 		 $("#contractServiceScheduleUpdateDiv").load("contractServiceScheduleUpdateGrid.jsp?branch="+branch+"&fromdate="+fromdate+"&todate="+todate+"&contracttype="+contracttype+"&contract="+contract+"&clientid="+clientid);
-		
-		}
+	}
 	
-	function  funClearData(){
+	function funClearData(){
 		 $('#cmbbranch').val('a');
    	     $('#fromdate').val(new Date());
 		 var curfromdate= $('#fromdate').jqxDateTimeInput('getDate');
@@ -433,7 +414,6 @@ textarea[readonly="false"], textarea[disabled="false"] {
 	}
 	
 	function funServiceScheduleFill(){
-		
 		var startdate=$("#serdate").val();
 		var enddate=$("#enddate").val();
 		var stdate=$("#stdate").val();
@@ -470,9 +450,7 @@ textarea[readonly="false"], textarea[disabled="false"] {
 	  			$('#txteditrfillval').val('1');
 	  			$("#serviceScheduleDiv").load("serviceScheduleGrid.jsp?startdate="+startdate+"&enddate="+enddate+"&amount="+amount+"&instno="+instno+"&cmbpaytype="+cmbpaytype+"&serdueafter="+serdueafter+"&gridload=1");
 	  		}
-	  		
 	  	}
-	 
 	}
 	
 	function checkScheddate(date){
@@ -490,23 +468,18 @@ textarea[readonly="false"], textarea[disabled="false"] {
 			 $.messager.alert('Message','Service Date Should not greater than End Date.','warning');   
 			 return false;
 		 }
-		 
 		 else{
 			 return true;
 		 }
 	}
 	
 	function servicestartdatechange(){
-		
 		var date=new Date($('#serdate').jqxDateTimeInput('getDate'));
 		checkScheddate(date);
-  		
-	  }
+	}
 	
 	function funServiceSchedulerUpdate(){
-		
 		var rows = $("#serviceScheduleGridID").jqxGrid('getrows');
-		//alert(rows);
 		$('#serviceScheduleGridID').jqxGrid('clearfilters');
 		var rowindex=0;
 		if(rows.length==0){
@@ -515,63 +488,44 @@ textarea[readonly="false"], textarea[disabled="false"] {
 			 return false;
 		}
 		
-			   $.messager.confirm('Message', 'Do you want to save changes?', function(r){
-			        
-			     	if(r==false)
-			     	  {
-			     		return false; 
-			     	  }
-			     	else {
-			     		 $("#overlay, #PleaseWait").show();
-			     		 //var docno=$('#txtselectedcontract').val();
-			     		 //var dtype=$('#txtselectedcontractdtype').val();
-			    		 //var interval=$("#srvcinterval").val();
-			    		// var frequency=$("#cmbsrvctype").val();
-			    		// var servicedueafter=$("#serdueafter").val();
-			    		// var servicestartdate=$("#serdate").val();
-			    		 //var editval=$('#txteditrval').val();
-			    		// var editfillval=$('#txteditrfillval').val();
-			    		 for(var i=0 ; i < rows.length ; i++){
-			    			 var chks2=rows[i].pldate; 
-			    			 //alert("trno===="+chks2);
-			    			 var dis=0;
-							    
-							   if (rows[i].priority == true) {
-									dis=1;
-							   }
-							   
-							   var d=new Date(rows[i].pltime);
-							   var tempstarttime=d.getHours()+":"+(d.getMinutes()<10?'0':'') + d.getMinutes();
-			    			 if(typeof(chks2) != "undefined" && typeof(chks2) != "NaN" && chks2 != "" && chks2 != "0"){
-									newTextBox = $(document.createElement("input"))
-								       .attr("type", "dil")
-								       .attr("id", "test"+i)
-								       .attr("name", "test"+i)      
-								       .attr("hidden", "true");
-							   newTextBox.val(rows[i].pldate+" :: "+tempstarttime+" :: "+dis+" :: "+rows[i].trno+" :: "+rows[i].workper+" :: "+rows[i].siteid+" :: "+rows[i].empgroupid+" :: ");  
-							   newTextBox.appendTo('form');                        
-							   rowindex++;       
-							   $('#gridlength').val(rowindex);  
-						 	   }     
-						   	  
-							   
-							   //gridarray.push(rows[i].pldate+" :: "+tempstarttime+" :: "+dis+" :: "+rows[i].trno+" :: "+rows[i].workper+" :: "+rows[i].siteid+" :: ");
-						 
-					     }
-			     		 //saveGridData(docno,dtype,interval,frequency,servicedueafter,servicestartdate,editval,editfillval,gridarray);	
-			     	}
-			     	 document.getElementById("mode").value="A";           
-					 document.getElementById("frmcontractServiceScheduleUpdate").submit(); 
-			 });
-		
-		
+	    $.messager.confirm('Message', 'Do you want to save changes?', function(r){
+	     	if(r==false) {
+	     		return false; 
+	     	}
+	     	else {
+	     		 $("#overlay, #PleaseWait").show();
+	    		 for(var i=0 ; i < rows.length ; i++){
+	    			 var chks2=rows[i].pldate; 
+	    			 var dis=0;
+					    
+					   if (rows[i].priority == true) {
+							dis=1;
+					   }
+					   
+					   var d=new Date(rows[i].pltime);
+					   var tempstarttime=d.getHours()+":"+(d.getMinutes()<10?'0':'') + d.getMinutes();
+	    			 if(typeof(chks2) != "undefined" && typeof(chks2) != "NaN" && chks2 != "" && chks2 != "0"){
+							newTextBox = $(document.createElement("input"))
+						       .attr("type", "dil")
+						       .attr("id", "test"+i)
+						       .attr("name", "test"+i)      
+						       .attr("hidden", "true");
+					   newTextBox.val(rows[i].pldate+" :: "+tempstarttime+" :: "+dis+" :: "+rows[i].trno+" :: "+rows[i].workper+" :: "+rows[i].siteid+" :: "+rows[i].empgroupid+" :: ");  
+					   newTextBox.appendTo('form');                        
+					   rowindex++;       
+					   $('#gridlength').val(rowindex);  
+				 	 }     
+			     }
+	     	}
+	     	 document.getElementById("mode").value="A";           
+			 document.getElementById("frmcontractServiceScheduleUpdate").submit(); 
+		 });
 	}
 	
 	function saveGridData(docno,dtype,interval,frequency,servicedueafter,servicestartdate,editval,editfillval,gridarray) {
 		var x=new XMLHttpRequest();
 		x.onreadystatechange=function(){
-		if (x.readyState==4 && x.status==200)
-			{
+		if (x.readyState==4 && x.status==200) {
 				var items=x.responseText;
 				items = items.split('***');
 				var val = items[0];
@@ -594,24 +548,28 @@ textarea[readonly="false"], textarea[disabled="false"] {
 		  }
 		}
 			
-		
 	x.open("GET","saveData.jsp?docno="+docno+"&dtype="+dtype+"&interval="+interval+"&frequency="+frequency+"&servicedueafter="+servicedueafter+"&servicestartdate="+servicestartdate+"&editval="+editval+"&editfillval="+editfillval+"&gridarray="+gridarray,true);
 	x.send();
 	}
 	
 </script>
 </head>
+
 <body onload="getBranch();disable();">
 <form id="frmcontractServiceScheduleUpdate" action="saveContractServiceScheduleUpdate" method="post" autocomplete="off">
 <div id="mainBG" class="homeContent" data-type="background"> 
 
-    <div class="sidebar-column">
-        <div class="sidebar-content-padding">
-            
-            <div class="filter-card">
+<div class="master-container">
+
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px; margin-bottom: 0;">
                 <jsp:include page="../../heading.jsp"></jsp:include>
             </div>
+        </div>
 
+        <div class="sidebar-scroll-content">
+            
             <div class="filter-card">
                 <table class="release-filter-table">
                     <tr>
@@ -688,14 +646,16 @@ textarea[readonly="false"], textarea[disabled="false"] {
                     </tr>
                 </table>
 
-                <div class="release-actions">
-                    <button type="button" class="btn-submit" id="btnAdd" name="btnAdd" onclick="funServiceScheduleFill();">Fill</button>
+                <div class="action-grid">
+                    <button type="button" class="btn-primary btn-secondary" id="btnAdd" name="btnAdd" onclick="funServiceScheduleFill();">Fill</button>
                 </div>
             </div>
 
-            <div class="release-actions" style="margin-top: 20px;">
-                <button type="button" class="btn-submit btn-secondary" name="clear" id="clear" onclick="funClearData();">Clear</button>
-                <button type="button" class="btn-submit" id="btnServiceSchedulerUpdate" name="btnServiceSchedulerUpdate" onclick="funServiceSchedulerUpdate();">Update</button>
+            <div class="filter-card" style="padding: 10px; border: none; background: transparent;">
+                <div class="action-grid">
+                    <button type="button" class="btn-primary btn-secondary" name="clear" id="clear" onclick="funClearData();">Clear</button>
+                    <button type="button" class="btn-primary" id="btnServiceSchedulerUpdate" name="btnServiceSchedulerUpdate" onclick="funServiceSchedulerUpdate();">Update</button>
+                </div>
             </div>
 
             <input type="hidden" id="txtclientaccountdocno" name="txtclientaccountdocno" value='<s:property value="txtclientaccountdocno"/>'/>
@@ -713,24 +673,21 @@ textarea[readonly="false"], textarea[disabled="false"] {
         </div>
     </div>
 
-    <div class="main-column">
-        <table width="100%">
-            <tr>
-                <td style="padding-bottom: 20px;">
-                    <div id="contractServiceScheduleUpdateDiv">
-                        <jsp:include page="contractServiceScheduleUpdateGrid.jsp"></jsp:include>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div id="serviceScheduleDiv">
-                        <jsp:include page="serviceScheduleGrid.jsp"></jsp:include>
-                    </div>
-                </td>
-            </tr>
-        </table>
+    <div class="main-content-area">
+        <div class="grid-card">
+            <div id="contractServiceScheduleUpdateDiv">
+                <jsp:include page="contractServiceScheduleUpdateGrid.jsp"></jsp:include>
+            </div>
+        </div>
+        
+        <div class="grid-card">
+            <div id="serviceScheduleDiv">
+                <jsp:include page="serviceScheduleGrid.jsp"></jsp:include>
+            </div>
+        </div>
     </div>
+
+</div>
 
 </div>
 </form>
