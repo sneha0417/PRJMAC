@@ -9,88 +9,195 @@
 <title>GatewayERP(i)</title>
 <link href="../../../../css/dashboard.css" media="screen" rel="stylesheet" type="text/css" /> 
 
-<style type="text/css">
-.myButtons {
-	-moz-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	-webkit-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	
-	font-size:8pt;
-	
-	padding:3px 17px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
-}
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
-}
-.myButtons:active {
-	position:relative;
-	top:1px;
+<style>
+/* ===== MASTER LAYOUT ===== */
+html, body, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
 }
 
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background-color: #f4f7f9;
+}
+
+/* Sidebar Component */
+.sidebar-filters {
+    width: 330px;
+    flex: 0 0 330px;
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 2;
+        overflow-y: auto;
+    
+}
+
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    padding: 15px 20px 25px;
+}
+
+/* Cards Layout Rules */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+/* Internal Presentation Tables */
+.filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 90px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.filter-table input[type="text"],
+.filter-table select {
+    width: 100%;
+    height: 24px !important;             
+    padding: 2px 8px !important;         
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px !important;       
+    font-size: 12px !important;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+/* Select specific styling */
+select {
+    padding: 2px 24px 2px 8px !important; 
+    font-family: inherit;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234e5e71' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    background-size: 12px;
+}
+
+
+
+/* jqx Date Container Mapping Rules */
+.filter-table div[id^="date"] {
+    width: 100%;
+}
+
+/* ===== MASTER 30px BUTTON SYSTEM OVERRIDES ===== */
+.myButton, .myButtons, .mySaveButton {
+    width: 100%;
+    height: 30px !important;            
+    padding: 0 12px !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    line-height: 30px !important;
+    white-space: nowrap;
+    text-align: center;
+    transition: all 0.2s ease;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    display: inline-block;
+    box-sizing: border-box;
+    color: #fff !important;
+}
+
+/* WPS Format (Primary Blue) */
+.myButton {
+    background: #2563eb !important;
+}
+.myButton:hover {
+    background: #1d4ed8 !important;
+}
+
+/* Save (Success Green) */
 .mySaveButton {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #77d42a), color-stop(1, #5cb811));
-	background:-moz-linear-gradient(top, #77d42a 5%, #5cb811 100%);
-	background:-webkit-linear-gradient(top, #77d42a 5%, #5cb811 100%);
-	background:-o-linear-gradient(top, #77d42a 5%, #5cb811 100%);
-	background:-ms-linear-gradient(top, #77d42a 5%, #5cb811 100%);
-	background:linear-gradient(to bottom, #77d42a 5%, #5cb811 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#77d42a', endColorstr='#5cb811',GradientType=0);
-	background-color:#77d42a;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	border:1px solid #268a16;
-	display:inline-block;
-	cursor:pointer;
-	font-family:Verdana;
-	font-size:10px;
-	font-weight:bold;
-	padding:4px 8px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #aade7c;
-}
+	background: #2563eb;
+	}
 .mySaveButton:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #5cb811), color-stop(1, #77d42a));
-	background:-moz-linear-gradient(top, #5cb811 5%, #77d42a 100%);
-	background:-webkit-linear-gradient(top, #5cb811 5%, #77d42a 100%);
-	background:-o-linear-gradient(top, #5cb811 5%, #77d42a 100%);
-	background:-ms-linear-gradient(top, #5cb811 5%, #77d42a 100%);
-	background:linear-gradient(to bottom, #5cb811 5%, #77d42a 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5cb811', endColorstr='#77d42a',GradientType=0);
-	background-color:#5cb811;
+    background: #005c97;
+     border-color: #2563eb;                
+    transform: scale(1.08);                
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+    z-index: 2;
 }
-.mySaveButton:active {
-	position:relative;
-	top:1px;
+
+/* Clear (Secondary Slate) */
+.myButtons {
+    background: #64748b !important;
 }
-</style>
+.myButtons:hover {
+    background: #475569 !important;
+}
+
+/* Disabled button state */
+.myButtons:disabled, .mySaveButton:disabled, .myButton:disabled {
+    background: #9ca3af !important;
+    color: #f3f4f6 !important;
+    cursor: not-allowed;
+}
+
+/* Button Group Alignment */
+.button-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+/* Workspace Panels */
+.main-content-wrapper {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+    background: #fff;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.scrollable-grid-area {
+    flex: 1;
+    width: 100%;
+    overflow: auto;
+}
+</style>	
 
 <script type="text/javascript">
 
 	$(document).ready(function () {
 		
-		 $("#date").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy", enableBrowserBoundsDetection: true});
+		 // UI Config: standardized dimensions to 100% width and 24px height
+		 $("#date").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy", enableBrowserBoundsDetection: true});
 		
 		 /* Searching Window */
      	 $('#accountDetailsWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Account Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
@@ -288,11 +395,6 @@
 	
 	function funCalculate(){
 		
-		/* if($('#cmbbranch').val()=='a'){
-			 $.messager.alert('Message','Please Choose a Specific Main-Branch.','warning');
-			 return 0;
-		 }*/
-		
 		if($('#cmbyear').val()==''){
 			 $.messager.alert('Message','Please Choose a Year.','warning');
 			 return 0;
@@ -482,69 +584,151 @@
 <form id="frmDashboardSalaryPayment" action="saveDashboardSalaryPayment" method="post">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%">
-	<jsp:include page="../../heading.jsp"></jsp:include>
 
-	 <tr><td align="right"><label class="branch">Year</label></td>
-     <td align="left"><select id="cmbyear" name="cmbyear" style="width:80%;" value='<s:property value="cmbyear"/>'>
-      <option value="">--Select--</option></select>
-      <input type="hidden" id="hidcmbyear" name="hidcmbyear" value='<s:property value="hidcmbyear"/>'/></td></tr>
-	 <tr><td align="right"><label class="branch">Month</label></td>
-     <td align="left"><select id="cmbmonth" name="cmbmonth" style="width:80%;" value='<s:property value="cmbmonth"/>'>
-      <option value="">--Select--</option><option value="01">January</option><option value="02">February</option><option value="03">March</option>
-      <option value="04">April</option><option value="05">May</option><option value="06">June</option><option value="07">July</option>
-      <option value="08">August</option><option value="09">September</option><option value="10">October</option><option value="11">November</option>
-      <option value="12">December</option></select>
-      <input type="hidden" id="hidcmbmonth" name="hidcmbmonth" value='<s:property value="hidcmbmonth"/>'/></td></tr>
-     <tr><td align="right"><label class="branch">Agent Id</label></td>
-	 <td align="left"><select id="cmbempagentid" style="width:80%;" name="cmbempagentid"  value='<s:property value="cmbempagentid"/>'></select></td></tr>
-	 <tr><td align="right"><label class="branch">Category</label></td>
-	 <td align="left"><select id="cmbempcategory" style="width:80%;" name="cmbempcategory"  value='<s:property value="cmbempcategory"/>'></select></td></tr>
-	 <tr><td align="right"><label class="branch">Est.Code</label></td>
-     <td align="left"><input type="text" id="txtestablishmentcode" name="txtestablishmentcode" style="width:80%;height:20;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtestablishmentcode"/>'  onkeydown="getEstablishmentCode(event);"/></td></tr>
-	 <tr><td align="right"><label class="branch">Payable</label></td>
-     <td align="left"><input type="text" id="txtaccount" name="txtaccount" style="width:80%;height:20;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtaccount"/>'  onkeydown="getAccount(event);"/>
-     <input type="hidden" id="txtaccountdocno" name="txtaccountdocno" value='<s:property value="txtaccountdocno"/>'/></td></tr>
-     <tr><td colspan="2"><input type="text" id="txtaccountname" name="txtaccountname" readonly="readonly" placeholder="Payable Account" style="width:95%;height:20;" tabindex="-1" value='<s:property value="txtaccountname"/>'/></td></tr>
-     <tr><td align="right"><label class="branch">Payment</label></td>
-     <td align="left"><div id="date" name="date" value='<s:property value="date"/>'></div>
-     <input type="hidden" id="hiddate" name="hiddate" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="hiddate"/>'/></td></tr>
-     <tr><td colspan="2"><div id="postedSalaryDiv"><jsp:include page="postedSalaryGrid.jsp"></jsp:include></div></td></tr>
-     <tr><td align="right"><label class="branch">Bank</label></td>
-     <td align="left"><input type="text" id="txtbankaccount" name="txtbankaccount" style="width:80%;height:20;" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtbankaccount"/>'  onkeydown="getBankAccount(event);"/>
-     <input type="hidden" id="txtbankaccountdocno" name="txtbankaccountdocno" value='<s:property value="txtbankaccountdocno"/>'/></td></tr>
-     <tr><td colspan="2"><input type="text" id="txtbankaccountname" name="txtbankaccountname" readonly="readonly" placeholder="Bank Account" style="width:95%;height:20;" tabindex="-1" value='<s:property value="txtbankaccountname"/>'/></td></tr>
-	 <tr><td colspan="2" align="center"><input type="button" class="myButtons" name="clear" id="clear"  value="Clear" onclick="funClearInfo();">
-	 <input type="button" class="myButton" id="btnSifSalaryPayment" name="btnSifSalaryPayment" value="WPS Format" onclick="funWPSFormat();">
-	 <input type="button" class="mySaveButton" id="btnSaveSalaryPayment" name="btnSaveSalaryPayment" value="Save" onclick="funNotify();"></td></tr>
-     <tr><td colspan="2">&nbsp;<input type="hidden" id="txtselectedemployees" name="txtselectedemployees" value='<s:property value="txtselectedemployees"/>'/>
-     <input type="hidden" name="txtdrtotal" id="txtdrtotal" style="width:100%;height:20px;" value='<s:property value="txtdrtotal"/>'>
-     <input type="hidden" name="txtcrtotal" id="txtcrtotal" style="width:100%;height:20px;" value='<s:property value="txtcrtotal"/>'>
-     <input type="hidden" id="gridlength" name="gridlength" style="width:100%;height:20px;" value='<s:property value="gridlength"/>'/>
-     <input type="hidden" name="mode" id="mode" style="width:100%;height:20px;" value='<s:property value="mode"/>'>
-     <input type="hidden" name="msg" id="msg" style="width:100%;height:20px;" value='<s:property value="msg"/>'></td></tr>
-     <input type="hidden" name="excelconfig" id="excelconfig" style="width:100%;height:20px;" value='<s:property value="excelconfig"/>'></td></tr>
-	 </table>
-	 </fieldset>
-</td>
-<td width="80%">
-	<table width="100%">
-		<tr><td><div id="salaryPaymentDetailsDiv"><jsp:include page="salaryPaymentGrid.jsp"></jsp:include></div></td></tr>
-		<tr><td><div id="JVTDiv" hidden="true"><jsp:include page="salaryPaymentJVGrid.jsp"></jsp:include></div></td></tr>
-	</table>
-</td></tr></table>
+<div class="master-container">
+    
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px; margin-bottom: 0;">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+        </div>
+
+        <div class="sidebar-scroll-content">
+            
+            <div class="filter-card">
+                <table class="filter-table">
+                    <tr>
+                        <td class="label-cell">Year</td>
+                        <td>
+                            <select id="cmbyear" name="cmbyear" value='<s:property value="cmbyear"/>'>
+                                <option value="">--Select--</option>
+                            </select>
+                            <input type="hidden" id="hidcmbyear" name="hidcmbyear" value='<s:property value="hidcmbyear"/>'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Month</td>
+                        <td>
+                            <select id="cmbmonth" name="cmbmonth" value='<s:property value="cmbmonth"/>'>
+                                <option value="">--Select--</option>
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                            <input type="hidden" id="hidcmbmonth" name="hidcmbmonth" value='<s:property value="hidcmbmonth"/>'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Agent Id</td>
+                        <td>
+                            <select id="cmbempagentid" name="cmbempagentid" value='<s:property value="cmbempagentid"/>'></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Category</td>
+                        <td>
+                            <select id="cmbempcategory" name="cmbempcategory" value='<s:property value="cmbempcategory"/>'></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Est.Code</td>
+                        <td>
+                            <input type="text" id="txtestablishmentcode" name="txtestablishmentcode" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtestablishmentcode"/>' onkeydown="getEstablishmentCode(event);"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Payable</td>
+                        <td>
+                            <input type="text" id="txtaccount" name="txtaccount" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtaccount"/>' onkeydown="getAccount(event);"/>
+                            <input type="hidden" id="txtaccountdocno" name="txtaccountdocno" value='<s:property value="txtaccountdocno"/>'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell"></td>
+                        <td>
+                            <input type="text" id="txtaccountname" name="txtaccountname" readonly="readonly" placeholder="Payable Account" tabindex="-1" value='<s:property value="txtaccountname"/>'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Payment</td>
+                        <td>
+                            <div id="date" name="date" value='<s:property value="date"/>'></div>
+                            <input type="hidden" id="hiddate" name="hiddate" readonly="readonly" value='<s:property value="hiddate"/>'/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="filter-card" style="padding: 8px;">
+                <div id="postedSalaryDiv"><jsp:include page="postedSalaryGrid.jsp"></jsp:include></div>
+            </div>
+
+            <div class="filter-card">
+                <table class="filter-table">
+                    <tr>
+                        <td class="label-cell">Bank</td>
+                        <td>
+                            <input type="text" id="txtbankaccount" name="txtbankaccount" readonly="readonly" placeholder="Press F3 to Search" value='<s:property value="txtbankaccount"/>' onkeydown="getBankAccount(event);"/>
+                            <input type="hidden" id="txtbankaccountdocno" name="txtbankaccountdocno" value='<s:property value="txtbankaccountdocno"/>'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell"></td>
+                        <td>
+                            <input type="text" id="txtbankaccountname" name="txtbankaccountname" readonly="readonly" placeholder="Bank Account" tabindex="-1" value='<s:property value="txtbankaccountname"/>'/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="filter-card">
+                <input type="button" class="myButtons" name="clear" id="clear" value="Clear" onclick="funClearInfo();">
+                <div class="button-row">
+                    <input type="button" class="myButton" id="btnSifSalaryPayment" name="btnSifSalaryPayment" value="WPS Format" onclick="funWPSFormat();">
+                    <input type="button" class="mySaveButton" id="btnSaveSalaryPayment" name="btnSaveSalaryPayment" value="Save" onclick="funNotify();">
+                </div>
+            </div>
+
+            <div style="display:none;">
+                <input type="hidden" id="txtselectedemployees" name="txtselectedemployees" value='<s:property value="txtselectedemployees"/>'/>
+                <input type="hidden" name="txtdrtotal" id="txtdrtotal" value='<s:property value="txtdrtotal"/>'>
+                <input type="hidden" name="txtcrtotal" id="txtcrtotal" value='<s:property value="txtcrtotal"/>'>
+                <input type="hidden" id="gridlength" name="gridlength" value='<s:property value="gridlength"/>'/>
+                <input type="hidden" name="mode" id="mode" value='<s:property value="mode"/>'>
+                <input type="hidden" name="msg" id="msg" value='<s:property value="msg"/>'>
+                <input type="hidden" name="excelconfig" id="excelconfig" value='<s:property value="excelconfig"/>'>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="main-content-wrapper">
+        <div class="scrollable-grid-area">
+            <div id="salaryPaymentDetailsDiv">
+                <jsp:include page="salaryPaymentGrid.jsp"></jsp:include>
+            </div>
+            <div id="JVTDiv" hidden="true" style="margin-top: 20px;">
+                <jsp:include page="salaryPaymentJVGrid.jsp"></jsp:include>
+            </div>
+        </div>
+    </div>
 
 </div>
-<div id="accountDetailsWindow">
-   <div></div>
-</div>
-<div id="establishedCodeDetailsWindow">
-   <div></div>
-</div>
+
+<div id="accountDetailsWindow"><div></div></div>
+<div id="establishedCodeDetailsWindow"><div></div></div>
+
 </div> 
 </form>
 </body>
+</html>

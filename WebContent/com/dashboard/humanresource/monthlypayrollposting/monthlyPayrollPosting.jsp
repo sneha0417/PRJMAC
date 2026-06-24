@@ -10,46 +10,165 @@
 <link href="../../../../css/dashboard.css" media="screen" rel="stylesheet" type="text/css" /> 
 
 <style type="text/css">
-.myButtons {
-	-moz-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	-webkit-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	
-	font-size:8pt;
-	
-	padding:3px 17px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
-}
-.myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
-}
-.myButtons:active {
-	position:relative;
-	top:1px;
+/* ===== MASTER LAYOUT ===== */
+html, body, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
 }
 
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background-color: #f4f7f9;
+}
+
+/* Sidebar Styling */
+.sidebar-filters {
+    width: 330px;
+    flex: 0 0 330px;
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 90%;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+        overflow-y: auto;
+    
+    z-index: 2;
+}
+
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    padding: 15px 20px 25px;
+}
+
+/* Cards Layout Rules */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+/* Internal Presentation Tables */
+.filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 90px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.filter-table input[type="text"],
+.filter-table select {
+    width: 100%;
+    height: 24px !important;             
+    padding: 2px 8px !important;         
+    border: 1px solid #ccd6e0 !important;
+    border-radius: 4px !important;       
+    font-size: 12px !important;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+    outline: none;
+}
+
+
+
+/* jqx Date Container Mapping Rules */
+.filter-table div[id^="uptodate"],
+.filter-table div[id^="postingDate"] {
+    width: 100%;
+}
+
+/* ===== MASTER 30px BUTTON SYSTEM OVERRIDES ===== */
+.myButton, .myButtons, .btn-submit {
+    width: 100%;
+    height: 30px !important;            
+    padding: 0 12px !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    line-height: 30px !important;
+    white-space: nowrap;
+    text-align: center;
+    transition: all 0.2s ease;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    display: inline-block;
+    box-sizing: border-box;
+    color: #fff !important;
+}
+
+/* Post/Action Button */
+.myButton {
+    background: #2563eb !important;
+}
+.myButton:hover {
+    background: #1d4ed8 !important;
+}
+
+/* Clear Button */
+.myButtons {
+    background: #64748b !important;
+}
+.myButtons:hover {
+    background: #475569 !important;
+}
+
+.myButton:disabled, .myButtons:disabled {
+    background: #9ca3af !important;
+    color: #f3f4f6 !important;
+    cursor: not-allowed;
+}
+
+/* Button Group Alignment */
+.button-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+/* Workspace Panels */
+.main-content-wrapper {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+    background: #fff;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.scrollable-grid-area {
+    flex: 1;
+    width: 100%;
+    overflow: auto;
+}
+
+/* ===== CUSTOM MODULE ANIMATIONS (Retained from original) ===== */
 .bounce {
-	color: #f35626;
+    color: #f35626;
     background-image: -webkit-linear-gradient(92deg,#f35626,#feab3a);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -57,57 +176,24 @@
 }
 
 @-webkit-keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    -moz-transform: translateX(0);
-    -ms-transform: translateX(0);
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-  }
-  40% {
-    -moz-transform: translateX(-30px);
-    -ms-transform: translateX(-30px);
-    -webkit-transform: translateX(-30px);
-    transform: translateX(-30px);
-  }
-  60% {
-    -moz-transform: translateX(-15px);
-    -ms-transform: translateX(-15px);
-    -webkit-transform: translateX(-15px);
-    transform: translateX(-15px);
-  }
+  0%, 20%, 50%, 80%, 100% { transform: translateX(0); }
+  40% { transform: translateX(-30px); }
+  60% { transform: translateX(-15px); }
 } 
 
-@media (min-width: 15px) {
-  .mega {
-    font-size: 15px;
-    line-height: 1;
-  }
-}
-
-@font-face {
-  font-family: 'Roboto',comic sans ms,Tahoma;
-  font-style: normal;
-  font-weight: 100;
-  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
-}
-  
 @-webkit-keyframes hue {
-  from {
-    -webkit-filter: hue-rotate(0deg);
-  }
-
-  to {
-    -webkit-filter: hue-rotate(-360deg);
-  }
+  from { -webkit-filter: hue-rotate(0deg); }
+  to { -webkit-filter: hue-rotate(-360deg); }
 }
 </style>
 
 <script type="text/javascript">
 
 	$(document).ready(function () {
-		
-		 $("#uptodate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"MM.yyyy"});
-		 $("#postingDate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
+		 
+         // UI Config: standardized dimensions to 100% width and 24px height
+		 $("#uptodate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"MM.yyyy"});
+		 $("#postingDate").jqxDateTimeInput({ width: '100%', height: '24px',formatString:"dd.MM.yyyy"});
 		 
 		 $("body").prepend('<div id="overlay" class="ui-widget-overlay" style="z-index: 1; display: none;"></div>');
 		 $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:180px;right:550px;'><img src='../../../../icons/31load.gif'/></div>");
@@ -243,12 +329,6 @@
 	}
 	
 	function funNotify() {	
-    	
-  	     /* if($('#cmbbranch').val()=='a'){
-			 $.messager.alert('Message','Please Choose a Specific Main-Branch.','warning');
-			 return 0;
-		 } */
- 		  
 		   $.messager.confirm('Confirm', 'Do you want to Post?', function(r){
 	 		if (r){
 	 				
@@ -318,46 +398,90 @@
 <form id="frmDashboardMonthlyPayrollPosting" action="saveDashboardMonthlyPayrollPosting" method="post">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%" >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-		
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	 <tr><td align="right"><label class="branch">Up To</label></td>
-     <td align="left"><div id="uptodate" name="uptodate" value='<s:property value="uptodate"/>'></div>
-     <input type="hidden" id="hiduptodate" name="hiduptodate" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="hiduptodate"/>'/></td></tr>
-	 <tr><td colspan="2"><p class="bounce" style="text-align: center;"><b><label id="lbllastposted"  name="lbllastposted"><s:property value="lbllastposted"/></label></b></p></td></tr>
-	 <tr><td colspan="2"><div id="monthlypayrollTotalDiv"><jsp:include page="monthlyPayrollTotalGrid.jsp"></jsp:include></div></td></tr> 
-     <tr><td colspan="2">&nbsp;</td></tr>
-	 <tr><td align="right"><label class="branch">Posting</label></td>
-     <td align="left"><div id="postingDate" name="postingDate" value='<s:property value="postingDate"/>'></div>
-     <input type="hidden" id="hidpostingDate" name="hidpostingDate" style="width:60%;height:20px;" readonly="readonly" value='<s:property value="hidpostingDate"/>'/></td></tr>
-     <tr><td align="right"><label class="branch">Remarks</label></td>
-	 <td align="left"><input type="text" id="txtremarks" name="txtremarks" placeholder="Remarks" style="width:100%;height:20px;" value='<s:property value="txtremarks"/>'/></td></tr>
-	 <tr><td colspan="2">&nbsp;</td></tr>
-	 <tr><td colspan="2" align="center"><input type="button" class="myButtons" name="clear" id="clear"  value="Clear" onclick="funClearData();">
-	 <button class="myButton" type="button" id="btnpost" name="btnpost" onclick="funPost(event);">Post</button></td></tr>
-	 <tr><td colspan="2"><input type="hidden" id="txtselectedemployees" name="txtselectedemployees" style="width:100%;height:20px;" value='<s:property value="txtselectedemployees"/>'/>
-	 <input type="hidden" id="txtcategoryids" name="txtcategoryids" style="width:100%;height:20px;" value='<s:property value="txtcategoryids"/>'/>
-	 <input type="hidden" id="txtdrtotal" name="txtdrtotal" style="width:50%;height:20px;text-align: right;" readonly="readonly" value='<s:property value="txtdrtotal"/>'/>
-	 <input type="hidden" id="txtcrtotal" name="txtcrtotal" style="width:50%;height:20px;text-align: right;" readonly="readonly" value='<s:property value="txtcrtotal"/>' tabindex="-1"/>
-	 <input type="hidden" id="gridlength" name="gridlength" style="width:100%;height:20px;"/>
-     <input type="hidden" name="mode" id="mode" style="width:100%;height:20px;" value='<s:property value="mode"/>'>
-	 <input type="hidden" name="msg" id="msg" style="width:100%;height:20px;" value='<s:property value="msg"/>'></td></tr>
-  </table>
-</fieldset>
 
-</td>
-<td width="80%">
-	<table width="100%">
-		<tr><td><div id="monthlyPayrollPostingDiv"><jsp:include page="monthlyPayrollPostingGrid.jsp"></jsp:include></div><br/></td></tr>
-		<tr><td><div id="JVTDiv"><jsp:include page="monthlyJVGrid.jsp"></jsp:include></div></td></tr>
-	</table>
-</td></tr></table>
+<div class="master-container">
+    
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px; margin-bottom: 0;">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+        </div>
+
+        <div class="sidebar-scroll-content">
+            
+            <div class="filter-card">
+                <table class="filter-table">
+                    <tr>
+                        <td class="label-cell">Up To</td>
+                        <td>
+                            <div id="uptodate" name="uptodate" value='<s:property value="uptodate"/>'></div>
+                        </td>
+                    </tr>
+                </table>
+                <p class="bounce" style="text-align: center; margin: 15px 0 5px 0;">
+                    <b><label id="lbllastposted" name="lbllastposted"><s:property value="lbllastposted"/></label></b>
+                </p>
+            </div>
+
+            <div class="filter-card" style="padding: 8px;">
+                <div id="monthlypayrollTotalDiv"><jsp:include page="monthlyPayrollTotalGrid.jsp"></jsp:include></div>
+            </div>
+
+            <div class="filter-card">
+                <table class="filter-table">
+                    <tr>
+                        <td class="label-cell">Posting</td>
+                        <td>
+                            <div id="postingDate" name="postingDate" value='<s:property value="postingDate"/>'></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Remarks</td>
+                        <td>
+                            <input type="text" id="txtremarks" name="txtremarks" placeholder="Remarks" value='<s:property value="txtremarks"/>'/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="filter-card">
+                <div class="button-row">
+                    <input type="button" class="myButtons" name="clear" id="clear" value="Clear" onclick="funClearData();">
+                    <button class="myButton" type="button" id="btnpost" name="btnpost" onclick="funPost(event);">Post</button>
+                </div>
+            </div>
+
+            <div style="display:none;">
+                <input type="hidden" id="hiduptodate" name="hiduptodate" value='<s:property value="hiduptodate"/>'/>
+                <input type="hidden" id="hidpostingDate" name="hidpostingDate" value='<s:property value="hidpostingDate"/>'/>
+                <input type="hidden" id="txtselectedemployees" name="txtselectedemployees" value='<s:property value="txtselectedemployees"/>'/>
+                <input type="hidden" id="txtcategoryids" name="txtcategoryids" value='<s:property value="txtcategoryids"/>'/>
+                <input type="hidden" id="txtdrtotal" name="txtdrtotal" value='<s:property value="txtdrtotal"/>'/>
+                <input type="hidden" id="txtcrtotal" name="txtcrtotal" value='<s:property value="txtcrtotal"/>'/>
+                <input type="hidden" id="gridlength" name="gridlength"/>
+                <input type="hidden" name="mode" id="mode" value='<s:property value="mode"/>'>
+                <input type="hidden" name="msg" id="msg" value='<s:property value="msg"/>'>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="main-content-wrapper">
+        <div class="scrollable-grid-area">
+            <div id="monthlyPayrollPostingDiv">
+                <jsp:include page="monthlyPayrollPostingGrid.jsp"></jsp:include>
+            </div>
+            <div id="JVTDiv" style="margin-top: 20px;">
+                <jsp:include page="monthlyJVGrid.jsp"></jsp:include>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 </div>
 </div>
 </form>
 </body>
+</html>

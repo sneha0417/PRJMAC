@@ -1,286 +1,396 @@
- 
 <jsp:include page="../../../../includes.jsp"></jsp:include>    
 <%@ taglib prefix="s" uri="/struts-tags" %>
-
+<%
+	String contextPath=request.getContextPath();
+ %>
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GatewayERP(i)</title>
-<link href="../../../../css/dashboard.css" media="screen" rel="stylesheet" type="text/css" /> 
+<link href="../../../../css/dashboard.css" media="screen" rel="stylesheet" type="text/css" />  
 
 <style type="text/css">
+/* ===== MASTER LAYOUT ===== */
+body, html, #mainBG, .hidden-scrollbar {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+.master-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    background-color: #f4f7f9;
+}
+
+/* Sidebar */
+.sidebar-filters {
+    width: 330px;
+    flex: 0 0 330px;
+    background: #fff;
+    border-right: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 2px 0 8px rgba(0,0,0,.05);
+    z-index: 2;
+}
+
+.sidebar-fixed-top {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.sidebar-scroll-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 20px 25px;
+}
+
+/* Cards */
+.filter-card {
+    background: #f8fafc;
+    border: 1px solid #e3e8ee;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+/* Tables */
+.release-filter-table {
+    width: 100%;
+    border-spacing: 0 10px;
+}
+
+.release-filter-table .label-cell {
+    text-align: right;
+    padding-right: 12px;
+    font-size: 12px;
+    color: #4e5e71;
+    font-weight: 600;
+    width: 90px;
+}
+
+/* ===== UNIFORM 24px INPUTS & SELECTS ===== */
+input[type="text"], select,
+.release-filter-table input[type="text"],
+.release-filter-table select {
+    width: 100%;
+    height: 24px;             
+    padding: 2px 8px;         
+    border: 1px solid #ccd6e0;
+    border-radius: 4px;       
+    font-size: 12px;          
+    background-color: #ffffff;
+    box-sizing: border-box;
+    color: #333;
+}
+
+/* Readonly / disabled look */
+input[readonly],
+input:disabled {
+    background-color: #f3f6f9 !important;
+    color: #555;
+}
+
+/* jqx date/time containers */
+.release-filter-table div[id^="fromdate"],
+.release-filter-table div[id^="todate"] {
+    width: 100%;
+}
+
+/* Button UI Override inside filter-card */
 .myButtons {
-	-moz-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	-webkit-box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	box-shadow:inset 0px -1px 3px 0px #91b8b3;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
-	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
-	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
-	background-color:#768d87;
-	border:1px solid #566963;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	
-	font-size:8pt;
-	
-	padding:3px 17px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #2b665e;
+    width: 100%;
+    height: 30px !important;
+    padding: 0 12px !important;
+    background: #64748b !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 4px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    line-height: 30px !important;
+    text-align: center;
+    box-shadow: none !important;
+    text-shadow: none !important;
 }
+
 .myButtons:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
-	background-color:#6c7c7c;
+    background: #475569 !important;
 }
-.myButtons:active {
-	position:relative;
-	top:1px;
+
+/* Main Content Area */
+.main-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow: auto;
+    background: #ffffff;
+    padding: 15px;
+    box-sizing: border-box;
 }
 </style>
 
 <script type="text/javascript">
-
-
 $(document).ready(function () {   
+    
+    // UI Update: Dimensions matched to new 24px Master UI text inputs
+    $("#fromdate").jqxDateTimeInput({ width: '100%', height: '24px', formatString:"dd.MM.yyyy"});
+    $("#todate").jqxDateTimeInput({ width: '100%', height: '24px', formatString:"dd.MM.yyyy"});
 	
-		$("#fromdate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-    	$("#todate").jqxDateTimeInput({ width: '125px', height: '15px',formatString:"dd.MM.yyyy"});
-	
-	    $("body").prepend('<div id="overlay" class="ui-widget-overlay" style="z-index: 1; display: none;"></div>');
-	    $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:180px;right:550px;'><img src='../../../../icons/31load.gif'/></div>");
-	    
-	    $('#contractDetailsWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Contract Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
-		$('#contractDetailsWindow').jqxWindow('close');
+    $("body").prepend('<div id="overlay" class="ui-widget-overlay" style="z-index: 1; display: none;"></div>');
+    $("body").prepend("<div id='PleaseWait' style='display: none;position:absolute; z-index: 1;top:180px;right:550px;'><img src='../../../../icons/31load.gif'/></div>");
+    
+    $('#contractDetailsWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Contract Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
+    $('#contractDetailsWindow').jqxWindow('close');
 		
-	    $('#clientDetailsWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Client Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
-		$('#clientDetailsWindow').jqxWindow('close');
+    $('#clientDetailsWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Client Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
+    $('#clientDetailsWindow').jqxWindow('close');
 		 
-		$('#salesManDetailsWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Sales Man Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
-		$('#salesManDetailsWindow').jqxWindow('close');
+    $('#salesManDetailsWindow').jqxWindow({width: '51%', height: '58%',  maxHeight: '70%' ,maxWidth: '51%' , title: 'Sales Man Search',position: { x: 300, y: 87 } , theme: 'energyblue', showCloseButton: true, keyboardCloseKey: 27});
+    $('#salesManDetailsWindow').jqxWindow('close');
 		
-	    var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-	    var onemounth=new Date(new Date(fromdates).setMonth(fromdates.getMonth()-1)); 
-        $('#fromdate').jqxDateTimeInput('setDate', new Date(onemounth));
+    var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
+    var onemounth=new Date(new Date(fromdates).setMonth(fromdates.getMonth()-1)); 
+    $('#fromdate').jqxDateTimeInput('setDate', new Date(onemounth));
 
-        $('#todate').on('change', function (event) {
-			
-	    	var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-			var todates=new Date($('#todate').jqxDateTimeInput('getDate')); 
-		 	 
-			if(fromdates>todates){
-	    		$.messager.alert('Message','To Date Less Than From Date  ','warning');   
-			    return false;
-		  }   
-	 });
+    $('#todate').on('change', function (event) {
+        var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
+        var todates=new Date($('#todate').jqxDateTimeInput('getDate')); 
+		 	
+        if(fromdates>todates){
+            $.messager.alert('Message','To Date Less Than From Date  ','warning');   
+            return false;
+        }   
+    });
         
-      $('#txtcontract').dblclick(function(){
-    	  if($('#cmbcontracttype').val()==''){
-			   $.messager.alert('Message','Choose a Contract Type.','warning');   
-			   return false;
-		 }
-		 contractSearchContent('contractDetailsSearch.jsp?contracttype='+$('#cmbcontracttype').val());
-      });
+    $('#txtcontract').dblclick(function(){
+        if($('#cmbcontracttype').val()==''){
+            $.messager.alert('Message','Choose a Contract Type.','warning');   
+            return false;
+        }
+        contractSearchContent('contractDetailsSearch.jsp?contracttype='+$('#cmbcontracttype').val());
+    });
       
-      $('#txtclient').dblclick(function(){
-    	  clientSearchContent('clientDetailsSearch.jsp');
-      });
+    $('#txtclient').dblclick(function(){
+        clientSearchContent('clientDetailsSearch.jsp');
+    });
       
-      $('#txtsalesman').dblclick(function(){
-    	  salesManSearchContent('salesManDetailsSearch.jsp');
-      });
-
+    $('#txtsalesman').dblclick(function(){
+        salesManSearchContent('salesManDetailsSearch.jsp');
+    });
 });
 
-	function contractSearchContent(url) {
-	    $('#contractDetailsWindow').jqxWindow('open');
-		$.get(url).done(function (data) {
-		$('#contractDetailsWindow').jqxWindow('setContent', data);
-		$('#contractDetailsWindow').jqxWindow('bringToFront');
-	}); 
-	}
+function contractSearchContent(url) {
+    $('#contractDetailsWindow').jqxWindow('open');
+    $.get(url).done(function (data) {
+        $('#contractDetailsWindow').jqxWindow('setContent', data);
+        $('#contractDetailsWindow').jqxWindow('bringToFront');
+    }); 
+}
 	
-	function clientSearchContent(url) {
-	    $('#clientDetailsWindow').jqxWindow('open');
-		$.get(url).done(function (data) {
-		$('#clientDetailsWindow').jqxWindow('setContent', data);
-		$('#clientDetailsWindow').jqxWindow('bringToFront');
-	}); 
-	}
+function clientSearchContent(url) {
+    $('#clientDetailsWindow').jqxWindow('open');
+    $.get(url).done(function (data) {
+        $('#clientDetailsWindow').jqxWindow('setContent', data);
+        $('#clientDetailsWindow').jqxWindow('bringToFront');
+    }); 
+}
 	
-	function salesManSearchContent(url) {
-	    $('#salesManDetailsWindow').jqxWindow('open');
-		$.get(url).done(function (data) {
-		$('#salesManDetailsWindow').jqxWindow('setContent', data);
-		$('#salesManDetailsWindow').jqxWindow('bringToFront');
-	}); 
-	}
+function salesManSearchContent(url) {
+    $('#salesManDetailsWindow').jqxWindow('open');
+    $.get(url).done(function (data) {
+        $('#salesManDetailsWindow').jqxWindow('setContent', data);
+        $('#salesManDetailsWindow').jqxWindow('bringToFront');
+    }); 
+}
 	
-	function getContract(event){
-        var x= event.keyCode;
-        if(x==114){
-        	if($('#cmbcontracttype').val()==''){
- 			   $.messager.alert('Message','Choose a Contract Type.','warning');   
- 			   return false;
- 		 }
- 		 contractSearchContent('contractDetailsSearch.jsp?contracttype='+$('#cmbcontracttype').val());
+function getContract(event){
+    var x= event.keyCode;
+    if(x==114){
+        if($('#cmbcontracttype').val()==''){
+            $.messager.alert('Message','Choose a Contract Type.','warning');   
+            return false;
         }
-        else{}
-        }
+        contractSearchContent('contractDetailsSearch.jsp?contracttype='+$('#cmbcontracttype').val());
+    }
+}
 	
-	function getClient(event){
-        var x= event.keyCode;
-        if(x==114){
-        	clientSearchContent('clientDetailsSearch.jsp');
-        }
-        else{}
-        }
+function getClient(event){
+    var x= event.keyCode;
+    if(x==114){
+        clientSearchContent('clientDetailsSearch.jsp');
+    }
+}
 	
-	function getSalesMan(event){
-        var x= event.keyCode;
-        if(x==114){
-        	salesManSearchContent('salesManDetailsSearch.jsp');
-        }
-        else{}
-        }
+function getSalesMan(event){
+    var x= event.keyCode;
+    if(x==114){
+        salesManSearchContent('salesManDetailsSearch.jsp');
+    }
+}
 	
-	function funClearInfo(){
-
-   	 	 $('#cmbbranch').val('a');
-   	 	 $('#fromdate').val(new Date());
-   	 	 var curfromdate= $('#fromdate').jqxDateTimeInput('getDate');
-	     var oneyeardate=new Date(new Date(curfromdate).setMonth(curfromdate.getMonth()-1));
-	     var oneyearbackdate=new Date(new Date(oneyeardate).setDate(oneyeardate.getDate()));
-	     $('#fromdate ').jqxDateTimeInput('setDate', new Date(oneyearbackdate));
-	     
-		 $('#todate').val(new Date());
-		 
-		 document.getElementById("cmbcontracttype").value="";document.getElementById("txtcontract").value="";document.getElementById("txtcontracttrno").value="";
-		 document.getElementById("txtclient").value="";document.getElementById("txtclientdocno").value="";document.getElementById("txtsalesman").value="";
-		 document.getElementById("txtsalesmandocno").value="";$("#jobCostGridID").jqxGrid('clear');
-		 
-		 if (document.getElementById("txtcontract").value == "") {
-		        $('#txtcontract').attr('placeholder', 'Press F3 to Search'); 
-		  }
-		 
-		 if (document.getElementById("txtclient").value == "") {
-		        $('#txtclient').attr('placeholder', 'Press F3 to Search'); 
-		  }
-		 
-		 if (document.getElementById("txtsalesman").value == "") {
-		        $('#txtsalesman').attr('placeholder', 'Press F3 to Search'); 
-		  }
-		 
-	}
+function funClearInfo(){
+    $('#cmbbranch').val('a');
+    $('#fromdate').val(new Date());
+    var curfromdate= $('#fromdate').jqxDateTimeInput('getDate');
+    var oneyeardate=new Date(new Date(curfromdate).setMonth(curfromdate.getMonth()-1));
+    var oneyearbackdate=new Date(new Date(oneyeardate).setDate(oneyeardate.getDate()));
+    $('#fromdate ').jqxDateTimeInput('setDate', new Date(oneyearbackdate));
+     
+    $('#todate').val(new Date());
+    
+    document.getElementById("cmbcontracttype").value="";
+    document.getElementById("txtcontract").value="";
+    document.getElementById("txtcontracttrno").value="";
+    document.getElementById("txtclient").value="";
+    document.getElementById("txtclientdocno").value="";
+    document.getElementById("txtsalesman").value="";
+    document.getElementById("txtsalesmandocno").value="";
+    $("#jobCostGridID").jqxGrid('clear');
+    
+    if (document.getElementById("txtcontract").value == "") {
+        $('#txtcontract').attr('placeholder', 'Press F3 to Search'); 
+    }
+    
+    if (document.getElementById("txtclient").value == "") {
+        $('#txtclient').attr('placeholder', 'Press F3 to Search'); 
+    }
+    
+    if (document.getElementById("txtsalesman").value == "") {
+        $('#txtsalesman').attr('placeholder', 'Press F3 to Search'); 
+    }
+}
 	
-	function funreload(event){
-
-		 var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
-		 var todates=new Date($('#todate').jqxDateTimeInput('getDate')); 
-		 	 
-		 if(fromdates>todates){
-			   $.messager.alert('Message','To Date Less Than From Date  ','warning');   
-		   	   return false;
-		  }
-		  
-	     var branch = document.getElementById("cmbbranch").value;
-		 var fromdate= $("#fromdate").val();
-		 var todate= $("#todate").val();
-		 var contracttype=$('#cmbcontracttype').val();
-		 var contract= $("#txtcontracttrno").val();
-		 var cldocno=$('#txtclientdocno').val();
-		 var salesmandocno=$('#txtsalesmandocno').val();
-		 
-		 $("#overlay, #PleaseWait").show();
-		 
-		 $("#jobCostDiv").load("jobCostAnalysisGrid.jsp?branch="+branch+"&fromdate="+fromdate+"&todate="+todate+"&contracttype="+contracttype+"&contract="+contract+"&cldocno="+cldocno+"&salesmandocno="+salesmandocno+"&check=1");
-		 
-	}
+function funreload(event){
+    var fromdates=new Date($('#fromdate').jqxDateTimeInput('getDate'));
+    var todates=new Date($('#todate').jqxDateTimeInput('getDate')); 
+        
+    if(fromdates>todates){
+        $.messager.alert('Message','To Date Less Than From Date  ','warning');   
+        return false;
+    }
+      
+    var branch = document.getElementById("cmbbranch").value;
+    var fromdate= $("#fromdate").val();
+    var todate= $("#todate").val();
+    var contracttype=$('#cmbcontracttype').val();
+    var contract= $("#txtcontracttrno").val();
+    var cldocno=$('#txtclientdocno').val();
+    var salesmandocno=$('#txtsalesmandocno').val();
+    
+    $("#overlay, #PleaseWait").show();
+    
+    $("#jobCostDiv").load("jobCostAnalysisGrid.jsp?branch="+branch+"&fromdate="+fromdate+"&todate="+todate+"&contracttype="+contracttype+"&contract="+contract+"&cldocno="+cldocno+"&salesmandocno="+salesmandocno+"&check=1");
+}
 	
-	function funExportBtn(){
-		 if(parseInt(window.parent.chkexportdata.value)=="1") {
-		  	JSONToCSVCon(datas, 'JobCostAnalysis', true);
-		 } else {
-			 $("#jobCostGridID").jqxGrid('exportdata', 'xls', 'JobCostAnalysis');
-		 }
-	}
- 
+function funExportBtn(){
+    if(parseInt(window.parent.chkexportdata.value)=="1") {
+        JSONToCSVCon(datas, 'JobCostAnalysis', true);
+    } else {
+        $("#jobCostGridID").jqxGrid('exportdata', 'xls', 'JobCostAnalysis');
+    }
+}
 </script>
-
 </head>
-<body onload="getBranch();" >
+<body onload="getBranch();">
 <div id="mainBG" class="homeContent" data-type="background"> 
 <div class='hidden-scrollbar'>
-<table width="100%" >
-<tr>
-<td width="20%" >
-    <fieldset style="background: #ECF8E0;">
-	<table width="100%"  >
-	<jsp:include page="../../heading.jsp"></jsp:include>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td align="right"><label class="branch">From</label></td>
-	<td align="left"><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div></td></tr>
-    <tr><td align="right"><label class="branch">To</label></td>
-	<td align="left"><div id='todate' name='todate' value='<s:property value="todate"/>'></div></td></tr>
- 	<tr><td align="right"><label class="branch">Contract_Type</label></td>
-    <td align="left"><select id="cmbcontracttype" name="cmbcontracttype" style="width:65%;" value='<s:property value="cmbcontracttype"/>'>
-    <option value="">--Select--</option><option value="AMC">AMC</option><option value="SJOB">SJOB</option></select></td></tr>  
-  	<tr><td width="6%" align="right"><label class="branch">Contract No</label></td>
-    <td><input type="text" id="txtcontract" name="txtcontract" style="width:95%;height:20px;" onKeyDown="getContract(event);" readonly placeholder="Press F3 to Search" value='<s:property value="txtcontract"/>' />
-    <input type="hidden" id="txtcontracttrno" name="txtcontracttrno" value='<s:property value="txtcontracttrno"/>'/></td></tr>
-  	<tr><td width="6%" align="right"><label class="branch">Client</label></td>
-    <td><input type="text" id="txtclient" name="txtclient" style="width:95%;height:20px;" onKeyDown="getClient(event);" readonly placeholder="Press F3 to Search" value='<s:property value="txtclient"/>' />
-    <input type="hidden" id="txtclientdocno" name="txtclientdocno" value='<s:property value="txtclientdocno"/>'/></td></tr>
-  	<tr><td width="6%" align="right"><label class="branch">Sales Man</label></td>
-    <td><input type="text" id="txtsalesman" name="txtsalesman" style="width:95%;height:20px;" onKeyDown="getSalesMan(event);" readonly placeholder="Press F3 to Search" value='<s:property value="txtsalesman"/>' />
-    <input type="hidden" id="txtsalesmandocno" name="txtsalesmandocno" value='<s:property value="txtsalesmandocno"/>'/></td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2" align="center"><input type="button" class="myButtons" name="clear" id="clear"  value="Clear" onclick="funClearInfo();"></td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>     
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>
-    <tr><td colspan="2">&nbsp;</td></tr>         
-    <tr><td colspan="2">&nbsp;</td></tr>           
-   </table>             
-</fieldset>
-</td>
-<td width="80%">
-		<table width="100%">
-		<tr>
-			<td><div id="jobCostDiv"><jsp:include page="jobCostAnalysisGrid.jsp"></jsp:include></div></td>
-		</tr>
-	</table>
-</td>
-</tr>
-</table>
+
+<div class="master-container">
+    
+    <div class="sidebar-filters">
+        <div class="sidebar-fixed-top">
+            <div class="filter-card" style="padding: 10px;">
+                <jsp:include page="../../heading.jsp"></jsp:include>
+            </div>
+        </div>
+
+        <div class="sidebar-scroll-content">
+            <div class="filter-card">
+                <table class="release-filter-table">
+                    <tr>
+                        <td class="label-cell">From</td>
+                        <td><div id='fromdate' name='fromdate' value='<s:property value="fromdate"/>'></div></td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="label-cell">To</td>
+                        <td><div id='todate' name='todate' value='<s:property value="todate"/>'></div></td>
+                    </tr>
+   
+                    <tr>
+                        <td class="label-cell">Contract_Type</td>
+                        <td>
+                            <select id="cmbcontracttype" name="cmbcontracttype" value='<s:property value="cmbcontracttype"/>'>
+                                <option value="">--Select--</option>
+                                <option value="AMC">AMC</option>
+                                <option value="SJOB">SJOB</option>
+                            </select>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="label-cell">Contract No</td>
+                        <td>
+                            <input type="text" id="txtcontract" name="txtcontract" onKeyDown="getContract(event);" readonly placeholder="Press F3 to Search" value='<s:property value="txtcontract"/>' />
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="label-cell">Client</td>
+                        <td>
+                            <input type="text" id="txtclient" name="txtclient" onKeyDown="getClient(event);" readonly placeholder="Press F3 to Search" value='<s:property value="txtclient"/>' />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label-cell">Sales Man</td>
+                        <td>
+                            <input type="text" id="txtsalesman" name="txtsalesman" onKeyDown="getSalesMan(event);" readonly placeholder="Press F3 to Search" value='<s:property value="txtsalesman"/>' />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="filter-card" style="padding: 10px;">
+                <input type="button" class="myButtons" name="clear" id="clear" value="Clear" onclick="funClearInfo();">
+            </div>
+
+            <div style="display:none;">
+                <input type="hidden" id="txtcontracttrno" name="txtcontracttrno" value='<s:property value="txtcontracttrno"/>'/>
+                <input type="hidden" id="txtclientdocno" name="txtclientdocno" value='<s:property value="txtclientdocno"/>'/>
+                <input type="hidden" id="txtsalesmandocno" name="txtsalesmandocno" value='<s:property value="txtsalesmandocno"/>'/>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="main-content-area">
+        <div id="jobCostDiv">
+            <jsp:include page="jobCostAnalysisGrid.jsp"></jsp:include>
+        </div>
+    </div>
+
 </div>
 
 <div id="contractDetailsWindow">
-	<div></div><div></div>
+    <div></div><div></div>
 </div>
 <div id="clientDetailsWindow">
-	<div></div><div></div>
+    <div></div><div></div>
 </div>
 <div id="salesManDetailsWindow">
-	<div></div><div></div>
+    <div></div><div></div>
 </div>
 
+</div>
 </div>
 </body>
 </html>
