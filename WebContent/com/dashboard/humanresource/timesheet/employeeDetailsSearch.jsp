@@ -74,15 +74,21 @@ html {
 }
 
 div#search.modern-ui input#btnsearch.myButton {
-    height: 24px !important;
-    width: 100% !important;
+     height: 24px !important;
+    padding: 0 16px !important;
     background-color: #205fd3 !important;
+    background-image: none !important;
     color: #ffffff !important;
     border: none !important;
     border-radius: 4px !important;
-    cursor: pointer;
+    cursor: pointer !important;
     font-size: 12px !important;
     font-weight: 600 !important;
+    line-height: 24px !important;
+    transition: background-color .2s ease !important;
+   min-width:90px;
+    width:auto !important;
+    box-sizing: border-box !important;
 }
 
 div#search.modern-ui input#btnsearch.myButton:hover {
@@ -122,8 +128,8 @@ div#search.modern-ui input#btnsearch.myButton:hover {
 <div class="search-panel">
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <colgroup>
-            <col width="10%" />
-            <col width="35%" />
+            <col width="15%" />
+            <col width="30%" />
             <col width="10%" />
             <col width="20%" />
             <col width="10%" />

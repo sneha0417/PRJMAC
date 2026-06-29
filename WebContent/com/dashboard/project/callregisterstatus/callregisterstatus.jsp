@@ -37,9 +37,10 @@ body, html, #mainBG, .hidden-scrollbar {
     border-right: 1px solid #e1e8ed;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 90%;
     box-shadow: 2px 0 8px rgba(0,0,0,.05);
     z-index: 2;
+    overflow-y: auto;
 }
 
 .sidebar-fixed-top {
@@ -49,7 +50,7 @@ body, html, #mainBG, .hidden-scrollbar {
 
 .sidebar-scroll-content {
     flex: 1;
-    overflow-y: auto;
+    
     padding: 15px 20px 25px;
 }
 

@@ -142,8 +142,8 @@ div#search.modern-ui input#btnAccountSearch.myButton:hover {
             <colgroup>
                 <col width="12%" />
                 <col width="38%" />
-                <col width="12%" />
-                <col width="23%" />
+                <col width="15%" />
+                <col width="22%" />
                 <col width="15%" />
             </colgroup>
 
