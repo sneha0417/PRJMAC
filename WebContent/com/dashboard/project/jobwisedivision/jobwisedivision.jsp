@@ -91,13 +91,7 @@ input[type="text"], select,
     color: #333;
 }
 
-/* Readonly / disabled look */
-input[readonly],
-input:disabled {
-    background-color: #f3f6f9 !important;
-    color: #555;
-    cursor: not-allowed;
-}
+
 
 /* jqx date/time containers */
 .release-filter-table div[id^="fromdate"],
